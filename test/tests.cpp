@@ -1,5 +1,6 @@
 #include "catch2/catch.hpp"
 #include "Matrix.hpp"
+#include "Quaternion.hpp"
 #include "Vector.hpp"
 
 TEST_CASE("Matrix zero initalization", "matrix")
@@ -37,4 +38,23 @@ TEST_CASE("Vector value initalization", "vector")
 
     REQUIRE(vector[0] == 0.0F);
     REQUIRE(vector[1] == 1.0F);
+}
+
+TEST_CASE("Quaternion zero initalization", "quaternion")
+{
+    math::Quaternion<float> quaternion;
+    for (std::size_t i = 0; i < 4; ++i)
+        REQUIRE(quaternion[i] == 0.0F);
+}
+
+TEST_CASE("Quaternion value initalization", "quaternion")
+{
+    math::Quaternion<float> quaternion{
+        0.0F, 1.0F, 2.0F, 3.0F
+    };
+
+    REQUIRE(quaternion[0] == 0.0F);
+    REQUIRE(quaternion[1] == 1.0F);
+    REQUIRE(quaternion[2] == 2.0F);
+    REQUIRE(quaternion[3] == 3.0F);
 }
