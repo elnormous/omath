@@ -1,5 +1,6 @@
 #include "catch2/catch.hpp"
 #include "Matrix.hpp"
+#include "Vector.hpp"
 
 TEST_CASE("Matrix zero initalization", "matrix")
 {
@@ -19,4 +20,21 @@ TEST_CASE("Matrix value initalization", "matrix")
     REQUIRE(matrix[1] == 1.0F);
     REQUIRE(matrix[2] == 2.0F);
     REQUIRE(matrix[3] == 3.0F);
+}
+
+TEST_CASE("Vector zero initalization", "vector")
+{
+    math::Vector<float, 4> vector;
+    for (std::size_t i = 0; i < 4; ++i)
+        REQUIRE(vector[i] == 0.0F);
+}
+
+TEST_CASE("Vector value initalization", "vector")
+{
+    math::Vector<float, 2> vector{
+        0.0F, 1.0F
+    };
+
+    REQUIRE(vector[0] == 0.0F);
+    REQUIRE(vector[1] == 1.0F);
 }

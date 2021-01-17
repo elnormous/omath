@@ -2,6 +2,9 @@
 // elnormous/math
 //
 
+#ifndef MATH_MATRIX
+#define MATH_MATRIX
+
 #include <array>
 
 namespace math
@@ -26,3 +29,5 @@ namespace math
         constexpr T operator[](std::size_t index) const noexcept { return m[index]; }
     };
 }
+
+#endif
