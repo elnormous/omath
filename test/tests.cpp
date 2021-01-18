@@ -1,5 +1,6 @@
 #include "catch2/catch.hpp"
 #include "Matrix.hpp"
+#include "Plane.hpp"
 #include "Quaternion.hpp"
 #include "Vector.hpp"
 
@@ -57,4 +58,23 @@ TEST_CASE("Quaternion value initalization", "quaternion")
     REQUIRE(quaternion[1] == 1.0F);
     REQUIRE(quaternion[2] == 2.0F);
     REQUIRE(quaternion[3] == 3.0F);
+}
+
+TEST_CASE("Plane zero initalization", "plane")
+{
+    math::Plane<float> plane;
+    for (std::size_t i = 0; i < 4; ++i)
+        REQUIRE(plane[i] == 0.0F);
+}
+
+TEST_CASE("Plane value initalization", "plane")
+{
+    math::Plane<float> plane{
+        0.0F, 1.0F, 2.0F, 3.0F
+    };
+
+    REQUIRE(plane[0] == 0.0F);
+    REQUIRE(plane[1] == 1.0F);
+    REQUIRE(plane[2] == 2.0F);
+    REQUIRE(plane[3] == 3.0F);
 }
