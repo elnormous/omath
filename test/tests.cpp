@@ -51,6 +51,18 @@ TEST_CASE("Vector value initalization", "vector")
     REQUIRE(vector[1] == 1.0F);
 }
 
+TEST_CASE("Vector accessors", "vector")
+{
+    const math::Vector<float, 4> vector{
+        1.0F, 2.0F, 3.0F, 4.0F
+    };
+
+    REQUIRE(vector.x() == 1.0F);
+    REQUIRE(vector.y() == 2.0F);
+    REQUIRE(vector.z() == 3.0F);
+    REQUIRE(vector.w() == 4.0F);
+}
+
 TEST_CASE("Quaternion zero initalization", "quaternion")
 {
     const math::Quaternion<float> quaternion;
@@ -68,6 +80,18 @@ TEST_CASE("Quaternion value initalization", "quaternion")
     REQUIRE(quaternion[1] == 1.0F);
     REQUIRE(quaternion[2] == 2.0F);
     REQUIRE(quaternion[3] == 3.0F);
+}
+
+TEST_CASE("Quaternion accessors", "quaternion")
+{
+    const math::Quaternion<float> quaternion{
+        1.0F, 2.0F, 3.0F, 4.0F
+    };
+
+    REQUIRE(quaternion.x() == 1.0F);
+    REQUIRE(quaternion.y() == 2.0F);
+    REQUIRE(quaternion.z() == 3.0F);
+    REQUIRE(quaternion.w() == 4.0F);
 }
 
 TEST_CASE("Plane zero initalization", "plane")
