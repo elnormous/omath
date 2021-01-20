@@ -39,6 +39,11 @@ namespace math
 
         T& w() noexcept { return v[3]; }
         constexpr T w() const noexcept { return v[3]; }
+
+        static constexpr Quaternion identity() noexcept
+        {
+            return Quaternion{0, 0, 0, 1};
+        }
     };
 }
 

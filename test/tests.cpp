@@ -94,6 +94,16 @@ TEST_CASE("Quaternion accessors", "quaternion")
     REQUIRE(quaternion.w() == 4.0F);
 }
 
+TEST_CASE("Quaternion identity", "quaternion")
+{
+    const auto quaternion = math::Quaternion<float>::identity();
+
+    REQUIRE(quaternion[0] == 0.0F);
+    REQUIRE(quaternion[1] == 0.0F);
+    REQUIRE(quaternion[2] == 0.0F);
+    REQUIRE(quaternion[3] == 1.0F);
+}
+
 TEST_CASE("Plane zero initalization", "plane")
 {
     const math::Plane<float> plane;
