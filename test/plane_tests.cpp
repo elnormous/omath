@@ -19,3 +19,15 @@ TEST_CASE("Plane value initalization", "plane")
     REQUIRE(plane[2] == 2.0F);
     REQUIRE(plane[3] == 3.0F);
 }
+
+TEST_CASE("Plane accessors", "plane")
+{
+    const math::Plane<float> plane{
+        1.0F, 2.0F, 3.0F, 4.0F
+    };
+
+    REQUIRE(plane.a() == 0.0F);
+    REQUIRE(plane.b() == 1.0F);
+    REQUIRE(plane.c() == 2.0F);
+    REQUIRE(plane.d() == 3.0F);
+}

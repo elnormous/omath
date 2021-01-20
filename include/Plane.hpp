@@ -24,8 +24,20 @@ namespace math
         {
         }
 
-        T& operator[](std::size_t index) noexcept { return v[index]; }
-        constexpr T operator[](std::size_t index) const noexcept { return v[index]; }
+        auto& operator[](std::size_t index) noexcept { return v[index]; }
+        constexpr auto operator[](std::size_t index) const noexcept { return v[index]; }
+
+        auto& a() noexcept { return v[0]; }
+        constexpr auto a() const noexcept { return v[0]; }
+
+        auto& b() noexcept { return v[1]; }
+        constexpr auto b() const noexcept { return v[1]; }
+
+        auto& c() noexcept { return v[2]; }
+        constexpr auto c() const noexcept { return v[2]; }
+
+        auto& d() noexcept { return v[3]; }
+        constexpr auto d() const noexcept { return v[3]; }
     };
 }
 
