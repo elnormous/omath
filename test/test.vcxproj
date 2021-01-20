@@ -20,7 +20,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="tests.cpp" />
+    <ClCompile Include="matrix_tests.cpp" />
+    <ClCompile Include="plane_tests.cpp" />
+    <ClCompile Include="quaternion_tests.cpp" />
+    <ClCompile Include="vector_tests.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{614C7EC0-3262-40DF-B884-224B959A01F9}</ProjectGuid>
