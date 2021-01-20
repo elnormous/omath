@@ -6,6 +6,7 @@
 #define MATH_QUATERNION
 
 #include <array>
+#include <type_traits>
 
 namespace math
 {

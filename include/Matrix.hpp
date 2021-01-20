@@ -6,6 +6,7 @@
 #define MATH_MATRIX
 
 #include <array>
+#include <type_traits>
 #include <utility>
 
 namespace math
