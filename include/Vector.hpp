@@ -52,6 +52,106 @@ namespace math
 
         template <std::size_t X = N, std::enable_if_t<(X >= 4)>* = nullptr>
         constexpr auto w() const noexcept { return v[3]; }
+
+        const Vector operator-() const noexcept
+        {
+            auto result{*this};
+            for (T& c : result.v)
+                c = -c;
+            return result;
+        }
+
+        const Vector operator+(const Vector& vec) const noexcept
+        {
+            auto result{*this};
+            for (std::size_t i = 0; i < N; ++i)
+                result.v[i] += vec.v[i];
+            return result;
+        }
+
+        Vector& operator+=(const Vector& vec) noexcept
+        {
+            for (std::size_t i = 0; i < N; ++i)
+                v[i] += vec.v[i];
+            return *this;
+        }
+
+        const Vector operator-(const Vector& vec) const noexcept
+        {
+            auto result{*this};
+            for (std::size_t i = 0; i < N; ++i)
+                result.v[i] -= vec.v[i];
+            return result;
+        }
+
+        Vector& operator-=(const Vector& vec) noexcept
+        {
+            for (std::size_t i = 0; i < N; ++i)
+                v[i] -= vec.v[i];
+            return *this;
+        }
+
+        const Vector operator*(const T scalar) const noexcept
+        {
+            auto result{*this};
+            for (T& c : result.v)
+                c *= scalar;
+            return result;
+        }
+
+        Vector& operator*=(const T scalar) noexcept
+        {
+            for (T& c : v)
+                c *= scalar;
+            return *this;
+        }
+
+        const Vector operator/(const T scalar) const noexcept
+        {
+            auto result{*this};
+            for (T& c : result.v)
+                c /= scalar;
+            return result;
+        }
+
+        Vector& operator/=(const T scalar) noexcept
+        {
+            for (T& c : v)
+                c /= scalar;
+            return *this;
+        }
+
+        bool operator<(const Vector& vec) const noexcept
+        {
+            for (std::size_t i = 0; i < N; ++i)
+                if (v[i] < vec.v[i]) return true;
+                else if (vec.v[i] < v[i]) return false;
+
+            return false;
+        }
+
+        bool operator>(const Vector& vec) const noexcept
+        {
+            for (std::size_t i = 0; i < N; ++i)
+                if (v[i] > vec.v[i]) return true;
+                else if (vec.v[i] > v[i]) return false;
+
+            return false;
+        }
+
+        bool operator==(const Vector& vec) const noexcept
+        {
+            for (std::size_t i = 0; i < N; ++i)
+                if (v[i] != vec.v[i]) return false;
+            return true;
+        }
+
+        bool operator!=(const Vector& vec) const noexcept
+        {
+            for (std::size_t i = 0; i < N; ++i)
+                if (v[i] != vec.v[i]) return true;
+            return false;
+        }
     };
 }
 
