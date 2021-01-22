@@ -31,6 +31,7 @@
 		306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = matrix_tests.cpp; sourceTree = "<group>"; };
 		306B2B8925B8EAF5006878B6 /* plane_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = plane_tests.cpp; sourceTree = "<group>"; };
 		306B2B8D25B8EB24006878B6 /* quaternion_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = quaternion_tests.cpp; sourceTree = "<group>"; };
+		306B2B9125BA568F006878B6 /* Constants.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Constants.hpp; sourceTree = "<group>"; };
 		30A2D32225B33B3700A0AFBD /* Matrix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Matrix.hpp; sourceTree = "<group>"; };
 		30A2D32F25B3B66100A0AFBD /* Vector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Vector.hpp; sourceTree = "<group>"; };
 		30A2D33125B3BAF600A0AFBD /* Quaternion.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
@@ -53,6 +54,7 @@
 		30E08684232B168C00F90FAF /* include */ = {
 			isa = PBXGroup;
 			children = (
+				306B2B9125BA568F006878B6 /* Constants.hpp */,
 				30A2D32225B33B3700A0AFBD /* Matrix.hpp */,
 				30A2D33325B5F3A700A0AFBD /* Plane.hpp */,
 				30A2D33125B3BAF600A0AFBD /* Quaternion.hpp */,
