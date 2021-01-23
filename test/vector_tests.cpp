@@ -69,11 +69,8 @@ TEST_CASE("Vector arithmetic operators", "vector")
         REQUIRE(result.x() == 1.0F);
         REQUIRE(result.y() == 2.0F);
     }
-}
 
-TEST_CASE("Vector assignment arithmetic operators", "vector")
-{
-    SECTION("Add")
+    SECTION("Add assign")
     {
         math::Vector<float, 2> result{2.0F, 4.0F};
         const math::Vector<float, 2> v{2.0F, 5.0F};
@@ -82,7 +79,7 @@ TEST_CASE("Vector assignment arithmetic operators", "vector")
         REQUIRE(result.y() == 9.0F);
     }
 
-    SECTION("Subtract")
+    SECTION("Subtract assign")
     {
         math::Vector<float, 2> result{2.0F, 4.0F};
         const math::Vector<float, 2> v{2.0F, 5.0F};
@@ -91,7 +88,7 @@ TEST_CASE("Vector assignment arithmetic operators", "vector")
         REQUIRE(result.y() == -1.0F);
     }
 
-    SECTION("Multiply")
+    SECTION("Multiply assign")
     {
         math::Vector<float, 2> result{2.0F, 4.0F};
         result *= 2.0F;
@@ -99,7 +96,7 @@ TEST_CASE("Vector assignment arithmetic operators", "vector")
         REQUIRE(result.y() == 8.0F);
     }
 
-    SECTION("Divide")
+    SECTION("Divide assign")
     {
         math::Vector<float, 2> result{2.0F, 4.0F};
         result /= 2.0F;
