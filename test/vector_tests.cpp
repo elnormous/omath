@@ -73,8 +73,7 @@ TEST_CASE("Vector arithmetic operators", "vector")
     SECTION("Add assign")
     {
         math::Vector<float, 2> result{2.0F, 4.0F};
-        const math::Vector<float, 2> v{2.0F, 5.0F};
-        result += v;
+        result += v2;
         REQUIRE(result.x() == 4.0F);
         REQUIRE(result.y() == 9.0F);
     }
@@ -82,8 +81,7 @@ TEST_CASE("Vector arithmetic operators", "vector")
     SECTION("Subtract assign")
     {
         math::Vector<float, 2> result{2.0F, 4.0F};
-        const math::Vector<float, 2> v{2.0F, 5.0F};
-        result -= v;
+        result -= v2;
         REQUIRE(result.x() == -0.0F);
         REQUIRE(result.y() == -1.0F);
     }

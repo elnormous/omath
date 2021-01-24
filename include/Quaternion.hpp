@@ -44,6 +44,126 @@ namespace math
         {
             return Quaternion{0, 0, 0, 1};
         }
+
+        constexpr const Quaternion operator-() const noexcept
+        {
+            return Quaternion{-v[0], -v[1], -v[2], -v[3]};
+        }
+
+        constexpr const Quaternion operator+(const Quaternion& q) const noexcept
+        {
+            return Quaternion{
+                v[0] + q.v[0],
+                v[1] + q.v[1],
+                v[2] + q.v[2],
+                v[3] + q.v[3]
+            };
+        }
+
+        constexpr Quaternion& operator+=(const Quaternion& q) noexcept
+        {
+            v[0] += q.v[0];
+            v[1] += q.v[1];
+            v[2] += q.v[2];
+            v[3] += q.v[3];
+
+            return *this;
+        }
+
+        constexpr const Quaternion operator-(const Quaternion& q) const noexcept
+        {
+            return Quaternion{
+                v[0] - q.v[0],
+                v[1] - q.v[1],
+                v[2] - q.v[2],
+                v[3] - q.v[3]
+            };
+        }
+
+        constexpr Quaternion& operator-=(const Quaternion& q) noexcept
+        {
+            v[0] -= q.v[0];
+            v[1] -= q.v[1];
+            v[2] -= q.v[2];
+            v[3] -= q.v[3];
+
+            return *this;
+        }
+
+        constexpr const Quaternion operator*(const Quaternion& q) const noexcept
+        {
+            return Quaternion{
+                v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0],
+                -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1],
+                v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2],
+                -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3]
+            };
+        }
+
+        constexpr Quaternion& operator*=(const Quaternion& q) noexcept
+        {
+            const auto tempX = v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0];
+            const auto tempY = -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1];
+            const auto tempZ = v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2];
+            const auto tempW = -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3];
+
+            v[0] = tempX;
+            v[1] = tempY;
+            v[2] = tempZ;
+            v[3] = tempW;
+
+            return *this;
+        }
+
+        constexpr const Quaternion operator*(const T scalar) const noexcept
+        {
+            return Quaternion{
+                v[0] * scalar,
+                v[1] * scalar,
+                v[2] * scalar,
+                v[3] * scalar
+            };
+        }
+
+        constexpr Quaternion& operator*=(const T scalar) noexcept
+        {
+            v[0] *= scalar;
+            v[1] *= scalar;
+            v[2] *= scalar;
+            v[3] *= scalar;
+
+            return *this;
+        }
+
+        constexpr const Quaternion operator/(const T scalar) const noexcept
+        {
+            return Quaternion{
+                v[0] / scalar,
+                v[1] / scalar,
+                v[2] / scalar,
+                v[3] / scalar
+            };
+        }
+
+        constexpr Quaternion& operator/=(const T scalar) noexcept
+        {
+            v[0] /= scalar;
+            v[1] /= scalar;
+            v[2] /= scalar;
+            v[3] /= scalar;
+
+            return *this;
+        }
+
+        constexpr bool operator==(const Quaternion& q) const noexcept
+        {
+            return v[0] == q.v[0] && v[1] == q.v[1] && v[2] == q.v[2] && v[3] == q.v[3];
+        }
+
+        constexpr bool operator!=(const Quaternion& q) const noexcept
+        {
+            return v[0] != q.v[0] || v[1] != q.v[1] || v[2] != q.v[2] || v[3] != q.v[3];
+        }
     };
 }
 
