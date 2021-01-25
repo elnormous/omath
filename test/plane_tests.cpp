@@ -31,3 +31,17 @@ TEST_CASE("Plane accessors", "plane")
     REQUIRE(plane.c() == 3.0F);
     REQUIRE(plane.d() == 4.0F);
 }
+
+TEST_CASE("Plane flip", "plane")
+{
+    const math::Plane<float> plane{
+        1.0F, 2.0F, 3.0F, 4.0F
+    };
+
+    const auto flippedPlane = -plane;
+
+    REQUIRE(flippedPlane.a() == -1.0F);
+    REQUIRE(flippedPlane.b() == -2.0F);
+    REQUIRE(flippedPlane.c() == -3.0F);
+    REQUIRE(flippedPlane.d() == -4.0F);
+}
