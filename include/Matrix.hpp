@@ -11,7 +11,7 @@
 
 namespace math
 {
-    template <typename T, std::size_t C, std::size_t R = C> class Matrix final
+    template <typename T, std::size_t C, std::size_t R = C, bool isSquare = (C == R)> class Matrix final
     {
     public:
 #if defined(__SSE__)
@@ -30,7 +30,7 @@ namespace math
         auto& operator[](std::size_t index) noexcept { return m[index]; }
         constexpr auto operator[](std::size_t index) const noexcept { return m[index]; }
 
-        template <std::size_t X = C, std::size_t Y = R, std::enable_if_t<(X == Y)>* = nullptr>
+        template <std::enable_if_t<isSquare>* = nullptr>
         static constexpr Matrix identity() noexcept
         {
             return generateIdentity(std::make_index_sequence<C * R>{});
