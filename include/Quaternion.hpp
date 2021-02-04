@@ -21,7 +21,7 @@ namespace math
         constexpr Quaternion() noexcept {}
 
         constexpr Quaternion(const T x, const T y, const T z, const T w) noexcept:
-            v{x, y, z, w}
+            v{{x, y, z, w}}
         {
         }
 
