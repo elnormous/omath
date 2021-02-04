@@ -7,6 +7,7 @@
 
 #include <array>
 #include <type_traits>
+#include <utility>
 
 namespace math
 {
@@ -53,12 +54,9 @@ namespace math
         template <auto X = N, std::enable_if_t<(X >= 4)>* = nullptr>
         constexpr auto w() const noexcept { return v[3]; }
 
-        const Vector operator-() const noexcept
+        constexpr const Vector operator-() const noexcept
         {
-            auto result{*this};
-            for (T& c : result.v)
-                c = -c;
-            return result;
+            return generateInverse(std::make_index_sequence<N>{});
         }
 
         const Vector operator+(const Vector& vec) const noexcept
@@ -151,6 +149,13 @@ namespace math
             for (std::size_t i = 0; i < N; ++i)
                 if (v[i] != vec.v[i]) return true;
             return false;
+        }
+
+    private:
+        template <std::size_t...I>
+        constexpr Vector generateInverse(std::index_sequence<I...>) const
+        {
+            return Vector{-v[I]...};
         }
     };
 }
