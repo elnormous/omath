@@ -31,18 +31,16 @@ namespace math
         constexpr auto operator[](std::size_t index) const noexcept { return m[index]; }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == Y)>* = nullptr>
-        static constexpr Matrix identity() noexcept
+        static constexpr auto identity() noexcept
         {
             return generateIdentity(std::make_index_sequence<C * R>{});
         }
 
     private:
         template <std::size_t...I>
-        static constexpr Matrix generateIdentity(std::index_sequence<I...>)
+        static constexpr auto generateIdentity(std::index_sequence<I...>)
         {
-            return Matrix{
-                ((I % C == I / R) ? T(1) : T(0))...
-            };
+            return Matrix{((I % C == I / R) ? T(1) : T(0))...};
         }
     };
 }
