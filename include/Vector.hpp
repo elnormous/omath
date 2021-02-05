@@ -61,10 +61,7 @@ namespace math
 
         constexpr const auto operator+(const Vector& vec) const noexcept
         {
-            auto result{*this};
-            for (std::size_t i = 0; i < N; ++i)
-                result.v[i] += vec.v[i];
-            return result;
+            return generateSum(std::make_index_sequence<N>{}, vec);
         }
 
         auto& operator+=(const Vector& vec) noexcept
@@ -76,10 +73,7 @@ namespace math
 
         constexpr const auto operator-(const Vector& vec) const noexcept
         {
-            auto result{*this};
-            for (std::size_t i = 0; i < N; ++i)
-                result.v[i] -= vec.v[i];
-            return result;
+            return generateDiff(std::make_index_sequence<N>{}, vec);
         }
 
         auto& operator-=(const Vector& vec) noexcept
@@ -91,31 +85,23 @@ namespace math
 
         const auto operator*(const T scalar) const noexcept
         {
-            auto result{*this};
-            for (T& c : result.v)
-                c *= scalar;
-            return result;
+            return generateMul(std::make_index_sequence<N>{}, scalar);
         }
 
         auto& operator*=(const T scalar) noexcept
         {
-            for (T& c : v)
-                c *= scalar;
+            for (T& c : v) c *= scalar;
             return *this;
         }
 
         const auto operator/(const T scalar) const noexcept
         {
-            auto result{*this};
-            for (T& c : result.v)
-                c /= scalar;
-            return result;
+            return generateDiv(std::make_index_sequence<N>{}, scalar);
         }
 
         auto& operator/=(const T scalar) noexcept
         {
-            for (T& c : v)
-                c /= scalar;
+            for (T& c : v) c /= scalar;
             return *this;
         }
 
@@ -153,9 +139,33 @@ namespace math
 
     private:
         template <std::size_t...I>
-        constexpr Vector generateInverse(std::index_sequence<I...>) const
+        constexpr auto generateInverse(std::index_sequence<I...>) const
         {
             return Vector{-v[I]...};
+        }
+
+        template <std::size_t...I>
+        constexpr auto generateSum(std::index_sequence<I...>, const Vector& vec) const
+        {
+            return Vector{(v[I] + vec.v[I])...};
+        }
+
+        template <std::size_t...I>
+        constexpr auto generateDiff(std::index_sequence<I...>, const Vector& vec) const
+        {
+            return Vector{(v[I] - vec.v[I])...};
+        }
+
+        template <std::size_t...I>
+        constexpr auto generateMul(std::index_sequence<I...>, T scalar) const
+        {
+            return Vector{(v[I] * scalar)...};
+        }
+
+        template <std::size_t...I>
+        constexpr auto generateDiv(std::index_sequence<I...>, T scalar) const
+        {
+            return Vector{(v[I] / scalar)...};
         }
     };
 }
