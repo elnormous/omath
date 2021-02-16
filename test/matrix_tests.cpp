@@ -4,8 +4,9 @@
 TEST_CASE("Matrix zero initalization", "matrix")
 {
     const math::Matrix<float, 4> matrix;
-    for (std::size_t i = 0; i < 16; ++i)
-        REQUIRE(matrix[i] == 0.0F);
+    for (std::size_t row = 0; row < 4; ++row)
+        for (std::size_t column = 0; column < 4; ++column)
+            REQUIRE(matrix[row][column] == 0.0F);
 }
 
 TEST_CASE("Matrix value initalization", "matrix")
@@ -15,18 +16,33 @@ TEST_CASE("Matrix value initalization", "matrix")
         2.0F, 3.0F
     };
 
-    REQUIRE(matrix[0] == 0.0F);
-    REQUIRE(matrix[1] == 1.0F);
-    REQUIRE(matrix[2] == 2.0F);
-    REQUIRE(matrix[3] == 3.0F);
+    REQUIRE(matrix[0][0] == 0.0F);
+    REQUIRE(matrix[0][1] == 1.0F);
+    REQUIRE(matrix[1][0] == 2.0F);
+    REQUIRE(matrix[1][1] == 3.0F);
 }
 
 TEST_CASE("Matrix identity", "matrix")
 {
     const auto matrix = math::Matrix<float, 2>::identity();
 
-    REQUIRE(matrix[0] == 1.0F);
-    REQUIRE(matrix[1] == 0.0F);
-    REQUIRE(matrix[2] == 0.0F);
-    REQUIRE(matrix[3] == 1.0F);
+    REQUIRE(matrix[0][0] == 1.0F);
+    REQUIRE(matrix[0][1] == 0.0F);
+    REQUIRE(matrix[1][0] == 0.0F);
+    REQUIRE(matrix[1][1] == 1.0F);
+}
+
+TEST_CASE("Matrix element setter", "matrix")
+{
+    math::Matrix<float, 2> matrix;
+
+    matrix[0][0] = 1.0F;
+    matrix[0][1] = 2.0F;
+    matrix[1][0] = 3.0F;
+    matrix[1][1] = 4.0F;
+
+    REQUIRE(matrix[0][0] == 1.0F);
+    REQUIRE(matrix[0][1] == 2.0F);
+    REQUIRE(matrix[1][0] == 3.0F);
+    REQUIRE(matrix[1][1] == 4.0F);
 }
