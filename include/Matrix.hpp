@@ -22,7 +22,7 @@ namespace math
         constexpr Matrix() noexcept {}
 
         template <typename ...A>
-        explicit constexpr Matrix(A... args) noexcept:
+        explicit constexpr Matrix(const A... args) noexcept:
             m{args...}
         {
         }
@@ -38,7 +38,7 @@ namespace math
 
     private:
         template <std::size_t...I>
-        static constexpr auto generateIdentity(std::index_sequence<I...>)
+        static constexpr auto generateIdentity(const std::index_sequence<I...>)
         {
             return Matrix{((I % C == I / R) ? T(1) : T(0))...};
         }

@@ -22,13 +22,13 @@ namespace math
         constexpr Vector() noexcept {}
 
         template <typename ...A>
-        explicit constexpr Vector(A... args) noexcept:
+        explicit constexpr Vector(const A... args) noexcept:
             v{args...}
         {
         }
 
-        auto& operator[](std::size_t index) noexcept { return v[index]; }
-        constexpr auto operator[](std::size_t index) const noexcept { return v[index]; }
+        auto& operator[](const std::size_t index) noexcept { return v[index]; }
+        constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
         template <auto X = N, std::enable_if_t<(X >= 1)>* = nullptr>
         auto& x() noexcept { return v[0]; }
@@ -139,31 +139,31 @@ namespace math
 
     private:
         template <std::size_t...I>
-        constexpr auto generateInverse(std::index_sequence<I...>) const
+        constexpr auto generateInverse(const std::index_sequence<I...>) const
         {
             return Vector{-v[I]...};
         }
 
         template <std::size_t...I>
-        constexpr auto generateSum(std::index_sequence<I...>, const Vector& vec) const
+        constexpr auto generateSum(const std::index_sequence<I...>, const Vector& vec) const
         {
             return Vector{(v[I] + vec.v[I])...};
         }
 
         template <std::size_t...I>
-        constexpr auto generateDiff(std::index_sequence<I...>, const Vector& vec) const
+        constexpr auto generateDiff(const std::index_sequence<I...>, const Vector& vec) const
         {
             return Vector{(v[I] - vec.v[I])...};
         }
 
         template <std::size_t...I>
-        constexpr auto generateMul(std::index_sequence<I...>, T scalar) const
+        constexpr auto generateMul(const std::index_sequence<I...>, T scalar) const
         {
             return Vector{(v[I] * scalar)...};
         }
 
         template <std::size_t...I>
-        constexpr auto generateDiv(std::index_sequence<I...>, T scalar) const
+        constexpr auto generateDiv(const std::index_sequence<I...>, T scalar) const
         {
             return Vector{(v[I] / scalar)...};
         }
