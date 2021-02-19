@@ -25,6 +25,13 @@
     <ClCompile Include="quaternion_tests.cpp" />
     <ClCompile Include="vector_tests.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\Constants.hpp" />
+    <ClInclude Include="..\include\Matrix.hpp" />
+    <ClInclude Include="..\include\Plane.hpp" />
+    <ClInclude Include="..\include\Quaternion.hpp" />
+    <ClInclude Include="..\include\Vector.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{614C7EC0-3262-40DF-B884-224B959A01F9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
