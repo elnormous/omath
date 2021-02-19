@@ -37,3 +37,6 @@ test/test.xcodeproj/xcuserdata
 test/test
 *.gcda
 *.gcno
+*.user
+test/Win32
+test/x64
