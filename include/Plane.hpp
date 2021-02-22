@@ -39,7 +39,7 @@ namespace math
         auto& d() noexcept { return v[3]; }
         constexpr auto d() const noexcept { return v[3]; }
 
-        constexpr const auto operator-() const noexcept
+        constexpr auto operator-() const noexcept
         {
             return Plane{-v[0], -v[1], -v[2], -v[3]};
         }
