@@ -54,12 +54,12 @@ namespace math
         template <auto X = N, std::enable_if_t<(X >= 4)>* = nullptr>
         constexpr auto w() const noexcept { return v[3]; }
 
-        constexpr auto operator-() const noexcept
+        constexpr const auto operator-() const noexcept
         {
             return generateInverse(std::make_index_sequence<N>{});
         }
 
-        constexpr auto operator+(const Vector& vec) const noexcept
+        constexpr const auto operator+(const Vector& vec) const noexcept
         {
             return generateSum(std::make_index_sequence<N>{}, vec);
         }
@@ -71,7 +71,7 @@ namespace math
             return *this;
         }
 
-        constexpr auto operator-(const Vector& vec) const noexcept
+        constexpr const auto operator-(const Vector& vec) const noexcept
         {
             return generateDiff(std::make_index_sequence<N>{}, vec);
         }
@@ -83,7 +83,7 @@ namespace math
             return *this;
         }
 
-        auto operator*(const T scalar) const noexcept
+        const auto operator*(const T scalar) const noexcept
         {
             return generateMul(std::make_index_sequence<N>{}, scalar);
         }
@@ -94,7 +94,7 @@ namespace math
             return *this;
         }
 
-        auto operator/(const T scalar) const noexcept
+        const auto operator/(const T scalar) const noexcept
         {
             return generateDiv(std::make_index_sequence<N>{}, scalar);
         }

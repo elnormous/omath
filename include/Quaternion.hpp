@@ -45,12 +45,12 @@ namespace math
             return Quaternion{0, 0, 0, 1};
         }
 
-        constexpr auto operator-() const noexcept
+        constexpr const auto operator-() const noexcept
         {
             return Quaternion{-v[0], -v[1], -v[2], -v[3]};
         }
 
-        constexpr auto operator+(const Quaternion& q) const noexcept
+        constexpr const auto operator+(const Quaternion& q) const noexcept
         {
             return Quaternion{
                 v[0] + q.v[0],
@@ -70,7 +70,7 @@ namespace math
             return *this;
         }
 
-        constexpr auto operator-(const Quaternion& q) const noexcept
+        constexpr const auto operator-(const Quaternion& q) const noexcept
         {
             return Quaternion{
                 v[0] - q.v[0],
@@ -90,7 +90,7 @@ namespace math
             return *this;
         }
 
-        constexpr auto operator*(const Quaternion& q) const noexcept
+        constexpr const auto operator*(const Quaternion& q) const noexcept
         {
             return Quaternion{
                 v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0],
@@ -115,7 +115,7 @@ namespace math
             return *this;
         }
 
-        constexpr auto operator*(const T scalar) const noexcept
+        constexpr const auto operator*(const T scalar) const noexcept
         {
             return Quaternion{
                 v[0] * scalar,
@@ -135,7 +135,7 @@ namespace math
             return *this;
         }
 
-        constexpr auto operator/(const T scalar) const noexcept
+        constexpr const auto operator/(const T scalar) const noexcept
         {
             return Quaternion{
                 v[0] / scalar,
