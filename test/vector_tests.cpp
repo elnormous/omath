@@ -32,40 +32,40 @@ TEST_CASE("Vector accessors", "vector")
 
 TEST_CASE("Vector arithmetic operators", "vector")
 {
-    const math::Vector<float, 2> v1{2.0F, 4.0F};
-    const math::Vector<float, 2> v2{2.0F, 5.0F};
+    const math::Vector<float, 2> vector1{2.0F, 4.0F};
+    const math::Vector<float, 2> vector2{2.0F, 5.0F};
 
     SECTION("Negate")
     {
-        const auto result = -v1;
+        const auto result = -vector1;
         REQUIRE(result.x() == -2.0F);
         REQUIRE(result.y() == -4.0F);
     }
 
     SECTION("Add")
     {
-        const auto result = v1 + v2;
+        const auto result = vector1 + vector2;
         REQUIRE(result.x() == 4.0F);
         REQUIRE(result.y() == 9.0F);
     }
 
     SECTION("Subtract")
     {
-        const auto result = v1 - v2;
+        const auto result = vector1 - vector2;
         REQUIRE(result.x() == -0.0F);
         REQUIRE(result.y() == -1.0F);
     }
 
     SECTION("Multiply")
     {
-        const auto result = v1 * 2.0F;
+        const auto result = vector1 * 2.0F;
         REQUIRE(result.x() == 4.0F);
         REQUIRE(result.y() == 8.0F);
     }
 
     SECTION("Divide")
     {
-        const auto result = v1 / 2.0F;
+        const auto result = vector1 / 2.0F;
         REQUIRE(result.x() == 1.0F);
         REQUIRE(result.y() == 2.0F);
     }
@@ -73,7 +73,7 @@ TEST_CASE("Vector arithmetic operators", "vector")
     SECTION("Add assign")
     {
         math::Vector<float, 2> result{2.0F, 4.0F};
-        result += v2;
+        result += vector2;
         REQUIRE(result.x() == 4.0F);
         REQUIRE(result.y() == 9.0F);
     }
@@ -81,7 +81,7 @@ TEST_CASE("Vector arithmetic operators", "vector")
     SECTION("Subtract assign")
     {
         math::Vector<float, 2> result{2.0F, 4.0F};
-        result -= v2;
+        result -= vector2;
         REQUIRE(result.x() == -0.0F);
         REQUIRE(result.y() == -1.0F);
     }
@@ -105,31 +105,31 @@ TEST_CASE("Vector arithmetic operators", "vector")
 
 TEST_CASE("Vector comparison operators", "vector")
 {
-    const math::Vector<float, 2> v1{2.0F, 4.0F};
-    const math::Vector<float, 2> v2{2.0F, 5.0F};
-    const math::Vector<float, 2> v3{2.0F, 4.0F};
+    const math::Vector<float, 2> vector1{2.0F, 4.0F};
+    const math::Vector<float, 2> vector2{2.0F, 5.0F};
+    const math::Vector<float, 2> vector3{2.0F, 4.0F};
 
     SECTION("Less than")
     {
-        REQUIRE(v1 < v2);
-        REQUIRE_FALSE(v1 < v3);
+        REQUIRE(vector1 < vector2);
+        REQUIRE_FALSE(vector1 < vector3);
     }
 
     SECTION("Greater than")
     {
-        REQUIRE_FALSE(v1 > v2);
-        REQUIRE_FALSE(v1 > v3);
+        REQUIRE_FALSE(vector1 > vector2);
+        REQUIRE_FALSE(vector1 > vector3);
     }
 
     SECTION("Equal")
     {
-        REQUIRE_FALSE(v1 == v2);
-        REQUIRE(v1 == v3);
+        REQUIRE_FALSE(vector1 == vector2);
+        REQUIRE(vector1 == vector3);
     }
 
     SECTION("Not equal")
     {
-        REQUIRE(v1 != v2);
-        REQUIRE_FALSE(v1 != v3);
+        REQUIRE(vector1 != vector2);
+        REQUIRE_FALSE(vector1 != vector3);
     }
 }

@@ -36,6 +36,20 @@ namespace math
             return generateIdentity(std::make_index_sequence<C * R>{});
         }
 
+        auto operator==(const Matrix& mat) const noexcept
+        {
+            for (std::size_t i = 0; i < C * R; ++i)
+                if (m[i] != mat.m[i]) return false;
+            return true;
+        }
+
+        auto operator!=(const Matrix& mat) const noexcept
+        {
+            for (std::size_t i = 0; i < C * R; ++i)
+                if (m[i] != mat.m[i]) return true;
+            return false;
+        }
+
     private:
         template <std::size_t...I>
         static constexpr auto generateIdentity(const std::index_sequence<I...>)
