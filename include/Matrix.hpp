@@ -50,6 +50,19 @@ namespace math
             return false;
         }
 
+        template <auto X = C, auto Y = R, std::enable_if_t<(X == Y)>* = nullptr>
+        Matrix operator*(const Matrix& mat) const noexcept
+        {
+            Matrix result;
+
+            for (std::size_t r = 0; r < R; ++r)
+                for (std::size_t c = 0; c < C; ++c)
+                    for (std::size_t i = 0; i < C; ++i)
+                        result[r][c] += m[i * C + c] * mat.m[r * C + i];
+
+            return result;
+        }
+
     private:
         template <std::size_t...I>
         static constexpr auto generateIdentity(const std::index_sequence<I...>)

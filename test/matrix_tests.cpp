@@ -67,3 +67,41 @@ TEST_CASE("Matrix comparison", "matrix")
     REQUIRE(matrix1 == matrix2);
     REQUIRE(matrix1 != matrix3);
 }
+
+TEST_CASE("Matrix multiplication", "matrix")
+{
+    SECTION("1x1")
+    {
+        const math::Matrix<float, 1> matrix1{
+            2.0F
+        };
+
+        const math::Matrix<float, 1> matrix2{
+            3.0F
+        };
+
+        const auto result = matrix1 * matrix2;
+
+        REQUIRE(result[0][0] == 6.0F);
+    }
+
+    SECTION("2x2")
+    {
+        const math::Matrix<float, 2> matrix1{
+            2.0F, 3.0F,
+            4.0F, 5.0F
+        };
+
+        const math::Matrix<float, 2> matrix2{
+            1.0F, 2.0F,
+            3.0F, 4.0F
+        };
+
+        const auto result = matrix1 * matrix2;
+
+        REQUIRE(result[0][0] == 10.0F);
+        REQUIRE(result[0][1] == 13.0F);
+        REQUIRE(result[1][0] == 22.0F);
+        REQUIRE(result[1][1] == 29.0F);
+    }
+}
