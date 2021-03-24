@@ -70,6 +70,36 @@ TEST_CASE("Matrix comparison", "matrix")
 
 TEST_CASE("Matrix multiplication", "matrix")
 {
+    SECTION("float")
+    {
+        const math::Matrix<float, 2> matrix{
+            2.0F, 3.0F,
+            4.0F, 5.0F
+        };
+
+        const auto result = matrix * 2.0F;
+
+        REQUIRE(result[0][0] == 4.0F);
+        REQUIRE(result[0][1] == 6.0F);
+        REQUIRE(result[1][0] == 8.0F);
+        REQUIRE(result[1][1] == 10.0F);
+    }
+
+    SECTION("float assignment")
+    {
+        math::Matrix<float, 2> matrix{
+            2.0F, 3.0F,
+            4.0F, 5.0F
+        };
+
+        matrix *= 2.0F;
+
+        REQUIRE(matrix[0][0] == 4.0F);
+        REQUIRE(matrix[0][1] == 6.0F);
+        REQUIRE(matrix[1][0] == 8.0F);
+        REQUIRE(matrix[1][1] == 10.0F);
+    }
+
     SECTION("1x1")
     {
         const math::Matrix<float, 1> matrix1{
@@ -119,6 +149,25 @@ TEST_CASE("Matrix multiplication", "matrix")
         const auto result = matrix1 * matrix2;
 
         REQUIRE(result[0][0] == 8.0F);
+    }
+
+    SECTION("1x3")
+    {
+        const math::Matrix<float, 1, 3> matrix1{
+            2.0F,
+            3.0F,
+            4.0F
+        };
+
+        const math::Matrix<float, 3, 2> matrix2{
+            1.0F, 2.0F, 3.0F,
+            4.0F, 5.0F, 6.0F
+        };
+
+        const auto result = matrix1 * matrix2;
+
+        REQUIRE(result[0][0] == 20.0F);
+        REQUIRE(result[0][1] == 47.0F);
     }
 
     SECTION("2x1")

@@ -50,6 +50,24 @@ namespace math
             return false;
         }
 
+        constexpr const auto operator*(const T scalar) const noexcept
+        {
+            Matrix result = *this;
+
+            for (std::size_t i = 0; i < C * R; ++i)
+                result.m[i] *= scalar;
+
+            return result;
+        }
+
+        auto& operator*=(const T scalar) noexcept
+        {
+            for (std::size_t i = 0; i < C * R; ++i)
+                m[i] *= scalar;
+
+            return *this;
+        }
+
         template <auto C1 = C, auto R1 = R, std::size_t C2, std::size_t R2, std::enable_if_t<(R1 == C2)>* = nullptr>
         auto operator*(const Matrix<T, C2, R2>& mat) const noexcept
         {
