@@ -30,6 +30,38 @@ TEST_CASE("Vector accessors", "vector")
     REQUIRE(vector.w() == 4.0F);
 }
 
+TEST_CASE("Vector comparison operators", "vector")
+{
+    const math::Vector<float, 2> vector1{2.0F, 4.0F};
+    const math::Vector<float, 2> vector2{2.0F, 5.0F};
+    const math::Vector<float, 2> vector3{2.0F, 4.0F};
+
+    SECTION("Less than")
+    {
+        REQUIRE(vector1 < vector2);
+        REQUIRE_FALSE(vector1 < vector3);
+    }
+
+    SECTION("Greater than")
+    {
+        REQUIRE_FALSE(vector1 > vector2);
+        REQUIRE_FALSE(vector1 > vector3);
+    }
+
+    SECTION("Equal")
+    {
+        REQUIRE_FALSE(vector1 == vector2);
+        REQUIRE(vector1 == vector3);
+    }
+
+    SECTION("Not equal")
+    {
+        REQUIRE(vector1 != vector2);
+        REQUIRE_FALSE(vector1 != vector3);
+    }
+}
+
+
 TEST_CASE("Vector arithmetic operators", "vector")
 {
     const math::Vector<float, 2> vector1{2.0F, 4.0F};
@@ -100,36 +132,5 @@ TEST_CASE("Vector arithmetic operators", "vector")
         result /= 2.0F;
         REQUIRE(result.x() == 1.0F);
         REQUIRE(result.y() == 2.0F);
-    }
-}
-
-TEST_CASE("Vector comparison operators", "vector")
-{
-    const math::Vector<float, 2> vector1{2.0F, 4.0F};
-    const math::Vector<float, 2> vector2{2.0F, 5.0F};
-    const math::Vector<float, 2> vector3{2.0F, 4.0F};
-
-    SECTION("Less than")
-    {
-        REQUIRE(vector1 < vector2);
-        REQUIRE_FALSE(vector1 < vector3);
-    }
-
-    SECTION("Greater than")
-    {
-        REQUIRE_FALSE(vector1 > vector2);
-        REQUIRE_FALSE(vector1 > vector3);
-    }
-
-    SECTION("Equal")
-    {
-        REQUIRE_FALSE(vector1 == vector2);
-        REQUIRE(vector1 == vector3);
-    }
-
-    SECTION("Not equal")
-    {
-        REQUIRE(vector1 != vector2);
-        REQUIRE_FALSE(vector1 != vector3);
     }
 }

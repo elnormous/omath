@@ -45,6 +45,16 @@ namespace math
             return Quaternion{0, 0, 0, 1};
         }
 
+        constexpr auto operator==(const Quaternion& q) const noexcept
+        {
+            return v[0] == q.v[0] && v[1] == q.v[1] && v[2] == q.v[2] && v[3] == q.v[3];
+        }
+
+        constexpr auto operator!=(const Quaternion& q) const noexcept
+        {
+            return v[0] != q.v[0] || v[1] != q.v[1] || v[2] != q.v[2] || v[3] != q.v[3];
+        }
+
         constexpr const auto operator-() const noexcept
         {
             return Quaternion{-v[0], -v[1], -v[2], -v[3]};
@@ -153,16 +163,6 @@ namespace math
             v[3] /= scalar;
 
             return *this;
-        }
-
-        constexpr auto operator==(const Quaternion& q) const noexcept
-        {
-            return v[0] == q.v[0] && v[1] == q.v[1] && v[2] == q.v[2] && v[3] == q.v[3];
-        }
-
-        constexpr auto operator!=(const Quaternion& q) const noexcept
-        {
-            return v[0] != q.v[0] || v[1] != q.v[1] || v[2] != q.v[2] || v[3] != q.v[3];
         }
     };
 }

@@ -54,6 +54,38 @@ namespace math
         template <auto X = N, std::enable_if_t<(X >= 4)>* = nullptr>
         constexpr auto w() const noexcept { return v[3]; }
 
+        auto operator<(const Vector& vec) const noexcept
+        {
+            for (std::size_t i = 0; i < N; ++i)
+                if (v[i] < vec.v[i]) return true;
+                else if (vec.v[i] < v[i]) return false;
+
+            return false;
+        }
+
+        auto operator>(const Vector& vec) const noexcept
+        {
+            for (std::size_t i = 0; i < N; ++i)
+                if (v[i] > vec.v[i]) return true;
+                else if (vec.v[i] > v[i]) return false;
+
+            return false;
+        }
+
+        auto operator==(const Vector& vec) const noexcept
+        {
+            for (std::size_t i = 0; i < N; ++i)
+                if (v[i] != vec.v[i]) return false;
+            return true;
+        }
+
+        auto operator!=(const Vector& vec) const noexcept
+        {
+            for (std::size_t i = 0; i < N; ++i)
+                if (v[i] != vec.v[i]) return true;
+            return false;
+        }
+
         constexpr const auto operator-() const noexcept
         {
             return generateInverse(std::make_index_sequence<N>{});
@@ -103,38 +135,6 @@ namespace math
         {
             for (T& c : v) c /= scalar;
             return *this;
-        }
-
-        auto operator<(const Vector& vec) const noexcept
-        {
-            for (std::size_t i = 0; i < N; ++i)
-                if (v[i] < vec.v[i]) return true;
-                else if (vec.v[i] < v[i]) return false;
-
-            return false;
-        }
-
-        auto operator>(const Vector& vec) const noexcept
-        {
-            for (std::size_t i = 0; i < N; ++i)
-                if (v[i] > vec.v[i]) return true;
-                else if (vec.v[i] > v[i]) return false;
-
-            return false;
-        }
-
-        auto operator==(const Vector& vec) const noexcept
-        {
-            for (std::size_t i = 0; i < N; ++i)
-                if (v[i] != vec.v[i]) return false;
-            return true;
-        }
-
-        auto operator!=(const Vector& vec) const noexcept
-        {
-            for (std::size_t i = 0; i < N; ++i)
-                if (v[i] != vec.v[i]) return true;
-            return false;
         }
 
     private:

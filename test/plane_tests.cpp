@@ -32,6 +32,25 @@ TEST_CASE("Plane accessors", "plane")
     REQUIRE(plane.d() == 4.0F);
 }
 
+TEST_CASE("Plane comparison", "plane")
+{
+    const math::Plane<float> plane1{
+        0.0F, 1.0F, 2.0F, 3.0F
+    };
+
+    const math::Plane<float> plane2{
+        0.0F, 1.0F,
+        2.0F, 3.0F
+    };
+
+    const math::Plane<float> plane3{
+        1.0F, 2.0F, 3.0F, 4.0F
+    };
+
+    REQUIRE(plane1 == plane2);
+    REQUIRE(plane1 != plane3);
+}
+
 TEST_CASE("Plane flip", "plane")
 {
     const math::Plane<float> plane{

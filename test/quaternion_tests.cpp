@@ -42,14 +42,34 @@ TEST_CASE("Quaternion identity", "quaternion")
     REQUIRE(quaternion[3] == 1.0F);
 }
 
+TEST_CASE("Quaternion comparison", "quaternion")
+{
+    const math::Quaternion<float> quaternion1{
+        0.0F, 1.0F, 2.0F, 3.0F
+    };
+
+    const math::Quaternion<float> quaternion2{
+        0.0F, 1.0F,
+        2.0F, 3.0F
+    };
+
+    const math::Quaternion<float> quaternion3{
+        1.0F, 2.0F, 3.0F, 4.0F
+    };
+
+    REQUIRE(quaternion1 == quaternion2);
+    REQUIRE(quaternion1 != quaternion3);
+}
+
+
 TEST_CASE("Quaternion arithmetic operators", "vector")
 {
-    const math::Quaternion<float> q1{2.0F, 4.0F, -6.0F, 6.0F};
-    const math::Quaternion<float> q2{2.0F, 5.0F, 6.0F, 6.0F};
+    const math::Quaternion<float> quaternion1{2.0F, 4.0F, -6.0F, 6.0F};
+    const math::Quaternion<float> quaternion2{2.0F, 5.0F, 6.0F, 6.0F};
 
     SECTION("Negate")
     {
-        const auto result = -q1;
+        const auto result = -quaternion1;
         REQUIRE(result.x() == -2.0F);
         REQUIRE(result.y() == -4.0F);
         REQUIRE(result.z() == 6.0F);
@@ -58,7 +78,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
 
     SECTION("Add")
     {
-        const auto result = q1 + q2;
+        const auto result = quaternion1 + quaternion2;
         REQUIRE(result.x() == 4.0F);
         REQUIRE(result.y() == 9.0F);
         REQUIRE(result.z() == 0.0F);
@@ -67,7 +87,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
 
     SECTION("Subtract")
     {
-        const auto result = q1 - q2;
+        const auto result = quaternion1 - quaternion2;
         REQUIRE(result.x() == -0.0F);
         REQUIRE(result.y() == -1.0F);
         REQUIRE(result.z() == -12.0F);
@@ -76,7 +96,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
 
     SECTION("Scalar multiply")
     {
-        const auto result = q1 * 2.0F;
+        const auto result = quaternion1 * 2.0F;
         REQUIRE(result.x() == 4.0F);
         REQUIRE(result.y() == 8.0F);
         REQUIRE(result.z() == -12.0F);
@@ -85,7 +105,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
 
     SECTION("Quaternion multiply")
     {
-        const auto result = q1 * q2;
+        const auto result = quaternion1 * quaternion2;
         REQUIRE(result.x() == 78.0F);
         REQUIRE(result.y() == 30.0F);
         REQUIRE(result.z() == 2.0F);
@@ -94,7 +114,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
 
     SECTION("Divide")
     {
-        const auto result = q1 / 2.0F;
+        const auto result = quaternion1 / 2.0F;
         REQUIRE(result.x() == 1.0F);
         REQUIRE(result.y() == 2.0F);
         REQUIRE(result.z() == -3.0F);
@@ -104,7 +124,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
     SECTION("Add assign")
     {
         math::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
-        result += q2;
+        result += quaternion2;
         REQUIRE(result.x() == 4.0F);
         REQUIRE(result.y() == 9.0F);
         REQUIRE(result.z() == 0.0F);
@@ -114,7 +134,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
     SECTION("Subtract assign")
     {
         math::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
-        result -= q2;
+        result -= quaternion2;
         REQUIRE(result.x() == -0.0F);
         REQUIRE(result.y() == -1.0F);
         REQUIRE(result.z() == -12.0F);
@@ -134,7 +154,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
     SECTION("Quaternion multiply assign")
     {
         math::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
-        result *= q2;
+        result *= quaternion2;
         REQUIRE(result.x() == 78.0F);
         REQUIRE(result.y() == 30.0F);
         REQUIRE(result.z() == 2.0F);
