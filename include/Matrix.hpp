@@ -50,15 +50,15 @@ namespace math
             return false;
         }
 
-        template <auto X = C, auto Y = R, std::enable_if_t<(X == Y)>* = nullptr>
-        Matrix operator*(const Matrix& mat) const noexcept
+        template <auto C1 = C, auto R1 = R, std::size_t C2, std::size_t R2, std::enable_if_t<(R1 == C2)>* = nullptr>
+        auto operator*(const Matrix<T, C2, R2>& mat) const noexcept
         {
-            Matrix result;
+            Matrix<T, C1, R2> result;
 
-            for (std::size_t r = 0; r < R; ++r)
-                for (std::size_t c = 0; c < C; ++c)
-                    for (std::size_t i = 0; i < C; ++i)
-                        result[r][c] += m[i * C + c] * mat.m[r * C + i];
+            for (std::size_t r = 0; r < R2; ++r)
+                for (std::size_t c = 0; c < C1; ++c)
+                    for (std::size_t i = 0; i < R1; ++i)
+                        result.m[r * C1 + c] += m[i * C1 + c] * mat.m[r * C2 + i];
 
             return result;
         }
