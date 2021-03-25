@@ -36,6 +36,14 @@ namespace math
             return generateIdentity(std::make_index_sequence<C * R>{});
         }
 
+        template <auto X = C, auto Y = R, std::enable_if_t<(X == Y)>* = nullptr>
+        void transpose() noexcept
+        {
+            for (std::size_t r = 0; r < R; ++r)
+                for (std::size_t c = r + 1; c < C; ++c)
+                    std::swap(m[r * C + c], m[c * R + r]);
+        }
+
         auto operator==(const Matrix& mat) const noexcept
         {
             for (std::size_t i = 0; i < C * R; ++i)

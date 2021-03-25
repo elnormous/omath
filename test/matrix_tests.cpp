@@ -47,6 +47,51 @@ TEST_CASE("Matrix element setter", "matrix")
     REQUIRE(matrix[1][1] == 4.0F);
 }
 
+TEST_CASE("Matrix transpose", "matrix")
+{
+    SECTION("1x1")
+    {
+        math::Matrix<float, 1> matrix{1.0F};
+        matrix.transpose();
+
+        REQUIRE(matrix[0][0] == 1.0F);
+    }
+
+    SECTION("2x2")
+    {
+        math::Matrix<float, 2> matrix{
+            1.0F, 2.0F,
+            3.0F, 4.0F
+        };
+        matrix.transpose();
+
+        REQUIRE(matrix[0][0] == 1.0F);
+        REQUIRE(matrix[0][1] == 3.0F);
+        REQUIRE(matrix[1][0] == 2.0F);
+        REQUIRE(matrix[1][1] == 4.0F);
+    }
+
+    SECTION("3x3")
+    {
+        math::Matrix<float, 3> matrix{
+            1.0F, 2.0F, 3.0F,
+            4.0F, 6.0F, 6.0F,
+            7.0F, 8.0F, 9.0F
+        };
+        matrix.transpose();
+
+        REQUIRE(matrix[0][0] == 1.0F);
+        REQUIRE(matrix[0][1] == 4.0F);
+        REQUIRE(matrix[0][2] == 7.0F);
+        REQUIRE(matrix[1][0] == 2.0F);
+        REQUIRE(matrix[1][1] == 6.0F);
+        REQUIRE(matrix[1][2] == 8.0F);
+        REQUIRE(matrix[2][0] == 3.0F);
+        REQUIRE(matrix[2][1] == 6.0F);
+        REQUIRE(matrix[2][2] == 9.0F);
+    }
+}
+
 TEST_CASE("Matrix comparison", "matrix")
 {
     const math::Matrix<float, 2> matrix1{
