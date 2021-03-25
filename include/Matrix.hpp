@@ -52,12 +52,7 @@ namespace math
 
         constexpr const auto operator*(const T scalar) const noexcept
         {
-            Matrix result = *this;
-
-            for (std::size_t i = 0; i < C * R; ++i)
-                result.m[i] *= scalar;
-
-            return result;
+            return generateMul(std::make_index_sequence<C * R>{}, scalar);
         }
 
         auto& operator*=(const T scalar) noexcept
@@ -86,6 +81,12 @@ namespace math
         static constexpr auto generateIdentity(const std::index_sequence<I...>)
         {
             return Matrix{(I % C == I / R) ? T(1) : T(0)...};
+        }
+
+        template <std::size_t...I>
+        constexpr auto generateMul(const std::index_sequence<I...>, T scalar) const
+        {
+            return Matrix{(m[I] * scalar)...};
         }
     };
 }

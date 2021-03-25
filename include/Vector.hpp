@@ -115,7 +115,7 @@ namespace math
             return *this;
         }
 
-        const auto operator*(const T scalar) const noexcept
+        constexpr const auto operator*(const T scalar) const noexcept
         {
             return generateMul(std::make_index_sequence<N>{}, scalar);
         }
@@ -126,7 +126,7 @@ namespace math
             return *this;
         }
 
-        const auto operator/(const T scalar) const noexcept
+        constexpr const auto operator/(const T scalar) const noexcept
         {
             return generateDiv(std::make_index_sequence<N>{}, scalar);
         }
