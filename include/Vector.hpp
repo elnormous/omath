@@ -147,6 +147,11 @@ namespace math
             };
         }
 
+        constexpr auto dot(const Vector& vec) const noexcept
+        {
+            return generateDot(std::make_index_sequence<N>{}, vec);
+        }
+
     private:
         template <std::size_t...I>
         constexpr auto generateInverse(const std::index_sequence<I...>) const
@@ -176,6 +181,18 @@ namespace math
         constexpr auto generateDiv(const std::index_sequence<I...>, T scalar) const
         {
             return Vector{(v[I] / scalar)...};
+        }
+
+        template<typename... Args>
+        static constexpr auto sum(Args... args) noexcept
+        {
+            return (args + ...);
+        }
+
+        template <std::size_t...I>
+        constexpr auto generateDot(const std::index_sequence<I...>, const Vector& vec) const
+        {
+            return sum((v[I] * vec.v[I])...);
         }
     };
 }

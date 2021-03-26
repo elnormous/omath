@@ -144,3 +144,12 @@ TEST_CASE("Vector cross product", "vector")
     REQUIRE(result.y() == 6.0F);
     REQUIRE(result.z() == -3.0F);
 }
+
+TEST_CASE("Vector dot product", "vector")
+{
+    const math::Vector<float, 2> vector1{1.0F, 2.0F};
+    const math::Vector<float, 2> vector2{4.0F, 5.0F};
+    const auto result = vector1.dot(vector2);
+
+    REQUIRE(result == 14.0F);
+}
