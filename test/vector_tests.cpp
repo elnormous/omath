@@ -134,6 +134,14 @@ TEST_CASE("Vector arithmetic operators", "vector")
     }
 }
 
+TEST_CASE("Vector length", "vector")
+{
+    const math::Vector<float, 2> vector{3.0F, 4.0F};
+    const auto result = vector.length();
+
+    REQUIRE(result == Approx(5.0F));
+}
+
 TEST_CASE("Vector cross product", "vector")
 {
     const math::Vector<float, 3> vector1{2.0F, 3.0F, 4.0F};

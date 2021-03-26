@@ -6,6 +6,7 @@
 #define MATH_VECTOR
 
 #include <array>
+#include <cmath>
 #include <type_traits>
 #include <utility>
 
@@ -137,6 +138,11 @@ namespace math
             return *this;
         }
 
+        constexpr auto length() const noexcept
+        {
+            return generateLength(std::make_index_sequence<N>{});
+        }
+
         template <auto X = N, std::enable_if_t<(X == 3)>* = nullptr>
         constexpr auto cross(const Vector& vec) const noexcept
         {
@@ -187,6 +193,12 @@ namespace math
         static constexpr auto sum(Args... args) noexcept
         {
             return (args + ...);
+        }
+
+        template <std::size_t...I>
+        constexpr auto generateLength(const std::index_sequence<I...>) const
+        {
+            return std::sqrt(sum((v[I] * v[I])...));
         }
 
         template <std::size_t...I>
