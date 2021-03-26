@@ -61,7 +61,6 @@ TEST_CASE("Vector comparison operators", "vector")
     }
 }
 
-
 TEST_CASE("Vector arithmetic operators", "vector")
 {
     const math::Vector<float, 2> vector1{2.0F, 4.0F};
@@ -133,4 +132,15 @@ TEST_CASE("Vector arithmetic operators", "vector")
         REQUIRE(result.x() == 1.0F);
         REQUIRE(result.y() == 2.0F);
     }
+}
+
+TEST_CASE("Vector cross product", "vector")
+{
+    const math::Vector<float, 3> vector1{2.0F, 3.0F, 4.0F};
+    const math::Vector<float, 3> vector2{5.0F, 6.0F, 7.0F};
+    const auto result = vector1.cross(vector2);
+
+    REQUIRE(result.x() == -3.0F);
+    REQUIRE(result.y() == 6.0F);
+    REQUIRE(result.z() == -3.0F);
 }
