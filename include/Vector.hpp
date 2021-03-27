@@ -189,8 +189,8 @@ namespace math
             return Vector{(v[I] / scalar)...};
         }
 
-        template<typename ...Args>
-        static constexpr auto sum(Args... args) noexcept
+        template<typename ...A>
+        static constexpr auto sum(const A... args) noexcept
         {
             return (args + ...);
         }
