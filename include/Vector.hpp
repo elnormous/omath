@@ -159,49 +159,49 @@ namespace math
         }
 
     private:
-        template <std::size_t...I>
+        template <std::size_t ...I>
         constexpr auto generateInverse(const std::index_sequence<I...>) const
         {
             return Vector{-v[I]...};
         }
 
-        template <std::size_t...I>
+        template <std::size_t ...I>
         constexpr auto generateSum(const std::index_sequence<I...>, const Vector& vec) const
         {
             return Vector{(v[I] + vec.v[I])...};
         }
 
-        template <std::size_t...I>
+        template <std::size_t ...I>
         constexpr auto generateDiff(const std::index_sequence<I...>, const Vector& vec) const
         {
             return Vector{(v[I] - vec.v[I])...};
         }
 
-        template <std::size_t...I>
+        template <std::size_t ...I>
         constexpr auto generateMul(const std::index_sequence<I...>, T scalar) const
         {
             return Vector{(v[I] * scalar)...};
         }
 
-        template <std::size_t...I>
+        template <std::size_t ...I>
         constexpr auto generateDiv(const std::index_sequence<I...>, T scalar) const
         {
             return Vector{(v[I] / scalar)...};
         }
 
-        template<typename... Args>
+        template<typename ...Args>
         static constexpr auto sum(Args... args) noexcept
         {
             return (args + ...);
         }
 
-        template <std::size_t...I>
+        template <std::size_t ...I>
         constexpr auto generateLength(const std::index_sequence<I...>) const
         {
             return std::sqrt(sum((v[I] * v[I])...));
         }
 
-        template <std::size_t...I>
+        template <std::size_t ...I>
         constexpr auto generateDot(const std::index_sequence<I...>, const Vector& vec) const
         {
             return sum((v[I] * vec.v[I])...);

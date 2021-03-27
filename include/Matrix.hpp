@@ -85,13 +85,13 @@ namespace math
         }
 
     private:
-        template <std::size_t...I>
+        template <std::size_t ...I>
         static constexpr auto generateIdentity(const std::index_sequence<I...>)
         {
             return Matrix{(I % C == I / R) ? T(1) : T(0)...};
         }
 
-        template <std::size_t...I>
+        template <std::size_t ...I>
         constexpr auto generateMul(const std::index_sequence<I...>, T scalar) const
         {
             return Matrix{(m[I] * scalar)...};
