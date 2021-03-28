@@ -44,6 +44,11 @@ namespace math
                     std::swap(m[r * C + c], m[c * R + r]);
         }
 
+        constexpr auto operator-() const noexcept
+        {
+            return generateNegative(std::make_index_sequence<C * R>{});
+        }
+
         auto operator==(const Matrix& mat) const noexcept
         {
             for (std::size_t i = 0; i < C * R; ++i)
@@ -89,6 +94,12 @@ namespace math
         static constexpr auto generateIdentity(const std::index_sequence<I...>)
         {
             return Matrix{(I % C == I / R) ? T(1) : T(0)...};
+        }
+
+        template <std::size_t ...I>
+        constexpr auto generateNegative(const std::index_sequence<I...>) const
+        {
+            return Matrix{(-m[I])...};
         }
 
         template <std::size_t ...I>

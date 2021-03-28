@@ -113,6 +113,21 @@ TEST_CASE("Matrix comparison", "matrix")
     REQUIRE(matrix1 != matrix3);
 }
 
+TEST_CASE("Negative of matrix", "matrix")
+{
+    const math::Matrix<float, 2> matrix{
+        0.0F, 1.0F,
+        2.0F, -3.0F
+    };
+
+    const auto result = -matrix;
+
+    REQUIRE(result[0][0] == 0.0F);
+    REQUIRE(result[0][1] == -1.0F);
+    REQUIRE(result[1][0] == -2.0F);
+    REQUIRE(result[1][1] == 3.0F);
+}
+
 TEST_CASE("Matrix multiplication", "matrix")
 {
     SECTION("float")
