@@ -49,7 +49,7 @@ namespace math
             return v[0] != p.v[0] || v[1] != p.v[1] || v[2] != p.v[2] || v[3] != p.v[3];
         }
 
-        constexpr const auto operator-() const noexcept
+        constexpr auto operator-() const noexcept
         {
             return Plane{-v[0], -v[1], -v[2], -v[3]};
         }

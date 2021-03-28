@@ -87,7 +87,7 @@ namespace math
             return false;
         }
 
-        constexpr const auto operator-() const noexcept
+        constexpr auto operator-() const noexcept
         {
             return generateInverse(std::make_index_sequence<N>{});
         }
