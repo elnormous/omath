@@ -44,11 +44,6 @@ namespace math
                     std::swap(m[r * C + c], m[c * R + r]);
         }
 
-        constexpr auto operator-() const noexcept
-        {
-            return generateNegative(std::make_index_sequence<C * R>{});
-        }
-
         auto operator==(const Matrix& mat) const noexcept
         {
             for (std::size_t i = 0; i < C * R; ++i)
@@ -61,6 +56,35 @@ namespace math
             for (std::size_t i = 0; i < C * R; ++i)
                 if (m[i] != mat.m[i]) return true;
             return false;
+        }
+
+        constexpr auto operator-() const noexcept
+        {
+            return generateNegative(std::make_index_sequence<C * R>{});
+        }
+
+        constexpr const auto operator+(const Matrix& mat) const noexcept
+        {
+            return generateSum(std::make_index_sequence<C * R>{}, mat);
+        }
+
+        auto& operator+=(const Matrix& mat) noexcept
+        {
+            for (std::size_t i = 0; i < C * R; ++i)
+                m[i] += mat.m[i];
+            return *this;
+        }
+
+        constexpr const auto operator-(const Matrix& mat) const noexcept
+        {
+            return generateDiff(std::make_index_sequence<C * R>{}, mat);
+        }
+
+        auto& operator-=(const Matrix& mat) noexcept
+        {
+            for (std::size_t i = 0; i < C * R; ++i)
+                m[i] -= mat.m[i];
+            return *this;
         }
 
         constexpr const auto operator*(const T scalar) const noexcept
@@ -100,6 +124,18 @@ namespace math
         constexpr auto generateNegative(const std::index_sequence<I...>) const
         {
             return Matrix{(-m[I])...};
+        }
+
+        template <std::size_t ...I>
+        constexpr auto generateSum(const std::index_sequence<I...>, const Matrix& mat) const
+        {
+            return Matrix{(m[I] + mat.m[I])...};
+        }
+
+        template <std::size_t ...I>
+        constexpr auto generateDiff(const std::index_sequence<I...>, const Matrix& mat) const
+        {
+            return Matrix{(m[I] - mat.m[I])...};
         }
 
         template <std::size_t ...I>
