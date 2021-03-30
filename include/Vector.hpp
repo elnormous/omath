@@ -140,7 +140,12 @@ namespace math
 
         constexpr auto length() const noexcept
         {
-            return generateLength(std::make_index_sequence<N>{});
+            return std::sqrt(generateLengthSquared(std::make_index_sequence<N>{}));
+        }
+
+        constexpr auto lengthSquared() const noexcept
+        {
+            return generateLengthSquared(std::make_index_sequence<N>{});
         }
 
         template <auto X = N, std::enable_if_t<(X == 3)>* = nullptr>
@@ -196,9 +201,9 @@ namespace math
         }
 
         template <std::size_t ...I>
-        constexpr auto generateLength(const std::index_sequence<I...>) const
+        constexpr auto generateLengthSquared(const std::index_sequence<I...>) const
         {
-            return std::sqrt(sum((v[I] * v[I])...));
+            return sum((v[I] * v[I])...);
         }
 
         template <std::size_t ...I>
