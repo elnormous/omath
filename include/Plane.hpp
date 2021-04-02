@@ -6,6 +6,7 @@
 #define MATH_PLANE
 
 #include <array>
+#include "Vector.hpp"
 
 namespace math
 {
@@ -52,6 +53,12 @@ namespace math
         constexpr auto operator-() const noexcept
         {
             return Plane{-v[0], -v[1], -v[2], -v[3]};
+        }
+
+        auto distance(const Vector<T, 3>& vec) const
+        {
+            return std::abs(v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3]) /
+                std::sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
         }
     };
 }

@@ -64,3 +64,36 @@ TEST_CASE("Plane flip", "plane")
     REQUIRE(flippedPlane.c() == -3.0F);
     REQUIRE(flippedPlane.d() == -4.0F);
 }
+
+TEST_CASE("Vector flip", "plane")
+{
+    SECTION("First")
+    {
+        const math::Plane<float> plane{
+            2.0F, -2.0F, 5.0F, 8.0F
+        };
+
+        const math::Vector<float, 3> vector{
+            4.0F, -4.0F, 3.0F
+        };
+
+        const auto distance = plane.distance(vector);
+
+        REQUIRE(distance == Approx(6.78902858227F));
+    }
+
+    SECTION("Second")
+    {
+        const math::Plane<float> plane{
+            1.0F, -2.0F, -2.0F, -1.0F
+        };
+
+        const math::Vector<float, 3> vector{
+            2.0F, 8.0F, 5.0F
+        };
+
+        const auto distance = plane.distance(vector);
+
+        REQUIRE(distance == Approx(8.33333333333F));
+    }
+}
