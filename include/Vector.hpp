@@ -163,6 +163,16 @@ namespace math
             return generateDot(std::make_index_sequence<N>{}, vec);
         }
 
+        auto distance(const Vector& vec) const noexcept
+        {
+            return std::sqrt(generateDistanceSquared(std::make_index_sequence<N>{}, vec));
+        }
+
+        constexpr auto distanceSquared(const Vector& vec) const noexcept
+        {
+            return generateDistanceSquared(std::make_index_sequence<N>{}, vec);
+        }
+
     private:
         template <std::size_t ...I>
         constexpr auto generateInverse(const std::index_sequence<I...>) const
@@ -210,6 +220,12 @@ namespace math
         constexpr auto generateDot(const std::index_sequence<I...>, const Vector& vec) const
         {
             return sum((v[I] * vec.v[I])...);
+        }
+
+        template <std::size_t ...I>
+        constexpr auto generateDistanceSquared(const std::index_sequence<I...>, const Vector& vec) const
+        {
+            return sum(((v[I] - vec.v[I]) * (v[I] - vec.v[I]))...);
         }
     };
 }

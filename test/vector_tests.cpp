@@ -169,3 +169,21 @@ TEST_CASE("Vector dot product", "vector")
 
     REQUIRE(result == 14.0F);
 }
+
+TEST_CASE("Vector distance", "vector")
+{
+    const math::Vector<float, 2> vector1{1.0F, 2.0F};
+    const math::Vector<float, 2> vector2{4.0F, 6.0F};
+    const auto result = vector1.distance(vector2);
+
+    REQUIRE(result == 5.0F);
+}
+
+TEST_CASE("Vector distance squared", "vector")
+{
+    const math::Vector<float, 2> vector1{1.0F, 2.0F};
+    const math::Vector<float, 2> vector2{4.0F, 6.0F};
+    const auto result = vector1.distanceSquared(vector2);
+
+    REQUIRE(result == 25.0F);
+}
