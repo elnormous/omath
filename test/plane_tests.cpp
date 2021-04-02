@@ -65,6 +65,21 @@ TEST_CASE("Plane flip", "plane")
     REQUIRE(flippedPlane.d() == -4.0F);
 }
 
+TEST_CASE("Vector dot", "plane")
+{
+    const math::Plane<float> plane{
+        2.0F, -2.0F, 5.0F, 8.0F
+    };
+
+    const math::Vector<float, 3> vector{
+        4.0F, -4.0F, 3.0F
+    };
+
+    const auto result = plane.dot(vector);
+
+    REQUIRE(result == 39.0F);
+}
+
 TEST_CASE("Vector flip", "plane")
 {
     SECTION("First")
@@ -77,9 +92,9 @@ TEST_CASE("Vector flip", "plane")
             4.0F, -4.0F, 3.0F
         };
 
-        const auto distance = plane.distance(vector);
+        const auto result = plane.distance(vector);
 
-        REQUIRE(distance == Approx(6.78902858227F));
+        REQUIRE(result == Approx(6.78902858227F));
     }
 
     SECTION("Second")
@@ -92,8 +107,8 @@ TEST_CASE("Vector flip", "plane")
             2.0F, 8.0F, 5.0F
         };
 
-        const auto distance = plane.distance(vector);
+        const auto result = plane.distance(vector);
 
-        REQUIRE(distance == Approx(8.33333333333F));
+        REQUIRE(result == Approx(8.33333333333F));
     }
 }

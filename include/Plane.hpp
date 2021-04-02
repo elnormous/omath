@@ -55,9 +55,14 @@ namespace math
             return Plane{-v[0], -v[1], -v[2], -v[3]};
         }
 
+        constexpr auto dot(const Vector<T, 3>& vec) const noexcept
+        {
+            return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3];
+        }
+
         auto distance(const Vector<T, 3>& vec) const
         {
-            return std::abs(v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3]) /
+            return std::abs(dot(vec)) /
                 std::sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
         }
     };
