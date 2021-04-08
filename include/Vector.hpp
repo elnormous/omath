@@ -193,13 +193,13 @@ namespace math
         }
 
         template <std::size_t ...I>
-        constexpr auto generateMul(const std::index_sequence<I...>, T scalar) const
+        constexpr auto generateMul(const std::index_sequence<I...>, const T scalar) const
         {
             return Vector{(v[I] * scalar)...};
         }
 
         template <std::size_t ...I>
-        constexpr auto generateDiv(const std::index_sequence<I...>, T scalar) const
+        constexpr auto generateDiv(const std::index_sequence<I...>, const T scalar) const
         {
             return Vector{(v[I] / scalar)...};
         }
