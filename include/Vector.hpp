@@ -75,16 +75,12 @@ namespace math
 
         auto operator==(const Vector& vec) const noexcept
         {
-            for (std::size_t i = 0; i < N; ++i)
-                if (v[i] != vec.v[i]) return false;
-            return true;
+            return std::equal(std::begin(v), std::end(v), std::begin(vec.v));
         }
 
         auto operator!=(const Vector& vec) const noexcept
         {
-            for (std::size_t i = 0; i < N; ++i)
-                if (v[i] != vec.v[i]) return true;
-            return false;
+            return !std::equal(std::begin(v), std::end(v), std::begin(vec.v));
         }
 
         constexpr auto operator-() const noexcept

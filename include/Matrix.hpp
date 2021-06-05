@@ -46,16 +46,12 @@ namespace math
 
         auto operator==(const Matrix& mat) const noexcept
         {
-            for (std::size_t i = 0; i < C * R; ++i)
-                if (m[i] != mat.m[i]) return false;
-            return true;
+            return std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
         auto operator!=(const Matrix& mat) const noexcept
         {
-            for (std::size_t i = 0; i < C * R; ++i)
-                if (m[i] != mat.m[i]) return true;
-            return false;
+            return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
         constexpr auto operator-() const noexcept
