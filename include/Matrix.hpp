@@ -44,12 +44,12 @@ namespace math
                     std::swap(m[r * C + c], m[c * R + r]);
         }
 
-        auto operator==(const Matrix& mat) const noexcept
+        constexpr auto operator==(const Matrix& mat) const noexcept
         {
             return std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
-        auto operator!=(const Matrix& mat) const noexcept
+        constexpr auto operator!=(const Matrix& mat) const noexcept
         {
             return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }

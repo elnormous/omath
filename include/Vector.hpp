@@ -55,7 +55,7 @@ namespace math
         template <auto X = N, std::enable_if_t<(X >= 4)>* = nullptr>
         constexpr auto w() const noexcept { return v[3]; }
 
-        auto operator<(const Vector& vec) const noexcept
+        constexpr auto operator<(const Vector& vec) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 if (v[i] < vec.v[i]) return true;
@@ -64,7 +64,7 @@ namespace math
             return false;
         }
 
-        auto operator>(const Vector& vec) const noexcept
+        constexpr auto operator>(const Vector& vec) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 if (v[i] > vec.v[i]) return true;
@@ -73,12 +73,12 @@ namespace math
             return false;
         }
 
-        auto operator==(const Vector& vec) const noexcept
+        constexpr auto operator==(const Vector& vec) const noexcept
         {
             return std::equal(std::begin(v), std::end(v), std::begin(vec.v));
         }
 
-        auto operator!=(const Vector& vec) const noexcept
+        constexpr auto operator!=(const Vector& vec) const noexcept
         {
             return !std::equal(std::begin(v), std::end(v), std::begin(vec.v));
         }
