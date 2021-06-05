@@ -5,6 +5,7 @@
 #ifndef MATH_VECTOR
 #define MATH_VECTOR
 
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <type_traits>

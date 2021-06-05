@@ -5,6 +5,7 @@
 #ifndef MATH_MATRIX
 #define MATH_MATRIX
 
+#include <algorithm>
 #include <array>
 #include <type_traits>
 #include <utility>
