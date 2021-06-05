@@ -47,6 +47,25 @@ TEST_CASE("Matrix element setter", "matrix")
     REQUIRE(matrix[1][1] == 4.0F);
 }
 
+TEST_CASE("Matrix comparison operators", "vector")
+{
+    const math::Matrix<float, 2> matrix1{2.0F, 4.0F, 3.0F, 5.0F};
+    const math::Matrix<float, 2> matrix2{2.0F, 5.0F, 3.0F, 5.0F};
+    const math::Matrix<float, 2> matrix3{2.0F, 4.0F, 3.0F, 5.0F};
+
+    SECTION("Equal")
+    {
+        REQUIRE_FALSE(matrix1 == matrix2);
+        REQUIRE(matrix1 == matrix3);
+    }
+
+    SECTION("Not equal")
+    {
+        REQUIRE(matrix1 != matrix2);
+        REQUIRE_FALSE(matrix1 != matrix3);
+    }
+}
+
 TEST_CASE("Matrix transpose", "matrix")
 {
     SECTION("1x1")
