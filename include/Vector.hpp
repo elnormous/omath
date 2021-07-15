@@ -89,7 +89,7 @@ namespace math
             return generateInverse(std::make_index_sequence<N>{});
         }
 
-        constexpr const auto operator+(const Vector& vec) const noexcept
+        constexpr auto operator+(const Vector& vec) const noexcept
         {
             return generateSum(std::make_index_sequence<N>{}, vec);
         }
@@ -101,7 +101,7 @@ namespace math
             return *this;
         }
 
-        constexpr const auto operator-(const Vector& vec) const noexcept
+        constexpr auto operator-(const Vector& vec) const noexcept
         {
             return generateDiff(std::make_index_sequence<N>{}, vec);
         }
@@ -113,7 +113,7 @@ namespace math
             return *this;
         }
 
-        constexpr const auto operator*(const T scalar) const noexcept
+        constexpr auto operator*(const T scalar) const noexcept
         {
             return generateMul(std::make_index_sequence<N>{}, scalar);
         }
@@ -124,7 +124,7 @@ namespace math
             return *this;
         }
 
-        constexpr const auto operator/(const T scalar) const noexcept
+        constexpr auto operator/(const T scalar) const noexcept
         {
             return generateDiv(std::make_index_sequence<N>{}, scalar);
         }
