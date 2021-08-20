@@ -29,34 +29,34 @@ namespace math
         {
         }
 
-        auto& operator[](const std::size_t index) noexcept { return v[index]; }
-        constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
+        [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
+        [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
         template <auto X = N, std::enable_if_t<(X >= 1)>* = nullptr>
-        auto& x() noexcept { return v[0]; }
+        [[nodiscard]] auto& x() noexcept { return v[0]; }
 
         template <auto X = N, std::enable_if_t<(X >= 1)>* = nullptr>
-        constexpr auto x() const noexcept { return v[0]; }
+        [[nodiscard]] constexpr auto x() const noexcept { return v[0]; }
 
         template <auto X = N, std::enable_if_t<(X >= 2)>* = nullptr>
-        auto& y() noexcept { return v[1]; }
+        [[nodiscard]] auto& y() noexcept { return v[1]; }
 
         template <auto X = N, std::enable_if_t<(X >= 2)>* = nullptr>
-        constexpr auto y() const noexcept { return v[1]; }
+        [[nodiscard]] constexpr auto y() const noexcept { return v[1]; }
 
         template <auto X = N, std::enable_if_t<(X >= 3)>* = nullptr>
-        auto& z() noexcept { return v[2]; }
+        [[nodiscard]] auto& z() noexcept { return v[2]; }
 
         template <auto X = N, std::enable_if_t<(X >= 3)>* = nullptr>
-        constexpr auto z() const noexcept { return v[2]; }
+        [[nodiscard]] constexpr auto z() const noexcept { return v[2]; }
 
         template <auto X = N, std::enable_if_t<(X >= 4)>* = nullptr>
-        auto& w() noexcept { return v[3]; }
+        [[nodiscard]] auto& w() noexcept { return v[3]; }
 
         template <auto X = N, std::enable_if_t<(X >= 4)>* = nullptr>
-        constexpr auto w() const noexcept { return v[3]; }
+        [[nodiscard]] constexpr auto w() const noexcept { return v[3]; }
 
-        constexpr auto operator<(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto operator<(const Vector& vec) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 if (v[i] < vec.v[i]) return true;
@@ -65,7 +65,7 @@ namespace math
             return false;
         }
 
-        constexpr auto operator>(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto operator>(const Vector& vec) const noexcept
         {
             for (std::size_t i = 0; i < N; ++i)
                 if (v[i] > vec.v[i]) return true;
@@ -74,22 +74,22 @@ namespace math
             return false;
         }
 
-        constexpr auto operator==(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto operator==(const Vector& vec) const noexcept
         {
             return std::equal(std::begin(v), std::end(v), std::begin(vec.v));
         }
 
-        constexpr auto operator!=(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto operator!=(const Vector& vec) const noexcept
         {
             return !std::equal(std::begin(v), std::end(v), std::begin(vec.v));
         }
 
-        constexpr auto operator-() const noexcept
+        [[nodiscard]] constexpr auto operator-() const noexcept
         {
             return generateInverse(std::make_index_sequence<N>{});
         }
 
-        constexpr auto operator+(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto operator+(const Vector& vec) const noexcept
         {
             return generateSum(std::make_index_sequence<N>{}, vec);
         }
@@ -101,7 +101,7 @@ namespace math
             return *this;
         }
 
-        constexpr auto operator-(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto operator-(const Vector& vec) const noexcept
         {
             return generateDiff(std::make_index_sequence<N>{}, vec);
         }
@@ -113,7 +113,7 @@ namespace math
             return *this;
         }
 
-        constexpr auto operator*(const T scalar) const noexcept
+        [[nodiscard]] constexpr auto operator*(const T scalar) const noexcept
         {
             return generateMul(std::make_index_sequence<N>{}, scalar);
         }
@@ -124,7 +124,7 @@ namespace math
             return *this;
         }
 
-        constexpr auto operator/(const T scalar) const noexcept
+        [[nodiscard]] constexpr auto operator/(const T scalar) const noexcept
         {
             return generateDiv(std::make_index_sequence<N>{}, scalar);
         }
@@ -135,18 +135,18 @@ namespace math
             return *this;
         }
 
-        auto length() const noexcept
+        [[nodiscard]] auto length() const noexcept
         {
             return std::sqrt(generateLengthSquared(std::make_index_sequence<N>{}));
         }
 
-        constexpr auto lengthSquared() const noexcept
+        [[nodiscard]] constexpr auto lengthSquared() const noexcept
         {
             return generateLengthSquared(std::make_index_sequence<N>{});
         }
 
         template <auto X = N, std::enable_if_t<(X == 3)>* = nullptr>
-        constexpr auto cross(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto cross(const Vector& vec) const noexcept
         {
             return Vector{
                 (v[1] * vec.v[2]) - (v[2] * vec.v[1]),
@@ -155,17 +155,17 @@ namespace math
             };
         }
 
-        constexpr auto dot(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto dot(const Vector& vec) const noexcept
         {
             return generateDot(std::make_index_sequence<N>{}, vec);
         }
 
-        auto distance(const Vector& vec) const noexcept
+        [[nodiscard]] auto distance(const Vector& vec) const noexcept
         {
             return std::sqrt(generateDistanceSquared(std::make_index_sequence<N>{}, vec));
         }
 
-        constexpr auto distanceSquared(const Vector& vec) const noexcept
+        [[nodiscard]] constexpr auto distanceSquared(const Vector& vec) const noexcept
         {
             return generateDistanceSquared(std::make_index_sequence<N>{}, vec);
         }

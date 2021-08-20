@@ -28,11 +28,11 @@ namespace math
         {
         }
 
-        auto operator[](const std::size_t row) noexcept { return &m[row * C]; }
-        constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * C]; }
+        [[nodiscard]] auto operator[](const std::size_t row) noexcept { return &m[row * C]; }
+        [[nodiscard]] constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * C]; }
 
         template <auto X = C, auto Y = R, std::enable_if_t<(X == Y)>* = nullptr>
-        static constexpr auto identity() noexcept
+        [[nodiscard]] static constexpr auto identity() noexcept
         {
             return generateIdentity(std::make_index_sequence<C * R>{});
         }
@@ -45,22 +45,22 @@ namespace math
                     std::swap(m[r * C + c], m[c * R + r]);
         }
 
-        constexpr auto operator==(const Matrix& mat) const noexcept
+        [[nodiscard]] constexpr auto operator==(const Matrix& mat) const noexcept
         {
             return std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
-        constexpr auto operator!=(const Matrix& mat) const noexcept
+        [[nodiscard]] constexpr auto operator!=(const Matrix& mat) const noexcept
         {
             return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
-        constexpr auto operator-() const noexcept
+        [[nodiscard]] constexpr auto operator-() const noexcept
         {
             return generateNegative(std::make_index_sequence<C * R>{});
         }
 
-        constexpr const auto operator+(const Matrix& mat) const noexcept
+        [[nodiscard]] constexpr const auto operator+(const Matrix& mat) const noexcept
         {
             return generateSum(std::make_index_sequence<C * R>{}, mat);
         }
@@ -72,7 +72,7 @@ namespace math
             return *this;
         }
 
-        constexpr const auto operator-(const Matrix& mat) const noexcept
+        [[nodiscard]] constexpr const auto operator-(const Matrix& mat) const noexcept
         {
             return generateDiff(std::make_index_sequence<C * R>{}, mat);
         }
@@ -84,7 +84,7 @@ namespace math
             return *this;
         }
 
-        constexpr const auto operator*(const T scalar) const noexcept
+        [[nodiscard]] constexpr const auto operator*(const T scalar) const noexcept
         {
             return generateMul(std::make_index_sequence<C * R>{}, scalar);
         }
@@ -98,7 +98,7 @@ namespace math
         }
 
         template <auto C1 = C, auto R1 = R, std::size_t C2, std::size_t R2, std::enable_if_t<(R1 == C2)>* = nullptr>
-        auto operator*(const Matrix<T, C2, R2>& mat) const noexcept
+        [[nodiscard]] auto operator*(const Matrix<T, C2, R2>& mat) const noexcept
         {
             Matrix<T, C1, R2> result;
 
