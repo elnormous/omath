@@ -9,10 +9,13 @@
 #include <array>
 #include <type_traits>
 #include <utility>
+#ifdef __SSE__
+#  include <xmmintrin.h>
+#endif
 
 namespace math
 {
-    template <typename T, std::size_t C, std::size_t R = C> class Matrix final
+    template <typename T, std::size_t C, std::size_t R = C, bool simdEnabled = true> class Matrix final
     {
     public:
 #if defined(__SSE__)
@@ -55,9 +58,26 @@ namespace math
             return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
+        template <auto X = C, auto Y = R, auto s = simdEnabled, std::enable_if_t<(X != 4 || Y != 4 || !s)>* = nullptr>
         [[nodiscard]] constexpr auto operator-() const noexcept
         {
             return generateNegative(std::make_index_sequence<C * R>{});
+        }
+
+        template <auto X = C, auto Y = R, auto s = simdEnabled, std::enable_if_t<(X == 4 && Y == 4 && s)>* = nullptr>
+        [[nodiscard]] constexpr auto operator-() const noexcept
+        {
+#if defined(__SSE__)
+            Matrix result;
+            __m128 z = _mm_setzero_ps();
+            _mm_store_ps(&result.m[0], _mm_sub_ps(z, _mm_load_ps(&m[0])));
+            _mm_store_ps(&result.m[4], _mm_sub_ps(z, _mm_load_ps(&m[4])));
+            _mm_store_ps(&result.m[8], _mm_sub_ps(z, _mm_load_ps(&m[8])));
+            _mm_store_ps(&result.m[12], _mm_sub_ps(z, _mm_load_ps(&m[12])));
+            return result;
+#else
+#  error "SIMD not supported"
+#endif
         }
 
         [[nodiscard]] constexpr const auto operator+(const Matrix& mat) const noexcept

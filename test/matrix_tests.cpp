@@ -147,6 +147,38 @@ TEST_CASE("Negative of matrix", "matrix")
     REQUIRE(result[1][1] == 3.0F);
 }
 
+TEST_CASE("Negative of matrix using SIMD", "matrix")
+{
+    const math::Matrix<float, 4> matrix{
+        0.0F, 1.0F, 2.0F, 3.0F,
+        2.0F, -3.0F, 4.0F, 5.0F,
+        3.0F, 4.0F, 5.0F, 6.0F,
+        4.0F, 5.0F, 6.0F, 7.0F
+    };
+
+    const auto result = -matrix;
+
+    REQUIRE(result[0][0] == 0.0F);
+    REQUIRE(result[0][1] == -1.0F);
+    REQUIRE(result[0][2] == -2.0F);
+    REQUIRE(result[0][3] == -3.0F);
+
+    REQUIRE(result[1][0] == -2.0F);
+    REQUIRE(result[1][1] == 3.0F);
+    REQUIRE(result[1][2] == -4.0F);
+    REQUIRE(result[1][3] == -5.0F);
+
+    REQUIRE(result[2][0] == -3.0F);
+    REQUIRE(result[2][1] == -4.0F);
+    REQUIRE(result[2][2] == -5.0F);
+    REQUIRE(result[2][3] == -6.0F);
+
+    REQUIRE(result[3][0] == -4.0F);
+    REQUIRE(result[3][1] == -5.0F);
+    REQUIRE(result[3][2] == -6.0F);
+    REQUIRE(result[3][3] == -7.0F);
+}
+
 TEST_CASE("Matrix sum", "matrix")
 {
     const math::Matrix<float, 2> matrix1{
