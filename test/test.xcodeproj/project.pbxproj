@@ -11,6 +11,11 @@
 		306B2B8625B8EAC4006878B6 /* matrix_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */; };
 		306B2B8A25B8EAF5006878B6 /* plane_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8925B8EAF5006878B6 /* plane_tests.cpp */; };
 		306B2B8E25B8EB24006878B6 /* quaternion_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8D25B8EB24006878B6 /* quaternion_tests.cpp */; };
+		308C2A0526D1E3BD00E65A63 /* quaternion_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8D25B8EB24006878B6 /* quaternion_tests.cpp */; };
+		308C2A0626D1E3BD00E65A63 /* vector_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303E87A725223DDF008B7E24 /* vector_tests.cpp */; };
+		308C2A0726D1E3BD00E65A63 /* matrix_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */; };
+		308C2A0826D1E3BD00E65A63 /* plane_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8925B8EAF5006878B6 /* plane_tests.cpp */; };
+		308C2A0926D1E3BD00E65A63 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C90FD621A5A24D00B5FCB7 /* main.cpp */; };
 		C6C90FD721A5A24D00B5FCB7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C90FD621A5A24D00B5FCB7 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +37,8 @@
 		306B2B8925B8EAF5006878B6 /* plane_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = plane_tests.cpp; sourceTree = "<group>"; };
 		306B2B8D25B8EB24006878B6 /* quaternion_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = quaternion_tests.cpp; sourceTree = "<group>"; };
 		306B2B9125BA568F006878B6 /* Constants.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Constants.hpp; sourceTree = "<group>"; };
+		308C29EC26D1E37500E65A63 /* test iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		308C29FF26D1E37700E65A63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30A2D32225B33B3700A0AFBD /* Matrix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Matrix.hpp; sourceTree = "<group>"; };
 		30A2D32F25B3B66100A0AFBD /* Vector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Vector.hpp; sourceTree = "<group>"; };
 		30A2D33125B3BAF600A0AFBD /* Quaternion.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
@@ -41,6 +48,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		308C29E926D1E37500E65A63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C6C90FD021A5A24D00B5FCB7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -51,6 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		308C29ED26D1E37500E65A63 /* test iOS */ = {
+			isa = PBXGroup;
+			children = (
+				308C29FF26D1E37700E65A63 /* Info.plist */,
+			);
+			path = "test iOS";
+			sourceTree = "<group>";
+		};
 		30E08684232B168C00F90FAF /* include */ = {
 			isa = PBXGroup;
 			children = (
@@ -71,6 +93,7 @@
 				C6C90FD621A5A24D00B5FCB7 /* main.cpp */,
 				306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */,
 				306B2B8925B8EAF5006878B6 /* plane_tests.cpp */,
+				308C29ED26D1E37500E65A63 /* test iOS */,
 				C6C90FD421A5A24D00B5FCB7 /* Products */,
 				306B2B8D25B8EB24006878B6 /* quaternion_tests.cpp */,
 				303E87A725223DDF008B7E24 /* vector_tests.cpp */,
@@ -81,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				C6C90FD321A5A24D00B5FCB7 /* test */,
+				308C29EC26D1E37500E65A63 /* test iOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -88,6 +112,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		308C29EB26D1E37500E65A63 /* test iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 308C2A0226D1E37700E65A63 /* Build configuration list for PBXNativeTarget "test iOS" */;
+			buildPhases = (
+				308C29E826D1E37500E65A63 /* Sources */,
+				308C29E926D1E37500E65A63 /* Frameworks */,
+				308C29EA26D1E37500E65A63 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "test iOS";
+			productName = "test iOS";
+			productReference = 308C29EC26D1E37500E65A63 /* test iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 		C6C90FD221A5A24D00B5FCB7 /* test */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C6C90FDA21A5A24D00B5FCB7 /* Build configuration list for PBXNativeTarget "test" */;
@@ -114,6 +155,9 @@
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Elviss Strazdins";
 				TargetAttributes = {
+					308C29EB26D1E37500E65A63 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
 					C6C90FD221A5A24D00B5FCB7 = {
 						CreatedOnToolsVersion = 10.1;
 					};
@@ -125,6 +169,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = C6C90FCA21A5A24D00B5FCB7;
 			productRefGroup = C6C90FD421A5A24D00B5FCB7 /* Products */;
@@ -132,11 +177,34 @@
 			projectRoot = "";
 			targets = (
 				C6C90FD221A5A24D00B5FCB7 /* test */,
+				308C29EB26D1E37500E65A63 /* test iOS */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		308C29EA26D1E37500E65A63 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		308C29E826D1E37500E65A63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				308C2A0626D1E3BD00E65A63 /* vector_tests.cpp in Sources */,
+				308C2A0726D1E3BD00E65A63 /* matrix_tests.cpp in Sources */,
+				308C2A0826D1E3BD00E65A63 /* plane_tests.cpp in Sources */,
+				308C2A0926D1E3BD00E65A63 /* main.cpp in Sources */,
+				308C2A0526D1E3BD00E65A63 /* quaternion_tests.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C6C90FCF21A5A24D00B5FCB7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -152,6 +220,39 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		308C2A0326D1E37700E65A63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = XHH29823R9;
+				INFOPLIST_FILE = "test iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				PRODUCT_BUNDLE_IDENTIFIER = "lv.elviss.test-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		308C2A0426D1E37700E65A63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = XHH29823R9;
+				INFOPLIST_FILE = "test iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				PRODUCT_BUNDLE_IDENTIFIER = "lv.elviss.test-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		C6C90FD821A5A24D00B5FCB7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -219,6 +320,10 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../external/Catch2/single_include,
+					../include,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -289,6 +394,10 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../external/Catch2/single_include,
+					../include,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -299,10 +408,6 @@
 		C6C90FDB21A5A24D00B5FCB7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					../external/Catch2/single_include,
-					../include,
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -310,10 +415,6 @@
 		C6C90FDC21A5A24D00B5FCB7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = (
-					../external/Catch2/single_include,
-					../include,
-				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -321,6 +422,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		308C2A0226D1E37700E65A63 /* Build configuration list for PBXNativeTarget "test iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				308C2A0326D1E37700E65A63 /* Debug */,
+				308C2A0426D1E37700E65A63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C6C90FCE21A5A24D00B5FCB7 /* Build configuration list for PBXProject "test" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
