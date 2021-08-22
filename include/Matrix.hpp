@@ -60,13 +60,13 @@ namespace math
             return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
-        template <auto c = cols, auto r = rows, auto s = simd, std::enable_if_t<(c != 4 || r != 4 || !s)>* = nullptr>
+        template <auto c = cols, auto r = rows, auto s = simd, std::enable_if_t<(!std::is_same_v<T, float> || c != 4 || r != 4 || !s)>* = nullptr>
         [[nodiscard]] constexpr auto operator-() const noexcept
         {
             return generateNegative(std::make_index_sequence<cols * rows>{});
         }
 
-        template <auto c = cols, auto r = rows, auto s = simd, std::enable_if_t<(c == 4 && r == 4 && s)>* = nullptr>
+        template <auto c = cols, auto r = rows, auto s = simd, std::enable_if_t<(std::is_same_v<T, float> && c == 4 && r == 4 && s)>* = nullptr>
         [[nodiscard]] constexpr auto operator-() const noexcept
         {
 #if defined(__SSE__)
