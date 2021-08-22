@@ -79,11 +79,10 @@ namespace math
             return result;
 #elif defined(__ARM_NEON__)
             Matrix result;
-            float32x4_t z = vdupq_n_f32(0.0F);
-            vst1q_f32(&result.m[0], vsubq_f32(z, vld1q_f32(&m[0])));
-            vst1q_f32(&result.m[4], vsubq_f32(z, vld1q_f32(&m[4])));
-            vst1q_f32(&result.m[8], vsubq_f32(z, vld1q_f32(&m[8])));
-            vst1q_f32(&result.m[12], vsubq_f32(z, vld1q_f32(&m[12])));
+            vst1q_f32(&result.m[0], vnegq_f32(vld1q_f32(&m[0])));
+            vst1q_f32(&result.m[4], vnegq_f32(vld1q_f32(&m[4])));
+            vst1q_f32(&result.m[8], vnegq_f32(vld1q_f32(&m[8])));
+            vst1q_f32(&result.m[12], vnegq_f32(vld1q_f32(&m[12])));
             return result;
 #else
 #  error "SIMD not supported"
