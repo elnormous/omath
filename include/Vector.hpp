@@ -13,11 +13,11 @@
 
 namespace math
 {
-    template <typename T, std::size_t n> class Vector final
+    template <typename T, std::size_t n, bool simd = true> class Vector final
     {
     public:
 #if defined(__SSE__)
-        alignas(n == 4 ? 4 * sizeof(T) : alignof(T))
+        alignas((n == 4 && simd) ? 4 * sizeof(T) : alignof(T))
 #endif
         std::array<T, n> v{};
 

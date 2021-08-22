@@ -15,11 +15,11 @@
 
 namespace math
 {
-    template <typename T, std::size_t cols, std::size_t rows = cols, bool simdEnabled = true> class Matrix final
+    template <typename T, std::size_t cols, std::size_t rows = cols, bool simd = true> class Matrix final
     {
     public:
 #if defined(__SSE__)
-        alignas((cols == 4 && rows == 4 && simdEnabled) ? 4 * sizeof(T) : alignof(T))
+        alignas((cols == 4 && rows == 4 && simd) ? 4 * sizeof(T) : alignof(T))
 #endif
         std::array<T, cols * rows> m{}; // row-major matrix (transformation is pre-multiplying)
 
@@ -58,13 +58,13 @@ namespace math
             return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
-        template <auto c = cols, auto r = rows, auto s = simdEnabled, std::enable_if_t<(c != 4 || r != 4 || !s)>* = nullptr>
+        template <auto c = cols, auto r = rows, auto s = simd, std::enable_if_t<(c != 4 || r != 4 || !s)>* = nullptr>
         [[nodiscard]] constexpr auto operator-() const noexcept
         {
             return generateNegative(std::make_index_sequence<cols * rows>{});
         }
 
-        template <auto c = cols, auto r = rows, auto s = simdEnabled, std::enable_if_t<(c == 4 && r == 4 && s)>* = nullptr>
+        template <auto c = cols, auto r = rows, auto s = simd, std::enable_if_t<(c == 4 && r == 4 && s)>* = nullptr>
         [[nodiscard]] constexpr auto operator-() const noexcept
         {
 #if defined(__SSE__)
