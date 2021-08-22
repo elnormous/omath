@@ -10,7 +10,8 @@
 
 namespace math
 {
-    template <typename T> class Quaternion final
+    template <typename T>
+    class Quaternion final
     {
     public:
 #if defined(__SSE__)

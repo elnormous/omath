@@ -10,7 +10,8 @@
 
 namespace math
 {
-    template <typename T> class Plane final
+    template <typename T>
+    class Plane final
     {
     public:
 #if defined(__SSE__)

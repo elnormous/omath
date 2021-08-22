@@ -17,11 +17,12 @@
 
 namespace math
 {
-    template <typename T, std::size_t cols, std::size_t rows = cols, bool simd = true> class Matrix final
+    template <typename T, std::size_t cols, std::size_t rows = cols, bool simd = std::is_same_v<T, float> && rows == 4 && cols == 4>
+    class Matrix final
     {
     public:
 #if defined(__SSE__)
-        alignas((cols == 4 && rows == 4 && simd) ? 4 * sizeof(T) : alignof(T))
+        alignas(simd ? cols * sizeof(T) : alignof(T))
 #endif
         std::array<T, cols * rows> m{}; // row-major matrix (transformation is pre-multiplying)
 
