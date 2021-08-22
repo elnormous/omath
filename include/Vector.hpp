@@ -13,13 +13,13 @@
 
 namespace math
 {
-    template <typename T, std::size_t N> class Vector final
+    template <typename T, std::size_t n> class Vector final
     {
     public:
 #if defined(__SSE__)
-        alignas(N == 4 ? 4 * sizeof(T) : alignof(T))
+        alignas(n == 4 ? 4 * sizeof(T) : alignof(T))
 #endif
-        std::array<T, N> v{};
+        std::array<T, n> v{};
 
         constexpr Vector() noexcept {}
 
@@ -32,33 +32,33 @@ namespace math
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 1)>* = nullptr>
+        template <auto X = n, std::enable_if_t<(X >= 1)>* = nullptr>
         [[nodiscard]] auto& x() noexcept { return v[0]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 1)>* = nullptr>
+        template <auto X = n, std::enable_if_t<(X >= 1)>* = nullptr>
         [[nodiscard]] constexpr auto x() const noexcept { return v[0]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 2)>* = nullptr>
+        template <auto X = n, std::enable_if_t<(X >= 2)>* = nullptr>
         [[nodiscard]] auto& y() noexcept { return v[1]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 2)>* = nullptr>
+        template <auto X = n, std::enable_if_t<(X >= 2)>* = nullptr>
         [[nodiscard]] constexpr auto y() const noexcept { return v[1]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 3)>* = nullptr>
+        template <auto X = n, std::enable_if_t<(X >= 3)>* = nullptr>
         [[nodiscard]] auto& z() noexcept { return v[2]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 3)>* = nullptr>
+        template <auto X = n, std::enable_if_t<(X >= 3)>* = nullptr>
         [[nodiscard]] constexpr auto z() const noexcept { return v[2]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 4)>* = nullptr>
+        template <auto X = n, std::enable_if_t<(X >= 4)>* = nullptr>
         [[nodiscard]] auto& w() noexcept { return v[3]; }
 
-        template <auto X = N, std::enable_if_t<(X >= 4)>* = nullptr>
+        template <auto X = n, std::enable_if_t<(X >= 4)>* = nullptr>
         [[nodiscard]] constexpr auto w() const noexcept { return v[3]; }
 
         [[nodiscard]] constexpr auto operator<(const Vector& vec) const noexcept
         {
-            for (std::size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < n; ++i)
                 if (v[i] < vec.v[i]) return true;
                 else if (vec.v[i] < v[i]) return false;
 
@@ -67,7 +67,7 @@ namespace math
 
         [[nodiscard]] constexpr auto operator>(const Vector& vec) const noexcept
         {
-            for (std::size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < n; ++i)
                 if (v[i] > vec.v[i]) return true;
                 else if (vec.v[i] > v[i]) return false;
 
@@ -86,36 +86,36 @@ namespace math
 
         [[nodiscard]] constexpr auto operator-() const noexcept
         {
-            return generateInverse(std::make_index_sequence<N>{});
+            return generateInverse(std::make_index_sequence<n>{});
         }
 
         [[nodiscard]] constexpr auto operator+(const Vector& vec) const noexcept
         {
-            return generateSum(std::make_index_sequence<N>{}, vec);
+            return generateSum(std::make_index_sequence<n>{}, vec);
         }
 
         auto& operator+=(const Vector& vec) noexcept
         {
-            for (std::size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < n; ++i)
                 v[i] += vec.v[i];
             return *this;
         }
 
         [[nodiscard]] constexpr auto operator-(const Vector& vec) const noexcept
         {
-            return generateDiff(std::make_index_sequence<N>{}, vec);
+            return generateDiff(std::make_index_sequence<n>{}, vec);
         }
 
         auto& operator-=(const Vector& vec) noexcept
         {
-            for (std::size_t i = 0; i < N; ++i)
+            for (std::size_t i = 0; i < n; ++i)
                 v[i] -= vec.v[i];
             return *this;
         }
 
         [[nodiscard]] constexpr auto operator*(const T scalar) const noexcept
         {
-            return generateMul(std::make_index_sequence<N>{}, scalar);
+            return generateMul(std::make_index_sequence<n>{}, scalar);
         }
 
         auto& operator*=(const T scalar) noexcept
@@ -126,7 +126,7 @@ namespace math
 
         [[nodiscard]] constexpr auto operator/(const T scalar) const noexcept
         {
-            return generateDiv(std::make_index_sequence<N>{}, scalar);
+            return generateDiv(std::make_index_sequence<n>{}, scalar);
         }
 
         auto& operator/=(const T scalar) noexcept
@@ -137,15 +137,15 @@ namespace math
 
         [[nodiscard]] auto length() const noexcept
         {
-            return std::sqrt(generateLengthSquared(std::make_index_sequence<N>{}));
+            return std::sqrt(generateLengthSquared(std::make_index_sequence<n>{}));
         }
 
         [[nodiscard]] constexpr auto lengthSquared() const noexcept
         {
-            return generateLengthSquared(std::make_index_sequence<N>{});
+            return generateLengthSquared(std::make_index_sequence<n>{});
         }
 
-        template <auto X = N, std::enable_if_t<(X == 3)>* = nullptr>
+        template <auto X = n, std::enable_if_t<(X == 3)>* = nullptr>
         [[nodiscard]] constexpr auto cross(const Vector& vec) const noexcept
         {
             return Vector{
@@ -157,17 +157,17 @@ namespace math
 
         [[nodiscard]] constexpr auto dot(const Vector& vec) const noexcept
         {
-            return generateDot(std::make_index_sequence<N>{}, vec);
+            return generateDot(std::make_index_sequence<n>{}, vec);
         }
 
         [[nodiscard]] auto distance(const Vector& vec) const noexcept
         {
-            return std::sqrt(generateDistanceSquared(std::make_index_sequence<N>{}, vec));
+            return std::sqrt(generateDistanceSquared(std::make_index_sequence<n>{}, vec));
         }
 
         [[nodiscard]] constexpr auto distanceSquared(const Vector& vec) const noexcept
         {
-            return generateDistanceSquared(std::make_index_sequence<N>{}, vec);
+            return generateDistanceSquared(std::make_index_sequence<n>{}, vec);
         }
 
     private:
