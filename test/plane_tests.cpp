@@ -3,7 +3,7 @@
 
 TEST_CASE("Plane zero initalization", "plane")
 {
-    const math::Plane<float> plane;
+    const math::Plane<float> plane{};
     for (std::size_t i = 0; i < 4; ++i)
         REQUIRE(plane[i] == 0.0F);
 }

@@ -3,7 +3,7 @@
 
 TEST_CASE("Vector zero initalization", "vector")
 {
-    const math::Vector<float, 4> vector;
+    const math::Vector<float, 4> vector{};
     for (std::size_t i = 0; i < 4; ++i)
         REQUIRE(vector[i] == 0.0F);
 }

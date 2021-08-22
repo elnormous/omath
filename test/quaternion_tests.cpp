@@ -3,7 +3,7 @@
 
 TEST_CASE("Quaternion zero initalization", "quaternion")
 {
-    const math::Quaternion<float> quaternion;
+    const math::Quaternion<float> quaternion{};
     for (std::size_t i = 0; i < 4; ++i)
         REQUIRE(quaternion[i] == 0.0F);
 }

@@ -20,15 +20,7 @@ namespace math
 #if defined(__SSE__)
         alignas(simd ? n * sizeof(T) : alignof(T))
 #endif
-        std::array<T, n> v{};
-
-        constexpr Vector() noexcept {}
-
-        template <typename ...A>
-        explicit constexpr Vector(const A... args) noexcept:
-            v{args...}
-        {
-        }
+        std::array<T, n> v;
 
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }

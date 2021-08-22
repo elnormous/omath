@@ -3,7 +3,7 @@
 
 TEST_CASE("Matrix zero initalization", "matrix")
 {
-    const math::Matrix<float, 4> matrix;
+    const math::Matrix<float, 4> matrix{};
     for (std::size_t row = 0; row < 4; ++row)
         for (std::size_t column = 0; column < 4; ++column)
             REQUIRE(matrix[row][column] == 0.0F);

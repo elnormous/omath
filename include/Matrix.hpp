@@ -24,15 +24,7 @@ namespace math
 #if defined(__SSE__)
         alignas(simd ? cols * sizeof(T) : alignof(T))
 #endif
-        std::array<T, cols * rows> m{}; // row-major matrix (transformation is pre-multiplying)
-
-        constexpr Matrix() noexcept {}
-
-        template <typename ...A>
-        explicit constexpr Matrix(const A... args) noexcept:
-            m{args...}
-        {
-        }
+        std::array<T, cols * rows> m; // row-major matrix (transformation is pre-multiplying)
 
         [[nodiscard]] auto operator[](const std::size_t row) noexcept { return &m[row * cols]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * cols]; }
@@ -130,7 +122,7 @@ namespace math
         template <auto c1 = cols, auto r1 = rows, std::size_t c2, std::size_t r2, std::enable_if_t<(r1 == c2)>* = nullptr>
         [[nodiscard]] auto operator*(const Matrix<T, c2, r2>& mat) const noexcept
         {
-            Matrix<T, c1, r2> result;
+            Matrix<T, c1, r2> result{};
 
             for (std::size_t row = 0; row < r2; ++row)
                 for (std::size_t col = 0; col < c1; ++col)
