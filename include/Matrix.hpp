@@ -35,9 +35,9 @@ namespace math
             return generateIdentity(std::make_index_sequence<cols * rows>{});
         }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == r)>* = nullptr>
         void transpose() noexcept
         {
+            static_assert(cols == rows);
             for (std::size_t row = 0; row < rows; ++row)
                 for (std::size_t col = row + 1; col < cols; ++col)
                     std::swap(m[row * cols + col], m[col * rows + row]);
@@ -119,15 +119,17 @@ namespace math
             return *this;
         }
 
-        template <auto c1 = cols, auto r1 = rows, std::size_t c2, std::size_t r2, std::enable_if_t<(r1 == c2)>* = nullptr>
+        template <std::size_t c2, std::size_t r2>
         [[nodiscard]] auto operator*(const Matrix<T, c2, r2>& mat) const noexcept
         {
-            Matrix<T, c1, r2> result{};
+            static_assert(rows == c2);
+
+            Matrix<T, cols, r2> result{};
 
             for (std::size_t row = 0; row < r2; ++row)
-                for (std::size_t col = 0; col < c1; ++col)
-                    for (std::size_t i = 0; i < r1; ++i)
-                        result.m[row * c1 + col] += m[i * c1 + col] * mat.m[row * c2 + i];
+                for (std::size_t col = 0; col < cols; ++col)
+                    for (std::size_t i = 0; i < rows; ++i)
+                        result.m[row * cols + col] += m[i * cols + col] * mat.m[row * c2 + i];
 
             return result;
         }

@@ -297,7 +297,7 @@ TEST_CASE("Matrix multiplication", "matrix")
             1.0F, 2.0F
         };
 
-        const auto result = matrix1 * matrix2;
+        const math::Matrix<float, 1, 1> result = matrix1 * matrix2;
 
         REQUIRE(result[0][0] == 8.0F);
     }
@@ -315,7 +315,7 @@ TEST_CASE("Matrix multiplication", "matrix")
             4.0F, 5.0F, 6.0F
         };
 
-        const auto result = matrix1 * matrix2;
+        const math::Matrix<float, 1, 2> result = matrix1 * matrix2;
 
         REQUIRE(result[0][0] == 20.0F);
         REQUIRE(result[0][1] == 47.0F);
@@ -332,7 +332,7 @@ TEST_CASE("Matrix multiplication", "matrix")
             2.0F
         };
 
-        const auto result = matrix1 * matrix2;
+        const math::Matrix<float, 2, 2> result = matrix1 * matrix2;
 
         REQUIRE(result[0][0] == 2.0F);
         REQUIRE(result[0][1] == 3.0F);
