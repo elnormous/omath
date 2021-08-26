@@ -37,7 +37,6 @@ namespace math
             return v[0];
         }
 
-        template <auto c = n, std::enable_if_t<(c >= 2)>* = nullptr>
         [[nodiscard]] auto& y() noexcept
         {
             static_assert(n >= 2);
