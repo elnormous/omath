@@ -53,33 +53,31 @@ namespace omath
             return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
-        template <auto c = cols, auto r = rows, auto s = simd, std::enable_if_t<(!std::is_same_v<T, float> || c != 4 || r != 4 || !s)>* = nullptr>
-        [[nodiscard]] constexpr auto operator-() const noexcept
+        [[nodiscard]] auto operator-() const noexcept
         {
-            return generateNegative(std::make_index_sequence<cols * rows>{});
-        }
-
-        template <auto c = cols, auto r = rows, auto s = simd, std::enable_if_t<(std::is_same_v<T, float> && c == 4 && r == 4 && s)>* = nullptr>
-        [[nodiscard]] constexpr auto operator-() const noexcept
-        {
-#if defined(__SSE__)
-            Matrix result;
-            __m128 z = _mm_setzero_ps();
-            _mm_store_ps(&result.m[0], _mm_sub_ps(z, _mm_load_ps(&m[0])));
-            _mm_store_ps(&result.m[4], _mm_sub_ps(z, _mm_load_ps(&m[4])));
-            _mm_store_ps(&result.m[8], _mm_sub_ps(z, _mm_load_ps(&m[8])));
-            _mm_store_ps(&result.m[12], _mm_sub_ps(z, _mm_load_ps(&m[12])));
-            return result;
-#elif defined(__ARM_NEON__)
-            Matrix result;
-            vst1q_f32(&result.m[0], vnegq_f32(vld1q_f32(&m[0])));
-            vst1q_f32(&result.m[4], vnegq_f32(vld1q_f32(&m[4])));
-            vst1q_f32(&result.m[8], vnegq_f32(vld1q_f32(&m[8])));
-            vst1q_f32(&result.m[12], vnegq_f32(vld1q_f32(&m[12])));
-            return result;
-#else
-#  error "SIMD not supported"
+#if defined(__SSE__) || defined(__ARM_NEON__)
+            if constexpr (std::is_same_v<T, float> && cols == 4 && rows == 4 && simd)
+            {
+#  if defined(__SSE__)
+                Matrix result;
+                __m128 z = _mm_setzero_ps();
+                _mm_store_ps(&result.m[0], _mm_sub_ps(z, _mm_load_ps(&m[0])));
+                _mm_store_ps(&result.m[4], _mm_sub_ps(z, _mm_load_ps(&m[4])));
+                _mm_store_ps(&result.m[8], _mm_sub_ps(z, _mm_load_ps(&m[8])));
+                _mm_store_ps(&result.m[12], _mm_sub_ps(z, _mm_load_ps(&m[12])));
+                return result;
+#  elif defined(__ARM_NEON__)
+                Matrix result;
+                vst1q_f32(&result.m[0], vnegq_f32(vld1q_f32(&m[0])));
+                vst1q_f32(&result.m[4], vnegq_f32(vld1q_f32(&m[4])));
+                vst1q_f32(&result.m[8], vnegq_f32(vld1q_f32(&m[8])));
+                vst1q_f32(&result.m[12], vnegq_f32(vld1q_f32(&m[12])));
+                return result;
+#  endif
+            }
+            else
 #endif
+                return generateNegative(std::make_index_sequence<cols * rows>{});
         }
 
         [[nodiscard]] constexpr const auto operator+(const Matrix& mat) const noexcept
