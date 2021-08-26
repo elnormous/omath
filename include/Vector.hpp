@@ -25,28 +25,28 @@ namespace math
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
 
-        template <auto X = n, std::enable_if_t<(X >= 1)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 1)>* = nullptr>
         [[nodiscard]] auto& x() noexcept { return v[0]; }
 
-        template <auto X = n, std::enable_if_t<(X >= 1)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 1)>* = nullptr>
         [[nodiscard]] constexpr auto x() const noexcept { return v[0]; }
 
-        template <auto X = n, std::enable_if_t<(X >= 2)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 2)>* = nullptr>
         [[nodiscard]] auto& y() noexcept { return v[1]; }
 
-        template <auto X = n, std::enable_if_t<(X >= 2)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 2)>* = nullptr>
         [[nodiscard]] constexpr auto y() const noexcept { return v[1]; }
 
-        template <auto X = n, std::enable_if_t<(X >= 3)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 3)>* = nullptr>
         [[nodiscard]] auto& z() noexcept { return v[2]; }
 
-        template <auto X = n, std::enable_if_t<(X >= 3)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 3)>* = nullptr>
         [[nodiscard]] constexpr auto z() const noexcept { return v[2]; }
 
-        template <auto X = n, std::enable_if_t<(X >= 4)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 4)>* = nullptr>
         [[nodiscard]] auto& w() noexcept { return v[3]; }
 
-        template <auto X = n, std::enable_if_t<(X >= 4)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c >= 4)>* = nullptr>
         [[nodiscard]] constexpr auto w() const noexcept { return v[3]; }
 
         [[nodiscard]] constexpr auto operator<(const Vector& vec) const noexcept
@@ -138,7 +138,7 @@ namespace math
             return generateLengthSquared(std::make_index_sequence<n>{});
         }
 
-        template <auto X = n, std::enable_if_t<(X == 3)>* = nullptr>
+        template <auto c = n, std::enable_if_t<(c == 3)>* = nullptr>
         [[nodiscard]] constexpr auto cross(const Vector& vec) const noexcept
         {
             return Vector{
