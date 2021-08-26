@@ -6,9 +6,8 @@
 #define MATH_QUATERNION
 
 #include <array>
-#include <type_traits>
 
-namespace math
+namespace omath
 {
     template <typename T>
     class Quaternion final

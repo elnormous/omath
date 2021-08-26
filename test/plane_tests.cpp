@@ -3,14 +3,14 @@
 
 TEST_CASE("Plane zero initalization", "plane")
 {
-    const math::Plane<float> plane{};
+    const omath::Plane<float> plane{};
     for (std::size_t i = 0; i < 4; ++i)
         REQUIRE(plane[i] == 0.0F);
 }
 
 TEST_CASE("Plane value initalization", "plane")
 {
-    const math::Plane<float> plane{
+    const omath::Plane<float> plane{
         0.0F, 1.0F, 2.0F, 3.0F
     };
 
@@ -22,7 +22,7 @@ TEST_CASE("Plane value initalization", "plane")
 
 TEST_CASE("Plane accessors", "plane")
 {
-    const math::Plane<float> plane{
+    const omath::Plane<float> plane{
         1.0F, 2.0F, 3.0F, 4.0F
     };
 
@@ -34,16 +34,16 @@ TEST_CASE("Plane accessors", "plane")
 
 TEST_CASE("Plane comparison", "plane")
 {
-    const math::Plane<float> plane1{
+    const omath::Plane<float> plane1{
         0.0F, 1.0F, 2.0F, 3.0F
     };
 
-    const math::Plane<float> plane2{
+    const omath::Plane<float> plane2{
         0.0F, 1.0F,
         2.0F, 3.0F
     };
 
-    const math::Plane<float> plane3{
+    const omath::Plane<float> plane3{
         1.0F, 2.0F, 3.0F, 4.0F
     };
 
@@ -53,7 +53,7 @@ TEST_CASE("Plane comparison", "plane")
 
 TEST_CASE("Plane flip", "plane")
 {
-    const math::Plane<float> plane{
+    const omath::Plane<float> plane{
         1.0F, 2.0F, 3.0F, 4.0F
     };
 
@@ -67,11 +67,11 @@ TEST_CASE("Plane flip", "plane")
 
 TEST_CASE("Vector dot", "plane")
 {
-    const math::Plane<float> plane{
+    const omath::Plane<float> plane{
         2.0F, -2.0F, 5.0F, 8.0F
     };
 
-    const math::Vector<float, 3> vector{
+    const omath::Vector<float, 3> vector{
         4.0F, -4.0F, 3.0F
     };
 
@@ -84,11 +84,11 @@ TEST_CASE("Vector flip", "plane")
 {
     SECTION("First")
     {
-        const math::Plane<float> plane{
+        const omath::Plane<float> plane{
             2.0F, -2.0F, 5.0F, 8.0F
         };
 
-        const math::Vector<float, 3> vector{
+        const omath::Vector<float, 3> vector{
             4.0F, -4.0F, 3.0F
         };
 
@@ -99,11 +99,11 @@ TEST_CASE("Vector flip", "plane")
 
     SECTION("Second")
     {
-        const math::Plane<float> plane{
+        const omath::Plane<float> plane{
             1.0F, -2.0F, -2.0F, -1.0F
         };
 
-        const math::Vector<float, 3> vector{
+        const omath::Vector<float, 3> vector{
             2.0F, 8.0F, 5.0F
         };
 

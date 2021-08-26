@@ -11,7 +11,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace math
+namespace omath
 {
     template <typename T, std::size_t n, bool simd = std::is_same_v<T, float> && n == 4>
     class Vector final

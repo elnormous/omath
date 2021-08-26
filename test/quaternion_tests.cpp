@@ -3,14 +3,14 @@
 
 TEST_CASE("Quaternion zero initalization", "quaternion")
 {
-    const math::Quaternion<float> quaternion{};
+    const omath::Quaternion<float> quaternion{};
     for (std::size_t i = 0; i < 4; ++i)
         REQUIRE(quaternion[i] == 0.0F);
 }
 
 TEST_CASE("Quaternion value initalization", "quaternion")
 {
-    const math::Quaternion<float> quaternion{
+    const omath::Quaternion<float> quaternion{
         0.0F, 1.0F, 2.0F, 3.0F
     };
 
@@ -22,7 +22,7 @@ TEST_CASE("Quaternion value initalization", "quaternion")
 
 TEST_CASE("Quaternion accessors", "quaternion")
 {
-    const math::Quaternion<float> quaternion{
+    const omath::Quaternion<float> quaternion{
         1.0F, 2.0F, 3.0F, 4.0F
     };
 
@@ -34,7 +34,7 @@ TEST_CASE("Quaternion accessors", "quaternion")
 
 TEST_CASE("Quaternion identity", "quaternion")
 {
-    const auto quaternion = math::Quaternion<float>::identity();
+    const auto quaternion = omath::Quaternion<float>::identity();
 
     REQUIRE(quaternion[0] == 0.0F);
     REQUIRE(quaternion[1] == 0.0F);
@@ -44,16 +44,16 @@ TEST_CASE("Quaternion identity", "quaternion")
 
 TEST_CASE("Quaternion comparison", "quaternion")
 {
-    const math::Quaternion<float> quaternion1{
+    const omath::Quaternion<float> quaternion1{
         0.0F, 1.0F, 2.0F, 3.0F
     };
 
-    const math::Quaternion<float> quaternion2{
+    const omath::Quaternion<float> quaternion2{
         0.0F, 1.0F,
         2.0F, 3.0F
     };
 
-    const math::Quaternion<float> quaternion3{
+    const omath::Quaternion<float> quaternion3{
         1.0F, 2.0F, 3.0F, 4.0F
     };
 
@@ -64,8 +64,8 @@ TEST_CASE("Quaternion comparison", "quaternion")
 
 TEST_CASE("Quaternion arithmetic operators", "vector")
 {
-    const math::Quaternion<float> quaternion1{2.0F, 4.0F, -6.0F, 6.0F};
-    const math::Quaternion<float> quaternion2{2.0F, 5.0F, 6.0F, 6.0F};
+    const omath::Quaternion<float> quaternion1{2.0F, 4.0F, -6.0F, 6.0F};
+    const omath::Quaternion<float> quaternion2{2.0F, 5.0F, 6.0F, 6.0F};
 
     SECTION("Negate")
     {
@@ -123,7 +123,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
 
     SECTION("Add assign")
     {
-        math::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
+        omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
         result += quaternion2;
         REQUIRE(result.x() == 4.0F);
         REQUIRE(result.y() == 9.0F);
@@ -133,7 +133,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
 
     SECTION("Subtract assign")
     {
-        math::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
+        omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
         result -= quaternion2;
         REQUIRE(result.x() == -0.0F);
         REQUIRE(result.y() == -1.0F);
@@ -143,7 +143,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
 
     SECTION("Scalar multiply assign")
     {
-        math::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
+        omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
         result *= 2.0F;
         REQUIRE(result.x() == 4.0F);
         REQUIRE(result.y() == 8.0F);
@@ -153,7 +153,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
 
     SECTION("Quaternion multiply assign")
     {
-        math::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
+        omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
         result *= quaternion2;
         REQUIRE(result.x() == 78.0F);
         REQUIRE(result.y() == 30.0F);
@@ -163,7 +163,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
 
     SECTION("Divide assign")
     {
-        math::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
+        omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
         result /= 2.0F;
         REQUIRE(result.x() == 1.0F);
         REQUIRE(result.y() == 2.0F);

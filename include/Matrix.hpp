@@ -15,7 +15,7 @@
 #  include <arm_neon.h>
 #endif
 
-namespace math
+namespace omath
 {
     template <typename T, std::size_t cols, std::size_t rows = cols, bool simd = std::is_same_v<T, float> && rows == 4 && cols == 4>
     class Matrix final

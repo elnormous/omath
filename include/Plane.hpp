@@ -8,7 +8,7 @@
 #include <array>
 #include "Vector.hpp"
 
-namespace math
+namespace omath
 {
     template <typename T>
     class Plane final

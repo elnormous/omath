@@ -3,7 +3,7 @@
 
 TEST_CASE("Matrix zero initalization", "matrix")
 {
-    const math::Matrix<float, 4> matrix{};
+    const omath::Matrix<float, 4> matrix{};
     for (std::size_t row = 0; row < 4; ++row)
         for (std::size_t column = 0; column < 4; ++column)
             REQUIRE(matrix[row][column] == 0.0F);
@@ -11,7 +11,7 @@ TEST_CASE("Matrix zero initalization", "matrix")
 
 TEST_CASE("Matrix value initalization", "matrix")
 {
-    const math::Matrix<float, 2, 2> matrix{
+    const omath::Matrix<float, 2, 2> matrix{
         0.0F, 1.0F,
         2.0F, 3.0F
     };
@@ -24,7 +24,7 @@ TEST_CASE("Matrix value initalization", "matrix")
 
 TEST_CASE("Matrix identity", "matrix")
 {
-    const auto matrix = math::Matrix<float, 2>::identity();
+    const auto matrix = omath::Matrix<float, 2>::identity();
 
     REQUIRE(matrix[0][0] == 1.0F);
     REQUIRE(matrix[0][1] == 0.0F);
@@ -34,7 +34,7 @@ TEST_CASE("Matrix identity", "matrix")
 
 TEST_CASE("Matrix element setter", "matrix")
 {
-    math::Matrix<float, 2> matrix;
+    omath::Matrix<float, 2> matrix;
 
     matrix[0][0] = 1.0F;
     matrix[0][1] = 2.0F;
@@ -49,9 +49,9 @@ TEST_CASE("Matrix element setter", "matrix")
 
 TEST_CASE("Matrix comparison operators", "vector")
 {
-    const math::Matrix<float, 2> matrix1{2.0F, 4.0F, 3.0F, 5.0F};
-    const math::Matrix<float, 2> matrix2{2.0F, 5.0F, 3.0F, 5.0F};
-    const math::Matrix<float, 2> matrix3{2.0F, 4.0F, 3.0F, 5.0F};
+    const omath::Matrix<float, 2> matrix1{2.0F, 4.0F, 3.0F, 5.0F};
+    const omath::Matrix<float, 2> matrix2{2.0F, 5.0F, 3.0F, 5.0F};
+    const omath::Matrix<float, 2> matrix3{2.0F, 4.0F, 3.0F, 5.0F};
 
     SECTION("Equal")
     {
@@ -70,7 +70,7 @@ TEST_CASE("Matrix transpose", "matrix")
 {
     SECTION("1x1")
     {
-        math::Matrix<float, 1> matrix{1.0F};
+        omath::Matrix<float, 1> matrix{1.0F};
         matrix.transpose();
 
         REQUIRE(matrix[0][0] == 1.0F);
@@ -78,7 +78,7 @@ TEST_CASE("Matrix transpose", "matrix")
 
     SECTION("2x2")
     {
-        math::Matrix<float, 2> matrix{
+        omath::Matrix<float, 2> matrix{
             1.0F, 2.0F,
             3.0F, 4.0F
         };
@@ -92,7 +92,7 @@ TEST_CASE("Matrix transpose", "matrix")
 
     SECTION("3x3")
     {
-        math::Matrix<float, 3> matrix{
+        omath::Matrix<float, 3> matrix{
             1.0F, 2.0F, 3.0F,
             4.0F, 6.0F, 6.0F,
             7.0F, 8.0F, 9.0F
@@ -113,17 +113,17 @@ TEST_CASE("Matrix transpose", "matrix")
 
 TEST_CASE("Matrix comparison", "matrix")
 {
-    const math::Matrix<float, 2> matrix1{
+    const omath::Matrix<float, 2> matrix1{
         0.0F, 1.0F,
         2.0F, 3.0F
     };
 
-    const math::Matrix<float, 2> matrix2{
+    const omath::Matrix<float, 2> matrix2{
         0.0F, 1.0F,
         2.0F, 3.0F
     };
 
-    const math::Matrix<float, 2> matrix3{
+    const omath::Matrix<float, 2> matrix3{
         1.0F, 2.0F,
         3.0F, 4.0F
     };
@@ -134,7 +134,7 @@ TEST_CASE("Matrix comparison", "matrix")
 
 TEST_CASE("Negative of matrix", "matrix")
 {
-    const math::Matrix<float, 2> matrix{
+    const omath::Matrix<float, 2> matrix{
         0.0F, 1.0F,
         2.0F, -3.0F
     };
@@ -149,7 +149,7 @@ TEST_CASE("Negative of matrix", "matrix")
 
 TEST_CASE("Negative of matrix using SIMD", "matrix")
 {
-    const math::Matrix<float, 4> matrix{
+    const omath::Matrix<float, 4> matrix{
         0.0F, 1.0F, 2.0F, 3.0F,
         2.0F, -3.0F, 4.0F, 5.0F,
         3.0F, 4.0F, 5.0F, 6.0F,
@@ -181,12 +181,12 @@ TEST_CASE("Negative of matrix using SIMD", "matrix")
 
 TEST_CASE("Matrix sum", "matrix")
 {
-    const math::Matrix<float, 2> matrix1{
+    const omath::Matrix<float, 2> matrix1{
         0.0F, 1.0F,
         2.0F, -3.0F
     };
 
-    const math::Matrix<float, 2> matrix2{
+    const omath::Matrix<float, 2> matrix2{
         5.0F, -6.0F,
         7.0F, 8.0F
     };
@@ -201,12 +201,12 @@ TEST_CASE("Matrix sum", "matrix")
 
 TEST_CASE("Matrix difference", "matrix")
 {
-    const math::Matrix<float, 2> matrix1{
+    const omath::Matrix<float, 2> matrix1{
         0.0F, 1.0F,
         2.0F, -3.0F
     };
 
-    const math::Matrix<float, 2> matrix2{
+    const omath::Matrix<float, 2> matrix2{
         5.0F, -6.0F,
         7.0F, 8.0F
     };
@@ -223,7 +223,7 @@ TEST_CASE("Matrix multiplication", "matrix")
 {
     SECTION("float")
     {
-        const math::Matrix<float, 2> matrix{
+        const omath::Matrix<float, 2> matrix{
             2.0F, 3.0F,
             4.0F, 5.0F
         };
@@ -238,7 +238,7 @@ TEST_CASE("Matrix multiplication", "matrix")
 
     SECTION("float assignment")
     {
-        math::Matrix<float, 2> matrix{
+        omath::Matrix<float, 2> matrix{
             2.0F, 3.0F,
             4.0F, 5.0F
         };
@@ -253,11 +253,11 @@ TEST_CASE("Matrix multiplication", "matrix")
 
     SECTION("1x1")
     {
-        const math::Matrix<float, 1> matrix1{
+        const omath::Matrix<float, 1> matrix1{
             2.0F
         };
 
-        const math::Matrix<float, 1> matrix2{
+        const omath::Matrix<float, 1> matrix2{
             3.0F
         };
 
@@ -268,12 +268,12 @@ TEST_CASE("Matrix multiplication", "matrix")
 
     SECTION("2x2")
     {
-        const math::Matrix<float, 2> matrix1{
+        const omath::Matrix<float, 2> matrix1{
             2.0F, 3.0F,
             4.0F, 5.0F
         };
 
-        const math::Matrix<float, 2> matrix2{
+        const omath::Matrix<float, 2> matrix2{
             1.0F, 2.0F,
             3.0F, 4.0F
         };
@@ -288,34 +288,34 @@ TEST_CASE("Matrix multiplication", "matrix")
 
     SECTION("1x2")
     {
-        const math::Matrix<float, 1, 2> matrix1{
+        const omath::Matrix<float, 1, 2> matrix1{
             2.0F,
             3.0F
         };
 
-        const math::Matrix<float, 2, 1> matrix2{
+        const omath::Matrix<float, 2, 1> matrix2{
             1.0F, 2.0F
         };
 
-        const math::Matrix<float, 1, 1> result = matrix1 * matrix2;
+        const omath::Matrix<float, 1, 1> result = matrix1 * matrix2;
 
         REQUIRE(result[0][0] == 8.0F);
     }
 
     SECTION("1x3")
     {
-        const math::Matrix<float, 1, 3> matrix1{
+        const omath::Matrix<float, 1, 3> matrix1{
             2.0F,
             3.0F,
             4.0F
         };
 
-        const math::Matrix<float, 3, 2> matrix2{
+        const omath::Matrix<float, 3, 2> matrix2{
             1.0F, 2.0F, 3.0F,
             4.0F, 5.0F, 6.0F
         };
 
-        const math::Matrix<float, 1, 2> result = matrix1 * matrix2;
+        const omath::Matrix<float, 1, 2> result = matrix1 * matrix2;
 
         REQUIRE(result[0][0] == 20.0F);
         REQUIRE(result[0][1] == 47.0F);
@@ -323,16 +323,16 @@ TEST_CASE("Matrix multiplication", "matrix")
 
     SECTION("2x1")
     {
-        const math::Matrix<float, 2, 1> matrix1{
+        const omath::Matrix<float, 2, 1> matrix1{
             2.0F, 3.0F
         };
 
-        const math::Matrix<float, 1, 2> matrix2{
+        const omath::Matrix<float, 1, 2> matrix2{
             1.0F,
             2.0F
         };
 
-        const math::Matrix<float, 2, 2> result = matrix1 * matrix2;
+        const omath::Matrix<float, 2, 2> result = matrix1 * matrix2;
 
         REQUIRE(result[0][0] == 2.0F);
         REQUIRE(result[0][1] == 3.0F);
