@@ -29,9 +29,9 @@ namespace omath
         [[nodiscard]] auto operator[](const std::size_t row) noexcept { return &m[row * cols]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * cols]; }
 
-        template <auto c = cols, auto r = rows, std::enable_if_t<(c == r)>* = nullptr>
         [[nodiscard]] static constexpr auto identity() noexcept
         {
+            static_assert(cols == rows);
             return generateIdentity(std::make_index_sequence<cols * rows>{});
         }
 
