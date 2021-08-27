@@ -2,8 +2,8 @@
 // elnormous/math
 //
 
-#ifndef MATH_PLANE
-#define MATH_PLANE
+#ifndef OMATH_PLANE
+#define OMATH_PLANE
 
 #include <array>
 #include "Vector.hpp"

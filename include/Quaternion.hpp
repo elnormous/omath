@@ -2,8 +2,8 @@
 // elnormous/math
 //
 
-#ifndef MATH_QUATERNION
-#define MATH_QUATERNION
+#ifndef OMATH_QUATERNION
+#define OMATH_QUATERNION
 
 #include <array>
 

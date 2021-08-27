@@ -2,14 +2,15 @@
 // elnormous/math
 //
 
-#ifndef MATH_VECTOR
-#define MATH_VECTOR
+#ifndef OMATH_VECTOR
+#define OMATH_VECTOR
 
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <type_traits>
 #include <utility>
+#include "Simd.hpp"
 
 namespace omath
 {

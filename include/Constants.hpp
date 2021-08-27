@@ -2,8 +2,8 @@
 // elnormous/math
 //
 
-#ifndef MATH_CONSTANTS
-#define MATH_CONSTANTS
+#ifndef OMATH_CONSTANTS
+#define OMATH_CONSTANTS
 
 namespace omath
 {

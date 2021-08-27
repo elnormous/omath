@@ -22,6 +22,9 @@
     <ClInclude Include="..\include\Plane.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\Simd.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\Quaternion.hpp">
       <Filter>include</Filter>
     </ClInclude>

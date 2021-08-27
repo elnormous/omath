@@ -2,27 +2,23 @@
 // elnormous/math
 //
 
-#ifndef MATH_MATRIX
-#define MATH_MATRIX
+#ifndef OMATH_MATRIX
+#define OMATH_MATRIX
 
 #include <algorithm>
 #include <array>
 #include <type_traits>
 #include <utility>
-#ifdef __SSE__
-#  include <xmmintrin.h>
-#elif defined(__ARM_NEON__)
-#  include <arm_neon.h>
-#endif
+#include "Simd.hpp"
 
 namespace omath
 {
-    template <typename T, std::size_t cols, std::size_t rows = cols, bool simd = std::is_same_v<T, float> && rows == 4 && cols == 4>
+    template <typename T, std::size_t cols, std::size_t rows = cols, bool simd = canUseSimdValue<T, cols, rows>>
     class Matrix final
     {
     public:
 #if defined(__SSE__)
-        alignas(simd ? cols * sizeof(T) : alignof(T))
+        alignas(simd && canUseSimdValue<T, cols, rows> ? cols * sizeof(T) : alignof(T))
 #endif
         std::array<T, cols * rows> m; // row-major matrix (transformation is pre-multiplying)
 
@@ -55,10 +51,9 @@ namespace omath
 
         [[nodiscard]] auto operator-() const noexcept
         {
-#if defined(__SSE__) || defined(__ARM_NEON__)
-            if constexpr (std::is_same_v<T, float> && cols == 4 && rows == 4 && simd)
+            if constexpr (simd && canUseSimdValue<T, cols, rows>)
             {
-#  if defined(__SSE__)
+#if defined(__SSE__)
                 Matrix result;
                 __m128 z = _mm_setzero_ps();
                 _mm_store_ps(&result.m[0], _mm_sub_ps(z, _mm_load_ps(&m[0])));
@@ -66,17 +61,16 @@ namespace omath
                 _mm_store_ps(&result.m[8], _mm_sub_ps(z, _mm_load_ps(&m[8])));
                 _mm_store_ps(&result.m[12], _mm_sub_ps(z, _mm_load_ps(&m[12])));
                 return result;
-#  elif defined(__ARM_NEON__)
+#elif defined(__ARM_NEON__)
                 Matrix result;
                 vst1q_f32(&result.m[0], vnegq_f32(vld1q_f32(&m[0])));
                 vst1q_f32(&result.m[4], vnegq_f32(vld1q_f32(&m[4])));
                 vst1q_f32(&result.m[8], vnegq_f32(vld1q_f32(&m[8])));
                 vst1q_f32(&result.m[12], vnegq_f32(vld1q_f32(&m[12])));
                 return result;
-#  endif
+#endif
             }
             else
-#endif
                 return generateNegative(std::make_index_sequence<cols * rows>{});
         }
 
