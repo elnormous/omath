@@ -14,16 +14,19 @@
 
 namespace omath
 {
+    template <class T, std::size_t n>
+    inline constexpr bool canVectorUseSimd = false;
+
     template <class T, std::size_t cols, std::size_t rows>
-    struct canUseSimd: public std::false_type {};
+    inline constexpr bool canMatrixUseSimd = false;
 
 #if defined(__SSE__) || defined(__ARM_NEON__)
     template <>
-    struct canUseSimd<float, 4, 4>: public std::true_type {};
-#endif
+    inline constexpr bool canVectorUseSimd<float, 4> = true;
 
-    template <class T, std::size_t cols, std::size_t rows>
-    inline constexpr bool canUseSimdValue = canUseSimd<T, cols, rows>::value;
+    template <>
+    inline constexpr bool canMatrixUseSimd<float, 4, 4> = true;
+#endif
 }
 
 #endif

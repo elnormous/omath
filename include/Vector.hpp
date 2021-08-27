@@ -14,12 +14,12 @@
 
 namespace omath
 {
-    template <typename T, std::size_t n, bool simd = std::is_same_v<T, float> && n == 4>
+    template <typename T, std::size_t n, bool simd = canVectorUseSimd<float, n>>
     class Vector final
     {
     public:
 #if defined(__SSE__)
-        alignas(simd ? n * sizeof(T) : alignof(T))
+        alignas(simd && canVectorUseSimd<float, n> ? n * sizeof(T) : alignof(T))
 #endif
         std::array<T, n> v;
 

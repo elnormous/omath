@@ -13,12 +13,12 @@
 
 namespace omath
 {
-    template <typename T, std::size_t cols, std::size_t rows = cols, bool simd = canUseSimdValue<T, cols, rows>>
+    template <typename T, std::size_t cols, std::size_t rows = cols, bool simd = canMatrixUseSimd<T, cols, rows>>
     class Matrix final
     {
     public:
 #if defined(__SSE__)
-        alignas(simd && canUseSimdValue<T, cols, rows> ? cols * sizeof(T) : alignof(T))
+        alignas(simd && canMatrixUseSimd<T, cols, rows> ? cols * sizeof(T) : alignof(T))
 #endif
         std::array<T, cols * rows> m; // row-major matrix (transformation is pre-multiplying)
 
@@ -51,7 +51,7 @@ namespace omath
 
         [[nodiscard]] auto operator-() const noexcept
         {
-            if constexpr (simd && canUseSimdValue<T, cols, rows>)
+            if constexpr (simd && canMatrixUseSimd<T, cols, rows>)
             {
 #if defined(__SSE__)
                 Matrix result;
