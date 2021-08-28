@@ -199,6 +199,84 @@ TEST_CASE("Matrix sum", "matrix")
     REQUIRE(result[1][1] == 5.0F);
 }
 
+TEST_CASE("Matrix sum using SIMD", "matrix")
+{
+    const omath::Matrix<float, 4> matrix1{
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F,
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F
+    };
+
+    const omath::Matrix<float, 4> matrix2{
+        5.0F, -6.0F, 5.0F, -6.0F,
+        7.0F, 8.0F, 7.0F, 8.0F,
+        5.0F, -6.0F, 5.0F, -6.0F,
+        7.0F, 8.0F, 7.0F, 8.0F
+    };
+
+    const auto result = matrix1 + matrix2;
+
+    REQUIRE(result[0][0] == 5.0F);
+    REQUIRE(result[0][1] == -5.0F);
+    REQUIRE(result[0][2] == 5.0F);
+    REQUIRE(result[0][3] == -5.0F);
+
+    REQUIRE(result[1][0] == 9.0F);
+    REQUIRE(result[1][1] == 5.0F);
+    REQUIRE(result[1][2] == 9.0F);
+    REQUIRE(result[1][3] == 5.0F);
+
+    REQUIRE(result[2][0] == 5.0F);
+    REQUIRE(result[2][1] == -5.0F);
+    REQUIRE(result[2][2] == 5.0F);
+    REQUIRE(result[2][3] == -5.0F);
+
+    REQUIRE(result[3][0] == 9.0F);
+    REQUIRE(result[3][1] == 5.0F);
+    REQUIRE(result[3][2] == 9.0F);
+    REQUIRE(result[3][3] == 5.0F);
+}
+
+TEST_CASE("Matrix difference using SIMD", "matrix")
+{
+    const omath::Matrix<float, 4> matrix1{
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F,
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F
+    };
+
+    const omath::Matrix<float, 4> matrix2{
+        5.0F, -6.0F, 5.0F, -6.0F,
+        7.0F, 8.0F, 7.0F, 8.0F,
+        5.0F, -6.0F, 5.0F, -6.0F,
+        7.0F, 8.0F, 7.0F, 8.0F
+    };
+
+    const auto result = matrix1 - matrix2;
+
+    REQUIRE(result[0][0] == -5.0F);
+    REQUIRE(result[0][1] == 7.0F);
+    REQUIRE(result[0][2] == -5.0F);
+    REQUIRE(result[0][3] == 7.0F);
+
+    REQUIRE(result[1][0] == -5.0F);
+    REQUIRE(result[1][1] == -11.0F);
+    REQUIRE(result[1][2] == -5.0F);
+    REQUIRE(result[1][3] == -11.0F);
+
+    REQUIRE(result[2][0] == -5.0F);
+    REQUIRE(result[2][1] == 7.0F);
+    REQUIRE(result[2][2] == -5.0F);
+    REQUIRE(result[2][3] == 7.0F);
+
+    REQUIRE(result[3][0] == -5.0F);
+    REQUIRE(result[3][1] == -11.0F);
+    REQUIRE(result[3][2] == -5.0F);
+    REQUIRE(result[3][3] == -11.0F);
+}
+
 TEST_CASE("Matrix difference", "matrix")
 {
     const omath::Matrix<float, 2> matrix1{
