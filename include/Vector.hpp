@@ -19,10 +19,7 @@ namespace omath
     {
         static_assert(!simd || canVectorUseSimd<float, n>);
     public:
-#if defined(__SSE__)
-        alignas(simd && canVectorUseSimd<float, n> ? n * sizeof(T) : alignof(T))
-#endif
-        std::array<T, n> v;
+        alignas(simd ? n * sizeof(T) : alignof(T)) std::array<T, n> v;
 
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
