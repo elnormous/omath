@@ -17,6 +17,7 @@ namespace omath
     template <typename T, std::size_t n, bool simd = canVectorUseSimd<float, n>>
     class Vector final
     {
+        static_assert(!simd || canVectorUseSimd<float, n>);
     public:
 #if defined(__SSE__)
         alignas(simd && canVectorUseSimd<float, n> ? n * sizeof(T) : alignof(T))

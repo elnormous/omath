@@ -16,6 +16,7 @@ namespace omath
     template <typename T, std::size_t cols, std::size_t rows = cols, bool simd = canMatrixUseSimd<T, cols, rows>>
     class Matrix final
     {
+        static_assert(!simd || canMatrixUseSimd<T, cols, rows>);
     public:
 #if defined(__SSE__)
         alignas(simd && canMatrixUseSimd<T, cols, rows> ? cols * sizeof(T) : alignof(T))
@@ -51,7 +52,7 @@ namespace omath
 
         [[nodiscard]] auto operator-() const noexcept
         {
-            if constexpr (simd && canMatrixUseSimd<T, cols, rows>)
+            if constexpr (simd)
             {
 #if defined(__SSE__)
                 Matrix result;
@@ -76,7 +77,7 @@ namespace omath
 
         [[nodiscard]] constexpr const auto operator+(const Matrix& mat) const noexcept
         {
-            if constexpr (simd && canMatrixUseSimd<T, cols, rows>)
+            if constexpr (simd)
             {
 #if defined(__SSE__)
                 Matrix result;
@@ -107,7 +108,7 @@ namespace omath
 
         [[nodiscard]] constexpr const auto operator-(const Matrix& mat) const noexcept
         {
-            if constexpr (simd && canMatrixUseSimd<T, cols, rows>)
+            if constexpr (simd)
             {
 #if defined(__SSE__)
                 Matrix result;
