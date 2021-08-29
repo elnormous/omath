@@ -66,52 +66,49 @@ TEST_CASE("Matrix comparison operators", "vector")
     }
 }
 
-TEST_CASE("Matrix transpose", "matrix")
+TEST_CASE("1x1 matrix transpose", "matrix")
 {
-    SECTION("1x1")
-    {
-        omath::Matrix<float, 1> matrix{1.0F};
-        matrix.transpose();
+    omath::Matrix<float, 1> matrix{1.0F};
+    matrix.transpose();
 
-        REQUIRE(matrix[0][0] == 1.0F);
-    }
-
-    SECTION("2x2")
-    {
-        omath::Matrix<float, 2> matrix{
-            1.0F, 2.0F,
-            3.0F, 4.0F
-        };
-        matrix.transpose();
-
-        REQUIRE(matrix[0][0] == 1.0F);
-        REQUIRE(matrix[0][1] == 3.0F);
-        REQUIRE(matrix[1][0] == 2.0F);
-        REQUIRE(matrix[1][1] == 4.0F);
-    }
-
-    SECTION("3x3")
-    {
-        omath::Matrix<float, 3> matrix{
-            1.0F, 2.0F, 3.0F,
-            4.0F, 6.0F, 6.0F,
-            7.0F, 8.0F, 9.0F
-        };
-        matrix.transpose();
-
-        REQUIRE(matrix[0][0] == 1.0F);
-        REQUIRE(matrix[0][1] == 4.0F);
-        REQUIRE(matrix[0][2] == 7.0F);
-        REQUIRE(matrix[1][0] == 2.0F);
-        REQUIRE(matrix[1][1] == 6.0F);
-        REQUIRE(matrix[1][2] == 8.0F);
-        REQUIRE(matrix[2][0] == 3.0F);
-        REQUIRE(matrix[2][1] == 6.0F);
-        REQUIRE(matrix[2][2] == 9.0F);
-    }
+    REQUIRE(matrix[0][0] == 1.0F);
 }
 
-TEST_CASE("Matrix comparison", "matrix")
+TEST_CASE("2x2 matrix transpose", "matrix")
+{
+    omath::Matrix<float, 2> matrix{
+        1.0F, 2.0F,
+        3.0F, 4.0F
+    };
+    matrix.transpose();
+
+    REQUIRE(matrix[0][0] == 1.0F);
+    REQUIRE(matrix[0][1] == 3.0F);
+    REQUIRE(matrix[1][0] == 2.0F);
+    REQUIRE(matrix[1][1] == 4.0F);
+}
+
+TEST_CASE("3x3 matrix transpose", "matrix")
+{
+    omath::Matrix<float, 3> matrix{
+        1.0F, 2.0F, 3.0F,
+        4.0F, 6.0F, 6.0F,
+        7.0F, 8.0F, 9.0F
+    };
+    matrix.transpose();
+
+    REQUIRE(matrix[0][0] == 1.0F);
+    REQUIRE(matrix[0][1] == 4.0F);
+    REQUIRE(matrix[0][2] == 7.0F);
+    REQUIRE(matrix[1][0] == 2.0F);
+    REQUIRE(matrix[1][1] == 6.0F);
+    REQUIRE(matrix[1][2] == 8.0F);
+    REQUIRE(matrix[2][0] == 3.0F);
+    REQUIRE(matrix[2][1] == 6.0F);
+    REQUIRE(matrix[2][2] == 9.0F);
+}
+
+TEST_CASE("2x2 matrix comparison", "matrix")
 {
     const omath::Matrix<float, 2> matrix1{
         0.0F, 1.0F,
@@ -132,7 +129,7 @@ TEST_CASE("Matrix comparison", "matrix")
     REQUIRE(matrix1 != matrix3);
 }
 
-TEST_CASE("Negative of matrix", "matrix")
+TEST_CASE("2x2 matrix negation", "matrix")
 {
     const omath::Matrix<float, 2> matrix{
         0.0F, 1.0F,
@@ -147,7 +144,39 @@ TEST_CASE("Negative of matrix", "matrix")
     REQUIRE(result[1][1] == 3.0F);
 }
 
-TEST_CASE("Negative of matrix using SIMD", "matrix")
+TEST_CASE("4x4 matrix negation", "matrix")
+{
+    const omath::Matrix<float, 4, 4, false> matrix{
+        0.0F, 1.0F, 2.0F, 3.0F,
+        2.0F, -3.0F, 4.0F, 5.0F,
+        3.0F, 4.0F, 5.0F, 6.0F,
+        4.0F, 5.0F, 6.0F, 7.0F
+    };
+
+    const auto result = -matrix;
+
+    REQUIRE(result[0][0] == 0.0F);
+    REQUIRE(result[0][1] == -1.0F);
+    REQUIRE(result[0][2] == -2.0F);
+    REQUIRE(result[0][3] == -3.0F);
+
+    REQUIRE(result[1][0] == -2.0F);
+    REQUIRE(result[1][1] == 3.0F);
+    REQUIRE(result[1][2] == -4.0F);
+    REQUIRE(result[1][3] == -5.0F);
+
+    REQUIRE(result[2][0] == -3.0F);
+    REQUIRE(result[2][1] == -4.0F);
+    REQUIRE(result[2][2] == -5.0F);
+    REQUIRE(result[2][3] == -6.0F);
+
+    REQUIRE(result[3][0] == -4.0F);
+    REQUIRE(result[3][1] == -5.0F);
+    REQUIRE(result[3][2] == -6.0F);
+    REQUIRE(result[3][3] == -7.0F);
+}
+
+TEST_CASE("4x4 matrix negation using SIMD", "matrix")
 {
     const omath::Matrix<float, 4, 4, true> matrix{
         0.0F, 1.0F, 2.0F, 3.0F,
@@ -179,7 +208,7 @@ TEST_CASE("Negative of matrix using SIMD", "matrix")
     REQUIRE(result[3][3] == -7.0F);
 }
 
-TEST_CASE("Matrix sum", "matrix")
+TEST_CASE("2x2 matrix sum", "matrix")
 {
     const omath::Matrix<float, 2> matrix1{
         0.0F, 1.0F,
@@ -199,7 +228,46 @@ TEST_CASE("Matrix sum", "matrix")
     REQUIRE(result[1][1] == 5.0F);
 }
 
-TEST_CASE("Matrix sum using SIMD", "matrix")
+TEST_CASE("4x4 matrix sum", "matrix")
+{
+    const omath::Matrix<float, 4, 4, false> matrix1{
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F,
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F
+    };
+
+    const omath::Matrix<float, 4, 4, false> matrix2{
+        5.0F, -6.0F, 5.0F, -6.0F,
+        7.0F, 8.0F, 7.0F, 8.0F,
+        5.0F, -6.0F, 5.0F, -6.0F,
+        7.0F, 8.0F, 7.0F, 8.0F
+    };
+
+    const auto result = matrix1 + matrix2;
+
+    REQUIRE(result[0][0] == 5.0F);
+    REQUIRE(result[0][1] == -5.0F);
+    REQUIRE(result[0][2] == 5.0F);
+    REQUIRE(result[0][3] == -5.0F);
+
+    REQUIRE(result[1][0] == 9.0F);
+    REQUIRE(result[1][1] == 5.0F);
+    REQUIRE(result[1][2] == 9.0F);
+    REQUIRE(result[1][3] == 5.0F);
+
+    REQUIRE(result[2][0] == 5.0F);
+    REQUIRE(result[2][1] == -5.0F);
+    REQUIRE(result[2][2] == 5.0F);
+    REQUIRE(result[2][3] == -5.0F);
+
+    REQUIRE(result[3][0] == 9.0F);
+    REQUIRE(result[3][1] == 5.0F);
+    REQUIRE(result[3][2] == 9.0F);
+    REQUIRE(result[3][3] == 5.0F);
+}
+
+TEST_CASE("4x4 matrix sum using SIMD", "matrix")
 {
     const omath::Matrix<float, 4, 4, true> matrix1{
         0.0F, 1.0F, 0.0F, 1.0F,
@@ -238,7 +306,66 @@ TEST_CASE("Matrix sum using SIMD", "matrix")
     REQUIRE(result[3][3] == 5.0F);
 }
 
-TEST_CASE("Matrix increment", "matrix")
+TEST_CASE("2x2 matrix increment", "matrix")
+{
+    omath::Matrix<float, 2> matrix1{
+        0.0F, 1.0F,
+        2.0F, -3.0F
+    };
+
+    const omath::Matrix<float, 2> matrix2{
+        5.0F, -6.0F,
+        7.0F, 8.0F
+    };
+
+    matrix1 += matrix2;
+
+    REQUIRE(matrix1[0][0] == 5.0F);
+    REQUIRE(matrix1[0][1] == -5.0F);
+    REQUIRE(matrix1[1][0] == 9.0F);
+    REQUIRE(matrix1[1][1] == 5.0F);
+}
+
+TEST_CASE("4x4 matrix increment", "matrix")
+{
+    omath::Matrix<float, 4, 4, false> matrix1{
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F,
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F
+    };
+
+    const omath::Matrix<float, 4, 4, false> matrix2{
+        5.0F, -6.0F, 5.0F, -6.0F,
+        7.0F, 8.0F, 7.0F, 8.0F,
+        5.0F, -6.0F, 5.0F, -6.0F,
+        7.0F, 8.0F, 7.0F, 8.0F
+    };
+
+    matrix1 += matrix2;
+
+    REQUIRE(matrix1[0][0] == 5.0F);
+    REQUIRE(matrix1[0][1] == -5.0F);
+    REQUIRE(matrix1[0][2] == 5.0F);
+    REQUIRE(matrix1[0][3] == -5.0F);
+
+    REQUIRE(matrix1[1][0] == 9.0F);
+    REQUIRE(matrix1[1][1] == 5.0F);
+    REQUIRE(matrix1[1][2] == 9.0F);
+    REQUIRE(matrix1[1][3] == 5.0F);
+
+    REQUIRE(matrix1[2][0] == 5.0F);
+    REQUIRE(matrix1[2][1] == -5.0F);
+    REQUIRE(matrix1[2][2] == 5.0F);
+    REQUIRE(matrix1[2][3] == -5.0F);
+
+    REQUIRE(matrix1[3][0] == 9.0F);
+    REQUIRE(matrix1[3][1] == 5.0F);
+    REQUIRE(matrix1[3][2] == 9.0F);
+    REQUIRE(matrix1[3][3] == 5.0F);
+}
+
+TEST_CASE("4x4 matrix increment using SIMD", "matrix")
 {
     omath::Matrix<float, 4, 4, true> matrix1{
         0.0F, 1.0F, 0.0F, 1.0F,
@@ -277,27 +404,7 @@ TEST_CASE("Matrix increment", "matrix")
     REQUIRE(matrix1[3][3] == 5.0F);
 }
 
-TEST_CASE("Matrix increment using SIMD", "matrix")
-{
-    omath::Matrix<float, 2> matrix1{
-        0.0F, 1.0F,
-        2.0F, -3.0F
-    };
-
-    const omath::Matrix<float, 2> matrix2{
-        5.0F, -6.0F,
-        7.0F, 8.0F
-    };
-
-    matrix1 += matrix2;
-
-    REQUIRE(matrix1[0][0] == 5.0F);
-    REQUIRE(matrix1[0][1] == -5.0F);
-    REQUIRE(matrix1[1][0] == 9.0F);
-    REQUIRE(matrix1[1][1] == 5.0F);
-}
-
-TEST_CASE("Matrix difference", "matrix")
+TEST_CASE("3x3 matrix difference", "matrix")
 {
     const omath::Matrix<float, 2> matrix1{
         0.0F, 1.0F,
@@ -317,7 +424,46 @@ TEST_CASE("Matrix difference", "matrix")
     REQUIRE(result[1][1] == -11.0F);
 }
 
-TEST_CASE("Matrix difference using SIMD", "matrix")
+TEST_CASE("4x4 matrix difference", "matrix")
+{
+    const omath::Matrix<float, 4, 4, false> matrix1{
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F,
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F
+    };
+
+    const omath::Matrix<float, 4, 4, false> matrix2{
+        5.0F, -6.0F, 5.0F, -6.0F,
+        7.0F, 8.0F, 7.0F, 8.0F,
+        5.0F, -6.0F, 5.0F, -6.0F,
+        7.0F, 8.0F, 7.0F, 8.0F
+    };
+
+    const auto result = matrix1 - matrix2;
+
+    REQUIRE(result[0][0] == -5.0F);
+    REQUIRE(result[0][1] == 7.0F);
+    REQUIRE(result[0][2] == -5.0F);
+    REQUIRE(result[0][3] == 7.0F);
+
+    REQUIRE(result[1][0] == -5.0F);
+    REQUIRE(result[1][1] == -11.0F);
+    REQUIRE(result[1][2] == -5.0F);
+    REQUIRE(result[1][3] == -11.0F);
+
+    REQUIRE(result[2][0] == -5.0F);
+    REQUIRE(result[2][1] == 7.0F);
+    REQUIRE(result[2][2] == -5.0F);
+    REQUIRE(result[2][3] == 7.0F);
+
+    REQUIRE(result[3][0] == -5.0F);
+    REQUIRE(result[3][1] == -11.0F);
+    REQUIRE(result[3][2] == -5.0F);
+    REQUIRE(result[3][3] == -11.0F);
+}
+
+TEST_CASE("4x4 matrix difference using SIMD", "matrix")
 {
     const omath::Matrix<float, 4, 4, true> matrix1{
         0.0F, 1.0F, 0.0F, 1.0F,
@@ -356,7 +502,7 @@ TEST_CASE("Matrix difference using SIMD", "matrix")
     REQUIRE(result[3][3] == -11.0F);
 }
 
-TEST_CASE("Matrix decrement", "matrix")
+TEST_CASE("2x2 matrix decrement", "matrix")
 {
     omath::Matrix<float, 2> matrix1{
         0.0F, 1.0F,
@@ -376,7 +522,46 @@ TEST_CASE("Matrix decrement", "matrix")
     REQUIRE(matrix1[1][1] == -11.0F);
 }
 
-TEST_CASE("Matrix decrement using SIMD", "matrix")
+TEST_CASE("4x4 matrix decrement", "matrix")
+{
+    omath::Matrix<float, 4, 4, false> matrix1{
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F,
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F
+    };
+
+    const omath::Matrix<float, 4, 4, false> matrix2{
+        5.0F, -6.0F, 5.0F, -6.0F,
+        7.0F, 8.0F, 7.0F, 8.0F,
+        5.0F, -6.0F, 5.0F, -6.0F,
+        7.0F, 8.0F, 7.0F, 8.0F
+    };
+
+    matrix1 -= matrix2;
+
+    REQUIRE(matrix1[0][0] == -5.0F);
+    REQUIRE(matrix1[0][1] == 7.0F);
+    REQUIRE(matrix1[0][2] == -5.0F);
+    REQUIRE(matrix1[0][3] == 7.0F);
+
+    REQUIRE(matrix1[1][0] == -5.0F);
+    REQUIRE(matrix1[1][1] == -11.0F);
+    REQUIRE(matrix1[1][2] == -5.0F);
+    REQUIRE(matrix1[1][3] == -11.0F);
+
+    REQUIRE(matrix1[2][0] == -5.0F);
+    REQUIRE(matrix1[2][1] == 7.0F);
+    REQUIRE(matrix1[2][2] == -5.0F);
+    REQUIRE(matrix1[2][3] == 7.0F);
+
+    REQUIRE(matrix1[3][0] == -5.0F);
+    REQUIRE(matrix1[3][1] == -11.0F);
+    REQUIRE(matrix1[3][2] == -5.0F);
+    REQUIRE(matrix1[3][3] == -11.0F);
+}
+
+TEST_CASE("4x4 matrix decrement using SIMD", "matrix")
 {
     omath::Matrix<float, 4, 4, true> matrix1{
         0.0F, 1.0F, 0.0F, 1.0F,
