@@ -9,10 +9,22 @@
 #include <array>
 #include <type_traits>
 #include <utility>
-#include "Simd.hpp"
+#ifdef __SSE__
+#  include <xmmintrin.h>
+#elif defined(__ARM_NEON__)
+#  include <arm_neon.h>
+#endif
 
 namespace omath
 {
+    template <class T, std::size_t cols, std::size_t rows>
+    inline constexpr bool canMatrixUseSimd = false;
+
+#if defined(__SSE__) || defined(__ARM_NEON__)
+    template <>
+    inline constexpr bool canMatrixUseSimd<float, 4, 4> = true;
+#endif
+
     template <typename T, std::size_t cols, std::size_t rows = cols, bool simd = canMatrixUseSimd<T, cols, rows>>
     class Matrix final
     {
