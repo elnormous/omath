@@ -110,8 +110,23 @@ namespace omath
 
         auto& operator+=(const Matrix& mat) noexcept
         {
-            for (std::size_t i = 0; i < cols * rows; ++i)
-                m[i] += mat.m[i];
+            if constexpr (simd)
+            {
+#if defined(__SSE__)
+                _mm_store_ps(&m[0], _mm_add_ps(_mm_load_ps(&m[0]), _mm_load_ps(&mat.m[0])));
+                _mm_store_ps(&m[4], _mm_add_ps(_mm_load_ps(&m[4]), _mm_load_ps(&mat.m[4])));
+                _mm_store_ps(&m[8], _mm_add_ps(_mm_load_ps(&m[8]), _mm_load_ps(&mat.m[8])));
+                _mm_store_ps(&m[12], _mm_add_ps(_mm_load_ps(&m[12]), _mm_load_ps(&mat.m[12])));
+#elif defined(__ARM_NEON__)
+                vst1q_f32(&m[0], vaddq_f32(vld1q_f32(&m[0]), vld1q_f32(&mat.m[0])));
+                vst1q_f32(&m[4], vaddq_f32(vld1q_f32(&m[4]), vld1q_f32(&mat.m[4])));
+                vst1q_f32(&m[8], vaddq_f32(vld1q_f32(&m[8]), vld1q_f32(&mat.m[8])));
+                vst1q_f32(&m[12], vaddq_f32(vld1q_f32(&m[12]), vld1q_f32(&mat.m[12])));
+#endif
+            }
+            else
+                for (std::size_t i = 0; i < cols * rows; ++i)
+                    m[i] += mat.m[i];
             return *this;
         }
 
@@ -141,8 +156,23 @@ namespace omath
 
         auto& operator-=(const Matrix& mat) noexcept
         {
-            for (std::size_t i = 0; i < cols * rows; ++i)
-                m[i] -= mat.m[i];
+            if constexpr (simd)
+            {
+#if defined(__SSE__)
+                _mm_store_ps(&m[0], _mm_sub_ps(_mm_load_ps(&m[0]), _mm_load_ps(&mat.m[0])));
+                _mm_store_ps(&m[4], _mm_sub_ps(_mm_load_ps(&m[4]), _mm_load_ps(&mat.m[4])));
+                _mm_store_ps(&m[8], _mm_sub_ps(_mm_load_ps(&m[8]), _mm_load_ps(&mat.m[8])));
+                _mm_store_ps(&m[12], _mm_sub_ps(_mm_load_ps(&m[12]), _mm_load_ps(&mat.m[12])));
+#elif defined(__ARM_NEON__)
+                vst1q_f32(&m[0], vsubq_f32(vld1q_f32(&m[0]), vld1q_f32(&mat.m[0])));
+                vst1q_f32(&m[4], vsubq_f32(vld1q_f32(&m[4]), vld1q_f32(&mat.m[4])));
+                vst1q_f32(&m[8], vsubq_f32(vld1q_f32(&m[8]), vld1q_f32(&mat.m[8])));
+                vst1q_f32(&m[12], vsubq_f32(vld1q_f32(&m[12]), vld1q_f32(&mat.m[12])));
+#endif
+            }
+            else
+                for (std::size_t i = 0; i < cols * rows; ++i)
+                    m[i] -= mat.m[i];
             return *this;
         }
 
