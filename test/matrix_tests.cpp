@@ -149,7 +149,7 @@ TEST_CASE("Negative of matrix", "matrix")
 
 TEST_CASE("Negative of matrix using SIMD", "matrix")
 {
-    const omath::Matrix<float, 4> matrix{
+    const omath::Matrix<float, 4, 4, true> matrix{
         0.0F, 1.0F, 2.0F, 3.0F,
         2.0F, -3.0F, 4.0F, 5.0F,
         3.0F, 4.0F, 5.0F, 6.0F,
@@ -201,14 +201,14 @@ TEST_CASE("Matrix sum", "matrix")
 
 TEST_CASE("Matrix sum using SIMD", "matrix")
 {
-    const omath::Matrix<float, 4> matrix1{
+    const omath::Matrix<float, 4, 4, true> matrix1{
         0.0F, 1.0F, 0.0F, 1.0F,
         2.0F, -3.0F, 2.0F, -3.0F,
         0.0F, 1.0F, 0.0F, 1.0F,
         2.0F, -3.0F, 2.0F, -3.0F
     };
 
-    const omath::Matrix<float, 4> matrix2{
+    const omath::Matrix<float, 4, 4, true> matrix2{
         5.0F, -6.0F, 5.0F, -6.0F,
         7.0F, 8.0F, 7.0F, 8.0F,
         5.0F, -6.0F, 5.0F, -6.0F,
@@ -240,14 +240,14 @@ TEST_CASE("Matrix sum using SIMD", "matrix")
 
 TEST_CASE("Matrix difference using SIMD", "matrix")
 {
-    const omath::Matrix<float, 4> matrix1{
+    const omath::Matrix<float, 4, 4, true> matrix1{
         0.0F, 1.0F, 0.0F, 1.0F,
         2.0F, -3.0F, 2.0F, -3.0F,
         0.0F, 1.0F, 0.0F, 1.0F,
         2.0F, -3.0F, 2.0F, -3.0F
     };
 
-    const omath::Matrix<float, 4> matrix2{
+    const omath::Matrix<float, 4, 4, true> matrix2{
         5.0F, -6.0F, 5.0F, -6.0F,
         7.0F, 8.0F, 7.0F, 8.0F,
         5.0F, -6.0F, 5.0F, -6.0F,
