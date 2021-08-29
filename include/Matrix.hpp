@@ -44,9 +44,31 @@ namespace omath
         void transpose() noexcept
         {
             static_assert(cols == rows);
-            for (std::size_t row = 0; row < rows; ++row)
-                for (std::size_t col = row + 1; col < cols; ++col)
-                    std::swap(m[row * cols + col], m[col * rows + row]);
+
+            if constexpr (simd)
+            {
+#if defined(__SSE__)
+                __m128 tmp0 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(1, 0, 1, 0));
+                __m128 tmp2 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(3, 2, 3, 2));
+                __m128 tmp1 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), _MM_SHUFFLE(1, 0, 1, 0));
+                __m128 tmp3 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), _MM_SHUFFLE(3, 2, 3, 2));
+                _mm_store_ps(&m[0], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(2, 0, 2, 0)));
+                _mm_store_ps(&m[4], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(3, 1, 3, 1)));
+                _mm_store_ps(&m[8], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(2, 0, 2, 0)));
+                _mm_store_ps(&m[12], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(3, 1, 3, 1)));
+#elif defined(__ARM_NEON__)
+                float32x4x2_t tmp0 = vtrnq_f32(vld1q_f32(&m[0]), vld1q_f32(&m[4]));
+                float32x4x2_t tmp1 = vtrnq_f32(vld1q_f32(&m[8]), vld1q_f32(&m[12]));
+                vst1q_f32(&m[0], vextq_f32(vextq_f32(tmp0.val[0], tmp0.val[0], 2), tmp1.val[0], 2));
+                vst1q_f32(&m[4], vextq_f32(vextq_f32(tmp0.val[1], tmp0.val[1], 2), tmp1.val[1], 2));
+                vst1q_f32(&m[8], vextq_f32(tmp0.val[0], vextq_f32(tmp1.val[0], tmp1.val[0], 2), 2));
+                vst1q_f32(&m[12], vextq_f32(tmp0.val[1], vextq_f32(tmp1.val[1], tmp1.val[1], 2), 2));
+#endif
+            }
+            else
+                for (std::size_t row = 0; row < rows; ++row)
+                    for (std::size_t col = row + 1; col < cols; ++col)
+                        std::swap(m[row * cols + col], m[col * rows + row]);
         }
 
         [[nodiscard]] constexpr auto operator==(const Matrix& mat) const noexcept
