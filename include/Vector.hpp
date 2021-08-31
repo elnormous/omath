@@ -10,7 +10,7 @@
 #include <cmath>
 #include <type_traits>
 #include <utility>
-#ifdef __SSE__ || _M_IX86_FP != 0
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
 #  include <xmmintrin.h>
 #elif defined(__ARM_NEON__)
 #  include <arm_neon.h>
@@ -21,7 +21,7 @@ namespace omath
     template <class T, std::size_t n>
     struct canVectorUseSimd: public std::false_type {};
 
-#if defined(__SSE__) || _M_IX86_FP != 0 || defined(__ARM_NEON__)
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0 || defined(__ARM_NEON__)
     template <>
     struct canVectorUseSimd<float, 4>: public std::true_type {};
 #endif

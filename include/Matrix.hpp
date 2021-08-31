@@ -9,7 +9,7 @@
 #include <array>
 #include <type_traits>
 #include <utility>
-#if defined(__SSE__) || _M_IX86_FP != 0
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
 #  include <xmmintrin.h>
 #elif defined(__ARM_NEON__)
 #  include <arm_neon.h>
@@ -20,7 +20,7 @@ namespace omath
     template <class T, std::size_t cols, std::size_t rows>
     struct canMatrixUseSimd: public std::false_type {};
 
-#if defined(__SSE__) || _M_IX86_FP != 0 || defined(__ARM_NEON__)
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0 || defined(__ARM_NEON__)
     template <>
     struct canMatrixUseSimd<float, 4, 4>: public std::true_type {};
 #endif
@@ -47,7 +47,7 @@ namespace omath
 
             if constexpr (simd)
             {
-#if defined(__SSE__) || _M_IX86_FP != 0
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 __m128 tmp0 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(1, 0, 1, 0));
                 __m128 tmp2 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(3, 2, 3, 2));
                 __m128 tmp1 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), _MM_SHUFFLE(1, 0, 1, 0));
@@ -85,7 +85,7 @@ namespace omath
         {
             if constexpr (simd)
             {
-#if defined(__SSE__) || _M_IX86_FP != 0
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 Matrix result;
                 __m128 z = _mm_setzero_ps();
                 _mm_store_ps(&result.m[0], _mm_sub_ps(z, _mm_load_ps(&m[0])));
@@ -110,7 +110,7 @@ namespace omath
         {
             if constexpr (simd)
             {
-#if defined(__SSE__) || _M_IX86_FP != 0
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 Matrix result;
                 _mm_store_ps(&result.m[0], _mm_add_ps(_mm_load_ps(&m[0]), _mm_load_ps(&mat.m[0])));
                 _mm_store_ps(&result.m[4], _mm_add_ps(_mm_load_ps(&m[4]), _mm_load_ps(&mat.m[4])));
@@ -134,7 +134,7 @@ namespace omath
         {
             if constexpr (simd)
             {
-#if defined(__SSE__) || _M_IX86_FP != 0
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 _mm_store_ps(&m[0], _mm_add_ps(_mm_load_ps(&m[0]), _mm_load_ps(&mat.m[0])));
                 _mm_store_ps(&m[4], _mm_add_ps(_mm_load_ps(&m[4]), _mm_load_ps(&mat.m[4])));
                 _mm_store_ps(&m[8], _mm_add_ps(_mm_load_ps(&m[8]), _mm_load_ps(&mat.m[8])));
@@ -156,7 +156,7 @@ namespace omath
         {
             if constexpr (simd)
             {
-#if defined(__SSE__) || _M_IX86_FP != 0
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 Matrix result;
                 _mm_store_ps(&result.m[0], _mm_sub_ps(_mm_load_ps(&m[0]), _mm_load_ps(&mat.m[0])));
                 _mm_store_ps(&result.m[4], _mm_sub_ps(_mm_load_ps(&m[4]), _mm_load_ps(&mat.m[4])));
@@ -180,7 +180,7 @@ namespace omath
         {
             if constexpr (simd)
             {
-#if defined(__SSE__) || _M_IX86_FP != 0
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 _mm_store_ps(&m[0], _mm_sub_ps(_mm_load_ps(&m[0]), _mm_load_ps(&mat.m[0])));
                 _mm_store_ps(&m[4], _mm_sub_ps(_mm_load_ps(&m[4]), _mm_load_ps(&mat.m[4])));
                 _mm_store_ps(&m[8], _mm_sub_ps(_mm_load_ps(&m[8]), _mm_load_ps(&mat.m[8])));
