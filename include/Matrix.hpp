@@ -18,17 +18,20 @@
 namespace omath
 {
     template <class T, std::size_t cols, std::size_t rows>
-    struct canMatrixUseSimd: public std::false_type {};
+    struct CanMatrixUseSimd: public std::false_type {};
 
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0 || defined(__ARM_NEON__)
     template <>
-    struct canMatrixUseSimd<float, 4, 4>: public std::true_type {};
+    struct CanMatrixUseSimd<float, 4, 4>: public std::true_type {};
 #endif
 
-    template <typename T, std::size_t cols, std::size_t rows = cols, bool simd = canMatrixUseSimd<T, cols, rows>::value>
+    template <class T, std::size_t cols, std::size_t rows>
+    inline constexpr bool canMatrixUseSimd = CanMatrixUseSimd<T, cols, rows>::value;
+
+    template <typename T, std::size_t cols, std::size_t rows = cols, bool simd = canMatrixUseSimd<T, cols, rows>>
     class Matrix final
     {
-        static_assert(!simd || canMatrixUseSimd<T, cols, rows>::value);
+        static_assert(!simd || canMatrixUseSimd<T, cols, rows>);
     public:
         alignas(simd ? cols * sizeof(T) : alignof(T)) std::array<T, cols * rows> m; // row-major matrix (transformation is pre-multiplying)
 

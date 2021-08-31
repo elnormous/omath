@@ -19,17 +19,20 @@
 namespace omath
 {
     template <class T, std::size_t n>
-    struct canVectorUseSimd: public std::false_type {};
+    struct CanVectorUseSimd: public std::false_type {};
 
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0 || defined(__ARM_NEON__)
     template <>
-    struct canVectorUseSimd<float, 4>: public std::true_type {};
+    struct CanVectorUseSimd<float, 4>: public std::true_type {};
 #endif
 
-    template <typename T, std::size_t n, bool simd = canVectorUseSimd<T, n>::value>
+    template <class T, std::size_t n>
+    inline constexpr bool canVectorUseSimd = CanVectorUseSimd<T, n>::value;
+
+    template <typename T, std::size_t n, bool simd = canVectorUseSimd<T, n>>
     class Vector final
     {
-        static_assert(!simd || canVectorUseSimd<T, n>::value);
+        static_assert(!simd || canVectorUseSimd<T, n>);
     public:
         alignas(simd ? n * sizeof(T) : alignof(T)) std::array<T, n> v;
 
