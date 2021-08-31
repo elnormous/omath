@@ -19,11 +19,11 @@
 namespace omath
 {
     template <class T, std::size_t n>
-    struct CanVectorUseSimd: public std::false_type {};
+    struct CanVectorUseSimd: std::false_type {};
 
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0 || defined(__ARM_NEON__)
     template <>
-    struct CanVectorUseSimd<float, 4>: public std::true_type {};
+    struct CanVectorUseSimd<float, 4>: std::true_type {};
 #endif
 
     template <class T, std::size_t n>

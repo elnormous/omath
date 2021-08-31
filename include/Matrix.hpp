@@ -18,11 +18,11 @@
 namespace omath
 {
     template <class T, std::size_t cols, std::size_t rows>
-    struct CanMatrixUseSimd: public std::false_type {};
+    struct CanMatrixUseSimd: std::false_type {};
 
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0 || defined(__ARM_NEON__)
     template <>
-    struct CanMatrixUseSimd<float, 4, 4>: public std::true_type {};
+    struct CanMatrixUseSimd<float, 4, 4>: std::true_type {};
 #endif
 
     template <class T, std::size_t cols, std::size_t rows>
