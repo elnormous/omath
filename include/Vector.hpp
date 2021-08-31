@@ -10,7 +10,7 @@
 #include <cmath>
 #include <type_traits>
 #include <utility>
-#ifdef __SSE__
+#ifdef __SSE__ || _M_IX86_FP != 0
 #  include <xmmintrin.h>
 #elif defined(__ARM_NEON__)
 #  include <arm_neon.h>
@@ -19,17 +19,17 @@
 namespace omath
 {
     template <class T, std::size_t n>
-    inline constexpr bool canVectorUseSimd = false;
+    struct canVectorUseSimd: public std::false_type {};
 
-#if defined(__SSE__) || defined(__ARM_NEON__)
+#if defined(__SSE__) || _M_IX86_FP != 0 || defined(__ARM_NEON__)
     template <>
-    inline constexpr bool canVectorUseSimd<float, 4> = true;
+    struct canVectorUseSimd<float, 4>: public std::true_type {};
 #endif
 
-    template <typename T, std::size_t n, bool simd = canVectorUseSimd<T, n>>
+    template <typename T, std::size_t n, bool simd = canVectorUseSimd<T, n>::value>
     class Vector final
     {
-        static_assert(!simd || canVectorUseSimd<T, n>);
+        static_assert(!simd || canVectorUseSimd<T, n>::value);
     public:
         alignas(simd ? n * sizeof(T) : alignof(T)) std::array<T, n> v;
 
