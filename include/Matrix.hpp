@@ -88,22 +88,20 @@ namespace omath
         {
             if constexpr (simd)
             {
+                Matrix result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 const __m128 z = _mm_setzero_ps();
-                Matrix result;
                 _mm_store_ps(&result.m[0], _mm_sub_ps(z, _mm_load_ps(&m[0])));
                 _mm_store_ps(&result.m[4], _mm_sub_ps(z, _mm_load_ps(&m[4])));
                 _mm_store_ps(&result.m[8], _mm_sub_ps(z, _mm_load_ps(&m[8])));
                 _mm_store_ps(&result.m[12], _mm_sub_ps(z, _mm_load_ps(&m[12])));
-                return result;
 #elif defined(__ARM_NEON__)
-                Matrix result;
                 vst1q_f32(&result.m[0], vnegq_f32(vld1q_f32(&m[0])));
                 vst1q_f32(&result.m[4], vnegq_f32(vld1q_f32(&m[4])));
                 vst1q_f32(&result.m[8], vnegq_f32(vld1q_f32(&m[8])));
                 vst1q_f32(&result.m[12], vnegq_f32(vld1q_f32(&m[12])));
-                return result;
 #endif
+                return result;
             }
             else
                 return generateNegative(std::make_index_sequence<cols * rows>{});
@@ -113,21 +111,19 @@ namespace omath
         {
             if constexpr (simd)
             {
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 Matrix result;
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 _mm_store_ps(&result.m[0], _mm_add_ps(_mm_load_ps(&m[0]), _mm_load_ps(&mat.m[0])));
                 _mm_store_ps(&result.m[4], _mm_add_ps(_mm_load_ps(&m[4]), _mm_load_ps(&mat.m[4])));
                 _mm_store_ps(&result.m[8], _mm_add_ps(_mm_load_ps(&m[8]), _mm_load_ps(&mat.m[8])));
                 _mm_store_ps(&result.m[12], _mm_add_ps(_mm_load_ps(&m[12]), _mm_load_ps(&mat.m[12])));
-                return result;
 #elif defined(__ARM_NEON__)
-                Matrix result;
                 vst1q_f32(&result.m[0], vaddq_f32(vld1q_f32(&m[0]), vld1q_f32(&mat.m[0])));
                 vst1q_f32(&result.m[4], vaddq_f32(vld1q_f32(&m[4]), vld1q_f32(&mat.m[4])));
                 vst1q_f32(&result.m[8], vaddq_f32(vld1q_f32(&m[8]), vld1q_f32(&mat.m[8])));
                 vst1q_f32(&result.m[12], vaddq_f32(vld1q_f32(&m[12]), vld1q_f32(&mat.m[12])));
-                return result;
 #endif
+                return result;
             }
             else
                 return generateSum(std::make_index_sequence<cols * rows>{}, mat);
@@ -159,21 +155,19 @@ namespace omath
         {
             if constexpr (simd)
             {
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 Matrix result;
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 _mm_store_ps(&result.m[0], _mm_sub_ps(_mm_load_ps(&m[0]), _mm_load_ps(&mat.m[0])));
                 _mm_store_ps(&result.m[4], _mm_sub_ps(_mm_load_ps(&m[4]), _mm_load_ps(&mat.m[4])));
                 _mm_store_ps(&result.m[8], _mm_sub_ps(_mm_load_ps(&m[8]), _mm_load_ps(&mat.m[8])));
                 _mm_store_ps(&result.m[12], _mm_sub_ps(_mm_load_ps(&m[12]), _mm_load_ps(&mat.m[12])));
-                return result;
 #elif defined(__ARM_NEON__)
-                Matrix result;
                 vst1q_f32(&result.m[0], vsubq_f32(vld1q_f32(&m[0]), vld1q_f32(&mat.m[0])));
                 vst1q_f32(&result.m[4], vsubq_f32(vld1q_f32(&m[4]), vld1q_f32(&mat.m[4])));
                 vst1q_f32(&result.m[8], vsubq_f32(vld1q_f32(&m[8]), vld1q_f32(&mat.m[8])));
                 vst1q_f32(&result.m[12], vsubq_f32(vld1q_f32(&m[12]), vld1q_f32(&mat.m[12])));
-                return result;
 #endif
+                return result;
             }
             else
                 return generateDiff(std::make_index_sequence<cols * rows>{}, mat);
@@ -205,23 +199,21 @@ namespace omath
         {
             if constexpr (simd)
             {
+                Matrix result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 const __m128 s = _mm_set1_ps(scalar);
-                Matrix result;
                 _mm_store_ps(&result.m[0], _mm_mul_ps(_mm_load_ps(&m[0]), s));
                 _mm_store_ps(&result.m[4], _mm_mul_ps(_mm_load_ps(&m[4]), s));
                 _mm_store_ps(&result.m[8], _mm_mul_ps(_mm_load_ps(&m[8]), s));
                 _mm_store_ps(&result.m[12], _mm_mul_ps(_mm_load_ps(&m[12]), s));
-                return result;
 #elif defined(__ARM_NEON__)
                 const float32x4_t s = vdupq_n_f32(scalar);
-                Matrix result;
                 vst1q_f32(&result.m[0], vmulq_f32(vld1q_f32(&m[0]), s));
                 vst1q_f32(&result.m[4], vmulq_f32(vld1q_f32(&m[4]), s));
                 vst1q_f32(&result.m[8], vmulq_f32(vld1q_f32(&m[8]), s));
                 vst1q_f32(&result.m[12], vmulq_f32(vld1q_f32(&m[12]), s));
-                return result;
 #endif
+                return result;
             }
             else
                 return generateMul(std::make_index_sequence<cols * rows>{}, scalar);
