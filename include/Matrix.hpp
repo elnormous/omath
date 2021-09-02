@@ -267,6 +267,21 @@ namespace omath
             return result;
         }
 
+        auto operator*=(const Matrix& mat) noexcept
+        {
+            static_assert(rows == cols);
+
+            const auto temp = m;
+            m = {};
+
+            for (std::size_t row = 0; row < rows; ++row)
+                for (std::size_t col = 0; col < cols; ++col)
+                    for (std::size_t i = 0; i < rows; ++i)
+                        m[row * cols + col] += temp[i * cols + col] * mat.m[row * cols + i];
+
+            return *this;
+        }
+
     private:
         template <std::size_t ...i>
         static constexpr auto generateIdentity(const std::index_sequence<i...>)

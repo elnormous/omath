@@ -902,3 +902,38 @@ TEST_CASE("2x1 matrix multiplication with 1x2 matrix", "matrix")
     REQUIRE(result[1][0] == 4.0F);
     REQUIRE(result[1][1] == 6.0F);
 }
+
+TEST_CASE("1x1 matrix multiplication assignment with matrix", "matrix")
+{
+    omath::Matrix<float, 1> matrix1{
+        2.0F
+    };
+
+    const omath::Matrix<float, 1> matrix2{
+        3.0F
+    };
+
+    matrix1 *= matrix2;
+
+    REQUIRE(matrix1[0][0] == 6.0F);
+}
+
+TEST_CASE("2x2 matrix multiplication assignment with matrix", "matrix")
+{
+    omath::Matrix<float, 2> matrix1{
+        2.0F, 3.0F,
+        4.0F, 5.0F
+    };
+
+    const omath::Matrix<float, 2> matrix2{
+        1.0F, 2.0F,
+        3.0F, 4.0F
+    };
+
+    matrix1 *= matrix2;
+
+    REQUIRE(matrix1[0][0] == 10.0F);
+    REQUIRE(matrix1[0][1] == 13.0F);
+    REQUIRE(matrix1[1][0] == 22.0F);
+    REQUIRE(matrix1[1][1] == 29.0F);
+}
