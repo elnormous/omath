@@ -151,7 +151,7 @@ namespace omath
 
         auto& operator*=(const T scalar) noexcept
         {
-            for (T& c : v) c *= scalar;
+            for (auto& c : v) c *= scalar;
             return *this;
         }
 
@@ -162,7 +162,7 @@ namespace omath
 
         auto& operator/=(const T scalar) noexcept
         {
-            for (T& c : v) c /= scalar;
+            for (auto& c : v) c /= scalar;
             return *this;
         }
 
