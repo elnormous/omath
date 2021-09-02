@@ -252,17 +252,17 @@ namespace omath
             return *this;
         }
 
-        template <std::size_t c2, std::size_t r2>
-        [[nodiscard]] auto operator*(const Matrix<T, c2, r2>& mat) const noexcept
+        template <std::size_t cols2, std::size_t rows2>
+        [[nodiscard]] auto operator*(const Matrix<T, cols2, rows2>& mat) const noexcept
         {
-            static_assert(rows == c2);
+            static_assert(rows == cols2);
 
-            Matrix<T, cols, r2> result{};
+            Matrix<T, cols, rows2> result{};
 
-            for (std::size_t row = 0; row < r2; ++row)
+            for (std::size_t row = 0; row < rows2; ++row)
                 for (std::size_t col = 0; col < cols; ++col)
                     for (std::size_t i = 0; i < rows; ++i)
-                        result.m[row * cols + col] += m[i * cols + col] * mat.m[row * c2 + i];
+                        result.m[row * cols + col] += m[i * cols + col] * mat.m[row * cols2 + i];
 
             return result;
         }
