@@ -314,8 +314,8 @@ namespace omath
         }
     };
 
-    template <typename T, std::size_t cols, std::size_t rows>
-    [[nodiscard]] auto operator*(const T scalar, const Matrix<T, cols, rows>& m) noexcept
+    template <typename T, std::size_t cols, std::size_t rows, bool simd>
+    [[nodiscard]] auto operator*(const T scalar, const Matrix<T, cols, rows, simd>& m) noexcept
     {
         return m * scalar;
     }
