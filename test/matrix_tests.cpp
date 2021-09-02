@@ -814,6 +814,21 @@ TEST_CASE("4x4 matrix multiplication assignment with scalar using SIMD", "matrix
     REQUIRE(matrix[3][3] == -6.0F);
 }
 
+TEST_CASE("Scalar multiplication with 2x2 matrix", "matrix")
+{
+    const omath::Matrix<float, 2> matrix{
+        2.0F, 3.0F,
+        4.0F, 5.0F
+    };
+
+    const auto result = 2.0F * matrix;
+
+    REQUIRE(result[0][0] == 4.0F);
+    REQUIRE(result[0][1] == 6.0F);
+    REQUIRE(result[1][0] == 8.0F);
+    REQUIRE(result[1][1] == 10.0F);
+}
+
 TEST_CASE("1x1 matrix multiplication with matrix", "matrix")
 {
     const omath::Matrix<float, 1> matrix1{

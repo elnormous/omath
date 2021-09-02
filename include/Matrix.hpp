@@ -313,6 +313,12 @@ namespace omath
             return Matrix{(m[i] * scalar)...};
         }
     };
+
+    template <typename T, std::size_t cols, std::size_t rows>
+    [[nodiscard]] auto operator*(const T scalar, const Matrix<T, cols, rows>& m) noexcept
+    {
+        return m * scalar;
+    }
 }
 
 #endif
