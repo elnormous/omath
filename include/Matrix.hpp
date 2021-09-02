@@ -267,7 +267,7 @@ namespace omath
             return result;
         }
 
-        auto operator*=(const Matrix& mat) noexcept
+        auto& operator*=(const Matrix& mat) noexcept
         {
             static_assert(rows == cols);
 
