@@ -782,6 +782,38 @@ TEST_CASE("4x4 matrix multiplication assignment with scalar", "matrix")
     REQUIRE(matrix[3][3] == -6.0F);
 }
 
+TEST_CASE("4x4 matrix multiplication assignment with scalar using SIMD", "matrix")
+{
+    omath::Matrix<float, 4, 4, true> matrix{
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F,
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F
+    };
+
+    matrix *= 2.0F;
+
+    REQUIRE(matrix[0][0] == 0.0F);
+    REQUIRE(matrix[0][1] == 2.0F);
+    REQUIRE(matrix[0][2] == 0.0F);
+    REQUIRE(matrix[0][3] == 2.0F);
+
+    REQUIRE(matrix[1][0] == 4.0F);
+    REQUIRE(matrix[1][1] == -6.0F);
+    REQUIRE(matrix[1][2] == 4.0F);
+    REQUIRE(matrix[1][3] == -6.0F);
+
+    REQUIRE(matrix[2][0] == 0.0F);
+    REQUIRE(matrix[2][1] == 2.0F);
+    REQUIRE(matrix[2][2] == 0.0F);
+    REQUIRE(matrix[2][3] == 2.0F);
+
+    REQUIRE(matrix[3][0] == 4.0F);
+    REQUIRE(matrix[3][1] == -6.0F);
+    REQUIRE(matrix[3][2] == 4.0F);
+    REQUIRE(matrix[3][3] == -6.0F);
+}
+
 TEST_CASE("1x1 matrix multiplication with matrix", "matrix")
 {
     const omath::Matrix<float, 1> matrix1{

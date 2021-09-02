@@ -229,8 +229,25 @@ namespace omath
 
         auto& operator*=(const T scalar) noexcept
         {
-            for (std::size_t i = 0; i < cols * rows; ++i)
-                m[i] *= scalar;
+            if constexpr (simd)
+            {
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+                const __m128 s = _mm_set1_ps(scalar);
+                _mm_store_ps(&m[0], _mm_mul_ps(_mm_load_ps(&m[0]), s));
+                _mm_store_ps(&m[4], _mm_mul_ps(_mm_load_ps(&m[4]), s));
+                _mm_store_ps(&m[8], _mm_mul_ps(_mm_load_ps(&m[8]), s));
+                _mm_store_ps(&m[12], _mm_mul_ps(_mm_load_ps(&m[12]), s));
+#elif defined(__ARM_NEON__)
+                const float32x4_t s = vdupq_n_f32(scalar);
+                vst1q_f32(&m[0], vmulq_f32(vld1q_f32(&m[0]), s));
+                vst1q_f32(&m[4], vmulq_f32(vld1q_f32(&m[4]), s));
+                vst1q_f32(&m[8], vmulq_f32(vld1q_f32(&m[8]), s));
+                vst1q_f32(&m[12], vmulq_f32(vld1q_f32(&m[12]), s));
+#endif
+            }
+            else
+                for (std::size_t i = 0; i < cols * rows; ++i)
+                    m[i] *= scalar;
 
             return *this;
         }
