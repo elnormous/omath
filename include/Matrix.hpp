@@ -249,7 +249,7 @@ namespace omath
         {
             static_assert(rows == cols2);
 
-            if (simd && simd2)
+            if constexpr (simd && simd2)
             {
                 Matrix<T, cols, rows2, simd && simd2> result;
 
@@ -268,9 +268,7 @@ namespace omath
 
                     const __m128 a0 = _mm_add_ps(v0, v1);
                     const __m128 a1 = _mm_add_ps(v2, v3);
-                    const __m128 a2 = _mm_add_ps(a0, a1);
-
-                    _mm_store_ps(&result.m[i * 4], a2);
+                    _mm_store_ps(&result.m[i * 4], _mm_add_ps(a0, a1));
 #elif defined(__ARM_NEON__)
                     const float32x4_t e0 = vdupq_n_f32(mat.m[i * 4 + 0]);
                     const float32x4_t e1 = vdupq_n_f32(mat.m[i * 4 + 1]);
@@ -284,9 +282,7 @@ namespace omath
 
                     const float32x4_t a0 = vaddq_f32(v0, v1);
                     const float32x4_t a1 = vaddq_f32(v2, v3);
-                    const float32x4_t a2 = vaddq_f32(a0, a1);
-
-                    vst1q_f32(&result.m[i * 4], a2);
+                    vst1q_f32(&result.m[i * 4], vaddq_f32(a0, a1));
 #endif
                 }
                 return result;
@@ -308,15 +304,56 @@ namespace omath
         {
             static_assert(rows == cols);
 
-            const auto temp = m;
-            m = {};
+            if constexpr (simd)
+            {
+                const auto temp = m;
 
-            for (std::size_t row = 0; row < rows; ++row)
-                for (std::size_t col = 0; col < cols; ++col)
-                    for (std::size_t i = 0; i < rows; ++i)
-                        m[row * cols + col] += temp[i * cols + col] * mat.m[row * cols + i];
+                for (std::size_t i = 0; i < 4; ++i)
+                {
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+                    const __m128 e0 = _mm_set1_ps(mat.m[i * 4 + 0]);
+                    const __m128 e1 = _mm_set1_ps(mat.m[i * 4 + 1]);
+                    const __m128 e2 = _mm_set1_ps(mat.m[i * 4 + 2]);
+                    const __m128 e3 = _mm_set1_ps(mat.m[i * 4 + 3]);
 
-            return *this;
+                    const __m128 v0 = _mm_mul_ps(_mm_load_ps(&temp[0]), e0);
+                    const __m128 v1 = _mm_mul_ps(_mm_load_ps(&temp[4]), e1);
+                    const __m128 v2 = _mm_mul_ps(_mm_load_ps(&temp[8]), e2);
+                    const __m128 v3 = _mm_mul_ps(_mm_load_ps(&temp[12]), e3);
+
+                    const __m128 a0 = _mm_add_ps(v0, v1);
+                    const __m128 a1 = _mm_add_ps(v2, v3);
+                    _mm_store_ps(&m[i * 4], _mm_add_ps(a0, a1));
+#elif defined(__ARM_NEON__)
+                    const float32x4_t e0 = vdupq_n_f32(mat.m[i * 4 + 0]);
+                    const float32x4_t e1 = vdupq_n_f32(mat.m[i * 4 + 1]);
+                    const float32x4_t e2 = vdupq_n_f32(mat.m[i * 4 + 2]);
+                    const float32x4_t e3 = vdupq_n_f32(mat.m[i * 4 + 3]);
+
+                    const float32x4_t v0 = vmulq_f32(vld1q_f32(&temp[0]), e0);
+                    const float32x4_t v1 = vmulq_f32(vld1q_f32(&temp[4]), e1);
+                    const float32x4_t v2 = vmulq_f32(vld1q_f32(&temp[8]), e2);
+                    const float32x4_t v3 = vmulq_f32(vld1q_f32(&temp[12]), e3);
+
+                    const float32x4_t a0 = vaddq_f32(v0, v1);
+                    const float32x4_t a1 = vaddq_f32(v2, v3);
+                    vst1q_f32(&m[i * 4], vaddq_f32(a0, a1));
+#endif
+                }
+                return *this;
+            }
+            else
+            {
+                const auto temp = m;
+                m = {};
+
+                for (std::size_t row = 0; row < rows; ++row)
+                    for (std::size_t col = 0; col < cols; ++col)
+                        for (std::size_t i = 0; i < rows; ++i)
+                            m[row * cols + col] += temp[i * cols + col] * mat.m[row * cols + i];
+
+                return *this;
+            }
         }
 
     private:
