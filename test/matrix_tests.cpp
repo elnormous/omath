@@ -829,7 +829,7 @@ TEST_CASE("Scalar multiplication with 2x2 matrix", "matrix")
     REQUIRE(result[1][1] == 10.0F);
 }
 
-TEST_CASE("1x1 matrix multiplication with matrix", "matrix")
+TEST_CASE("1x1 matrix multiplication", "matrix")
 {
     const omath::Matrix<float, 1> matrix1{
         2.0F
@@ -844,7 +844,7 @@ TEST_CASE("1x1 matrix multiplication with matrix", "matrix")
     REQUIRE(result[0][0] == 6.0F);
 }
 
-TEST_CASE("2x2 matrix multiplication with matrix", "matrix")
+TEST_CASE("2x2 matrix multiplication", "matrix")
 {
     const omath::Matrix<float, 2> matrix1{
         2.0F, 3.0F,
@@ -918,7 +918,7 @@ TEST_CASE("2x1 matrix multiplication with 1x2 matrix", "matrix")
     REQUIRE(result[1][1] == 6.0F);
 }
 
-TEST_CASE("4x4 matrix multiplication with 4x4 matrix", "matrix")
+TEST_CASE("4x4 matrix multiplication", "matrix")
 {
     const omath::Matrix<float, 4, 4, false> matrix1{
         1.0F, 2.0F, 3.0F, 4.0F,
@@ -957,7 +957,46 @@ TEST_CASE("4x4 matrix multiplication with 4x4 matrix", "matrix")
     REQUIRE(result[3][3] == 160.0F);
 }
 
-TEST_CASE("1x1 matrix multiplication assignment with matrix", "matrix")
+TEST_CASE("4x4 matrix multiplication using SIMD", "matrix")
+{
+    const omath::Matrix<float, 4, 4, true> matrix1{
+        1.0F, 2.0F, 3.0F, 4.0F,
+        5.0F, 6.0F, 7.0F, 8.0F,
+        1.0F, 2.0F, 3.0F, 4.0F,
+        5.0F, 6.0F, 7.0F, 8.0F
+    };
+
+    const omath::Matrix<float, 4, 4, true> matrix2{
+        1.0F, 2.0F, 3.0F, 4.0F,
+        5.0F, 6.0F, 7.0F, 8.0F,
+        1.0F, 2.0F, 3.0F, 4.0F,
+        5.0F, 6.0F, 7.0F, 8.0F
+    };
+
+    const omath::Matrix<float, 4, 4, true> result = matrix1 * matrix2;
+
+    REQUIRE(result[0][0] == 34.0F);
+    REQUIRE(result[0][1] == 44.0F);
+    REQUIRE(result[0][2] == 54.0F);
+    REQUIRE(result[0][3] == 64.0F);
+
+    REQUIRE(result[1][0] == 82.0F);
+    REQUIRE(result[1][1] == 108.0F);
+    REQUIRE(result[1][2] == 134.0F);
+    REQUIRE(result[1][3] == 160.0F);
+
+    REQUIRE(result[2][0] == 34.0F);
+    REQUIRE(result[2][1] == 44.0F);
+    REQUIRE(result[2][2] == 54.0F);
+    REQUIRE(result[2][3] == 64.0F);
+
+    REQUIRE(result[3][0] == 82.0F);
+    REQUIRE(result[3][1] == 108.0F);
+    REQUIRE(result[3][2] == 134.0F);
+    REQUIRE(result[3][3] == 160.0F);
+}
+
+TEST_CASE("1x1 matrix multiplication assignment", "matrix")
 {
     omath::Matrix<float, 1> matrix1{
         2.0F
@@ -972,7 +1011,7 @@ TEST_CASE("1x1 matrix multiplication assignment with matrix", "matrix")
     REQUIRE(matrix1[0][0] == 6.0F);
 }
 
-TEST_CASE("2x2 matrix multiplication assignment with matrix", "matrix")
+TEST_CASE("2x2 matrix multiplication assignment", "matrix")
 {
     omath::Matrix<float, 2> matrix1{
         2.0F, 3.0F,
@@ -992,7 +1031,7 @@ TEST_CASE("2x2 matrix multiplication assignment with matrix", "matrix")
     REQUIRE(matrix1[1][1] == 29.0F);
 }
 
-TEST_CASE("4x4 matrix multiplication assignment with matrix", "matrix")
+TEST_CASE("4x4 matrix multiplication assignment", "matrix")
 {
     omath::Matrix<float, 4, 4, false> matrix1{
         1.0F, 2.0F, 3.0F, 4.0F,
