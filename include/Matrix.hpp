@@ -74,6 +74,17 @@ namespace omath
                         std::swap(m[row * cols + col], m[col * rows + row]);
         }
 
+        T determinant() const noexcept
+        {
+            static_assert(rows > 0 && cols > 0 && rows == cols);
+            static_assert(rows <= 2 && cols <= 2);
+
+            if (rows == 1 && cols == 1)
+                return m[0];
+            else if (rows == 2 && cols == 2)
+                return m[0] * m[3] - m[1] * m[2];
+        }
+
         [[nodiscard]] constexpr auto operator==(const Matrix& mat) const noexcept
         {
             return std::equal(std::begin(m), std::end(m), std::begin(mat.m));

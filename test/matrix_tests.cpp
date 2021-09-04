@@ -164,6 +164,25 @@ TEST_CASE("4x4 matrix transpose using SIMD", "matrix")
     REQUIRE(matrix[3][3] == 16.0F);
 }
 
+TEST_CASE("1x1 matrix determinant", "matrix")
+{
+    omath::Matrix<float, 1, 1> matrix{
+        2.0F
+    };
+
+    REQUIRE(matrix.determinant() == Approx(2.0F));
+}
+
+TEST_CASE("2x2 matrix determinant", "matrix")
+{
+    omath::Matrix<float, 2, 2> matrix{
+        1.0F, 2.0F,
+        3.0F, 4.0F
+    };
+
+    REQUIRE(matrix.determinant() == Approx(-2.0F));
+}
+
 TEST_CASE("2x2 matrix comparison", "matrix")
 {
     const omath::Matrix<float, 2> matrix1{
