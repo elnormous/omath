@@ -754,6 +754,85 @@ TEST_CASE("4x4 matrix multiplication with scalar using SIMD", "matrix")
     REQUIRE(result[3][3] == -6.0F);
 }
 
+TEST_CASE("2x2 matrix divison with scalar", "matrix")
+{
+    const omath::Matrix<float, 2> matrix{
+        2.0F, 4.0F,
+        4.0F, 10.0F
+    };
+
+    const auto result = matrix / 2.0F;
+
+    REQUIRE(result[0][0] == 1.0F);
+    REQUIRE(result[0][1] == 2.0F);
+    REQUIRE(result[1][0] == 2.0F);
+    REQUIRE(result[1][1] == 5.0F);
+}
+
+TEST_CASE("4x4 matrix divison with scalar", "matrix")
+{
+    const omath::Matrix<float, 4, 4, false> matrix{
+        0.0F, 2.0F, 0.0F, 2.0F,
+        2.0F, -4.0F, 2.0F, -4.0F,
+        0.0F, 2.0F, 0.0F, 2.0F,
+        2.0F, -4.0F, 2.0F, -4.0F
+    };
+
+    const auto result = matrix / 2.0F;
+
+    REQUIRE(result[0][0] == 0.0F);
+    REQUIRE(result[0][1] == 1.0F);
+    REQUIRE(result[0][2] == 0.0F);
+    REQUIRE(result[0][3] == 1.0F);
+
+    REQUIRE(result[1][0] == 1.0F);
+    REQUIRE(result[1][1] == -2.0F);
+    REQUIRE(result[1][2] == 1.0F);
+    REQUIRE(result[1][3] == -2.0F);
+
+    REQUIRE(result[2][0] == 0.0F);
+    REQUIRE(result[2][1] == 1.0F);
+    REQUIRE(result[2][2] == 0.0F);
+    REQUIRE(result[2][3] == 1.0F);
+
+    REQUIRE(result[3][0] == 1.0F);
+    REQUIRE(result[3][1] == -2.0F);
+    REQUIRE(result[3][2] == 1.0F);
+    REQUIRE(result[3][3] == -2.0F);
+}
+
+TEST_CASE("4x4 matrix divison with scalar using SIMD", "matrix")
+{
+    const omath::Matrix<float, 4, 4, true> matrix{
+        0.0F, 2.0F, 0.0F, 2.0F,
+        2.0F, -4.0F, 2.0F, -4.0F,
+        0.0F, 2.0F, 0.0F, 2.0F,
+        2.0F, -4.0F, 2.0F, -4.0F
+    };
+
+    const omath::Matrix<float, 4, 4, true> result = matrix / 2.0F;
+
+    REQUIRE(result[0][0] == 0.0F);
+    REQUIRE(result[0][1] == 1.0F);
+    REQUIRE(result[0][2] == 0.0F);
+    REQUIRE(result[0][3] == 1.0F);
+
+    REQUIRE(result[1][0] == 1.0F);
+    REQUIRE(result[1][1] == -2.0F);
+    REQUIRE(result[1][2] == 1.0F);
+    REQUIRE(result[1][3] == -2.0F);
+
+    REQUIRE(result[2][0] == 0.0F);
+    REQUIRE(result[2][1] == 1.0F);
+    REQUIRE(result[2][2] == 0.0F);
+    REQUIRE(result[2][3] == 1.0F);
+
+    REQUIRE(result[3][0] == 1.0F);
+    REQUIRE(result[3][1] == -2.0F);
+    REQUIRE(result[3][2] == 1.0F);
+    REQUIRE(result[3][3] == -2.0F);
+}
+
 TEST_CASE("2x2 matrix multiplication assignment with scalar", "matrix")
 {
     omath::Matrix<float, 2> matrix{
@@ -831,6 +910,85 @@ TEST_CASE("4x4 matrix multiplication assignment with scalar using SIMD", "matrix
     REQUIRE(matrix[3][1] == -6.0F);
     REQUIRE(matrix[3][2] == 4.0F);
     REQUIRE(matrix[3][3] == -6.0F);
+}
+
+TEST_CASE("2x2 matrix division assignment with scalar", "matrix")
+{
+    omath::Matrix<float, 2> matrix{
+        2.0F, 4.0F,
+        4.0F, 10.0F
+    };
+
+    matrix /= 2.0F;
+
+    REQUIRE(matrix[0][0] == 1.0F);
+    REQUIRE(matrix[0][1] == 2.0F);
+    REQUIRE(matrix[1][0] == 2.0F);
+    REQUIRE(matrix[1][1] == 5.0F);
+}
+
+TEST_CASE("4x4 matrix division assignment with scalar", "matrix")
+{
+    omath::Matrix<float, 4, 4, false> matrix{
+        0.0F, 2.0F, 0.0F, 2.0F,
+        2.0F, -4.0F, 2.0F, -4.0F,
+        0.0F, 2.0F, 0.0F, 2.0F,
+        2.0F, -4.0F, 2.0F, -4.0F
+    };
+
+    matrix /= 2.0F;
+
+    REQUIRE(matrix[0][0] == 0.0F);
+    REQUIRE(matrix[0][1] == 1.0F);
+    REQUIRE(matrix[0][2] == 0.0F);
+    REQUIRE(matrix[0][3] == 1.0F);
+
+    REQUIRE(matrix[1][0] == 1.0F);
+    REQUIRE(matrix[1][1] == -2.0F);
+    REQUIRE(matrix[1][2] == 1.0F);
+    REQUIRE(matrix[1][3] == -2.0F);
+
+    REQUIRE(matrix[2][0] == 0.0F);
+    REQUIRE(matrix[2][1] == 1.0F);
+    REQUIRE(matrix[2][2] == 0.0F);
+    REQUIRE(matrix[2][3] == 1.0F);
+
+    REQUIRE(matrix[3][0] == 1.0F);
+    REQUIRE(matrix[3][1] == -2.0F);
+    REQUIRE(matrix[3][2] == 1.0F);
+    REQUIRE(matrix[3][3] == -2.0F);
+}
+
+TEST_CASE("4x4 matrix division assignment with scalar using SIMD", "matrix")
+{
+    omath::Matrix<float, 4, 4, true> matrix{
+        0.0F, 2.0F, 0.0F, 2.0F,
+        2.0F, -4.0F, 2.0F, -4.0F,
+        0.0F, 2.0F, 0.0F, 2.0F,
+        2.0F, -4.0F, 2.0F, -4.0F
+    };
+
+    matrix /= 2.0F;
+
+    REQUIRE(matrix[0][0] == 0.0F);
+    REQUIRE(matrix[0][1] == 1.0F);
+    REQUIRE(matrix[0][2] == 0.0F);
+    REQUIRE(matrix[0][3] == 1.0F);
+
+    REQUIRE(matrix[1][0] == 1.0F);
+    REQUIRE(matrix[1][1] == -2.0F);
+    REQUIRE(matrix[1][2] == 1.0F);
+    REQUIRE(matrix[1][3] == -2.0F);
+
+    REQUIRE(matrix[2][0] == 0.0F);
+    REQUIRE(matrix[2][1] == 1.0F);
+    REQUIRE(matrix[2][2] == 0.0F);
+    REQUIRE(matrix[2][3] == 1.0F);
+
+    REQUIRE(matrix[3][0] == 1.0F);
+    REQUIRE(matrix[3][1] == -2.0F);
+    REQUIRE(matrix[3][2] == 1.0F);
+    REQUIRE(matrix[3][3] == -2.0F);
 }
 
 TEST_CASE("Scalar multiplication with 2x2 matrix", "matrix")

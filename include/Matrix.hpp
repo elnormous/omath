@@ -230,6 +230,30 @@ namespace omath
                 return generateMul(std::make_index_sequence<cols * rows>{}, scalar);
         }
 
+        [[nodiscard]] const auto operator/(const T scalar) const noexcept
+        {
+            if constexpr (simd)
+            {
+                Matrix result;
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+                const __m128 s = _mm_set1_ps(scalar);
+                _mm_store_ps(&result.m[0], _mm_div_ps(_mm_load_ps(&m[0]), s));
+                _mm_store_ps(&result.m[4], _mm_div_ps(_mm_load_ps(&m[4]), s));
+                _mm_store_ps(&result.m[8], _mm_div_ps(_mm_load_ps(&m[8]), s));
+                _mm_store_ps(&result.m[12], _mm_div_ps(_mm_load_ps(&m[12]), s));
+#elif defined(__ARM_NEON__)
+                const float32x4_t s = vdupq_n_f32(scalar);
+                vst1q_f32(&result.m[0], vdivq_f32(vld1q_f32(&m[0]), s));
+                vst1q_f32(&result.m[4], vdivq_f32(vld1q_f32(&m[4]), s));
+                vst1q_f32(&result.m[8], vdivq_f32(vld1q_f32(&m[8]), s));
+                vst1q_f32(&result.m[12], vdivq_f32(vld1q_f32(&m[12]), s));
+#endif
+                return result;
+            }
+            else
+                return generateDiv(std::make_index_sequence<cols * rows>{}, scalar);
+        }
+
         auto& operator*=(const T scalar) noexcept
         {
             if constexpr (simd)
@@ -251,6 +275,31 @@ namespace omath
             else
                 for (std::size_t i = 0; i < cols * rows; ++i)
                     m[i] *= scalar;
+
+            return *this;
+        }
+
+        auto& operator/=(const T scalar) noexcept
+        {
+            if constexpr (simd)
+            {
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+                const __m128 s = _mm_set1_ps(scalar);
+                _mm_store_ps(&m[0], _mm_div_ps(_mm_load_ps(&m[0]), s));
+                _mm_store_ps(&m[4], _mm_div_ps(_mm_load_ps(&m[4]), s));
+                _mm_store_ps(&m[8], _mm_div_ps(_mm_load_ps(&m[8]), s));
+                _mm_store_ps(&m[12], _mm_div_ps(_mm_load_ps(&m[12]), s));
+#elif defined(__ARM_NEON__)
+                const float32x4_t s = vdupq_n_f32(scalar);
+                vst1q_f32(&m[0], vdivq_f32(vld1q_f32(&m[0]), s));
+                vst1q_f32(&m[4], vdivq_f32(vld1q_f32(&m[4]), s));
+                vst1q_f32(&m[8], vdivq_f32(vld1q_f32(&m[8]), s));
+                vst1q_f32(&m[12], vdivq_f32(vld1q_f32(&m[12]), s));
+#endif
+            }
+            else
+                for (std::size_t i = 0; i < cols * rows; ++i)
+                    m[i] /= scalar;
 
             return *this;
         }
@@ -396,6 +445,12 @@ namespace omath
         constexpr auto generateMul(const std::index_sequence<i...>, const T scalar) const
         {
             return Matrix{(m[i] * scalar)...};
+        }
+
+        template <std::size_t ...i>
+        constexpr auto generateDiv(const std::index_sequence<i...>, const T scalar) const
+        {
+            return Matrix{(m[i] / scalar)...};
         }
     };
 
