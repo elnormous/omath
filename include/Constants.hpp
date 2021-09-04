@@ -1,5 +1,5 @@
 //
-// elnormous/math
+// elnormous/omath
 //
 
 #ifndef OMATH_CONSTANTS

@@ -25,6 +25,9 @@
     <ClInclude Include="..\include\Quaternion.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\Simd.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\Vector.hpp">
       <Filter>include</Filter>
     </ClInclude>

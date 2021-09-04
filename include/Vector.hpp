@@ -1,5 +1,5 @@
 //
-// elnormous/math
+// elnormous/omath
 //
 
 #ifndef OMATH_VECTOR
@@ -10,25 +10,10 @@
 #include <cmath>
 #include <type_traits>
 #include <utility>
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-#  include <xmmintrin.h>
-#elif defined(__ARM_NEON__)
-#  include <arm_neon.h>
-#endif
+#include "Simd.hpp"
 
 namespace omath
 {
-    template <class T, std::size_t dims>
-    struct CanVectorUseSimd: std::false_type {};
-
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0 || defined(__ARM_NEON__)
-    template <>
-    struct CanVectorUseSimd<float, 4>: std::true_type {};
-#endif
-
-    template <class T, std::size_t dims>
-    inline constexpr bool canVectorUseSimd = CanVectorUseSimd<T, dims>::value;
-
     template <typename T, std::size_t dims, bool simd = canVectorUseSimd<T, dims>>
     class Vector final
     {

@@ -32,6 +32,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		301E1F7B26E38D65003446C5 /* Simd.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Simd.hpp; sourceTree = "<group>"; };
 		303E87A725223DDF008B7E24 /* vector_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = vector_tests.cpp; sourceTree = "<group>"; };
 		306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = matrix_tests.cpp; sourceTree = "<group>"; };
 		306B2B8925B8EAF5006878B6 /* plane_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = plane_tests.cpp; sourceTree = "<group>"; };
@@ -80,6 +81,7 @@
 				30A2D32225B33B3700A0AFBD /* Matrix.hpp */,
 				30A2D33325B5F3A700A0AFBD /* Plane.hpp */,
 				30A2D33125B3BAF600A0AFBD /* Quaternion.hpp */,
+				301E1F7B26E38D65003446C5 /* Simd.hpp */,
 				30A2D32F25B3B66100A0AFBD /* Vector.hpp */,
 			);
 			name = include;

@@ -30,6 +30,7 @@
     <ClInclude Include="..\include\Matrix.hpp" />
     <ClInclude Include="..\include\Plane.hpp" />
     <ClInclude Include="..\include\Quaternion.hpp" />
+    <ClInclude Include="..\include\Simd.hpp" />
     <ClInclude Include="..\include\Vector.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
