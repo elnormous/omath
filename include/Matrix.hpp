@@ -74,7 +74,7 @@ namespace omath
                         std::swap(m[row * cols + col], m[col * rows + row]);
         }
 
-        T determinant() const noexcept
+        [[nodiscard]] auto determinant() const noexcept
         {
             static_assert(rows > 0 && cols > 0 && rows == cols);
             static_assert(rows <= 2 && cols <= 2);
