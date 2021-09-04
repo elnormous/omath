@@ -69,9 +69,9 @@ namespace omath
 #endif
             }
             else
-                for (std::size_t row = 0; row < rows; ++row)
-                    for (std::size_t col = row + 1; col < cols; ++col)
-                        std::swap(m[row * cols + col], m[col * rows + row]);
+                for (std::size_t i = 0; i < rows; ++i)
+                    for (std::size_t j = i + 1; j < cols; ++j)
+                        std::swap(m[i * cols + j], m[j * rows + i]);
         }
 
         [[nodiscard]] auto determinant() const noexcept
@@ -351,10 +351,10 @@ namespace omath
             {
                 Matrix<T, cols, rows2, simd && simd2> result{};
 
-                for (std::size_t row = 0; row < rows2; ++row)
-                    for (std::size_t col = 0; col < cols; ++col)
-                        for (std::size_t i = 0; i < rows; ++i)
-                            result.m[row * cols + col] += m[i * cols + col] * mat.m[row * cols2 + i];
+                for (std::size_t i = 0; i < rows2; ++i)
+                    for (std::size_t j = 0; j < cols; ++j)
+                        for (std::size_t k = 0; k < rows; ++k)
+                            result.m[i * cols + j] += m[k * cols + j] * mat.m[i * cols2 + k];
 
                 return result;
             }
@@ -407,10 +407,10 @@ namespace omath
                 const auto temp = m;
                 m = {};
 
-                for (std::size_t row = 0; row < rows; ++row)
-                    for (std::size_t col = 0; col < cols; ++col)
-                        for (std::size_t i = 0; i < rows; ++i)
-                            m[row * cols + col] += temp[i * cols + col] * mat.m[row * cols + i];
+                for (std::size_t i = 0; i < rows; ++i)
+                    for (std::size_t j = 0; j < cols; ++j)
+                        for (std::size_t k = 0; k < rows; ++k)
+                            m[i * cols + j] += temp[k * cols + j] * mat.m[i * cols + k];
 
                 return *this;
             }
