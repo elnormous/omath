@@ -100,6 +100,11 @@ namespace omath
             return !std::equal(std::begin(v), std::end(v), std::begin(vec.v));
         }
 
+        [[nodiscard]] constexpr auto operator+() const noexcept
+        {
+            return *this;
+        }
+
         [[nodiscard]] constexpr auto operator-() const noexcept
         {
             return generateInverse(std::make_index_sequence<dims>{});

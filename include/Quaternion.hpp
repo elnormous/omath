@@ -48,6 +48,11 @@ namespace omath
             return v[0] != q.v[0] || v[1] != q.v[1] || v[2] != q.v[2] || v[3] != q.v[3];
         }
 
+        [[nodiscard]] constexpr auto operator+() const noexcept
+        {
+            return *this;
+        }
+
         [[nodiscard]] constexpr auto operator-() const noexcept
         {
             return Quaternion{-v[0], -v[1], -v[2], -v[3]};

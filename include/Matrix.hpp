@@ -59,9 +59,14 @@ namespace omath
             return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
-        [[nodiscard]] constexpr auto operator-() const noexcept
+        [[nodiscard]] constexpr auto operator+() const noexcept
         {
             return generateNegative(std::make_index_sequence<cols * rows>{});
+        }
+        
+        [[nodiscard]] constexpr auto operator-() const noexcept
+        {
+            return *this;
         }
 
         [[nodiscard]] constexpr const auto operator+(const Matrix& mat) const noexcept
@@ -235,6 +240,11 @@ namespace omath
         [[nodiscard]] auto operator!=(const Matrix& mat) const noexcept
         {
             return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
+        }
+
+        [[nodiscard]] constexpr auto operator+() const noexcept
+        {
+            return *this;
         }
 
         [[nodiscard]] auto operator-() const noexcept

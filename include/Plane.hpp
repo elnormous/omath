@@ -44,6 +44,11 @@ namespace omath
             return v[0] != p.v[0] || v[1] != p.v[1] || v[2] != p.v[2] || v[3] != p.v[3];
         }
 
+        [[nodiscard]] constexpr auto operator+() const noexcept
+        {
+            return *this;
+        }
+
         [[nodiscard]] constexpr auto operator-() const noexcept
         {
             return Plane{-v[0], -v[1], -v[2], -v[3]};
