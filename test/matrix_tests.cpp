@@ -161,7 +161,6 @@ TEST_CASE("2x2 matrix determinant", "matrix")
     REQUIRE(matrix.determinant() == Approx(-2.0F));
 }
 
-
 TEST_CASE("2x2 matrix negation", "matrix")
 {
     const omath::Matrix<float, 2> matrix{
