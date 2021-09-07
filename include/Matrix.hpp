@@ -61,12 +61,12 @@ namespace omath
 
         [[nodiscard]] constexpr auto operator+() const noexcept
         {
-            return generateNegative(std::make_index_sequence<cols * rows>{});
+            return *this;
         }
         
         [[nodiscard]] constexpr auto operator-() const noexcept
         {
-            return *this;
+            return generateNegative(std::make_index_sequence<cols * rows>{});
         }
 
         [[nodiscard]] constexpr const auto operator+(const Matrix& mat) const noexcept
