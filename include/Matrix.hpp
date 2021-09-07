@@ -33,9 +33,11 @@ namespace omath
         {
             static_assert(cols == rows);
 
+            using std::swap;
+
             for (std::size_t i = 0; i < rows; ++i)
                 for (std::size_t j = i + 1; j < cols; ++j)
-                    std::swap(m[i * cols + j], m[j * rows + i]);
+                    swap(m[i * cols + j], m[j * rows + i]);
         }
 
         [[nodiscard]] constexpr auto determinant() const noexcept
