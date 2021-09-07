@@ -384,7 +384,6 @@ namespace omath
             vst1q_f32(&m[8], vmulq_f32(vld1q_f32(&m[8]), s));
             vst1q_f32(&m[12], vmulq_f32(vld1q_f32(&m[12]), s));
 #endif
-
             return *this;
         }
 
@@ -403,7 +402,6 @@ namespace omath
             vst1q_f32(&m[8], vdivq_f32(vld1q_f32(&m[8]), s));
             vst1q_f32(&m[12], vdivq_f32(vld1q_f32(&m[12]), s));
 #endif
-
             return *this;
         }
 
@@ -416,15 +414,9 @@ namespace omath
             const auto row1 = _mm_load_ps(&m[4]);
             const auto row2 = _mm_load_ps(&m[8]);
             const auto row3 = _mm_load_ps(&m[12]);
-#elif defined(__ARM_NEON__)
-            const auto row0 = vld1q_f32(&m[0]);
-            const auto row1 = vld1q_f32(&m[4]);
-            const auto row2 = vld1q_f32(&m[8]);
-            const auto row3 = vld1q_f32(&m[12]);
-#endif
+
             for (std::size_t i = 0; i < 4; ++i)
             {
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 const __m128 e0 = _mm_set1_ps(mat.m[i * 4 + 0]);
                 const __m128 e1 = _mm_set1_ps(mat.m[i * 4 + 1]);
                 const __m128 e2 = _mm_set1_ps(mat.m[i * 4 + 2]);
@@ -438,7 +430,15 @@ namespace omath
                 const __m128 a0 = _mm_add_ps(v0, v1);
                 const __m128 a1 = _mm_add_ps(v2, v3);
                 _mm_store_ps(&result.m[i * 4], _mm_add_ps(a0, a1));
+            }
 #elif defined(__ARM_NEON__)
+            const auto row0 = vld1q_f32(&m[0]);
+            const auto row1 = vld1q_f32(&m[4]);
+            const auto row2 = vld1q_f32(&m[8]);
+            const auto row3 = vld1q_f32(&m[12]);
+
+            for (std::size_t i = 0; i < 4; ++i)
+            {
                 const float32x4_t e0 = vdupq_n_f32(mat.m[i * 4 + 0]);
                 const float32x4_t e1 = vdupq_n_f32(mat.m[i * 4 + 1]);
                 const float32x4_t e2 = vdupq_n_f32(mat.m[i * 4 + 2]);
@@ -452,8 +452,8 @@ namespace omath
                 const float32x4_t a0 = vaddq_f32(v0, v1);
                 const float32x4_t a1 = vaddq_f32(v2, v3);
                 vst1q_f32(&result.m[i * 4], vaddq_f32(a0, a1));
-#endif
             }
+#endif
             return result;
         }
 
@@ -464,16 +464,9 @@ namespace omath
             const auto row1 = _mm_load_ps(&m[4]);
             const auto row2 = _mm_load_ps(&m[8]);
             const auto row3 = _mm_load_ps(&m[12]);
-#elif defined(__ARM_NEON__)
-            const auto row0 = vld1q_f32(&m[0]);
-            const auto row1 = vld1q_f32(&m[4]);
-            const auto row2 = vld1q_f32(&m[8]);
-            const auto row3 = vld1q_f32(&m[12]);
-#endif
 
             for (std::size_t i = 0; i < 4; ++i)
             {
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
                 const __m128 e0 = _mm_set1_ps(mat.m[i * 4 + 0]);
                 const __m128 e1 = _mm_set1_ps(mat.m[i * 4 + 1]);
                 const __m128 e2 = _mm_set1_ps(mat.m[i * 4 + 2]);
@@ -487,7 +480,15 @@ namespace omath
                 const __m128 a0 = _mm_add_ps(v0, v1);
                 const __m128 a1 = _mm_add_ps(v2, v3);
                 _mm_store_ps(&m[i * 4], _mm_add_ps(a0, a1));
+            }
 #elif defined(__ARM_NEON__)
+            const auto row0 = vld1q_f32(&m[0]);
+            const auto row1 = vld1q_f32(&m[4]);
+            const auto row2 = vld1q_f32(&m[8]);
+            const auto row3 = vld1q_f32(&m[12]);
+
+            for (std::size_t i = 0; i < 4; ++i)
+            {
                 const float32x4_t e0 = vdupq_n_f32(mat.m[i * 4 + 0]);
                 const float32x4_t e1 = vdupq_n_f32(mat.m[i * 4 + 1]);
                 const float32x4_t e2 = vdupq_n_f32(mat.m[i * 4 + 2]);
@@ -501,8 +502,8 @@ namespace omath
                 const float32x4_t a0 = vaddq_f32(v0, v1);
                 const float32x4_t a1 = vaddq_f32(v2, v3);
                 vst1q_f32(&m[i * 4], vaddq_f32(a0, a1));
-#endif
             }
+#endif
             return *this;
         }
     };
