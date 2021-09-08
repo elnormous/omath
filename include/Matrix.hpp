@@ -13,7 +13,7 @@
 
 namespace omath
 {
-    template <typename T, std::size_t cols, std::size_t rows = cols, bool simd = canMatrixUseSimd<T, cols, rows>>
+    template <typename T, std::size_t rows, std::size_t cols = rows, bool simd = canMatrixUseSimd<T, rows, cols>>
     class Matrix final
     {
         static_assert(!simd);
@@ -119,18 +119,18 @@ namespace omath
             return *this;
         }
 
-        template <std::size_t cols2, std::size_t rows2, bool simd2>
-        [[nodiscard]] auto operator*(const Matrix<T, cols2, rows2, simd2>& mat) const noexcept
+        template <std::size_t rows2, std::size_t cols2, bool simd2>
+        [[nodiscard]] auto operator*(const Matrix<T, rows2, cols2, simd2>& mat) const noexcept
         {
-            static_assert(rows == cols2);
+            static_assert(cols == rows2);
 
-            Matrix<T, cols, rows2, simd && simd2> result{};
+            Matrix<T, rows, cols2, simd && simd2> result{};
 
             // TODO: make constexpr
-            for (std::size_t i = 0; i < rows2; ++i)
-                for (std::size_t j = 0; j < cols; ++j)
-                    for (std::size_t k = 0; k < rows; ++k)
-                        result.m[i * cols + j] += m[k * cols + j] * mat.m[i * cols2 + k];
+            for (std::size_t i = 0; i < rows; ++i)
+                for (std::size_t j = 0; j < cols2; ++j)
+                    for (std::size_t k = 0; k < rows2; ++k)
+                        result.m[i * cols2 + j] += m[i * cols + k] * mat.m[k * cols2 + j];
 
             return result;
         }
@@ -410,7 +410,6 @@ namespace omath
         [[nodiscard]] auto operator*(const Matrix& mat) const noexcept
         {
             Matrix result;
-
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
             const auto row0 = _mm_load_ps(&m[0]);
             const auto row1 = _mm_load_ps(&m[4]);
@@ -510,8 +509,8 @@ namespace omath
         }
     };
 
-    template <typename T, std::size_t cols, std::size_t rows, bool simd>
-    [[nodiscard]] auto operator*(const T scalar, const Matrix<T, cols, rows, simd>& m) noexcept
+    template <typename T, std::size_t rows, std::size_t cols, bool simd>
+    [[nodiscard]] auto operator*(const T scalar, const Matrix<T, rows, cols, simd>& m) noexcept
     {
         return m * scalar;
     }

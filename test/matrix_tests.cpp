@@ -768,20 +768,20 @@ TEST_CASE("2x2 matrix multiplication", "matrix")
     const auto result = matrix1 * matrix2;
 
     REQUIRE(result == omath::Matrix<float, 2, 2>{
-        10.0F, 13.0F,
-        22.0F, 29.0F
+        11.0F, 16.0F,
+        19.0F, 28.0F
     });
 }
 
 TEST_CASE("1x2 matrix multiplication with 2x1 matrix", "matrix")
 {
     const omath::Matrix<float, 1, 2> matrix1{
-        2.0F,
-        3.0F
+        2.0F, 3.0F
     };
 
     const omath::Matrix<float, 2, 1> matrix2{
-        1.0F, 2.0F
+        1.0F,
+        2.0F
     };
 
     const omath::Matrix<float, 1, 1> result = matrix1 * matrix2;
@@ -792,40 +792,39 @@ TEST_CASE("1x2 matrix multiplication with 2x1 matrix", "matrix")
 TEST_CASE("1x3 matrix multiplication with 3x2 matrix", "matrix")
 {
     const omath::Matrix<float, 1, 3> matrix1{
-        2.0F,
-        3.0F,
-        4.0F
+        2.0F, 3.0F, 4.0F
     };
 
     const omath::Matrix<float, 3, 2> matrix2{
-        1.0F, 2.0F, 3.0F,
-        4.0F, 5.0F, 6.0F
+        1.0F, 2.0F,
+        3.0F, 4.0F,
+        5.0F, 6.0F
     };
 
     const omath::Matrix<float, 1, 2> result = matrix1 * matrix2;
 
     REQUIRE(result == omath::Matrix<float, 1, 2>{
-        20.0F,
-        47.0F
+        31.0F,
+        40.0F
     });
 }
 
 TEST_CASE("2x1 matrix multiplication with 1x2 matrix", "matrix")
 {
     const omath::Matrix<float, 2, 1> matrix1{
-        2.0F, 3.0F
+        2.0F,
+        3.0F
     };
 
     const omath::Matrix<float, 1, 2> matrix2{
-        1.0F,
-        2.0F
+        1.0F, 2.0F
     };
 
     const omath::Matrix<float, 2, 2> result = matrix1 * matrix2;
 
     REQUIRE(result == omath::Matrix<float, 2, 2>{
-        2.0F, 3.0F,
-        4.0F, 6.0F
+        2.0F, 4.0F,
+        3.0F, 6.0F
     });
 }
 
@@ -878,6 +877,32 @@ TEST_CASE("4x4 matrix multiplication using SIMD", "matrix")
         82.0F, 108.0F, 134.0F, 160.0F,
         34.0F, 44.0F, 54.0F, 64.0F,
         82.0F, 108.0F, 134.0F, 160.0F
+    });
+}
+
+TEST_CASE("4x4 matrix multiplication with 4x1 matrix", "matrix")
+{
+    const omath::Matrix<float, 4, 4, false> matrix1{
+        1.0F, 2.0F, 3.0F, 4.0F,
+        5.0F, 6.0F, 7.0F, 8.0F,
+        1.0F, 2.0F, 3.0F, 4.0F,
+        5.0F, 6.0F, 7.0F, 8.0F
+    };
+
+    const omath::Matrix<float, 4, 1, false> matrix2{
+        1.0F,
+        2.0F,
+        3.0F,
+        4.0F
+    };
+
+    const omath::Matrix<float, 4, 1, false> result = matrix1 * matrix2;
+
+    REQUIRE(result == omath::Matrix<float, 4, 1, false>{
+        30.0F,
+        70.0F,
+        30.0F,
+        70.0F
     });
 }
 
