@@ -458,6 +458,21 @@ namespace omath
             return result;
         }
 
+        template <std::size_t rows2, std::size_t cols2, bool simd2>
+        [[nodiscard]] auto operator*(const Matrix<float, rows2, cols2, simd2>& mat) const noexcept
+        {
+            static_assert(rows2 == 4);
+
+            Matrix<float, 4, cols2, simd2> result{};
+
+            for (std::size_t i = 0; i < 4; ++i)
+                for (std::size_t j = 0; j < cols2; ++j)
+                    for (std::size_t k = 0; k < rows2; ++k)
+                        result.m[i * cols2 + j] += m[i * 4 + k] * mat.m[k * cols2 + j];
+
+            return result;
+        }
+
         auto& operator*=(const Matrix& mat) noexcept
         {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0

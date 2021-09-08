@@ -906,6 +906,32 @@ TEST_CASE("4x4 matrix multiplication with 4x1 matrix", "matrix")
     });
 }
 
+TEST_CASE("4x4 SIMD matrix multiplication with 4x1 matrix", "matrix")
+{
+    const omath::Matrix<float, 4, 4, true> matrix1{
+        1.0F, 2.0F, 3.0F, 4.0F,
+        5.0F, 6.0F, 7.0F, 8.0F,
+        1.0F, 2.0F, 3.0F, 4.0F,
+        5.0F, 6.0F, 7.0F, 8.0F
+    };
+
+    const omath::Matrix<float, 4, 1, false> matrix2{
+        1.0F,
+        2.0F,
+        3.0F,
+        4.0F
+    };
+
+    const omath::Matrix<float, 4, 1, false> result = matrix1 * matrix2;
+
+    REQUIRE(result == omath::Matrix<float, 4, 1, false>{
+        30.0F,
+        70.0F,
+        30.0F,
+        70.0F
+    });
+}
+
 TEST_CASE("1x1 matrix multiplication assignment", "matrix")
 {
     omath::Matrix<float, 1> matrix1{2.0F};
