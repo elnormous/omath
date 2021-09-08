@@ -145,7 +145,7 @@ namespace omath
             for (std::size_t i = 0; i < rows; ++i)
                 for (std::size_t j = 0; j < cols; ++j)
                     for (std::size_t k = 0; k < rows; ++k)
-                        m[i * cols + j] += temp[k * cols + j] * mat.m[i * cols + k];
+                        m[i * cols + j] += temp[i * cols + k] * mat.m[k * cols + j];
 
             return *this;
         }

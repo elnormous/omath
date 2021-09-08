@@ -957,8 +957,8 @@ TEST_CASE("2x2 matrix multiplication assignment", "matrix")
     matrix1 *= matrix2;
 
     REQUIRE(matrix1 == omath::Matrix<float, 2, 2>{
-        10.0F, 13.0F,
-        22.0F, 29.0F
+        11.0F, 16.0F,
+        19.0F, 28.0F
     });
 }
 
