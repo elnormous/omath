@@ -152,37 +152,37 @@ namespace omath
 
     private:
         template <std::size_t ...i>
-        static constexpr auto generateIdentity(const std::index_sequence<i...>)
+        static constexpr auto generateIdentity(const std::index_sequence<i...>) noexcept
         {
             return Matrix{(i % cols == i / rows) ? T(1) : T(0)...};
         }
 
         template <std::size_t ...i>
-        constexpr auto generateNegative(const std::index_sequence<i...>) const
+        constexpr auto generateNegative(const std::index_sequence<i...>) const noexcept
         {
             return Matrix{(-m[i])...};
         }
 
         template <std::size_t ...i>
-        constexpr auto generateSum(const std::index_sequence<i...>, const Matrix& mat) const
+        constexpr auto generateSum(const std::index_sequence<i...>, const Matrix& mat) const noexcept
         {
             return Matrix{(m[i] + mat.m[i])...};
         }
 
         template <std::size_t ...i>
-        constexpr auto generateDiff(const std::index_sequence<i...>, const Matrix& mat) const
+        constexpr auto generateDiff(const std::index_sequence<i...>, const Matrix& mat) const noexcept
         {
             return Matrix{(m[i] - mat.m[i])...};
         }
 
         template <std::size_t ...i>
-        constexpr auto generateMul(const std::index_sequence<i...>, const T scalar) const
+        constexpr auto generateMul(const std::index_sequence<i...>, const T scalar) const noexcept
         {
             return Matrix{(m[i] * scalar)...};
         }
 
         template <std::size_t ...i>
-        constexpr auto generateDiv(const std::index_sequence<i...>, const T scalar) const
+        constexpr auto generateDiv(const std::index_sequence<i...>, const T scalar) const noexcept
         {
             return Matrix{(m[i] / scalar)...};
         }
