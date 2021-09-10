@@ -223,28 +223,22 @@ namespace omath
             return Vector{(v[I] / scalar)...};
         }
 
-        template<typename ...A>
-        static constexpr auto sum(const A... args) noexcept
-        {
-            return (args + ...);
-        }
-
         template <std::size_t ...I>
         constexpr auto generateLengthSquared(const std::index_sequence<I...>) const noexcept
         {
-            return sum((v[I] * v[I])...);
+            return ((v[I] * v[I]) + ...);
         }
 
         template <std::size_t ...I>
         constexpr auto generateDot(const std::index_sequence<I...>, const Vector& vec) const noexcept
         {
-            return sum((v[I] * vec.v[I])...);
+            return ((v[I] * vec.v[I]) + ...);
         }
 
         template <std::size_t ...I>
         constexpr auto generateDistanceSquared(const std::index_sequence<I...>, const Vector& vec) const noexcept
         {
-            return sum(((v[I] - vec.v[I]) * (v[I] - vec.v[I]))...);
+            return (((v[I] - vec.v[I]) * (v[I] - vec.v[I])) + ...);
         }
     };
 }
