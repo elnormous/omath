@@ -1031,6 +1031,23 @@ TEST_CASE("2D vector transformation by 3x3 matrix", "matrix")
     });
 }
 
+TEST_CASE("3D vector transformation by 3x3 matrix", "matrix")
+{
+    const omath::Matrix<float, 3> matrix{
+        1.0F, 2.0F, 0.0F,
+        1.0F, 1.0F, 0.0F,
+        1.0F, 3.0F, 1.0F
+    };
+
+    const omath::Vector<float, 3> vector{1.0F, 2.0F, 1.0F};
+
+    const omath::Vector<float, 3> result = vector * matrix;
+
+    REQUIRE(result == omath::Vector<float, 3>{
+        4.0F, 7.0F, 1.0F
+    });
+}
+
 TEST_CASE("3D vector transformation by 4x4 matrix", "matrix")
 {
     const omath::Matrix<float, 4, 4, false> matrix{
@@ -1046,5 +1063,23 @@ TEST_CASE("3D vector transformation by 4x4 matrix", "matrix")
 
     REQUIRE(result == omath::Vector<float, 3>{
         6.0F, 13.0F, 3.0F
+    });
+}
+
+TEST_CASE("4D vector transformation by 4x4 matrix", "matrix")
+{
+    const omath::Matrix<float, 4, 4, false> matrix{
+        1.0F, 2.0F, 0.0F, 0.0F,
+        1.0F, 1.0F, 0.0F, 0.0F,
+        1.0F, 3.0F, 1.0F, 0.0F,
+        1.0F, 1.0F, 3.0F, 1.0F
+    };
+
+    const omath::Vector<float, 4, false> vector{1.0F, 2.0F, 3.0F, 1.0F};
+
+    const omath::Vector<float, 4, false> result = vector * matrix;
+
+    REQUIRE(result == omath::Vector<float, 4, false>{
+        7.0F, 14.0F, 6.0F, 1.0F
     });
 }

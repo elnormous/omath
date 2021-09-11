@@ -542,6 +542,18 @@ namespace omath
 
         return result;
     }
+
+    template <typename T, std::size_t dims, bool simd>
+    [[nodiscard]] auto operator*(const Vector<T, dims, simd> v, const Matrix<T, dims, dims, simd>& m) noexcept
+    {
+        Vector<T, dims, simd> result{};
+
+        for (std::size_t d = 0; d < dims; ++d)
+            for (std::size_t i = 0; i < dims; ++i)
+                result.v[d] += v.v[i] * m.m[i * dims + d];
+
+        return result;
+    }
 }
 
 #endif
