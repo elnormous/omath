@@ -531,10 +531,11 @@ namespace omath
         return m * scalar;
     }
 
-    template <typename T, std::size_t dims, bool simd>
-    [[nodiscard]] auto operator*(const Vector<T, dims, simd> v, const Matrix<T, dims + 1, dims + 1, simd>& m) noexcept
+    template <typename T, std::size_t dims, bool simdVector, bool simdMatrix>
+    [[nodiscard]] auto operator*(const Vector<T, dims, simdVector> v,
+                                 const Matrix<T, dims + 1, dims + 1, simdMatrix>& m) noexcept
     {
-        Vector<T, dims, simd> result{};
+        Vector<T, dims, simdVector && simdMatrix> result{};
 
         for (std::size_t d = 0; d < dims; ++d)
             for (std::size_t i = 0; i < dims; ++i)
@@ -543,10 +544,11 @@ namespace omath
         return result;
     }
 
-    template <typename T, std::size_t dims, bool simd>
-    [[nodiscard]] auto operator*(const Vector<T, dims, simd> v, const Matrix<T, dims, dims, simd>& m) noexcept
+    template <typename T, std::size_t dims, bool simdVector, bool simdMatrix>
+    [[nodiscard]] auto operator*(const Vector<T, dims, simdVector> v,
+                                 const Matrix<T, dims, dims, simdMatrix>& m) noexcept
     {
-        Vector<T, dims, simd> result{};
+        Vector<T, dims, simdVector && simdMatrix> result{};
 
         for (std::size_t d = 0; d < dims; ++d)
             for (std::size_t i = 0; i < dims; ++i)
