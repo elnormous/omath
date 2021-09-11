@@ -1013,3 +1013,38 @@ TEST_CASE("4x4 matrix multiplication assignment using SIMD", "matrix")
         82.0F, 108.0F, 134.0F, 160.0F
     });
 }
+
+TEST_CASE("2D vector transformation by 3x3 matrix", "matrix")
+{
+    const omath::Matrix<float, 3> matrix{
+        1.0F, 2.0F, 0.0F,
+        1.0F, 1.0F, 0.0F,
+        1.0F, 3.0F, 1.0F
+    };
+
+    const omath::Vector<float, 2> vector{1.0F, 2.0F};
+
+    const omath::Vector<float, 2> result = vector * matrix;
+
+    REQUIRE(result == omath::Vector<float, 2>{
+        3.0F, 4.0F
+    });
+}
+
+TEST_CASE("3D vector transformation by 4x4 matrix", "matrix")
+{
+    const omath::Matrix<float, 4, 4, false> matrix{
+        1.0F, 2.0F, 0.0F, 0.0F,
+        1.0F, 1.0F, 0.0F, 0.0F,
+        1.0F, 3.0F, 1.0F, 0.0F,
+        1.0F, 1.0F, 3.0F, 1.0F
+    };
+
+    const omath::Vector<float, 3> vector{1.0F, 2.0F, 3.0F};
+
+    const omath::Vector<float, 3> result = vector * matrix;
+
+    REQUIRE(result == omath::Vector<float, 3>{
+        6.0F, 13.0F, 3.0F
+    });
+}
