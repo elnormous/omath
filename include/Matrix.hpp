@@ -538,9 +538,9 @@ namespace omath
     {
         Vector<T, dims, simdVector && simdMatrix> result{};
 
-        for (std::size_t d = 0; d < dims; ++d)
-            for (std::size_t i = 0; i < dims; ++i)
-                result.v[d] += vec.v[i] * mat.m[i * (dims + 1) + d];
+        for (std::size_t i = 0; i < dims; ++i)
+            for (std::size_t j = 0; j < dims; ++j)
+                result.v[i] += vec.v[j] * mat.m[j * (dims + 1) + i];
 
         return result;
     }
@@ -551,9 +551,9 @@ namespace omath
     {
         Vector<T, dims, simdVector && simdMatrix> result{};
 
-        for (std::size_t d = 0; d < dims; ++d)
-            for (std::size_t i = 0; i < dims; ++i)
-                result.v[d] += vec.v[i] * mat.m[i * dims + d];
+        for (std::size_t i = 0; i < dims; ++i)
+            for (std::size_t j = 0; j < dims; ++j)
+                result.v[i] += vec.v[j] * mat.m[j * dims + i];
 
         return result;
     }
@@ -608,9 +608,9 @@ namespace omath
         const auto temp = vec.v;
         vec.v = {};
 
-        for (std::size_t d = 0; d < dims; ++d)
-            for (std::size_t i = 0; i < dims; ++i)
-                vec.v[d] += temp[i] * mat.m[i * (dims + 1) + d];
+        for (std::size_t i = 0; i < dims; ++i)
+            for (std::size_t j = 0; j < dims; ++j)
+                vec.v[i] += temp[j] * mat.m[j * (dims + 1) + i];
 
         return vec;
     }
@@ -622,9 +622,9 @@ namespace omath
         const auto temp = vec.v;
         vec.v = {};
 
-        for (std::size_t d = 0; d < dims; ++d)
-            for (std::size_t i = 0; i < dims; ++i)
-                vec.v[d] += temp[i] * mat.m[i * dims + d];
+        for (std::size_t i = 0; i < dims; ++i)
+            for (std::size_t j = 0; j < dims; ++j)
+                vec.v[i] += temp[j] * mat.m[j * dims + i];
 
         return vec;
     }
