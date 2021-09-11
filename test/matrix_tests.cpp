@@ -1101,3 +1101,91 @@ TEST_CASE("4D vector transformation by 4x4 matrix using SIMD", "matrix")
         7.0F, 14.0F, 6.0F, 1.0F
     });
 }
+
+TEST_CASE("2D vector transformation assignment by 3x3 matrix", "matrix")
+{
+    const omath::Matrix<float, 3> matrix{
+        1.0F, 2.0F, 0.0F,
+        1.0F, 1.0F, 0.0F,
+        1.0F, 3.0F, 1.0F
+    };
+
+    omath::Vector<float, 2> vector{1.0F, 2.0F};
+
+    vector *= matrix;
+
+    REQUIRE(vector == omath::Vector<float, 2>{
+        3.0F, 4.0F
+    });
+}
+
+TEST_CASE("3D vector transformation assignment by 3x3 matrix", "matrix")
+{
+    const omath::Matrix<float, 3> matrix{
+        1.0F, 2.0F, 0.0F,
+        1.0F, 1.0F, 0.0F,
+        1.0F, 3.0F, 1.0F
+    };
+
+    omath::Vector<float, 3> vector{1.0F, 2.0F, 1.0F};
+
+    vector *= matrix;
+
+    REQUIRE(vector == omath::Vector<float, 3>{
+        4.0F, 7.0F, 1.0F
+    });
+}
+
+TEST_CASE("3D vector transformation assignment by 4x4 matrix", "matrix")
+{
+    const omath::Matrix<float, 4, 4, false> matrix{
+        1.0F, 2.0F, 0.0F, 0.0F,
+        1.0F, 1.0F, 0.0F, 0.0F,
+        1.0F, 3.0F, 1.0F, 0.0F,
+        1.0F, 1.0F, 3.0F, 1.0F
+    };
+
+    omath::Vector<float, 3> vector{1.0F, 2.0F, 3.0F};
+
+    vector *= matrix;
+
+    REQUIRE(vector == omath::Vector<float, 3>{
+        6.0F, 13.0F, 3.0F
+    });
+}
+
+TEST_CASE("4D vector transformation assignment by 4x4 matrix", "matrix")
+{
+    const omath::Matrix<float, 4, 4, false> matrix{
+        1.0F, 2.0F, 0.0F, 0.0F,
+        1.0F, 1.0F, 0.0F, 0.0F,
+        1.0F, 3.0F, 1.0F, 0.0F,
+        1.0F, 1.0F, 3.0F, 1.0F
+    };
+
+    omath::Vector<float, 4, false> vector{1.0F, 2.0F, 3.0F, 1.0F};
+
+    vector *= matrix;
+
+    REQUIRE(vector == omath::Vector<float, 4, false>{
+        7.0F, 14.0F, 6.0F, 1.0F
+    });
+}
+
+TEST_CASE("4D vector transformation assignment by 4x4 matrix using SIMD", "matrix")
+{
+    const omath::Matrix<float, 4, 4, true> matrix{
+        1.0F, 2.0F, 0.0F, 0.0F,
+        1.0F, 1.0F, 0.0F, 0.0F,
+        1.0F, 3.0F, 1.0F, 0.0F,
+        1.0F, 1.0F, 3.0F, 1.0F
+    };
+
+    omath::Vector<float, 4, true> vector{1.0F, 2.0F, 3.0F, 1.0F};
+
+    vector *= matrix;
+
+    REQUIRE(vector == omath::Vector<float, 4, true>{
+        7.0F, 14.0F, 6.0F, 1.0F
+    });
+}
