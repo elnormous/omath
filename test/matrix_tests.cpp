@@ -1083,3 +1083,21 @@ TEST_CASE("4D vector transformation by 4x4 matrix", "matrix")
         7.0F, 14.0F, 6.0F, 1.0F
     });
 }
+
+TEST_CASE("4D vector transformation by 4x4 matrix using SIMD", "matrix")
+{
+    const omath::Matrix<float, 4, 4, true> matrix{
+        1.0F, 2.0F, 0.0F, 0.0F,
+        1.0F, 1.0F, 0.0F, 0.0F,
+        1.0F, 3.0F, 1.0F, 0.0F,
+        1.0F, 1.0F, 3.0F, 1.0F
+    };
+
+    const omath::Vector<float, 4, true> vector{1.0F, 2.0F, 3.0F, 1.0F};
+
+    const omath::Vector<float, 4, true> result = vector * matrix;
+
+    REQUIRE(result == omath::Vector<float, 4, true>{
+        7.0F, 14.0F, 6.0F, 1.0F
+    });
+}

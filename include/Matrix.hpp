@@ -556,6 +556,49 @@ namespace omath
 
         return result;
     }
+
+    template <>
+    [[nodiscard]] auto operator*(const Vector<float, 4, true> v,
+                                 const Matrix<float, 4, 4, true>& m) noexcept
+    {
+        Vector<float, 4, true> result{};
+
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+        const auto col0 = _mm_set1_ps(v.v[0]);
+        const auto col1 = _mm_set1_ps(v.v[1]);
+        const auto col2 = _mm_set1_ps(v.v[2]);
+        const auto col3 = _mm_set1_ps(v.v[3]);
+
+        const auto row0 = _mm_load_ps(&m.m[0]);
+        const auto row1 = _mm_load_ps(&m.m[4]);
+        const auto row2 = _mm_load_ps(&m.m[8]);
+        const auto row3 = _mm_load_ps(&m.m[12]);
+
+        const auto s = _mm_add_ps(_mm_add_ps(_mm_mul_ps(row0, col0),
+                                             _mm_mul_ps(row1, col1)),
+                                  _mm_add_ps(_mm_mul_ps(row2, col2),
+                                             _mm_mul_ps(row3, col3)));
+        _mm_store_ps(result.v.data(), s);
+#elif defined(__ARM_NEON__)
+        const auto col0 = vdupq_n_f32(v.v[0]);
+        const auto col1 = vdupq_n_f32(v.v[1]);
+        const auto col2 = vdupq_n_f32(v.v[2]);
+        const auto col3 = vdupq_n_f32(v.v[3]);
+
+        const auto row0 = vld1q_f32(&m.m[0]);
+        const auto row1 = vld1q_f32(&m.m[4]);
+        const auto row2 = vld1q_f32(&m.m[8]);
+        const auto row3 = vld1q_f32(&m.m[12]);
+
+        const auto s = vaddq_f32(vaddq_f32(vmulq_f32(row0, col0),
+                                           vmulq_f32(row1, col1)),
+                                 vaddq_f32(vmulq_f32(row2, col2),
+                                           vmulq_f32(row3, col3)));
+        vst1q_f32(result.v.data(), s);
+#endif
+
+        return result;
+    }
 }
 
 #endif
