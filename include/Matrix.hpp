@@ -212,17 +212,17 @@ namespace omath
         void transpose() noexcept
         {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            const __m128 tmp0 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(1, 0, 1, 0));
-            const __m128 tmp1 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), _MM_SHUFFLE(1, 0, 1, 0));
-            const __m128 tmp2 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(3, 2, 3, 2));
-            const __m128 tmp3 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), _MM_SHUFFLE(3, 2, 3, 2));
+            const auto tmp0 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(1, 0, 1, 0));
+            const auto tmp1 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), _MM_SHUFFLE(1, 0, 1, 0));
+            const auto tmp2 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(3, 2, 3, 2));
+            const auto tmp3 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), _MM_SHUFFLE(3, 2, 3, 2));
             _mm_store_ps(&m[0], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(2, 0, 2, 0)));
             _mm_store_ps(&m[4], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(3, 1, 3, 1)));
             _mm_store_ps(&m[8], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(2, 0, 2, 0)));
             _mm_store_ps(&m[12], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(3, 1, 3, 1)));
 #elif defined(__ARM_NEON__)
-            const float32x4x2_t tmp0 = vtrnq_f32(vld1q_f32(&m[0]), vld1q_f32(&m[4]));
-            const float32x4x2_t tmp1 = vtrnq_f32(vld1q_f32(&m[8]), vld1q_f32(&m[12]));
+            const auto tmp0 = vtrnq_f32(vld1q_f32(&m[0]), vld1q_f32(&m[4]));
+            const auto tmp1 = vtrnq_f32(vld1q_f32(&m[8]), vld1q_f32(&m[12]));
             vst1q_f32(&m[0], vextq_f32(vextq_f32(tmp0.val[0], tmp0.val[0], 2), tmp1.val[0], 2));
             vst1q_f32(&m[4], vextq_f32(vextq_f32(tmp0.val[1], tmp0.val[1], 2), tmp1.val[1], 2));
             vst1q_f32(&m[8], vextq_f32(tmp0.val[0], vextq_f32(tmp1.val[0], tmp1.val[0], 2), 2));
@@ -254,7 +254,7 @@ namespace omath
         {
             Matrix result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            const __m128 z = _mm_setzero_ps();
+            const auto z = _mm_setzero_ps();
             _mm_store_ps(&result.m[0], _mm_sub_ps(z, _mm_load_ps(&m[0])));
             _mm_store_ps(&result.m[4], _mm_sub_ps(z, _mm_load_ps(&m[4])));
             _mm_store_ps(&result.m[8], _mm_sub_ps(z, _mm_load_ps(&m[8])));
@@ -338,13 +338,13 @@ namespace omath
         {
             Matrix result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            const __m128 s = _mm_set1_ps(scalar);
+            const auto s = _mm_set1_ps(scalar);
             _mm_store_ps(&result.m[0], _mm_mul_ps(_mm_load_ps(&m[0]), s));
             _mm_store_ps(&result.m[4], _mm_mul_ps(_mm_load_ps(&m[4]), s));
             _mm_store_ps(&result.m[8], _mm_mul_ps(_mm_load_ps(&m[8]), s));
             _mm_store_ps(&result.m[12], _mm_mul_ps(_mm_load_ps(&m[12]), s));
 #elif defined(__ARM_NEON__)
-            const float32x4_t s = vdupq_n_f32(scalar);
+            const auto s = vdupq_n_f32(scalar);
             vst1q_f32(&result.m[0], vmulq_f32(vld1q_f32(&m[0]), s));
             vst1q_f32(&result.m[4], vmulq_f32(vld1q_f32(&m[4]), s));
             vst1q_f32(&result.m[8], vmulq_f32(vld1q_f32(&m[8]), s));
@@ -356,13 +356,13 @@ namespace omath
         auto& operator*=(const float scalar) noexcept
         {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            const __m128 s = _mm_set1_ps(scalar);
+            const auto s = _mm_set1_ps(scalar);
             _mm_store_ps(&m[0], _mm_mul_ps(_mm_load_ps(&m[0]), s));
             _mm_store_ps(&m[4], _mm_mul_ps(_mm_load_ps(&m[4]), s));
             _mm_store_ps(&m[8], _mm_mul_ps(_mm_load_ps(&m[8]), s));
             _mm_store_ps(&m[12], _mm_mul_ps(_mm_load_ps(&m[12]), s));
 #elif defined(__ARM_NEON__)
-            const float32x4_t s = vdupq_n_f32(scalar);
+            const auto s = vdupq_n_f32(scalar);
             vst1q_f32(&m[0], vmulq_f32(vld1q_f32(&m[0]), s));
             vst1q_f32(&m[4], vmulq_f32(vld1q_f32(&m[4]), s));
             vst1q_f32(&m[8], vmulq_f32(vld1q_f32(&m[8]), s));
@@ -375,13 +375,13 @@ namespace omath
         {
             Matrix result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            const __m128 s = _mm_set1_ps(scalar);
+            const auto s = _mm_set1_ps(scalar);
             _mm_store_ps(&result.m[0], _mm_div_ps(_mm_load_ps(&m[0]), s));
             _mm_store_ps(&result.m[4], _mm_div_ps(_mm_load_ps(&m[4]), s));
             _mm_store_ps(&result.m[8], _mm_div_ps(_mm_load_ps(&m[8]), s));
             _mm_store_ps(&result.m[12], _mm_div_ps(_mm_load_ps(&m[12]), s));
 #elif defined(__ARM_NEON__)
-            const float32x4_t s = vdupq_n_f32(scalar);
+            const auto s = vdupq_n_f32(scalar);
             vst1q_f32(&result.m[0], vdivq_f32(vld1q_f32(&m[0]), s));
             vst1q_f32(&result.m[4], vdivq_f32(vld1q_f32(&m[4]), s));
             vst1q_f32(&result.m[8], vdivq_f32(vld1q_f32(&m[8]), s));
@@ -393,13 +393,13 @@ namespace omath
         auto& operator/=(const float scalar) noexcept
         {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            const __m128 s = _mm_set1_ps(scalar);
+            const auto s = _mm_set1_ps(scalar);
             _mm_store_ps(&m[0], _mm_div_ps(_mm_load_ps(&m[0]), s));
             _mm_store_ps(&m[4], _mm_div_ps(_mm_load_ps(&m[4]), s));
             _mm_store_ps(&m[8], _mm_div_ps(_mm_load_ps(&m[8]), s));
             _mm_store_ps(&m[12], _mm_div_ps(_mm_load_ps(&m[12]), s));
 #elif defined(__ARM_NEON__)
-            const float32x4_t s = vdupq_n_f32(scalar);
+            const auto s = vdupq_n_f32(scalar);
             vst1q_f32(&m[0], vdivq_f32(vld1q_f32(&m[0]), s));
             vst1q_f32(&m[4], vdivq_f32(vld1q_f32(&m[4]), s));
             vst1q_f32(&m[8], vdivq_f32(vld1q_f32(&m[8]), s));
@@ -419,18 +419,18 @@ namespace omath
 
             for (std::size_t i = 0; i < 4; ++i)
             {
-                const __m128 e0 = _mm_set1_ps(mat.m[i * 4 + 0]);
-                const __m128 e1 = _mm_set1_ps(mat.m[i * 4 + 1]);
-                const __m128 e2 = _mm_set1_ps(mat.m[i * 4 + 2]);
-                const __m128 e3 = _mm_set1_ps(mat.m[i * 4 + 3]);
+                const auto e0 = _mm_set1_ps(mat.m[i * 4 + 0]);
+                const auto e1 = _mm_set1_ps(mat.m[i * 4 + 1]);
+                const auto e2 = _mm_set1_ps(mat.m[i * 4 + 2]);
+                const auto e3 = _mm_set1_ps(mat.m[i * 4 + 3]);
 
-                const __m128 v0 = _mm_mul_ps(row0, e0);
-                const __m128 v1 = _mm_mul_ps(row1, e1);
-                const __m128 v2 = _mm_mul_ps(row2, e2);
-                const __m128 v3 = _mm_mul_ps(row3, e3);
+                const auto v0 = _mm_mul_ps(row0, e0);
+                const auto v1 = _mm_mul_ps(row1, e1);
+                const auto v2 = _mm_mul_ps(row2, e2);
+                const auto v3 = _mm_mul_ps(row3, e3);
 
-                const __m128 a0 = _mm_add_ps(v0, v1);
-                const __m128 a1 = _mm_add_ps(v2, v3);
+                const auto a0 = _mm_add_ps(v0, v1);
+                const auto a1 = _mm_add_ps(v2, v3);
                 _mm_store_ps(&result.m[i * 4], _mm_add_ps(a0, a1));
             }
 #elif defined(__ARM_NEON__)
@@ -441,18 +441,18 @@ namespace omath
 
             for (std::size_t i = 0; i < 4; ++i)
             {
-                const float32x4_t e0 = vdupq_n_f32(mat.m[i * 4 + 0]);
-                const float32x4_t e1 = vdupq_n_f32(mat.m[i * 4 + 1]);
-                const float32x4_t e2 = vdupq_n_f32(mat.m[i * 4 + 2]);
-                const float32x4_t e3 = vdupq_n_f32(mat.m[i * 4 + 3]);
+                const auto e0 = vdupq_n_f32(mat.m[i * 4 + 0]);
+                const auto e1 = vdupq_n_f32(mat.m[i * 4 + 1]);
+                const auto e2 = vdupq_n_f32(mat.m[i * 4 + 2]);
+                const auto e3 = vdupq_n_f32(mat.m[i * 4 + 3]);
 
-                const float32x4_t v0 = vmulq_f32(row0, e0);
-                const float32x4_t v1 = vmulq_f32(row1, e1);
-                const float32x4_t v2 = vmulq_f32(row2, e2);
-                const float32x4_t v3 = vmulq_f32(row3, e3);
+                const auto v0 = vmulq_f32(row0, e0);
+                const auto v1 = vmulq_f32(row1, e1);
+                const auto v2 = vmulq_f32(row2, e2);
+                const auto v3 = vmulq_f32(row3, e3);
 
-                const float32x4_t a0 = vaddq_f32(v0, v1);
-                const float32x4_t a1 = vaddq_f32(v2, v3);
+                const auto a0 = vaddq_f32(v0, v1);
+                const auto a1 = vaddq_f32(v2, v3);
                 vst1q_f32(&result.m[i * 4], vaddq_f32(a0, a1));
             }
 #endif
@@ -484,18 +484,18 @@ namespace omath
 
             for (std::size_t i = 0; i < 4; ++i)
             {
-                const __m128 e0 = _mm_set1_ps(mat.m[i * 4 + 0]);
-                const __m128 e1 = _mm_set1_ps(mat.m[i * 4 + 1]);
-                const __m128 e2 = _mm_set1_ps(mat.m[i * 4 + 2]);
-                const __m128 e3 = _mm_set1_ps(mat.m[i * 4 + 3]);
+                const auto e0 = _mm_set1_ps(mat.m[i * 4 + 0]);
+                const auto e1 = _mm_set1_ps(mat.m[i * 4 + 1]);
+                const auto e2 = _mm_set1_ps(mat.m[i * 4 + 2]);
+                const auto e3 = _mm_set1_ps(mat.m[i * 4 + 3]);
 
-                const __m128 v0 = _mm_mul_ps(row0, e0);
-                const __m128 v1 = _mm_mul_ps(row1, e1);
-                const __m128 v2 = _mm_mul_ps(row2, e2);
-                const __m128 v3 = _mm_mul_ps(row3, e3);
+                const auto v0 = _mm_mul_ps(row0, e0);
+                const auto v1 = _mm_mul_ps(row1, e1);
+                const auto v2 = _mm_mul_ps(row2, e2);
+                const auto v3 = _mm_mul_ps(row3, e3);
 
-                const __m128 a0 = _mm_add_ps(v0, v1);
-                const __m128 a1 = _mm_add_ps(v2, v3);
+                const auto a0 = _mm_add_ps(v0, v1);
+                const auto a1 = _mm_add_ps(v2, v3);
                 _mm_store_ps(&m[i * 4], _mm_add_ps(a0, a1));
             }
 #elif defined(__ARM_NEON__)
@@ -506,18 +506,18 @@ namespace omath
 
             for (std::size_t i = 0; i < 4; ++i)
             {
-                const float32x4_t e0 = vdupq_n_f32(mat.m[i * 4 + 0]);
-                const float32x4_t e1 = vdupq_n_f32(mat.m[i * 4 + 1]);
-                const float32x4_t e2 = vdupq_n_f32(mat.m[i * 4 + 2]);
-                const float32x4_t e3 = vdupq_n_f32(mat.m[i * 4 + 3]);
+                const auto e0 = vdupq_n_f32(mat.m[i * 4 + 0]);
+                const auto e1 = vdupq_n_f32(mat.m[i * 4 + 1]);
+                const auto e2 = vdupq_n_f32(mat.m[i * 4 + 2]);
+                const auto e3 = vdupq_n_f32(mat.m[i * 4 + 3]);
 
-                const float32x4_t v0 = vmulq_f32(row0, e0);
-                const float32x4_t v1 = vmulq_f32(row1, e1);
-                const float32x4_t v2 = vmulq_f32(row2, e2);
-                const float32x4_t v3 = vmulq_f32(row3, e3);
+                const auto v0 = vmulq_f32(row0, e0);
+                const auto v1 = vmulq_f32(row1, e1);
+                const auto v2 = vmulq_f32(row2, e2);
+                const auto v3 = vmulq_f32(row3, e3);
 
-                const float32x4_t a0 = vaddq_f32(v0, v1);
-                const float32x4_t a1 = vaddq_f32(v2, v3);
+                const auto a0 = vaddq_f32(v0, v1);
+                const auto a1 = vaddq_f32(v2, v3);
                 vst1q_f32(&m[i * 4], vaddq_f32(a0, a1));
             }
 #endif
