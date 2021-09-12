@@ -633,7 +633,7 @@ namespace omath
     [[nodiscard]] auto& operator*=(Vector<float, 4, true>& vec,
                                    const Matrix<float, 4, 4, true>& mat) noexcept
     {
-    #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
         const auto col0 = _mm_set1_ps(vec.v[0]);
         const auto col1 = _mm_set1_ps(vec.v[1]);
         const auto col2 = _mm_set1_ps(vec.v[2]);
@@ -649,7 +649,7 @@ namespace omath
                                   _mm_add_ps(_mm_mul_ps(row2, col2),
                                              _mm_mul_ps(row3, col3)));
         _mm_store_ps(vec.v.data(), s);
-    #elif defined(__ARM_NEON__)
+#elif defined(__ARM_NEON__)
         const auto col0 = vdupq_n_f32(vec.v[0]);
         const auto col1 = vdupq_n_f32(vec.v[1]);
         const auto col2 = vdupq_n_f32(vec.v[2]);
@@ -665,7 +665,7 @@ namespace omath
                                  vaddq_f32(vmulq_f32(row2, col2),
                                            vmulq_f32(row3, col3)));
         vst1q_f32(vec.v.data(), s);
-    #endif
+#endif
 
         return vec;
     }
