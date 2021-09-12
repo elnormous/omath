@@ -602,8 +602,8 @@ namespace omath
     }
 
     template <typename T, std::size_t dims, bool simdVector, bool simdMatrix>
-    [[nodiscard]] auto& operator*=(Vector<T, dims, simdVector>& vec,
-                                   const Matrix<T, dims + 1, dims + 1, simdMatrix>& mat) noexcept
+    auto& operator*=(Vector<T, dims, simdVector>& vec,
+                     const Matrix<T, dims + 1, dims + 1, simdMatrix>& mat) noexcept
     {
         const auto temp = vec.v;
         vec.v = {};
@@ -616,8 +616,8 @@ namespace omath
     }
 
     template <typename T, std::size_t dims, bool simdVector, bool simdMatrix>
-    [[nodiscard]] auto& operator*=(Vector<T, dims, simdVector>& vec,
-                                   const Matrix<T, dims, dims, simdMatrix>& mat) noexcept
+    auto& operator*=(Vector<T, dims, simdVector>& vec,
+                     const Matrix<T, dims, dims, simdMatrix>& mat) noexcept
     {
         const auto temp = vec.v;
         vec.v = {};
@@ -630,8 +630,8 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] auto& operator*=(Vector<float, 4, true>& vec,
-                                   const Matrix<float, 4, 4, true>& mat) noexcept
+    auto& operator*=(Vector<float, 4, true>& vec,
+                     const Matrix<float, 4, 4, true>& mat) noexcept
     {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
         const auto col0 = _mm_set1_ps(vec.v[0]);
