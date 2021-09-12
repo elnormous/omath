@@ -1,5 +1,5 @@
 DEBUG=0
-CXXFLAGS=-std=c++17 -Wall -Wextra -Wshadow -I../external/Catch2/single_include -I../include
+CXXFLAGS=-std=c++17 -Wall -Wextra -Wshadow -Werror -I../external/Catch2/single_include -I../include
 SOURCES=main.cpp matrix_tests.cpp plane_tests.cpp quaternion_tests.cpp vector_tests.cpp
 BASE_NAMES=$(basename $(SOURCES))
 OBJECTS=$(BASE_NAMES:=.o)
