@@ -562,7 +562,7 @@ namespace omath
     [[nodiscard]] auto operator*(const Vector<float, 4, true>& vec,
                                  const Matrix<float, 4, 4, true>& mat) noexcept
     {
-        Vector<float, 4, true> result{};
+        Vector<float, 4, true> result;
 
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
         const auto col0 = _mm_set1_ps(vec.v[0]);
