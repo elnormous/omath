@@ -590,30 +590,18 @@ namespace omath
         return result;
     }
 
-    template <typename T, std::size_t dims, bool simdVector, bool simdMatrix>
+    template <typename T, std::size_t dims, bool simdVector,
+              std::size_t rows, std::size_t cols, bool simdMatrix>
     auto& operator*=(Vector<T, dims, simdVector>& vec,
-                     const Matrix<T, dims + 1, dims + 1, simdMatrix>& mat) noexcept
+                     const Matrix<T, rows, cols, simdMatrix>& mat) noexcept
     {
+        static_assert(rows == cols && dims <= rows);
         const auto temp = vec.v;
         vec.v = {};
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                vec.v[i] += temp[j] * mat.m[j * (dims + 1) + i];
-
-        return vec;
-    }
-
-    template <typename T, std::size_t dims, bool simdVector, bool simdMatrix>
-    auto& operator*=(Vector<T, dims, simdVector>& vec,
-                     const Matrix<T, dims, dims, simdMatrix>& mat) noexcept
-    {
-        const auto temp = vec.v;
-        vec.v = {};
-
-        for (std::size_t i = 0; i < dims; ++i)
-            for (std::size_t j = 0; j < dims; ++j)
-                vec.v[i] += temp[j] * mat.m[j * dims + i];
+                vec.v[i] += temp[j] * mat.m[j * cols + i];
 
         return vec;
     }
