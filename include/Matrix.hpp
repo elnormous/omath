@@ -533,7 +533,7 @@ namespace omath
     }
 
     template <typename T, std::size_t dims, bool simdVector, bool simdMatrix>
-    [[nodiscard]] auto operator*(const Vector<T, dims, simdVector> vec,
+    [[nodiscard]] auto operator*(const Vector<T, dims, simdVector>& vec,
                                  const Matrix<T, dims + 1, dims + 1, simdMatrix>& mat) noexcept
     {
         Vector<T, dims, simdVector && simdMatrix> result{};
@@ -546,7 +546,7 @@ namespace omath
     }
 
     template <typename T, std::size_t dims, bool simdVector, bool simdMatrix>
-    [[nodiscard]] auto operator*(const Vector<T, dims, simdVector> vec,
+    [[nodiscard]] auto operator*(const Vector<T, dims, simdVector>& vec,
                                  const Matrix<T, dims, dims, simdMatrix>& mat) noexcept
     {
         Vector<T, dims, simdVector && simdMatrix> result{};
@@ -559,7 +559,7 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] auto operator*(const Vector<float, 4, true> vec,
+    [[nodiscard]] auto operator*(const Vector<float, 4, true>& vec,
                                  const Matrix<float, 4, 4, true>& mat) noexcept
     {
         Vector<float, 4, true> result{};
