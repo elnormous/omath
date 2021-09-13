@@ -532,28 +532,17 @@ namespace omath
         return mat * scalar;
     }
 
-    template <typename T, std::size_t dims, bool simdVector, bool simdMatrix>
+    template <typename T, std::size_t dims, bool simdVector,
+              std::size_t rows, std::size_t cols, bool simdMatrix>
     [[nodiscard]] auto operator*(const Vector<T, dims, simdVector>& vec,
-                                 const Matrix<T, dims + 1, dims + 1, simdMatrix>& mat) noexcept
+                                 const Matrix<T, rows, cols, simdMatrix>& mat) noexcept
     {
+        static_assert(rows == cols && dims <= rows);
         Vector<T, dims, simdVector && simdMatrix> result{};
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result.v[i] += vec.v[j] * mat.m[j * (dims + 1) + i];
-
-        return result;
-    }
-
-    template <typename T, std::size_t dims, bool simdVector, bool simdMatrix>
-    [[nodiscard]] auto operator*(const Vector<T, dims, simdVector>& vec,
-                                 const Matrix<T, dims, dims, simdMatrix>& mat) noexcept
-    {
-        Vector<T, dims, simdVector && simdMatrix> result{};
-
-        for (std::size_t i = 0; i < dims; ++i)
-            for (std::size_t j = 0; j < dims; ++j)
-                result.v[i] += vec.v[j] * mat.m[j * dims + i];
+                result.v[i] += vec.v[j] * mat.m[j * cols + i];
 
         return result;
     }
