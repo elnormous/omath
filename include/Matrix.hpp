@@ -532,17 +532,19 @@ namespace omath
         return mat * scalar;
     }
 
-    template <typename T, std::size_t dims, bool simdVector,
-              std::size_t rows, std::size_t cols, bool simdMatrix>
+    template <
+        typename T, std::size_t dims, bool simdVector,
+        std::size_t size, bool simdMatrix
+    >
     [[nodiscard]] auto operator*(const Vector<T, dims, simdVector>& vec,
-                                 const Matrix<T, rows, cols, simdMatrix>& mat) noexcept
+                                 const Matrix<T, size, size, simdMatrix>& mat) noexcept
     {
-        static_assert(rows == cols && dims <= rows);
+        static_assert(dims <= size);
         Vector<T, dims, simdVector && simdMatrix> result{};
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result.v[i] += vec.v[j] * mat.m[j * cols + i];
+                result.v[i] += vec.v[j] * mat.m[j * size + i];
 
         return result;
     }
@@ -590,18 +592,20 @@ namespace omath
         return result;
     }
 
-    template <typename T, std::size_t dims, bool simdVector,
-              std::size_t rows, std::size_t cols, bool simdMatrix>
+    template <
+        typename T, std::size_t dims, bool simdVector,
+        std::size_t size, bool simdMatrix
+    >
     auto& operator*=(Vector<T, dims, simdVector>& vec,
-                     const Matrix<T, rows, cols, simdMatrix>& mat) noexcept
+                     const Matrix<T, size, size, simdMatrix>& mat) noexcept
     {
-        static_assert(rows == cols && dims <= rows);
+        static_assert(dims <= size);
         const auto temp = vec.v;
         vec.v = {};
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                vec.v[i] += temp[j] * mat.m[j * cols + i];
+                vec.v[i] += temp[j] * mat.m[j * size + i];
 
         return vec;
     }
