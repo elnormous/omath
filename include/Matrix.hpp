@@ -36,8 +36,8 @@ namespace omath
 
             using std::swap;
 
-            for (std::size_t i = 0; i < rows; ++i)
-                for (std::size_t j = i + 1; j < cols; ++j)
+            for (std::size_t i = 1; i < rows; ++i)
+                for (std::size_t j = 0; j < i; ++j)
                     swap(m[i * cols + j], m[j * rows + i]);
         }
 
