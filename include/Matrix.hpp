@@ -140,15 +140,9 @@ namespace omath
                     swap(m[i * cols + j], m[j * rows + i]);
         }
 
-        [[nodiscard]] auto transposed() const noexcept
+        [[nodiscard]] constexpr auto transposed() const noexcept
         {
-            Matrix<T, cols, rows, simd> result;
-
-            for (std::size_t i = 0; i < rows; ++i)
-                for (std::size_t j = 0; j < cols; ++j)
-                    result.m[j * rows + i] = m[i * cols + j];
-
-            return result;
+            return generateTransposed(std::make_index_sequence<cols * rows>{});
         }
 
         [[nodiscard]] constexpr auto determinant() const noexcept
@@ -197,6 +191,12 @@ namespace omath
         constexpr auto generateDiv(const std::index_sequence<i...>, const T scalar) const noexcept
         {
             return Matrix{(m[i] / scalar)...};
+        }
+
+        template <std::size_t ...i>
+        constexpr auto generateTransposed(const std::index_sequence<i...>) const noexcept
+        {
+            return Matrix<T, cols, rows, simd>{(m[i % rows * cols  + i / rows])...};
         }
     };
 
