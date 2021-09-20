@@ -30,28 +30,6 @@ namespace omath
             return generateIdentity(std::make_index_sequence<cols * rows>{});
         }
 
-        void transpose() noexcept
-        {
-            static_assert(cols == rows);
-
-            using std::swap;
-
-            for (std::size_t i = 1; i < rows; ++i)
-                for (std::size_t j = 0; j < i; ++j)
-                    swap(m[i * cols + j], m[j * rows + i]);
-        }
-
-        [[nodiscard]] constexpr auto determinant() const noexcept
-        {
-            static_assert(rows > 0 && cols > 0 && rows == cols);
-            static_assert(rows <= 2 && cols <= 2);
-
-            if (rows == 1 && cols == 1)
-                return m[0];
-            else if (rows == 2 && cols == 2)
-                return m[0] * m[3] - m[1] * m[2];
-        }
-
         [[nodiscard]] constexpr auto operator==(const Matrix& mat) const noexcept
         {
             return std::equal(std::begin(m), std::end(m), std::begin(mat.m));
@@ -151,6 +129,39 @@ namespace omath
             return *this;
         }
 
+        void transpose() noexcept
+        {
+            static_assert(cols == rows);
+
+            using std::swap;
+
+            for (std::size_t i = 1; i < rows; ++i)
+                for (std::size_t j = 0; j < i; ++j)
+                    swap(m[i * cols + j], m[j * rows + i]);
+        }
+
+        [[nodiscard]] auto transposed() const noexcept
+        {
+            Matrix<T, cols, rows, simd> result;
+
+            for (std::size_t i = 0; i < rows; ++i)
+                for (std::size_t j = 0; j < cols; ++j)
+                    result.m[j * rows + i] = m[i * cols + j];
+
+            return result;
+        }
+
+        [[nodiscard]] constexpr auto determinant() const noexcept
+        {
+            static_assert(rows > 0 && cols > 0 && rows == cols);
+            static_assert(rows <= 2 && cols <= 2);
+
+            if (rows == 1 && cols == 1)
+                return m[0];
+            else if (rows == 2 && cols == 2)
+                return m[0] * m[3] - m[1] * m[2];
+        }
+
     private:
         template <std::size_t ...i>
         static constexpr auto generateIdentity(const std::index_sequence<i...>) noexcept
@@ -207,32 +218,6 @@ namespace omath
                 0.0F, 0.0F, 1.0F, 0.0F,
                 0.0F, 0.0F, 0.0F, 1.0F
             };
-        }
-
-        void transpose() noexcept
-        {
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            const auto tmp0 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(1, 0, 1, 0));
-            const auto tmp1 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), _MM_SHUFFLE(1, 0, 1, 0));
-            const auto tmp2 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(3, 2, 3, 2));
-            const auto tmp3 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), _MM_SHUFFLE(3, 2, 3, 2));
-            _mm_store_ps(&m[0], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(2, 0, 2, 0)));
-            _mm_store_ps(&m[4], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(3, 1, 3, 1)));
-            _mm_store_ps(&m[8], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(2, 0, 2, 0)));
-            _mm_store_ps(&m[12], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(3, 1, 3, 1)));
-#elif defined(__ARM_NEON__)
-            const auto tmp0 = vtrnq_f32(vld1q_f32(&m[0]), vld1q_f32(&m[4]));
-            const auto tmp1 = vtrnq_f32(vld1q_f32(&m[8]), vld1q_f32(&m[12]));
-            vst1q_f32(&m[0], vextq_f32(vextq_f32(tmp0.val[0], tmp0.val[0], 2), tmp1.val[0], 2));
-            vst1q_f32(&m[4], vextq_f32(vextq_f32(tmp0.val[1], tmp0.val[1], 2), tmp1.val[1], 2));
-            vst1q_f32(&m[8], vextq_f32(tmp0.val[0], vextq_f32(tmp1.val[0], tmp1.val[0], 2), 2));
-            vst1q_f32(&m[12], vextq_f32(tmp0.val[1], vextq_f32(tmp1.val[1], tmp1.val[1], 2), 2));
-#endif
-        }
-
-        [[nodiscard]] auto determinant() const noexcept
-        {
-            return 0.0F; // TODO: implement
         }
 
         [[nodiscard]] auto operator==(const Matrix& mat) const noexcept
@@ -522,6 +507,55 @@ namespace omath
             }
 #endif
             return *this;
+        }
+
+        void transpose() noexcept
+        {
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+            const auto tmp0 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(1, 0, 1, 0));
+            const auto tmp1 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), _MM_SHUFFLE(1, 0, 1, 0));
+            const auto tmp2 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(3, 2, 3, 2));
+            const auto tmp3 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), _MM_SHUFFLE(3, 2, 3, 2));
+            _mm_store_ps(&m[0], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(2, 0, 2, 0)));
+            _mm_store_ps(&m[4], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(3, 1, 3, 1)));
+            _mm_store_ps(&m[8], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(2, 0, 2, 0)));
+            _mm_store_ps(&m[12], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(3, 1, 3, 1)));
+#elif defined(__ARM_NEON__)
+            const auto tmp0 = vtrnq_f32(vld1q_f32(&m[0]), vld1q_f32(&m[4]));
+            const auto tmp1 = vtrnq_f32(vld1q_f32(&m[8]), vld1q_f32(&m[12]));
+            vst1q_f32(&m[0], vextq_f32(vextq_f32(tmp0.val[0], tmp0.val[0], 2), tmp1.val[0], 2));
+            vst1q_f32(&m[4], vextq_f32(vextq_f32(tmp0.val[1], tmp0.val[1], 2), tmp1.val[1], 2));
+            vst1q_f32(&m[8], vextq_f32(tmp0.val[0], vextq_f32(tmp1.val[0], tmp1.val[0], 2), 2));
+            vst1q_f32(&m[12], vextq_f32(tmp0.val[1], vextq_f32(tmp1.val[1], tmp1.val[1], 2), 2));
+#endif
+        }
+
+        [[nodiscard]] auto transposed() const noexcept
+        {
+            Matrix result;
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+            const auto tmp0 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(1, 0, 1, 0));
+            const auto tmp1 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), _MM_SHUFFLE(1, 0, 1, 0));
+            const auto tmp2 = _mm_shuffle_ps(_mm_load_ps(&m[0]), _mm_load_ps(&m[4]), _MM_SHUFFLE(3, 2, 3, 2));
+            const auto tmp3 = _mm_shuffle_ps(_mm_load_ps(&m[8]), _mm_load_ps(&m[12]), _MM_SHUFFLE(3, 2, 3, 2));
+            _mm_store_ps(&result.m[0], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(2, 0, 2, 0)));
+            _mm_store_ps(&result.m[4], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(3, 1, 3, 1)));
+            _mm_store_ps(&result.m[8], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(2, 0, 2, 0)));
+            _mm_store_ps(&result.m[12], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(3, 1, 3, 1)));
+#elif defined(__ARM_NEON__)
+            const auto tmp0 = vtrnq_f32(vld1q_f32(&m[0]), vld1q_f32(&m[4]));
+            const auto tmp1 = vtrnq_f32(vld1q_f32(&m[8]), vld1q_f32(&m[12]));
+            vst1q_f32(&result.m[0], vextq_f32(vextq_f32(tmp0.val[0], tmp0.val[0], 2), tmp1.val[0], 2));
+            vst1q_f32(&result.m[4], vextq_f32(vextq_f32(tmp0.val[1], tmp0.val[1], 2), tmp1.val[1], 2));
+            vst1q_f32(&result.m[8], vextq_f32(tmp0.val[0], vextq_f32(tmp1.val[0], tmp1.val[0], 2), 2));
+            vst1q_f32(&result.m[12], vextq_f32(tmp0.val[1], vextq_f32(tmp1.val[1], tmp1.val[1], 2), 2));
+#endif
+            return result;
+        }
+
+        [[nodiscard]] auto determinant() const noexcept
+        {
+            return 0.0F; // TODO: implement
         }
     };
 
