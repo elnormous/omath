@@ -150,9 +150,9 @@ namespace omath
             static_assert(rows > 0 && cols > 0 && rows == cols);
             static_assert(rows <= 2 && cols <= 2);
 
-            if (rows == 1 && cols == 1)
+            if constexpr (rows == 1 && cols == 1)
                 return m[0];
-            else if (rows == 2 && cols == 2)
+            else if constexpr (rows == 2 && cols == 2)
                 return m[0] * m[3] - m[1] * m[2];
         }
 
