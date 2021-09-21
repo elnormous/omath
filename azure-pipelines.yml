@@ -6,6 +6,8 @@ jobs:
   pool:
     vmImage: 'Ubuntu-latest'
   steps:
+  - checkout: self
+    submodules: true
   - script: |
       cd test
       make -j2
@@ -16,6 +18,8 @@ jobs:
   pool:
     vmImage: 'vs2017-win2016'
   steps:
+  - checkout: self
+    submodules: true
   - task: MSBuild@1
     inputs:
       solution: test/test.vcxproj
@@ -25,6 +29,8 @@ jobs:
   pool:
     vmImage: 'macOS-10.14'
   steps:
+  - checkout: self
+    submodules: true
   - script: |
       cd test
       make -j2
