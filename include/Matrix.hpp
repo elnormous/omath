@@ -99,7 +99,7 @@ namespace omath
         }
 
         template <std::size_t rows2, std::size_t cols2, bool simd2>
-        [[nodiscard]] auto operator*(const Matrix<T, rows2, cols2, simd2>& mat) const noexcept
+        [[nodiscard]] const auto operator*(const Matrix<T, rows2, cols2, simd2>& mat) const noexcept
         {
             static_assert(cols == rows2);
 
@@ -393,7 +393,7 @@ namespace omath
             return *this;
         }
 
-        [[nodiscard]] auto operator*(const Matrix& mat) const noexcept
+        [[nodiscard]] const auto operator*(const Matrix& mat) const noexcept
         {
             Matrix result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
@@ -445,7 +445,7 @@ namespace omath
         }
 
         template <std::size_t rows2, std::size_t cols2, bool simd2>
-        [[nodiscard]] auto operator*(const Matrix<float, rows2, cols2, simd2>& mat) const noexcept
+        [[nodiscard]] const auto operator*(const Matrix<float, rows2, cols2, simd2>& mat) const noexcept
         {
             static_assert(rows2 == 4);
 
