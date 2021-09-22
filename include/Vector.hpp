@@ -192,6 +192,12 @@ namespace omath
             return generateDistanceSquared(std::make_index_sequence<dims>{}, vec);
         }
 
+        void normalize() noexcept
+        {
+            if (const auto l = length(); l > T(0))
+                for (auto& c : v) c /= l;
+        }
+
     private:
         template <std::size_t ...I>
         constexpr auto generateInverse(const std::index_sequence<I...>) const noexcept

@@ -187,3 +187,38 @@ TEST_CASE("Vector distance squared", "vector")
 
     REQUIRE(result == 25.0F);
 }
+
+TEST_CASE("2D normalized vector normalize", "vector")
+{
+    omath::Vector<float, 2> vector{1.0F, 0.0F};
+    vector.normalize();
+
+    REQUIRE(vector == omath::Vector<float, 2>{1.0F, 0.0F});
+}
+
+TEST_CASE("2D vector normalize", "vector")
+{
+    omath::Vector<float, 2> vector{2.0F, 3.0F};
+    vector.normalize();
+
+    REQUIRE(vector.v[0] == Approx(0.5547001962252291));
+    REQUIRE(vector.v[1] == Approx(0.8320502943378437));
+}
+
+TEST_CASE("3D normalized vector normalize", "vector")
+{
+    omath::Vector<float, 3> vector{1.0F, 0.0F, 0.0F};
+    vector.normalize();
+
+    REQUIRE(vector == omath::Vector<float, 3>{1.0F, 0.0F, 0.0F});
+}
+
+TEST_CASE("3D vector normalize", "vector")
+{
+    omath::Vector<float, 3> vector{2.0F, 3.0F, 4.0F};
+    vector.normalize();
+
+    REQUIRE(vector.v[0] == Approx(0.3713906763541037));
+    REQUIRE(vector.v[1] == Approx(0.5570860145311556));
+    REQUIRE(vector.v[2] == Approx(0.7427813527082074));
+}
