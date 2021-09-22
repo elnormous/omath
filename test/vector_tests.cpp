@@ -222,3 +222,13 @@ TEST_CASE("3D vector normalize", "vector")
     REQUIRE(vector.v[1] == Approx(0.5570860145311556));
     REQUIRE(vector.v[2] == Approx(0.7427813527082074));
 }
+
+TEST_CASE("3D vector normalized", "vector")
+{
+    const omath::Vector<float, 3> vector{2.0F, 3.0F, 4.0F};
+    const auto result = vector.normalized();
+
+    REQUIRE(result.v[0] == Approx(0.3713906763541037));
+    REQUIRE(result.v[1] == Approx(0.5570860145311556));
+    REQUIRE(result.v[2] == Approx(0.7427813527082074));
+}

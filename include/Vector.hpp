@@ -198,6 +198,15 @@ namespace omath
                 for (auto& c : v) c /= l;
         }
 
+        [[nodiscard]] auto normalized() const noexcept
+        {
+            Vector result;
+            if (const auto l = length(); l > T(0))
+                for (std::size_t i = 0; i < dims; ++i)
+                    result.v[i] = v[i] / l;
+            return result;
+        }
+
     private:
         template <std::size_t ...I>
         constexpr auto generateInverse(const std::index_sequence<I...>) const noexcept
