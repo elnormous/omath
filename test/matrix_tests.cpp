@@ -83,7 +83,7 @@ TEST_CASE("Matrix comparison operators", "vector")
 TEST_CASE("1x1 matrix transpose", "matrix")
 {
     omath::Matrix<float, 1> matrix{1.0F};
-    matrix.transpose();
+    transpose(matrix);
 
     REQUIRE(matrix == omath::Matrix<float, 1, 1>{
         1.0F
@@ -96,7 +96,7 @@ TEST_CASE("2x2 matrix transpose", "matrix")
         1.0F, 2.0F,
         3.0F, 4.0F
     };
-    matrix.transpose();
+    transpose(matrix);
 
     REQUIRE(matrix == omath::Matrix<float, 2, 2>{
         1.0F, 3.0F,
@@ -111,7 +111,7 @@ TEST_CASE("3x3 matrix transpose", "matrix")
         4.0F, 6.0F, 6.0F,
         7.0F, 8.0F, 9.0F
     };
-    matrix.transpose();
+    transpose(matrix);
 
     REQUIRE(matrix == omath::Matrix<float, 3, 3>{
         1.0F, 4.0F, 7.0F,
@@ -128,7 +128,7 @@ TEST_CASE("4x4 matrix transpose", "matrix")
         9.0F, 10.0F, 11.0F, 12.0F,
         13.0F, 14.0F, 15.0F, 16.0F
     };
-    matrix.transpose();
+    transpose(matrix);
 
     REQUIRE(matrix == omath::Matrix<float, 4, 4, false>{
         1.0F, 5.0F, 9.0F, 13.0F,
@@ -146,7 +146,7 @@ TEST_CASE("4x4 matrix transpose using SIMD", "matrix")
         9.0F, 10.0F, 11.0F, 12.0F,
         13.0F, 14.0F, 15.0F, 16.0F
     };
-    matrix.transpose();
+    transpose(matrix);
 
     REQUIRE(matrix == omath::Matrix<float, 4, 4, true>{
         1.0F, 5.0F, 9.0F, 13.0F,
@@ -159,7 +159,7 @@ TEST_CASE("4x4 matrix transpose using SIMD", "matrix")
 TEST_CASE("1x1 matrix transposed", "matrix")
 {
     const omath::Matrix<float, 1> matrix{1.0F};
-    const omath::Matrix<float, 1> result = matrix.transposed();
+    const omath::Matrix<float, 1> result = transposed(matrix);
 
     REQUIRE(result == omath::Matrix<float, 1, 1>{
         1.0F
@@ -172,7 +172,7 @@ TEST_CASE("2x1 matrix transposed", "matrix")
         1.0F,
         3.0F
     };
-    const omath::Matrix<float, 1, 2> result = matrix.transposed();
+    const omath::Matrix<float, 1, 2> result = transposed(matrix);
 
     REQUIRE(result == omath::Matrix<float, 1, 2>{
         1.0F, 3.0F
@@ -185,7 +185,7 @@ TEST_CASE("2x2 matrix transposed", "matrix")
         1.0F, 2.0F,
         3.0F, 4.0F
     };
-    const omath::Matrix<float, 2> result = matrix.transposed();
+    const omath::Matrix<float, 2> result = transposed(matrix);
 
     REQUIRE(result == omath::Matrix<float, 2, 2>{
         1.0F, 3.0F,
@@ -199,7 +199,7 @@ TEST_CASE("2x3 matrix transposed", "matrix")
         1.0F, 2.0F, 3.0F,
         4.0F, 6.0F, 6.0F
     };
-    const omath::Matrix<float, 3, 2> result = matrix.transposed();
+    const omath::Matrix<float, 3, 2> result = transposed(matrix);
 
     REQUIRE(result == omath::Matrix<float, 3, 2>{
         1.0F, 4.0F,
@@ -215,7 +215,7 @@ TEST_CASE("3x3 matrix transposed", "matrix")
         4.0F, 6.0F, 6.0F,
         7.0F, 8.0F, 9.0F
     };
-    const omath::Matrix<float, 3> result = matrix.transposed();
+    const omath::Matrix<float, 3> result = transposed(matrix);
 
     REQUIRE(result == omath::Matrix<float, 3, 3>{
         1.0F, 4.0F, 7.0F,
@@ -232,7 +232,7 @@ TEST_CASE("4x4 matrix transposed", "matrix")
         9.0F, 10.0F, 11.0F, 12.0F,
         13.0F, 14.0F, 15.0F, 16.0F
     };
-    const omath::Matrix<float, 4, 4, false> result = matrix.transposed();
+    const omath::Matrix<float, 4, 4, false> result = transposed(matrix);
 
     REQUIRE(result == omath::Matrix<float, 4, 4, false>{
         1.0F, 5.0F, 9.0F, 13.0F,
@@ -250,7 +250,7 @@ TEST_CASE("4x4 matrix transposed using SIMD", "matrix")
         9.0F, 10.0F, 11.0F, 12.0F,
         13.0F, 14.0F, 15.0F, 16.0F
     };
-    const omath::Matrix<float, 4, 4, true> result = matrix.transposed();
+    const omath::Matrix<float, 4, 4, true> result = transposed(matrix);
 
     REQUIRE(result == omath::Matrix<float, 4, 4, true>{
         1.0F, 5.0F, 9.0F, 13.0F,
