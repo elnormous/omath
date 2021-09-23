@@ -534,18 +534,17 @@ namespace omath
         return result;
     }
 
-    template <
-        typename T, std::size_t n, bool simd, bool simd2
-    >
-    auto& operator*=(Matrix<T, n, n, simd>& matrix1, const Matrix<T, n, n, simd2>& matrix2) noexcept
+    template <typename T, std::size_t size, bool simd, bool simd2>
+    auto& operator*=(Matrix<T, size, size, simd>& matrix1,
+                     const Matrix<T, size, size, simd2>& matrix2) noexcept
     {
         const auto temp = matrix1.m;
         matrix1.m = {};
 
-        for (std::size_t i = 0; i < n; ++i)
-            for (std::size_t j = 0; j < n; ++j)
-                for (std::size_t k = 0; k < n; ++k)
-                    matrix1.m[i * n + j] += temp[i * n + k] * matrix2.m[k * n + j];
+        for (std::size_t i = 0; i < size; ++i)
+            for (std::size_t j = 0; j < size; ++j)
+                for (std::size_t k = 0; k < size; ++k)
+                    matrix1.m[i * size + j] += temp[i * size + k] * matrix2.m[k * size + j];
 
         return matrix1;
     }
