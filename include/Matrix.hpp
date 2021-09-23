@@ -40,54 +40,6 @@ namespace omath
             return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
 
-        [[nodiscard]] constexpr const auto operator+(const Matrix& mat) const noexcept
-        {
-            return generateSum(std::make_index_sequence<cols * rows>{}, mat);
-        }
-
-        auto& operator+=(const Matrix& mat) noexcept
-        {
-            for (std::size_t i = 0; i < cols * rows; ++i)
-                m[i] += mat.m[i];
-            return *this;
-        }
-
-        [[nodiscard]] constexpr const auto operator-(const Matrix& mat) const noexcept
-        {
-            return generateDiff(std::make_index_sequence<cols * rows>{}, mat);
-        }
-
-        auto& operator-=(const Matrix& mat) noexcept
-        {
-            for (std::size_t i = 0; i < cols * rows; ++i)
-                m[i] -= mat.m[i];
-            return *this;
-        }
-
-        [[nodiscard]] constexpr const auto operator*(const T scalar) const noexcept
-        {
-            return generateMul(std::make_index_sequence<cols * rows>{}, scalar);
-        }
-
-        auto& operator*=(const T scalar) noexcept
-        {
-            for (std::size_t i = 0; i < cols * rows; ++i)
-                m[i] *= scalar;
-            return *this;
-        }
-
-        [[nodiscard]] constexpr const auto operator/(const T scalar) const noexcept
-        {
-            return generateDiv(std::make_index_sequence<cols * rows>{}, scalar);
-        }
-
-        auto& operator/=(const T scalar) noexcept
-        {
-            for (std::size_t i = 0; i < cols * rows; ++i)
-                m[i] /= scalar;
-            return *this;
-        }
-
         void transpose() noexcept
         {
             static_assert(cols == rows);
@@ -120,30 +72,6 @@ namespace omath
         static constexpr auto generateIdentity(const std::index_sequence<i...>) noexcept
         {
             return Matrix{(i % cols == i / rows) ? T(1) : T(0)...};
-        }
-
-        template <std::size_t ...i>
-        constexpr auto generateSum(const std::index_sequence<i...>, const Matrix& mat) const noexcept
-        {
-            return Matrix{(m[i] + mat.m[i])...};
-        }
-
-        template <std::size_t ...i>
-        constexpr auto generateDiff(const std::index_sequence<i...>, const Matrix& mat) const noexcept
-        {
-            return Matrix{(m[i] - mat.m[i])...};
-        }
-
-        template <std::size_t ...i>
-        constexpr auto generateMul(const std::index_sequence<i...>, const T scalar) const noexcept
-        {
-            return Matrix{(m[i] * scalar)...};
-        }
-
-        template <std::size_t ...i>
-        constexpr auto generateDiv(const std::index_sequence<i...>, const T scalar) const noexcept
-        {
-            return Matrix{(m[i] / scalar)...};
         }
 
         template <std::size_t ...i>
@@ -181,146 +109,6 @@ namespace omath
         [[nodiscard]] auto operator!=(const Matrix& mat) const noexcept
         {
             return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
-        }
-
-        [[nodiscard]] const auto operator+(const Matrix& mat) const noexcept
-        {
-            Matrix result;
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            _mm_store_ps(&result.m[0], _mm_add_ps(_mm_load_ps(&m[0]), _mm_load_ps(&mat.m[0])));
-            _mm_store_ps(&result.m[4], _mm_add_ps(_mm_load_ps(&m[4]), _mm_load_ps(&mat.m[4])));
-            _mm_store_ps(&result.m[8], _mm_add_ps(_mm_load_ps(&m[8]), _mm_load_ps(&mat.m[8])));
-            _mm_store_ps(&result.m[12], _mm_add_ps(_mm_load_ps(&m[12]), _mm_load_ps(&mat.m[12])));
-#elif defined(__ARM_NEON__)
-            vst1q_f32(&result.m[0], vaddq_f32(vld1q_f32(&m[0]), vld1q_f32(&mat.m[0])));
-            vst1q_f32(&result.m[4], vaddq_f32(vld1q_f32(&m[4]), vld1q_f32(&mat.m[4])));
-            vst1q_f32(&result.m[8], vaddq_f32(vld1q_f32(&m[8]), vld1q_f32(&mat.m[8])));
-            vst1q_f32(&result.m[12], vaddq_f32(vld1q_f32(&m[12]), vld1q_f32(&mat.m[12])));
-#endif
-            return result;
-        }
-
-        auto& operator+=(const Matrix& mat) noexcept
-        {
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            _mm_store_ps(&m[0], _mm_add_ps(_mm_load_ps(&m[0]), _mm_load_ps(&mat.m[0])));
-            _mm_store_ps(&m[4], _mm_add_ps(_mm_load_ps(&m[4]), _mm_load_ps(&mat.m[4])));
-            _mm_store_ps(&m[8], _mm_add_ps(_mm_load_ps(&m[8]), _mm_load_ps(&mat.m[8])));
-            _mm_store_ps(&m[12], _mm_add_ps(_mm_load_ps(&m[12]), _mm_load_ps(&mat.m[12])));
-#elif defined(__ARM_NEON__)
-            vst1q_f32(&m[0], vaddq_f32(vld1q_f32(&m[0]), vld1q_f32(&mat.m[0])));
-            vst1q_f32(&m[4], vaddq_f32(vld1q_f32(&m[4]), vld1q_f32(&mat.m[4])));
-            vst1q_f32(&m[8], vaddq_f32(vld1q_f32(&m[8]), vld1q_f32(&mat.m[8])));
-            vst1q_f32(&m[12], vaddq_f32(vld1q_f32(&m[12]), vld1q_f32(&mat.m[12])));
-#endif
-            return *this;
-        }
-
-        [[nodiscard]] const auto operator-(const Matrix& mat) const noexcept
-        {
-            Matrix result;
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            _mm_store_ps(&result.m[0], _mm_sub_ps(_mm_load_ps(&m[0]), _mm_load_ps(&mat.m[0])));
-            _mm_store_ps(&result.m[4], _mm_sub_ps(_mm_load_ps(&m[4]), _mm_load_ps(&mat.m[4])));
-            _mm_store_ps(&result.m[8], _mm_sub_ps(_mm_load_ps(&m[8]), _mm_load_ps(&mat.m[8])));
-            _mm_store_ps(&result.m[12], _mm_sub_ps(_mm_load_ps(&m[12]), _mm_load_ps(&mat.m[12])));
-#elif defined(__ARM_NEON__)
-            vst1q_f32(&result.m[0], vsubq_f32(vld1q_f32(&m[0]), vld1q_f32(&mat.m[0])));
-            vst1q_f32(&result.m[4], vsubq_f32(vld1q_f32(&m[4]), vld1q_f32(&mat.m[4])));
-            vst1q_f32(&result.m[8], vsubq_f32(vld1q_f32(&m[8]), vld1q_f32(&mat.m[8])));
-            vst1q_f32(&result.m[12], vsubq_f32(vld1q_f32(&m[12]), vld1q_f32(&mat.m[12])));
-#endif
-            return result;
-        }
-
-        auto& operator-=(const Matrix& mat) noexcept
-        {
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            _mm_store_ps(&m[0], _mm_sub_ps(_mm_load_ps(&m[0]), _mm_load_ps(&mat.m[0])));
-            _mm_store_ps(&m[4], _mm_sub_ps(_mm_load_ps(&m[4]), _mm_load_ps(&mat.m[4])));
-            _mm_store_ps(&m[8], _mm_sub_ps(_mm_load_ps(&m[8]), _mm_load_ps(&mat.m[8])));
-            _mm_store_ps(&m[12], _mm_sub_ps(_mm_load_ps(&m[12]), _mm_load_ps(&mat.m[12])));
-#elif defined(__ARM_NEON__)
-            vst1q_f32(&m[0], vsubq_f32(vld1q_f32(&m[0]), vld1q_f32(&mat.m[0])));
-            vst1q_f32(&m[4], vsubq_f32(vld1q_f32(&m[4]), vld1q_f32(&mat.m[4])));
-            vst1q_f32(&m[8], vsubq_f32(vld1q_f32(&m[8]), vld1q_f32(&mat.m[8])));
-            vst1q_f32(&m[12], vsubq_f32(vld1q_f32(&m[12]), vld1q_f32(&mat.m[12])));
-#endif
-            return *this;
-        }
-
-        [[nodiscard]] const auto operator*(const float scalar) const noexcept
-        {
-            Matrix result;
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            const auto s = _mm_set1_ps(scalar);
-            _mm_store_ps(&result.m[0], _mm_mul_ps(_mm_load_ps(&m[0]), s));
-            _mm_store_ps(&result.m[4], _mm_mul_ps(_mm_load_ps(&m[4]), s));
-            _mm_store_ps(&result.m[8], _mm_mul_ps(_mm_load_ps(&m[8]), s));
-            _mm_store_ps(&result.m[12], _mm_mul_ps(_mm_load_ps(&m[12]), s));
-#elif defined(__ARM_NEON__)
-            const auto s = vdupq_n_f32(scalar);
-            vst1q_f32(&result.m[0], vmulq_f32(vld1q_f32(&m[0]), s));
-            vst1q_f32(&result.m[4], vmulq_f32(vld1q_f32(&m[4]), s));
-            vst1q_f32(&result.m[8], vmulq_f32(vld1q_f32(&m[8]), s));
-            vst1q_f32(&result.m[12], vmulq_f32(vld1q_f32(&m[12]), s));
-#endif
-            return result;
-        }
-
-        auto& operator*=(const float scalar) noexcept
-        {
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            const auto s = _mm_set1_ps(scalar);
-            _mm_store_ps(&m[0], _mm_mul_ps(_mm_load_ps(&m[0]), s));
-            _mm_store_ps(&m[4], _mm_mul_ps(_mm_load_ps(&m[4]), s));
-            _mm_store_ps(&m[8], _mm_mul_ps(_mm_load_ps(&m[8]), s));
-            _mm_store_ps(&m[12], _mm_mul_ps(_mm_load_ps(&m[12]), s));
-#elif defined(__ARM_NEON__)
-            const auto s = vdupq_n_f32(scalar);
-            vst1q_f32(&m[0], vmulq_f32(vld1q_f32(&m[0]), s));
-            vst1q_f32(&m[4], vmulq_f32(vld1q_f32(&m[4]), s));
-            vst1q_f32(&m[8], vmulq_f32(vld1q_f32(&m[8]), s));
-            vst1q_f32(&m[12], vmulq_f32(vld1q_f32(&m[12]), s));
-#endif
-            return *this;
-        }
-
-        [[nodiscard]] const auto operator/(const float scalar) const noexcept
-        {
-            Matrix result;
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            const auto s = _mm_set1_ps(scalar);
-            _mm_store_ps(&result.m[0], _mm_div_ps(_mm_load_ps(&m[0]), s));
-            _mm_store_ps(&result.m[4], _mm_div_ps(_mm_load_ps(&m[4]), s));
-            _mm_store_ps(&result.m[8], _mm_div_ps(_mm_load_ps(&m[8]), s));
-            _mm_store_ps(&result.m[12], _mm_div_ps(_mm_load_ps(&m[12]), s));
-#elif defined(__ARM_NEON__)
-            const auto s = vdupq_n_f32(scalar);
-            vst1q_f32(&result.m[0], vdivq_f32(vld1q_f32(&m[0]), s));
-            vst1q_f32(&result.m[4], vdivq_f32(vld1q_f32(&m[4]), s));
-            vst1q_f32(&result.m[8], vdivq_f32(vld1q_f32(&m[8]), s));
-            vst1q_f32(&result.m[12], vdivq_f32(vld1q_f32(&m[12]), s));
-#endif
-            return result;
-        }
-
-        auto& operator/=(const float scalar) noexcept
-        {
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            const auto s = _mm_set1_ps(scalar);
-            _mm_store_ps(&m[0], _mm_div_ps(_mm_load_ps(&m[0]), s));
-            _mm_store_ps(&m[4], _mm_div_ps(_mm_load_ps(&m[4]), s));
-            _mm_store_ps(&m[8], _mm_div_ps(_mm_load_ps(&m[8]), s));
-            _mm_store_ps(&m[12], _mm_div_ps(_mm_load_ps(&m[12]), s));
-#elif defined(__ARM_NEON__)
-            const auto s = vdupq_n_f32(scalar);
-            vst1q_f32(&m[0], vdivq_f32(vld1q_f32(&m[0]), s));
-            vst1q_f32(&m[4], vdivq_f32(vld1q_f32(&m[4]), s));
-            vst1q_f32(&m[8], vdivq_f32(vld1q_f32(&m[8]), s));
-            vst1q_f32(&m[12], vdivq_f32(vld1q_f32(&m[12]), s));
-#endif
-            return *this;
         }
 
         void transpose() noexcept
@@ -376,9 +164,49 @@ namespace omath
     namespace detail
     {
         template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
-        constexpr auto generateNegative(const Matrix<T, rows, cols, simd>& matrix, const std::index_sequence<i...>) noexcept
+        constexpr auto generateNegative(const Matrix<T, rows, cols, simd>& matrix,
+                                        const std::index_sequence<i...>) noexcept
         {
             return Matrix<T, rows, cols, simd>{(-matrix.m[i])...};
+        }
+
+        template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
+        constexpr auto generateSum(const Matrix<T, rows, cols, simd>& matrix1,
+                                   const Matrix<T, rows, cols, simd>& matrix2,
+                                   const std::index_sequence<i...>) noexcept
+        {
+            return Matrix<T, rows, cols, simd>{(matrix1.m[i] + matrix2.m[i])...};
+        }
+
+        template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
+        constexpr auto generateDiff(const Matrix<T, rows, cols, simd>& matrix1,
+                                    const Matrix<T, rows, cols, simd>& matrix2,
+                                    const std::index_sequence<i...>) noexcept
+        {
+            return Matrix<T, rows, cols, simd>{(matrix1.m[i] - matrix2.m[i])...};
+        }
+
+        template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
+        constexpr auto generateMul(const Matrix<T, rows, cols, simd>& matrix,
+                                   const T scalar,
+                                   const std::index_sequence<i...>) noexcept
+        {
+            return Matrix<T, rows, cols, simd>{(matrix.m[i] * scalar)...};
+        }
+
+        template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
+        constexpr auto generateDiv(const Matrix<T, rows, cols, simd>& matrix,
+                                   const T scalar,
+                                   const std::index_sequence<i...>) noexcept
+        {
+            return Matrix<T, rows, cols, simd>{(matrix.m[i] / scalar)...};
+        }
+
+        template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
+        constexpr auto generateTransposed(const Matrix<T, rows, cols, simd>& matrix,
+                                          const std::index_sequence<i...>) noexcept
+        {
+            return Matrix<T, cols, rows, simd>{(matrix.m[i % rows * cols  + i / rows])...};
         }
     }
 
@@ -411,6 +239,226 @@ namespace omath
         vst1q_f32(&result.m[12], vnegq_f32(vld1q_f32(&matrix.m[12])));
 #endif
         return result;
+    }
+
+    template <typename T, std::size_t rows, std::size_t cols, bool simd>
+    [[nodiscard]] constexpr const auto operator+(const Matrix<T, rows, cols, simd>& matrix1,
+                                                 const Matrix<T, rows, cols, simd>& matrix2) noexcept
+    {
+        return detail::generateSum(matrix1, matrix2, std::make_index_sequence<cols * rows>{});
+    }
+
+    template <>
+    [[nodiscard]] const auto operator+(const Matrix<float, 4, 4, true>& matrix1,
+                                       const Matrix<float, 4, 4, true>& matrix2) noexcept
+    {
+        Matrix<float, 4, 4, true> result;
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+        _mm_store_ps(&result.m[0], _mm_add_ps(_mm_load_ps(&matrix1.m[0]), _mm_load_ps(&matrix2.m[0])));
+        _mm_store_ps(&result.m[4], _mm_add_ps(_mm_load_ps(&matrix1.m[4]), _mm_load_ps(&matrix2.m[4])));
+        _mm_store_ps(&result.m[8], _mm_add_ps(_mm_load_ps(&matrix1.m[8]), _mm_load_ps(&matrix2.m[8])));
+        _mm_store_ps(&result.m[12], _mm_add_ps(_mm_load_ps(&matrix1.m[12]), _mm_load_ps(&matrix2.m[12])));
+#elif defined(__ARM_NEON__)
+        vst1q_f32(&result.m[0], vaddq_f32(vld1q_f32(&matrix1.m[0]), vld1q_f32(&matrix2.m[0])));
+        vst1q_f32(&result.m[4], vaddq_f32(vld1q_f32(&matrix1.m[4]), vld1q_f32(&matrix2.m[4])));
+        vst1q_f32(&result.m[8], vaddq_f32(vld1q_f32(&matrix1.m[8]), vld1q_f32(&matrix2.m[8])));
+        vst1q_f32(&result.m[12], vaddq_f32(vld1q_f32(&matrix1.m[12]), vld1q_f32(&matrix2.m[12])));
+#endif
+        return result;
+    }
+
+    template <typename T, std::size_t rows, std::size_t cols, bool simd>
+    auto& operator+=(Matrix<T, rows, cols, simd>& matrix1,
+                     const Matrix<T, rows, cols, simd>& matrix2) noexcept
+    {
+        for (std::size_t i = 0; i < cols * rows; ++i)
+            matrix1.m[i] += matrix2.m[i];
+        return matrix1;
+    }
+
+    template <>
+    auto& operator+=(Matrix<float, 4, 4, true>& matrix1,
+                     const Matrix<float, 4, 4, true>& matrix2) noexcept
+    {
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+        _mm_store_ps(&matrix1.m[0], _mm_add_ps(_mm_load_ps(&matrix1.m[0]), _mm_load_ps(&matrix2.m[0])));
+        _mm_store_ps(&matrix1.m[4], _mm_add_ps(_mm_load_ps(&matrix1.m[4]), _mm_load_ps(&matrix2.m[4])));
+        _mm_store_ps(&matrix1.m[8], _mm_add_ps(_mm_load_ps(&matrix1.m[8]), _mm_load_ps(&matrix2.m[8])));
+        _mm_store_ps(&matrix1.m[12], _mm_add_ps(_mm_load_ps(&matrix1.m[12]), _mm_load_ps(&matrix2.m[12])));
+#elif defined(__ARM_NEON__)
+        vst1q_f32(&matrix1.m[0], vaddq_f32(vld1q_f32(&matrix1.m[0]), vld1q_f32(&matrix2.m[0])));
+        vst1q_f32(&matrix1.m[4], vaddq_f32(vld1q_f32(&matrix1.m[4]), vld1q_f32(&matrix2.m[4])));
+        vst1q_f32(&matrix1.m[8], vaddq_f32(vld1q_f32(&matrix1.m[8]), vld1q_f32(&matrix2.m[8])));
+        vst1q_f32(&matrix1.m[12], vaddq_f32(vld1q_f32(&matrix1.m[12]), vld1q_f32(&matrix2.m[12])));
+#endif
+        return matrix1;
+    }
+
+    template <typename T, std::size_t rows, std::size_t cols, bool simd>
+    [[nodiscard]] constexpr const auto operator-(const Matrix<T, rows, cols, simd>& matrix1,
+                                                 const Matrix<T, rows, cols, simd>& matrix2) noexcept
+    {
+        return detail::generateDiff(matrix1, matrix2, std::make_index_sequence<cols * rows>{});
+    }
+
+    template <>
+    [[nodiscard]] const auto operator-(const Matrix<float, 4, 4, true>& matrix1,
+                                       const Matrix<float, 4, 4, true>& matrix2) noexcept
+    {
+        Matrix<float, 4, 4, true> result;
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+        _mm_store_ps(&result.m[0], _mm_sub_ps(_mm_load_ps(&matrix1.m[0]), _mm_load_ps(&matrix2.m[0])));
+        _mm_store_ps(&result.m[4], _mm_sub_ps(_mm_load_ps(&matrix1.m[4]), _mm_load_ps(&matrix2.m[4])));
+        _mm_store_ps(&result.m[8], _mm_sub_ps(_mm_load_ps(&matrix1.m[8]), _mm_load_ps(&matrix2.m[8])));
+        _mm_store_ps(&result.m[12], _mm_sub_ps(_mm_load_ps(&matrix1.m[12]), _mm_load_ps(&matrix2.m[12])));
+#elif defined(__ARM_NEON__)
+        vst1q_f32(&result.m[0], vsubq_f32(vld1q_f32(&matrix1.m[0]), vld1q_f32(&matrix2.m[0])));
+        vst1q_f32(&result.m[4], vsubq_f32(vld1q_f32(&matrix1.m[4]), vld1q_f32(&matrix2.m[4])));
+        vst1q_f32(&result.m[8], vsubq_f32(vld1q_f32(&matrix1.m[8]), vld1q_f32(&matrix2.m[8])));
+        vst1q_f32(&result.m[12], vsubq_f32(vld1q_f32(&matrix1.m[12]), vld1q_f32(&matrix2.m[12])));
+#endif
+        return result;
+    }
+
+    template <typename T, std::size_t rows, std::size_t cols, bool simd>
+    auto& operator-=(Matrix<T, rows, cols, simd>& matrix1,
+                     const Matrix<T, rows, cols, simd>& matrix2) noexcept
+    {
+        for (std::size_t i = 0; i < cols * rows; ++i)
+            matrix1.m[i] -= matrix2.m[i];
+        return matrix1;
+    }
+
+    template <>
+    auto& operator-=(Matrix<float, 4, 4, true>& matrix1,
+                     const Matrix<float, 4, 4, true>& matrix2) noexcept
+    {
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+        _mm_store_ps(&matrix1.m[0], _mm_sub_ps(_mm_load_ps(&matrix1.m[0]), _mm_load_ps(&matrix2.m[0])));
+        _mm_store_ps(&matrix1.m[4], _mm_sub_ps(_mm_load_ps(&matrix1.m[4]), _mm_load_ps(&matrix2.m[4])));
+        _mm_store_ps(&matrix1.m[8], _mm_sub_ps(_mm_load_ps(&matrix1.m[8]), _mm_load_ps(&matrix2.m[8])));
+        _mm_store_ps(&matrix1.m[12], _mm_sub_ps(_mm_load_ps(&matrix1.m[12]), _mm_load_ps(&matrix2.m[12])));
+#elif defined(__ARM_NEON__)
+        vst1q_f32(&matrix1.m[0], vsubq_f32(vld1q_f32(&matrix1.m[0]), vld1q_f32(&matrix2.m[0])));
+        vst1q_f32(&matrix1.m[4], vsubq_f32(vld1q_f32(&matrix1.m[4]), vld1q_f32(&matrix2.m[4])));
+        vst1q_f32(&matrix1.m[8], vsubq_f32(vld1q_f32(&matrix1.m[8]), vld1q_f32(&matrix2.m[8])));
+        vst1q_f32(&matrix1.m[12], vsubq_f32(vld1q_f32(&matrix1.m[12]), vld1q_f32(&matrix2.m[12])));
+#endif
+        return matrix1;
+    }
+
+    template <typename T, std::size_t rows, std::size_t cols, bool simd>
+    [[nodiscard]] constexpr const auto operator*(const Matrix<T, rows, cols, simd>& matrix,
+                                                 const T scalar) noexcept
+    {
+        return detail::generateMul(matrix, scalar, std::make_index_sequence<cols * rows>{});
+    }
+
+    template <>
+    [[nodiscard]] const auto operator*(const Matrix<float, 4, 4, true>& matrix,
+                                       const float scalar) noexcept
+    {
+        Matrix<float, 4, 4, true> result;
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+        const auto s = _mm_set1_ps(scalar);
+        _mm_store_ps(&result.m[0], _mm_mul_ps(_mm_load_ps(&matrix.m[0]), s));
+        _mm_store_ps(&result.m[4], _mm_mul_ps(_mm_load_ps(&matrix.m[4]), s));
+        _mm_store_ps(&result.m[8], _mm_mul_ps(_mm_load_ps(&matrix.m[8]), s));
+        _mm_store_ps(&result.m[12], _mm_mul_ps(_mm_load_ps(&matrix.m[12]), s));
+#elif defined(__ARM_NEON__)
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(&result.m[0], vmulq_f32(vld1q_f32(&matrix.m[0]), s));
+        vst1q_f32(&result.m[4], vmulq_f32(vld1q_f32(&matrix.m[4]), s));
+        vst1q_f32(&result.m[8], vmulq_f32(vld1q_f32(&matrix.m[8]), s));
+        vst1q_f32(&result.m[12], vmulq_f32(vld1q_f32(&matrix.m[12]), s));
+#endif
+        return result;
+    }
+
+    template <typename T, std::size_t rows, std::size_t cols, bool simd>
+    auto& operator*=(Matrix<T, rows, cols, simd>& matrix,
+                     const T scalar) noexcept
+    {
+        for (std::size_t i = 0; i < cols * rows; ++i)
+            matrix.m[i] *= scalar;
+        return matrix;
+    }
+
+    template <>
+    auto& operator*=(Matrix<float, 4, 4, true>& matrix,
+                     const float scalar) noexcept
+    {
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+        const auto s = _mm_set1_ps(scalar);
+        _mm_store_ps(&matrix.m[0], _mm_mul_ps(_mm_load_ps(&matrix.m[0]), s));
+        _mm_store_ps(&matrix.m[4], _mm_mul_ps(_mm_load_ps(&matrix.m[4]), s));
+        _mm_store_ps(&matrix.m[8], _mm_mul_ps(_mm_load_ps(&matrix.m[8]), s));
+        _mm_store_ps(&matrix.m[12], _mm_mul_ps(_mm_load_ps(&matrix.m[12]), s));
+#elif defined(__ARM_NEON__)
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(&matrix.m[0], vmulq_f32(vld1q_f32(&matrix.m[0]), s));
+        vst1q_f32(&matrix.m[4], vmulq_f32(vld1q_f32(&matrix.m[4]), s));
+        vst1q_f32(&matrix.m[8], vmulq_f32(vld1q_f32(&matrix.m[8]), s));
+        vst1q_f32(&matrix.m[12], vmulq_f32(vld1q_f32(&matrix.m[12]), s));
+#endif
+        return matrix;
+    }
+
+    template <typename T, std::size_t rows, std::size_t cols, bool simd>
+    [[nodiscard]] constexpr const auto operator/(const Matrix<T, rows, cols, simd>& matrix,
+                                                 const T scalar) noexcept
+    {
+        return detail::generateDiv(matrix, scalar, std::make_index_sequence<cols * rows>{});
+    }
+
+    template <>
+    [[nodiscard]] const auto operator/(const Matrix<float, 4, 4, true>& matrix,
+                                       const float scalar) noexcept
+    {
+        Matrix<float, 4, 4, true> result;
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+        const auto s = _mm_set1_ps(scalar);
+        _mm_store_ps(&result.m[0], _mm_div_ps(_mm_load_ps(&matrix.m[0]), s));
+        _mm_store_ps(&result.m[4], _mm_div_ps(_mm_load_ps(&matrix.m[4]), s));
+        _mm_store_ps(&result.m[8], _mm_div_ps(_mm_load_ps(&matrix.m[8]), s));
+        _mm_store_ps(&result.m[12], _mm_div_ps(_mm_load_ps(&matrix.m[12]), s));
+#elif defined(__ARM_NEON__)
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(&result.m[0], vdivq_f32(vld1q_f32(&matrix.m[0]), s));
+        vst1q_f32(&result.m[4], vdivq_f32(vld1q_f32(&matrix.m[4]), s));
+        vst1q_f32(&result.m[8], vdivq_f32(vld1q_f32(&matrix.m[8]), s));
+        vst1q_f32(&result.m[12], vdivq_f32(vld1q_f32(&matrix.m[12]), s));
+#endif
+        return result;
+    }
+
+    template <typename T, std::size_t rows, std::size_t cols, bool simd>
+    auto& operator/=(Matrix<T, rows, cols, simd>& matrix,
+                     const T scalar) noexcept
+    {
+        for (std::size_t i = 0; i < cols * rows; ++i)
+            matrix.m[i] /= scalar;
+        return matrix;
+    }
+
+    template <>
+    auto& operator/=(Matrix<float, 4, 4, true>& matrix,
+                     const float scalar) noexcept
+    {
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+        const auto s = _mm_set1_ps(scalar);
+        _mm_store_ps(&matrix.m[0], _mm_div_ps(_mm_load_ps(&matrix.m[0]), s));
+        _mm_store_ps(&matrix.m[4], _mm_div_ps(_mm_load_ps(&matrix.m[4]), s));
+        _mm_store_ps(&matrix.m[8], _mm_div_ps(_mm_load_ps(&matrix.m[8]), s));
+        _mm_store_ps(&matrix.m[12], _mm_div_ps(_mm_load_ps(&matrix.m[12]), s));
+#elif defined(__ARM_NEON__)
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(&matrix.m[0], vdivq_f32(vld1q_f32(&matrix.m[0]), s));
+        vst1q_f32(&matrix.m[4], vdivq_f32(vld1q_f32(&matrix.m[4]), s));
+        vst1q_f32(&matrix.m[8], vdivq_f32(vld1q_f32(&matrix.m[8]), s));
+        vst1q_f32(&matrix.m[12], vdivq_f32(vld1q_f32(&matrix.m[12]), s));
+#endif
+        return matrix;
     }
 
     template <
