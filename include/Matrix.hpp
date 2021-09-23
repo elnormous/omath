@@ -98,21 +98,6 @@ namespace omath
             return *this;
         }
 
-        auto& operator*=(const Matrix& mat) noexcept
-        {
-            static_assert(rows == cols);
-
-            const auto temp = m;
-            m = {};
-
-            for (std::size_t i = 0; i < rows; ++i)
-                for (std::size_t j = 0; j < cols; ++j)
-                    for (std::size_t k = 0; k < rows; ++k)
-                        m[i * cols + j] += temp[i * cols + k] * mat.m[k * cols + j];
-
-            return *this;
-        }
-
         void transpose() noexcept
         {
             static_assert(cols == rows);
@@ -377,56 +362,6 @@ namespace omath
             return *this;
         }
 
-        auto& operator*=(const Matrix& mat) noexcept
-        {
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-            const auto row0 = _mm_load_ps(&m[0]);
-            const auto row1 = _mm_load_ps(&m[4]);
-            const auto row2 = _mm_load_ps(&m[8]);
-            const auto row3 = _mm_load_ps(&m[12]);
-
-            for (std::size_t i = 0; i < 4; ++i)
-            {
-                const auto e0 = _mm_set1_ps(mat.m[i * 4 + 0]);
-                const auto e1 = _mm_set1_ps(mat.m[i * 4 + 1]);
-                const auto e2 = _mm_set1_ps(mat.m[i * 4 + 2]);
-                const auto e3 = _mm_set1_ps(mat.m[i * 4 + 3]);
-
-                const auto v0 = _mm_mul_ps(row0, e0);
-                const auto v1 = _mm_mul_ps(row1, e1);
-                const auto v2 = _mm_mul_ps(row2, e2);
-                const auto v3 = _mm_mul_ps(row3, e3);
-
-                const auto a0 = _mm_add_ps(v0, v1);
-                const auto a1 = _mm_add_ps(v2, v3);
-                _mm_store_ps(&m[i * 4], _mm_add_ps(a0, a1));
-            }
-#elif defined(__ARM_NEON__)
-            const auto row0 = vld1q_f32(&m[0]);
-            const auto row1 = vld1q_f32(&m[4]);
-            const auto row2 = vld1q_f32(&m[8]);
-            const auto row3 = vld1q_f32(&m[12]);
-
-            for (std::size_t i = 0; i < 4; ++i)
-            {
-                const auto e0 = vdupq_n_f32(mat.m[i * 4 + 0]);
-                const auto e1 = vdupq_n_f32(mat.m[i * 4 + 1]);
-                const auto e2 = vdupq_n_f32(mat.m[i * 4 + 2]);
-                const auto e3 = vdupq_n_f32(mat.m[i * 4 + 3]);
-
-                const auto v0 = vmulq_f32(row0, e0);
-                const auto v1 = vmulq_f32(row1, e1);
-                const auto v2 = vmulq_f32(row2, e2);
-                const auto v3 = vmulq_f32(row3, e3);
-
-                const auto a0 = vaddq_f32(v0, v1);
-                const auto a1 = vaddq_f32(v2, v3);
-                vst1q_f32(&m[i * 4], vaddq_f32(a0, a1));
-            }
-#endif
-            return *this;
-        }
-
         void transpose() noexcept
         {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
@@ -628,7 +563,7 @@ namespace omath
                                        const Matrix<float, 4, 4, true>& matrix2) noexcept
     {
         Matrix<float, 4, 4, true> result;
-    #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
         const auto row0 = _mm_load_ps(&matrix1.m[0]);
         const auto row1 = _mm_load_ps(&matrix1.m[4]);
         const auto row2 = _mm_load_ps(&matrix1.m[8]);
@@ -650,7 +585,7 @@ namespace omath
             const auto a1 = _mm_add_ps(v2, v3);
             _mm_store_ps(&result.m[i * 4], _mm_add_ps(a0, a1));
         }
-    #elif defined(__ARM_NEON__)
+#elif defined(__ARM_NEON__)
         const auto row0 = vld1q_f32(&matrix1.m[0]);
         const auto row1 = vld1q_f32(&matrix1.m[4]);
         const auto row2 = vld1q_f32(&matrix1.m[8]);
@@ -672,8 +607,75 @@ namespace omath
             const auto a1 = vaddq_f32(v2, v3);
             vst1q_f32(&result.m[i * 4], vaddq_f32(a0, a1));
         }
-    #endif
+#endif
         return result;
+    }
+
+    template <
+        typename T, std::size_t n, bool simd, bool simd2
+    >
+    auto& operator*=(Matrix<T, n, n, simd>& matrix1, const Matrix<T, n, n, simd2>& matrix2) noexcept
+    {
+        const auto temp = matrix1.m;
+        matrix1.m = {};
+
+        for (std::size_t i = 0; i < n; ++i)
+            for (std::size_t j = 0; j < n; ++j)
+                for (std::size_t k = 0; k < n; ++k)
+                    matrix1.m[i * n + j] += temp[i * n + k] * matrix2.m[k * n + j];
+
+        return matrix1;
+    }
+
+    template<>
+    auto& operator*=(Matrix<float, 4, 4, true>& matrix1, const Matrix<float, 4, 4, true>& matrix2) noexcept
+    {
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+        const auto row0 = _mm_load_ps(&matrix1.m[0]);
+        const auto row1 = _mm_load_ps(&matrix1.m[4]);
+        const auto row2 = _mm_load_ps(&matrix1.m[8]);
+        const auto row3 = _mm_load_ps(&matrix1.m[12]);
+
+        for (std::size_t i = 0; i < 4; ++i)
+        {
+            const auto e0 = _mm_set1_ps(matrix2.m[i * 4 + 0]);
+            const auto e1 = _mm_set1_ps(matrix2.m[i * 4 + 1]);
+            const auto e2 = _mm_set1_ps(matrix2.m[i * 4 + 2]);
+            const auto e3 = _mm_set1_ps(matrix2.m[i * 4 + 3]);
+
+            const auto v0 = _mm_mul_ps(row0, e0);
+            const auto v1 = _mm_mul_ps(row1, e1);
+            const auto v2 = _mm_mul_ps(row2, e2);
+            const auto v3 = _mm_mul_ps(row3, e3);
+
+            const auto a0 = _mm_add_ps(v0, v1);
+            const auto a1 = _mm_add_ps(v2, v3);
+            _mm_store_ps(&matrix1.m[i * 4], _mm_add_ps(a0, a1));
+        }
+#elif defined(__ARM_NEON__)
+        const auto row0 = vld1q_f32(&matrix1.m[0]);
+        const auto row1 = vld1q_f32(&matrix1.m[4]);
+        const auto row2 = vld1q_f32(&matrix1.m[8]);
+        const auto row3 = vld1q_f32(&matrix1.m[12]);
+
+        for (std::size_t i = 0; i < 4; ++i)
+        {
+            const auto e0 = vdupq_n_f32(matrix2.m[i * 4 + 0]);
+            const auto e1 = vdupq_n_f32(matrix2.m[i * 4 + 1]);
+            const auto e2 = vdupq_n_f32(matrix2.m[i * 4 + 2]);
+            const auto e3 = vdupq_n_f32(matrix2.m[i * 4 + 3]);
+
+            const auto v0 = vmulq_f32(row0, e0);
+            const auto v1 = vmulq_f32(row1, e1);
+            const auto v2 = vmulq_f32(row2, e2);
+            const auto v3 = vmulq_f32(row3, e3);
+
+            const auto a0 = vaddq_f32(v0, v1);
+            const auto a1 = vaddq_f32(v2, v3);
+            vst1q_f32(&matrix1.m[i * 4], vaddq_f32(a0, a1));
+        }
+#endif
+        return matrix1;
     }
 }
 
