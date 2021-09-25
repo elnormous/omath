@@ -69,68 +69,59 @@ TEST_CASE("Vector arithmetic operators", "vector")
     SECTION("Negate")
     {
         const auto result = -vector1;
-        REQUIRE(result.x() == -2.0F);
-        REQUIRE(result.y() == -4.0F);
+        REQUIRE(result == omath::Vector<float, 2>{-2.0F, -4.0F});
     }
 
     SECTION("Add")
     {
         const auto result = vector1 + vector2;
-        REQUIRE(result.x() == 4.0F);
-        REQUIRE(result.y() == 9.0F);
+        REQUIRE(result == omath::Vector<float, 2>{4.0F, 9.0F});
     }
 
     SECTION("Subtract")
     {
         const auto result = vector1 - vector2;
-        REQUIRE(result.x() == -0.0F);
-        REQUIRE(result.y() == -1.0F);
+        REQUIRE(result == omath::Vector<float, 2>{-0.0F, -1.0F});
     }
 
     SECTION("Multiply")
     {
         const auto result = vector1 * 2.0F;
-        REQUIRE(result.x() == 4.0F);
-        REQUIRE(result.y() == 8.0F);
+        REQUIRE(result == omath::Vector<float, 2>{4.0F, 8.0F});
     }
 
     SECTION("Divide")
     {
         const auto result = vector1 / 2.0F;
-        REQUIRE(result.x() == 1.0F);
-        REQUIRE(result.y() == 2.0F);
+        REQUIRE(result == omath::Vector<float, 2>{1.0F, 2.0F});
     }
 
     SECTION("Add assign")
     {
         omath::Vector<float, 2> result{2.0F, 4.0F};
         result += vector2;
-        REQUIRE(result.x() == 4.0F);
-        REQUIRE(result.y() == 9.0F);
+        REQUIRE(result == omath::Vector<float, 2>{4.0F, 9.0F});
     }
 
     SECTION("Subtract assign")
     {
         omath::Vector<float, 2> result{2.0F, 4.0F};
         result -= vector2;
-        REQUIRE(result.x() == -0.0F);
-        REQUIRE(result.y() == -1.0F);
+        REQUIRE(result == omath::Vector<float, 2>{-0.0F, -1.0F});
     }
 
     SECTION("Multiply assign")
     {
         omath::Vector<float, 2> result{2.0F, 4.0F};
         result *= 2.0F;
-        REQUIRE(result.x() == 4.0F);
-        REQUIRE(result.y() == 8.0F);
+        REQUIRE(result == omath::Vector<float, 2>{4.0F, 8.0F});
     }
 
     SECTION("Divide assign")
     {
         omath::Vector<float, 2> result{2.0F, 4.0F};
         result /= 2.0F;
-        REQUIRE(result.x() == 1.0F);
-        REQUIRE(result.y() == 2.0F);
+        REQUIRE(result == omath::Vector<float, 2>{1.0F, 2.0F});
     }
 }
 
@@ -156,9 +147,7 @@ TEST_CASE("Vector cross product", "vector")
     const omath::Vector<float, 3> vector2{5.0F, 6.0F, 7.0F};
     const auto result = cross(vector1, vector2);
 
-    REQUIRE(result.x() == -3.0F);
-    REQUIRE(result.y() == 6.0F);
-    REQUIRE(result.z() == -3.0F);
+    REQUIRE(result == omath::Vector<float, 3>{-3.0F, 6.0F, -3.0F});
 }
 
 TEST_CASE("Vector dot product", "vector")
