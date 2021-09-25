@@ -154,7 +154,7 @@ TEST_CASE("Vector cross product", "vector")
 {
     const omath::Vector<float, 3> vector1{2.0F, 3.0F, 4.0F};
     const omath::Vector<float, 3> vector2{5.0F, 6.0F, 7.0F};
-    const auto result = vector1.cross(vector2);
+    const auto result = cross(vector1, vector2);
 
     REQUIRE(result.x() == -3.0F);
     REQUIRE(result.y() == 6.0F);

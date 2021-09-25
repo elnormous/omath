@@ -166,17 +166,6 @@ namespace omath
             return generateLengthSquared(std::make_index_sequence<dims>{});
         }
 
-        [[nodiscard]] constexpr auto cross(const Vector& vec) const noexcept
-        {
-            static_assert(dims == 3);
-
-            return Vector{
-                (v[1] * vec.v[2]) - (v[2] * vec.v[1]),
-                (v[2] * vec.v[0]) - (v[0] * vec.v[2]),
-                (v[0] * vec.v[1]) - (v[1] * vec.v[0])
-            };
-        }
-
         [[nodiscard]] constexpr auto dot(const Vector& vec) const noexcept
         {
             return generateDot(std::make_index_sequence<dims>{}, vec);
@@ -256,6 +245,17 @@ namespace omath
             return (((v[I] - vec.v[I]) * (v[I] - vec.v[I])) + ...);
         }
     };
+
+    template <class T, bool simd1, bool simd2>
+    [[nodiscard]] constexpr auto cross(const Vector<T, 3, simd1>& vector1,
+                                       const Vector<T, 3, simd2>& vector2) noexcept
+    {
+        return Vector<T, 3, simd1>{
+            (vector1.v[1] * vector2.v[2]) - (vector1.v[2] * vector2.v[1]),
+            (vector1.v[2] * vector2.v[0]) - (vector1.v[0] * vector2.v[2]),
+            (vector1.v[0] * vector2.v[1]) - (vector1.v[1] * vector2.v[0])
+        };
+    }
 }
 
 #endif
