@@ -38,7 +38,7 @@ TEST_CASE("Matrix value initalization", "matrix")
 
 TEST_CASE("Matrix identity", "matrix")
 {
-    const auto matrix = omath::Matrix<float, 2>::identity();
+    const auto matrix = omath::identity<float, 2>();
 
     REQUIRE(matrix == omath::Matrix<float, 2, 2>{
         1.0F, 0.0F,

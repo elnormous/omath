@@ -24,12 +24,6 @@ namespace omath
         [[nodiscard]] auto operator[](const std::size_t row) noexcept { return &m[row * cols]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * cols]; }
 
-        [[nodiscard]] static constexpr auto identity() noexcept
-        {
-            static_assert(cols == rows);
-            return generateIdentity(std::make_index_sequence<cols * rows>{});
-        }
-
         [[nodiscard]] constexpr auto operator==(const Matrix& mat) const noexcept
         {
             return std::equal(std::begin(m), std::end(m), std::begin(mat.m));
@@ -50,17 +44,16 @@ namespace omath
             else if constexpr (rows == 2 && cols == 2)
                 return m[0] * m[3] - m[1] * m[2];
         }
-
-    private:
-        template <std::size_t ...i>
-        static constexpr auto generateIdentity(const std::index_sequence<i...>) noexcept
-        {
-            return Matrix{(i % cols == i / rows) ? T(1) : T(0)...};
-        }
     };
 
     namespace detail
     {
+        template <class T, std::size_t size, bool simd, std::size_t ...i>
+        static constexpr auto generateIdentity(const std::index_sequence<i...>) noexcept
+        {
+            return Matrix<T, size, size, simd>{(i % size == i / size) ? T(1) : T(0)...};
+        }
+
         template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
         constexpr auto generateNegative(const Matrix<T, rows, cols, simd>& matrix,
                                         const std::index_sequence<i...>) noexcept
@@ -106,6 +99,12 @@ namespace omath
         {
             return Matrix<T, cols, rows, simd>{(matrix.m[i % rows * cols  + i / rows])...};
         }
+    }
+
+    template <class T, std::size_t size, bool simd = canMatrixUseSimd<T, size, size>>
+    [[nodiscard]] static constexpr auto identity() noexcept
+    {
+        return detail::generateIdentity<T, size, simd>(std::make_index_sequence<size * size>{});
     }
 
     template <typename T, std::size_t rows, std::size_t cols, bool simd>
