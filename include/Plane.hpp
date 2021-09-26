@@ -53,18 +53,20 @@ namespace omath
         {
             return Plane{-v[0], -v[1], -v[2], -v[3]};
         }
-
-        [[nodiscard]] constexpr auto dot(const Vector<T, 3>& vec) const noexcept
-        {
-            return v[0] * vec.v[0] + v[1] * vec.v[1] + v[2] * vec.v[2] + v[3];
-        }
-
-        [[nodiscard]] auto distance(const Vector<T, 3>& vec) const
-        {
-            return std::abs(dot(vec)) /
-                std::sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
-        }
     };
+
+    template <typename T>
+    [[nodiscard]] constexpr auto dot(const Plane<T>& plane, const Vector<T, 3>& vec) noexcept
+    {
+        return plane.v[0] * vec.v[0] + plane.v[1] * vec.v[1] + plane.v[2] * vec.v[2] + plane.v[3];
+    }
+
+template <typename T>
+    [[nodiscard]] auto distance(const Plane<T>& plane, const Vector<T, 3>& vec)
+    {
+        return std::abs(dot(plane, vec)) /
+            std::sqrt(plane.v[0] * plane.v[0] + plane.v[1] * plane.v[1] + plane.v[2] * plane.v[2]);
+    }
 }
 
 #endif

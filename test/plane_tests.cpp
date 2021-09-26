@@ -75,7 +75,7 @@ TEST_CASE("Vector dot", "plane")
         4.0F, -4.0F, 3.0F
     };
 
-    const auto result = plane.dot(vector);
+    const auto result = dot(plane, vector);
 
     REQUIRE(result == 39.0F);
 }
@@ -92,7 +92,7 @@ TEST_CASE("Vector flip", "plane")
             4.0F, -4.0F, 3.0F
         };
 
-        const auto result = plane.distance(vector);
+        const auto result = distance(plane, vector);
 
         REQUIRE(result == Approx(6.78902858227F));
     }
@@ -107,7 +107,7 @@ TEST_CASE("Vector flip", "plane")
             2.0F, 8.0F, 5.0F
         };
 
-        const auto result = plane.distance(vector);
+        const auto result = distance(plane, vector);
 
         REQUIRE(result == Approx(8.33333333333F));
     }
