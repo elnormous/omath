@@ -13,10 +13,10 @@
 
 namespace omath
 {
-    template <class T, std::size_t dims>
+    template <typename T, std::size_t dims>
     struct CanVectorUseSimd: std::false_type {};
 
-    template <class T, std::size_t rows, std::size_t cols>
+    template <typename T, std::size_t rows, std::size_t cols>
     struct CanMatrixUseSimd: std::false_type {};
 
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0 || defined(__ARM_NEON__)
@@ -27,10 +27,10 @@ namespace omath
     struct CanMatrixUseSimd<float, 4, 4>: std::true_type {};
 #endif
 
-    template <class T, std::size_t dims>
+    template <typename T, std::size_t dims>
     inline constexpr bool canVectorUseSimd = CanVectorUseSimd<T, dims>::value;
 
-    template <class T, std::size_t rows, std::size_t cols>
+    template <typename T, std::size_t rows, std::size_t cols>
     inline constexpr bool canMatrixUseSimd = CanMatrixUseSimd<T, rows, cols>::value;
 }
 

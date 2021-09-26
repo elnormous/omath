@@ -246,7 +246,7 @@ namespace omath
         }
     };
 
-    template <class T, bool simd1, bool simd2>
+    template <typename T, bool simd1, bool simd2>
     [[nodiscard]] constexpr auto cross(const Vector<T, 3, simd1>& vector1,
                                        const Vector<T, 3, simd2>& vector2) noexcept
     {

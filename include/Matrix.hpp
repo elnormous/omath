@@ -48,7 +48,7 @@ namespace omath
 
     namespace detail
     {
-        template <class T, std::size_t size, bool simd, std::size_t ...i>
+        template <typename T, std::size_t size, bool simd, std::size_t ...i>
         static constexpr auto generateIdentity(const std::index_sequence<i...>) noexcept
         {
             return Matrix<T, size, size, simd>{(i % size == i / size) ? T(1) : T(0)...};
@@ -101,7 +101,7 @@ namespace omath
         }
     }
 
-    template <class T, std::size_t size, bool simd = canMatrixUseSimd<T, size, size>>
+    template <typename T, std::size_t size, bool simd = canMatrixUseSimd<T, size, size>>
     [[nodiscard]] static constexpr auto identity() noexcept
     {
         return detail::generateIdentity<T, size, simd>(std::make_index_sequence<size * size>{});
