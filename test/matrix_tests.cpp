@@ -266,7 +266,7 @@ TEST_CASE("1x1 matrix determinant", "matrix")
         2.0F
     };
 
-    REQUIRE(matrix.determinant() == Approx(2.0F));
+    REQUIRE(determinant(matrix) == Approx(2.0F));
 }
 
 TEST_CASE("2x2 matrix determinant", "matrix")
@@ -276,7 +276,7 @@ TEST_CASE("2x2 matrix determinant", "matrix")
         3.0F, 4.0F
     };
 
-    REQUIRE(matrix.determinant() == Approx(-2.0F));
+    REQUIRE(determinant(matrix) == Approx(-2.0F));
 }
 
 TEST_CASE("2x2 matrix negation", "matrix")

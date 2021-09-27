@@ -33,17 +33,6 @@ namespace omath
         {
             return !std::equal(std::begin(m), std::end(m), std::begin(mat.m));
         }
-
-        [[nodiscard]] constexpr auto determinant() const noexcept
-        {
-            static_assert(rows > 0 && cols > 0 && rows == cols);
-            static_assert(rows <= 2 && cols <= 2);
-
-            if constexpr (rows == 1 && cols == 1)
-                return m[0];
-            else if constexpr (rows == 2 && cols == 2)
-                return m[0] * m[3] - m[1] * m[2];
-        }
     };
 
     namespace detail
@@ -683,6 +672,15 @@ namespace omath
         vst1q_f32(&matrix.m[8], vextq_f32(tmp0.val[0], vextq_f32(tmp1.val[0], tmp1.val[0], 2), 2));
         vst1q_f32(&matrix.m[12], vextq_f32(tmp0.val[1], vextq_f32(tmp1.val[1], tmp1.val[1], 2), 2));
 #endif
+    }
+
+    template <typename T, std::size_t size, bool simd, std::enable_if<size != 0 && (size <= 2)>* = nullptr>
+    [[nodiscard]] constexpr auto determinant(Matrix<T, size, size, simd>& matrix) noexcept
+    {
+        if constexpr (size == 1)
+            return matrix.m[0];
+        else if constexpr (size == 2)
+            return matrix.m[0] * matrix.m[3] - matrix.m[1] * matrix.m[2];
     }
 }
 
