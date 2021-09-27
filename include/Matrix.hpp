@@ -29,20 +29,20 @@ namespace omath
         template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
         constexpr auto generateEqual(const Matrix<T, rows, cols, simd>& matrix1,
                                      const Matrix<T, rows, cols, simd>& matrix2,
-                                     const std::index_sequence<i...>) noexcept
+                                     std::index_sequence<i...>) noexcept
         {
             return ((matrix1.m[i] == matrix2.m[i]) && ...);
         }
 
         template <typename T, std::size_t size, bool simd, std::size_t ...i>
-        constexpr auto generateIdentity(const std::index_sequence<i...>) noexcept
+        constexpr auto generateIdentity(std::index_sequence<i...>) noexcept
         {
             return Matrix<T, size, size, simd>{(i % size == i / size) ? T(1) : T(0)...};
         }
 
         template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
         constexpr auto generateNegative(const Matrix<T, rows, cols, simd>& matrix,
-                                        const std::index_sequence<i...>) noexcept
+                                        std::index_sequence<i...>) noexcept
         {
             return Matrix<T, rows, cols, simd>{(-matrix.m[i])...};
         }
@@ -50,7 +50,7 @@ namespace omath
         template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
         constexpr auto generateSum(const Matrix<T, rows, cols, simd>& matrix1,
                                    const Matrix<T, rows, cols, simd>& matrix2,
-                                   const std::index_sequence<i...>) noexcept
+                                   std::index_sequence<i...>) noexcept
         {
             return Matrix<T, rows, cols, simd>{(matrix1.m[i] + matrix2.m[i])...};
         }
@@ -58,7 +58,7 @@ namespace omath
         template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
         constexpr auto generateDiff(const Matrix<T, rows, cols, simd>& matrix1,
                                     const Matrix<T, rows, cols, simd>& matrix2,
-                                    const std::index_sequence<i...>) noexcept
+                                    std::index_sequence<i...>) noexcept
         {
             return Matrix<T, rows, cols, simd>{(matrix1.m[i] - matrix2.m[i])...};
         }
@@ -66,7 +66,7 @@ namespace omath
         template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
         constexpr auto generateMul(const Matrix<T, rows, cols, simd>& matrix,
                                    const T scalar,
-                                   const std::index_sequence<i...>) noexcept
+                                   std::index_sequence<i...>) noexcept
         {
             return Matrix<T, rows, cols, simd>{(matrix.m[i] * scalar)...};
         }
@@ -74,14 +74,14 @@ namespace omath
         template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
         constexpr auto generateDiv(const Matrix<T, rows, cols, simd>& matrix,
                                    const T scalar,
-                                   const std::index_sequence<i...>) noexcept
+                                   std::index_sequence<i...>) noexcept
         {
             return Matrix<T, rows, cols, simd>{(matrix.m[i] / scalar)...};
         }
 
         template <typename T, std::size_t rows, std::size_t cols, bool simd, std::size_t ...i>
         constexpr auto generateTransposed(const Matrix<T, rows, cols, simd>& matrix,
-                                          const std::index_sequence<i...>) noexcept
+                                          std::index_sequence<i...>) noexcept
         {
             return Matrix<T, cols, rows, simd>{(matrix.m[i % rows * cols  + i / rows])...};
         }
