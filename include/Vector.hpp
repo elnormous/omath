@@ -82,6 +82,22 @@ namespace omath
             return ((vector1.v[i] == vector2.v[i]) && ...);
         }
 
+        template <typename T, std::size_t dims, bool simd1, bool simd2, std::size_t ...i>
+        constexpr auto generateLessThan(const Vector<T, dims, simd1>& vector1,
+                                        const Vector<T, dims, simd2>& vector2,
+                                        const std::index_sequence<i...>) noexcept
+        {
+            return ((vector1.v[i] < vector2.v[i]) || ...);
+        }
+
+        template <typename T, std::size_t dims, bool simd1, bool simd2, std::size_t ...i>
+        constexpr auto generateGreaterThan(const Vector<T, dims, simd1>& vector1,
+                                           const Vector<T, dims, simd2>& vector2,
+                                           const std::index_sequence<i...>) noexcept
+        {
+            return ((vector1.v[i] > vector2.v[i]) || ...);
+        }
+
         template <typename T, std::size_t dims, bool simd, std::size_t ...i>
         constexpr auto generateInverse(const Vector<T, dims, simd>& vector,
                                        const std::index_sequence<i...>) noexcept
@@ -163,22 +179,14 @@ namespace omath
     [[nodiscard]] constexpr auto operator<(const Vector<T, dims, simd1>& vector1,
                                            const Vector<T, dims, simd2>& vector2) noexcept
     {
-        for (std::size_t i = 0; i < dims; ++i)
-            if (vector1.v[i] < vector2.v[i]) return true;
-            else if (vector2.v[i] < vector1.v[i]) return false;
-
-        return false;
+        return detail::generateLessThan(vector1, vector2, std::make_index_sequence<dims>{});
     }
 
     template <typename T, std::size_t dims, bool simd1, bool simd2>
     [[nodiscard]] constexpr auto operator>(const Vector<T, dims, simd1>& vector1,
                                            const Vector<T, dims, simd2>& vector2) noexcept
     {
-        for (std::size_t i = 0; i < dims; ++i)
-            if (vector1.v[i] > vector2.v[i]) return true;
-            else if (vector2.v[i] > vector1.v[i]) return false;
-
-        return false;
+        return detail::generateGreaterThan(vector1, vector2, std::make_index_sequence<dims>{});
     }
 
     template <typename T, std::size_t dims, bool simd>
