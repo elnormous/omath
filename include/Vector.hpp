@@ -5,7 +5,6 @@
 #ifndef OMATH_VECTOR
 #define OMATH_VECTOR
 
-#include <algorithm>
 #include <array>
 #include <cmath>
 #include <type_traits>
@@ -72,6 +71,16 @@ namespace omath
             return v[3];
         }
 
+        [[nodiscard]] constexpr auto operator==(const Vector& vec) const noexcept
+        {
+            return generateEqual(vec, std::make_index_sequence<dims>{});
+        }
+
+        [[nodiscard]] constexpr auto operator!=(const Vector& vec) const noexcept
+        {
+            return !generateEqual(vec, std::make_index_sequence<dims>{});
+        }
+
         [[nodiscard]] constexpr auto operator<(const Vector& vec) const noexcept
         {
             for (std::size_t i = 0; i < dims; ++i)
@@ -88,16 +97,6 @@ namespace omath
                 else if (vec.v[i] > v[i]) return false;
 
             return false;
-        }
-
-        [[nodiscard]] constexpr auto operator==(const Vector& vec) const noexcept
-        {
-            return std::equal(std::begin(v), std::end(v), std::begin(vec.v));
-        }
-
-        [[nodiscard]] constexpr auto operator!=(const Vector& vec) const noexcept
-        {
-            return !std::equal(std::begin(v), std::end(v), std::begin(vec.v));
         }
 
         [[nodiscard]] constexpr auto operator+() const noexcept
@@ -157,6 +156,12 @@ namespace omath
         }
 
     private:
+        template <std::size_t ...i>
+        constexpr auto generateEqual(const Vector& vec, const std::index_sequence<i...>) const noexcept
+        {
+            return ((v[i] == vec.v[i]) && ...);
+        }
+
         template <std::size_t ...i>
         constexpr auto generateInverse(const std::index_sequence<i...>) const noexcept
         {
