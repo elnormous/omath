@@ -156,31 +156,6 @@ namespace omath
             return *this;
         }
 
-        [[nodiscard]] auto length() const noexcept
-        {
-            return std::sqrt(generateLengthSquared(std::make_index_sequence<dims>{}));
-        }
-
-        [[nodiscard]] constexpr auto lengthSquared() const noexcept
-        {
-            return generateLengthSquared(std::make_index_sequence<dims>{});
-        }
-
-        [[nodiscard]] constexpr auto dot(const Vector& vec) const noexcept
-        {
-            return generateDot(std::make_index_sequence<dims>{}, vec);
-        }
-
-        [[nodiscard]] auto distance(const Vector& vec) const noexcept
-        {
-            return std::sqrt(generateDistanceSquared(std::make_index_sequence<dims>{}, vec));
-        }
-
-        [[nodiscard]] constexpr auto distanceSquared(const Vector& vec) const noexcept
-        {
-            return generateDistanceSquared(std::make_index_sequence<dims>{}, vec);
-        }
-
     private:
         template <std::size_t ...I>
         constexpr auto generateInverse(const std::index_sequence<I...>) const noexcept
@@ -211,25 +186,33 @@ namespace omath
         {
             return Vector{(v[I] / scalar)...};
         }
-
-        template <std::size_t ...I>
-        constexpr auto generateLengthSquared(const std::index_sequence<I...>) const noexcept
-        {
-            return ((v[I] * v[I]) + ...);
-        }
-
-        template <std::size_t ...I>
-        constexpr auto generateDot(const std::index_sequence<I...>, const Vector& vec) const noexcept
-        {
-            return ((v[I] * vec.v[I]) + ...);
-        }
-
-        template <std::size_t ...I>
-        constexpr auto generateDistanceSquared(const std::index_sequence<I...>, const Vector& vec) const noexcept
-        {
-            return (((v[I] - vec.v[I]) * (v[I] - vec.v[I])) + ...);
-        }
     };
+
+    namespace detail
+    {
+        template <typename T, std::size_t dims, bool simd, std::size_t ...I>
+        constexpr auto generateLengthSquared(const Vector<T, dims, simd>& vector,
+                                             const std::index_sequence<I...>) noexcept
+        {
+            return ((vector.v[I] * vector.v[I]) + ...);
+        }
+
+        template <typename T, std::size_t dims, bool simd1, bool simd2, std::size_t ...I>
+        constexpr auto generateDot(const Vector<T, dims, simd1>& vector1,
+                                   const Vector<T, dims, simd2>& vector2,
+                                   const std::index_sequence<I...>) noexcept
+        {
+            return ((vector1.v[I] * vector2.v[I]) + ...);
+        }
+
+        template <typename T, std::size_t dims, bool simd1, bool simd2, std::size_t ...I>
+        constexpr auto generateDistanceSquared(const Vector<T, dims, simd1>& vector1,
+                                               const Vector<T, dims, simd2>& vector2,
+                                               const std::index_sequence<I...>) noexcept
+        {
+            return (((vector1.v[I] - vector2.v[I]) * (vector1.v[I] - vector2.v[I])) + ...);
+        }
+    }
 
     template <typename T, bool simd1, bool simd2>
     [[nodiscard]] constexpr auto cross(const Vector<T, 3, simd1>& vector1,
@@ -243,9 +226,42 @@ namespace omath
     }
 
     template <typename T, std::size_t dims, bool simd>
+    [[nodiscard]] auto length(const Vector<T, dims, simd>& vector) noexcept
+    {
+        return std::sqrt(detail::generateLengthSquared(vector, std::make_index_sequence<dims>{}));
+    }
+
+    template <typename T, std::size_t dims, bool simd>
+    [[nodiscard]] constexpr auto lengthSquared(const Vector<T, dims, simd>& vector) noexcept
+    {
+        return detail::generateLengthSquared(vector, std::make_index_sequence<dims>{});
+    }
+
+    template <typename T, std::size_t dims, bool simd1, bool simd2>
+    [[nodiscard]] constexpr auto dot(const Vector<T, dims, simd1>& vector1,
+                                     const Vector<T, dims, simd2>& vector2) noexcept
+    {
+        return detail::generateDot(vector1, vector2, std::make_index_sequence<dims>{});
+    }
+
+    template <typename T, std::size_t dims, bool simd1, bool simd2>
+    [[nodiscard]] auto distance(const Vector<T, dims, simd1>& vector1,
+                                const Vector<T, dims, simd2>& vector2) noexcept
+    {
+        return std::sqrt(detail::generateDistanceSquared(vector1, vector2, std::make_index_sequence<dims>{}));
+    }
+
+    template <typename T, std::size_t dims, bool simd1, bool simd2>
+    [[nodiscard]] constexpr auto distanceSquared(const Vector<T, dims, simd1>& vector1,
+                                                 const Vector<T, dims, simd2>& vector2) noexcept
+    {
+        return detail::generateDistanceSquared(vector1, vector2, std::make_index_sequence<dims>{});
+    }
+
+    template <typename T, std::size_t dims, bool simd>
     void normalize(Vector<T, dims, simd>& vector) noexcept
     {
-        if (const auto l = vector.length(); l > T(0))
+        if (const auto l = length(vector); l > T(0))
             for (auto& c : vector.v) c /= l;
     }
 
@@ -253,7 +269,7 @@ namespace omath
     [[nodiscard]] auto normalized(const Vector<T, dims, simd>& vector) noexcept
     {
         Vector<T, dims, simd> result;
-        if (const auto l = vector.length(); l > T(0))
+        if (const auto l = length(vector); l > T(0))
             for (std::size_t i = 0; i < dims; ++i)
                 result.v[i] = vector.v[i] / l;
         return result;

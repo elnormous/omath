@@ -60,7 +60,7 @@ namespace omath
         return plane.v[0] * vec.v[0] + plane.v[1] * vec.v[1] + plane.v[2] * vec.v[2] + plane.v[3];
     }
 
-template <typename T>
+    template <typename T>
     [[nodiscard]] auto distance(const Plane<T>& plane, const Vector<T, 3>& vec)
     {
         return std::abs(dot(plane, vec)) /

@@ -128,7 +128,7 @@ TEST_CASE("Vector arithmetic operators", "vector")
 TEST_CASE("Vector length", "vector")
 {
     const omath::Vector<float, 2> vector{3.0F, 4.0F};
-    const auto result = vector.length();
+    const auto result = length(vector);
 
     REQUIRE(result == Approx(5.0F));
 }
@@ -136,7 +136,7 @@ TEST_CASE("Vector length", "vector")
 TEST_CASE("Vector length squared", "vector")
 {
     const omath::Vector<float, 2> vector{3.0F, 4.0F};
-    const auto result = vector.lengthSquared();
+    const auto result = lengthSquared(vector);
 
     REQUIRE(result == Approx(25.0F));
 }
@@ -154,7 +154,7 @@ TEST_CASE("Vector dot product", "vector")
 {
     const omath::Vector<float, 2> vector1{1.0F, 2.0F};
     const omath::Vector<float, 2> vector2{4.0F, 5.0F};
-    const auto result = vector1.dot(vector2);
+    const auto result = dot(vector1, vector2);
 
     REQUIRE(result == 14.0F);
 }
@@ -163,7 +163,7 @@ TEST_CASE("Vector distance", "vector")
 {
     const omath::Vector<float, 2> vector1{1.0F, 2.0F};
     const omath::Vector<float, 2> vector2{4.0F, 6.0F};
-    const auto result = vector1.distance(vector2);
+    const auto result = distance(vector1, vector2);
 
     REQUIRE(result == 5.0F);
 }
@@ -172,7 +172,7 @@ TEST_CASE("Vector distance squared", "vector")
 {
     const omath::Vector<float, 2> vector1{1.0F, 2.0F};
     const omath::Vector<float, 2> vector2{4.0F, 6.0F};
-    const auto result = vector1.distanceSquared(vector2);
+    const auto result = distanceSquared(vector1, vector2);
 
     REQUIRE(result == 25.0F);
 }

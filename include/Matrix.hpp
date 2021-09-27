@@ -348,15 +348,15 @@ namespace omath
     }
 
     template <
-        typename T, std::size_t rows, std::size_t cols, bool simd,
+        typename T, std::size_t rows, std::size_t cols, bool simd1,
         std::size_t rows2, std::size_t cols2, bool simd2
     >
-    [[nodiscard]] const auto operator*(const Matrix<T, rows, cols, simd>& matrix1,
+    [[nodiscard]] const auto operator*(const Matrix<T, rows, cols, simd1>& matrix1,
                                        const Matrix<T, rows2, cols2, simd2>& matrix2) noexcept
     {
         static_assert(cols == rows2);
 
-        Matrix<T, rows, cols2, simd && simd2> result{};
+        Matrix<T, rows, cols2, simd1 && simd2> result{};
 
         // TODO: make constexpr
         for (std::size_t i = 0; i < rows; ++i)
@@ -420,8 +420,8 @@ namespace omath
         return result;
     }
 
-    template <typename T, std::size_t size, bool simd, bool simd2>
-    auto& operator*=(Matrix<T, size, size, simd>& matrix1,
+    template <typename T, std::size_t size, bool simd1, bool simd2>
+    auto& operator*=(Matrix<T, size, size, simd1>& matrix1,
                      const Matrix<T, size, size, simd2>& matrix2) noexcept
     {
         const auto temp = matrix1.m;
