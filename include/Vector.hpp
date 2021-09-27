@@ -181,21 +181,6 @@ namespace omath
             return generateDistanceSquared(std::make_index_sequence<dims>{}, vec);
         }
 
-        void normalize() noexcept
-        {
-            if (const auto l = length(); l > T(0))
-                for (auto& c : v) c /= l;
-        }
-
-        [[nodiscard]] auto normalized() const noexcept
-        {
-            Vector result;
-            if (const auto l = length(); l > T(0))
-                for (std::size_t i = 0; i < dims; ++i)
-                    result.v[i] = v[i] / l;
-            return result;
-        }
-
     private:
         template <std::size_t ...I>
         constexpr auto generateInverse(const std::index_sequence<I...>) const noexcept
@@ -255,6 +240,23 @@ namespace omath
             (vector1.v[2] * vector2.v[0]) - (vector1.v[0] * vector2.v[2]),
             (vector1.v[0] * vector2.v[1]) - (vector1.v[1] * vector2.v[0])
         };
+    }
+
+    template <typename T, std::size_t dims, bool simd>
+    void normalize(Vector<T, dims, simd>& vector) noexcept
+    {
+        if (const auto l = vector.length(); l > T(0))
+            for (auto& c : vector.v) c /= l;
+    }
+
+    template <typename T, std::size_t dims, bool simd>
+    [[nodiscard]] auto normalized(const Vector<T, dims, simd>& vector) noexcept
+    {
+        Vector<T, dims, simd> result;
+        if (const auto l = vector.length(); l > T(0))
+            for (std::size_t i = 0; i < dims; ++i)
+                result.v[i] = vector.v[i] / l;
+        return result;
     }
 }
 

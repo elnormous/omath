@@ -180,7 +180,7 @@ TEST_CASE("Vector distance squared", "vector")
 TEST_CASE("2D normalized vector normalize", "vector")
 {
     omath::Vector<float, 2> vector{1.0F, 0.0F};
-    vector.normalize();
+    normalize(vector);
 
     REQUIRE(vector == omath::Vector<float, 2>{1.0F, 0.0F});
 }
@@ -188,7 +188,7 @@ TEST_CASE("2D normalized vector normalize", "vector")
 TEST_CASE("2D vector normalize", "vector")
 {
     omath::Vector<float, 2> vector{2.0F, 3.0F};
-    vector.normalize();
+    normalize(vector);
 
     REQUIRE(vector.v[0] == Approx(0.5547001962252291));
     REQUIRE(vector.v[1] == Approx(0.8320502943378437));
@@ -197,7 +197,7 @@ TEST_CASE("2D vector normalize", "vector")
 TEST_CASE("3D normalized vector normalize", "vector")
 {
     omath::Vector<float, 3> vector{1.0F, 0.0F, 0.0F};
-    vector.normalize();
+    normalize(vector);
 
     REQUIRE(vector == omath::Vector<float, 3>{1.0F, 0.0F, 0.0F});
 }
@@ -205,7 +205,7 @@ TEST_CASE("3D normalized vector normalize", "vector")
 TEST_CASE("3D vector normalize", "vector")
 {
     omath::Vector<float, 3> vector{2.0F, 3.0F, 4.0F};
-    vector.normalize();
+    normalize(vector);
 
     REQUIRE(vector.v[0] == Approx(0.3713906763541037));
     REQUIRE(vector.v[1] == Approx(0.5570860145311556));
@@ -215,7 +215,7 @@ TEST_CASE("3D vector normalize", "vector")
 TEST_CASE("3D vector normalized", "vector")
 {
     const omath::Vector<float, 3> vector{2.0F, 3.0F, 4.0F};
-    const auto result = vector.normalized();
+    const auto result = normalized(vector);
 
     REQUIRE(result.v[0] == Approx(0.3713906763541037));
     REQUIRE(result.v[1] == Approx(0.5570860145311556));
