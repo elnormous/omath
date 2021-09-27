@@ -40,12 +40,14 @@ TEST_CASE("Vector comparison operators", "vector")
     {
         REQUIRE(vector1 < vector2);
         REQUIRE_FALSE(vector1 < vector3);
+        REQUIRE_FALSE(vector2 < vector1);
     }
 
     SECTION("Greater than")
     {
         REQUIRE_FALSE(vector1 > vector2);
         REQUIRE_FALSE(vector1 > vector3);
+        REQUIRE(vector2 > vector1);
     }
 
     SECTION("Equal")
