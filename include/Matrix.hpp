@@ -66,7 +66,7 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] auto operator-(const Matrix<float, 4, 4, true>& matrix) noexcept
+    [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4, true>& matrix) noexcept
     {
         Matrix<float, 4, 4, true> result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
@@ -95,8 +95,8 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] const auto operator+(const Matrix<float, 4, 4, true>& matrix1,
-                                       const Matrix<float, 4, 4, true>& matrix2) noexcept
+    [[nodiscard]] inline const auto operator+(const Matrix<float, 4, 4, true>& matrix1,
+                                              const Matrix<float, 4, 4, true>& matrix2) noexcept
     {
         Matrix<float, 4, 4, true> result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
@@ -123,8 +123,8 @@ namespace omath
     }
 
     template <>
-    auto& operator+=(Matrix<float, 4, 4, true>& matrix1,
-                     const Matrix<float, 4, 4, true>& matrix2) noexcept
+    inline auto& operator+=(Matrix<float, 4, 4, true>& matrix1,
+                            const Matrix<float, 4, 4, true>& matrix2) noexcept
     {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
         _mm_store_ps(&matrix1.m[0], _mm_add_ps(_mm_load_ps(&matrix1.m[0]), _mm_load_ps(&matrix2.m[0])));
@@ -151,8 +151,8 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] const auto operator-(const Matrix<float, 4, 4, true>& matrix1,
-                                       const Matrix<float, 4, 4, true>& matrix2) noexcept
+    [[nodiscard]] inline const auto operator-(const Matrix<float, 4, 4, true>& matrix1,
+                                              const Matrix<float, 4, 4, true>& matrix2) noexcept
     {
         Matrix<float, 4, 4, true> result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
@@ -179,8 +179,8 @@ namespace omath
     }
 
     template <>
-    auto& operator-=(Matrix<float, 4, 4, true>& matrix1,
-                     const Matrix<float, 4, 4, true>& matrix2) noexcept
+    inline auto& operator-=(Matrix<float, 4, 4, true>& matrix1,
+                            const Matrix<float, 4, 4, true>& matrix2) noexcept
     {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
         _mm_store_ps(&matrix1.m[0], _mm_sub_ps(_mm_load_ps(&matrix1.m[0]), _mm_load_ps(&matrix2.m[0])));
@@ -207,8 +207,8 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] const auto operator*(const Matrix<float, 4, 4, true>& matrix,
-                                       const float scalar) noexcept
+    [[nodiscard]] inline const auto operator*(const Matrix<float, 4, 4, true>& matrix,
+                                              const float scalar) noexcept
     {
         Matrix<float, 4, 4, true> result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
@@ -237,8 +237,8 @@ namespace omath
     }
 
     template <>
-    auto& operator*=(Matrix<float, 4, 4, true>& matrix,
-                     const float scalar) noexcept
+    inline auto& operator*=(Matrix<float, 4, 4, true>& matrix,
+                            const float scalar) noexcept
     {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
         const auto s = _mm_set1_ps(scalar);
@@ -267,8 +267,8 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] const auto operator/(const Matrix<float, 4, 4, true>& matrix,
-                                       const float scalar) noexcept
+    [[nodiscard]] inline const auto operator/(const Matrix<float, 4, 4, true>& matrix,
+                                              const float scalar) noexcept
     {
         Matrix<float, 4, 4, true> result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
@@ -297,8 +297,8 @@ namespace omath
     }
 
     template <>
-    auto& operator/=(Matrix<float, 4, 4, true>& matrix,
-                     const float scalar) noexcept
+    inline auto& operator/=(Matrix<float, 4, 4, true>& matrix,
+                            const float scalar) noexcept
     {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
         const auto s = _mm_set1_ps(scalar);
@@ -334,8 +334,8 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] const auto operator*(const Matrix<float, 4, 4, true>& matrix1,
-                                       const Matrix<float, 4, 4, true>& matrix2) noexcept
+    [[nodiscard]] inline const auto operator*(const Matrix<float, 4, 4, true>& matrix1,
+                                              const Matrix<float, 4, 4, true>& matrix2) noexcept
     {
         Matrix<float, 4, 4, true> result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
@@ -402,7 +402,7 @@ namespace omath
     }
 
     template <>
-    auto& operator*=(Matrix<float, 4, 4, true>& matrix1, const Matrix<float, 4, 4, true>& matrix2) noexcept
+    inline auto& operator*=(Matrix<float, 4, 4, true>& matrix1, const Matrix<float, 4, 4, true>& matrix2) noexcept
     {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
         const auto row0 = _mm_load_ps(&matrix1.m[0]);
@@ -477,8 +477,8 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] auto operator*(const Vector<float, 4, true>& vector,
-                                 const Matrix<float, 4, 4, true>& matrix) noexcept
+    [[nodiscard]] inline auto operator*(const Vector<float, 4, true>& vector,
+                                        const Matrix<float, 4, 4, true>& matrix) noexcept
     {
         Vector<float, 4, true> result;
 
@@ -537,8 +537,8 @@ namespace omath
     }
 
     template <>
-    auto& operator*=(Vector<float, 4, true>& vector,
-                     const Matrix<float, 4, 4, true>& matrix) noexcept
+    inline auto& operator*=(Vector<float, 4, true>& vector,
+                            const Matrix<float, 4, 4, true>& matrix) noexcept
     {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
         const auto col0 = _mm_set1_ps(vector.v[0]);
@@ -588,7 +588,7 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] auto transposed(const Matrix<float, 4, 4, true>& matrix) noexcept
+    [[nodiscard]] inline auto transposed(const Matrix<float, 4, 4, true>& matrix) noexcept
     {
         Matrix<float, 4, 4, true> result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
@@ -622,7 +622,7 @@ namespace omath
     }
 
     template <>
-    void transpose(Matrix<float, 4, 4, true>& matrix) noexcept
+    inline void transpose(Matrix<float, 4, 4, true>& matrix) noexcept
     {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
         const auto tmp0 = _mm_shuffle_ps(_mm_load_ps(&matrix.m[0]), _mm_load_ps(&matrix.m[4]), _MM_SHUFFLE(1, 0, 1, 0));

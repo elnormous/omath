@@ -230,6 +230,25 @@ namespace omath
         return result;
     }
 
+    template <>
+    [[nodiscard]] inline auto dot(const Vector<float, 4, true>& vector1,
+                                  const Vector<float, 4, true>& vector2) noexcept
+    {
+        float result;
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
+        const auto t1 = _mm_mul_ps(_mm_load_ps(vector1.v.data()), _mm_load_ps(vector2.v.data()));
+        const auto t2 = _mm_add_ps(t1, _mm_shuffle_ps(t1, t1, _MM_SHUFFLE(2, 1, 0, 3)));
+        const auto t3 = _mm_add_ps(t2, _mm_shuffle_ps(t2, t2, _MM_SHUFFLE(1, 0, 3, 2)));
+        result = _mm_cvtss_f32(t3);
+#elif defined(__ARM_NEON__)
+        const auto t1 = vmulq_f32(vld1q_f32(vector1.v.data()), vld1q_f32(vector2.v.data()));
+        const auto t2 = vaddq_f32(t1, vrev64q_f32(t1));
+        const auto t3 = vaddq_f32(t2, vcombine_f32(vget_high_f32(t2), vget_low_f32(t2)));
+        result = vgetq_lane_f32(t3, 0);
+#endif
+        return result;
+    }
+
     template <typename T, std::size_t dims, bool simd1, bool simd2>
     [[nodiscard]] auto distance(const Vector<T, dims, simd1>& vector1,
                                 const Vector<T, dims, simd2>& vector2) noexcept

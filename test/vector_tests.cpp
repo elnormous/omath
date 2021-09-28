@@ -152,13 +152,31 @@ TEST_CASE("Vector cross product", "vector")
     REQUIRE(result == omath::Vector<float, 3>{-3.0F, 6.0F, -3.0F});
 }
 
-TEST_CASE("Vector dot product", "vector")
+TEST_CASE("2D vector dot product", "vector")
 {
     const omath::Vector<float, 2> vector1{1.0F, 2.0F};
     const omath::Vector<float, 2> vector2{4.0F, 5.0F};
-    const auto result = dot(vector1, vector2);
+    const float result = dot(vector1, vector2);
 
     REQUIRE(result == 14.0F);
+}
+
+TEST_CASE("4D vector dot product", "vector")
+{
+    const omath::Vector<float, 4, false> vector1{1.0F, 2.0F, 3.0F, 1.0F};
+    const omath::Vector<float, 4, false> vector2{4.0F, 5.0F, 6.0F, 1.0F};
+    const float result = dot(vector1, vector2);
+
+    REQUIRE(result == 33.0F);
+}
+
+TEST_CASE("4D vector dot product using SIMD", "vector")
+{
+    const omath::Vector<float, 4, true> vector1{1.0F, 2.0F, 3.0F, 1.0F};
+    const omath::Vector<float, 4, true> vector2{4.0F, 5.0F, 6.0F, 1.0F};
+    const float result = dot(vector1, vector2);
+
+    REQUIRE(result == 33.0F);
 }
 
 TEST_CASE("Vector distance", "vector")
