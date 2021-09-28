@@ -464,34 +464,34 @@ namespace omath
         std::size_t size, bool simdMatrix,
         std::enable_if<(size <= dims)>* = nullptr
     >
-    [[nodiscard]] auto operator*(const Vector<T, dims, simdVector>& vec,
-                                 const Matrix<T, size, size, simdMatrix>& mat) noexcept
+    [[nodiscard]] auto operator*(const Vector<T, dims, simdVector>& vector,
+                                 const Matrix<T, size, size, simdMatrix>& matrix) noexcept
     {
         Vector<T, dims, simdVector && simdMatrix> result{};
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result.v[i] += vec.v[j] * mat.m[j * size + i];
+                result.v[i] += vector.v[j] * matrix.m[j * size + i];
 
         return result;
     }
 
     template <>
-    [[nodiscard]] auto operator*(const Vector<float, 4, true>& vec,
-                                 const Matrix<float, 4, 4, true>& mat) noexcept
+    [[nodiscard]] auto operator*(const Vector<float, 4, true>& vector,
+                                 const Matrix<float, 4, 4, true>& matrix) noexcept
     {
         Vector<float, 4, true> result;
 
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-        const auto col0 = _mm_set1_ps(vec.v[0]);
-        const auto col1 = _mm_set1_ps(vec.v[1]);
-        const auto col2 = _mm_set1_ps(vec.v[2]);
-        const auto col3 = _mm_set1_ps(vec.v[3]);
+        const auto col0 = _mm_set1_ps(vector.v[0]);
+        const auto col1 = _mm_set1_ps(vector.v[1]);
+        const auto col2 = _mm_set1_ps(vector.v[2]);
+        const auto col3 = _mm_set1_ps(vector.v[3]);
 
-        const auto row0 = _mm_load_ps(&mat.m[0]);
-        const auto row1 = _mm_load_ps(&mat.m[4]);
-        const auto row2 = _mm_load_ps(&mat.m[8]);
-        const auto row3 = _mm_load_ps(&mat.m[12]);
+        const auto row0 = _mm_load_ps(&matrix.m[0]);
+        const auto row1 = _mm_load_ps(&matrix.m[4]);
+        const auto row2 = _mm_load_ps(&matrix.m[8]);
+        const auto row3 = _mm_load_ps(&matrix.m[12]);
 
         const auto s = _mm_add_ps(_mm_add_ps(_mm_mul_ps(row0, col0),
                                              _mm_mul_ps(row1, col1)),
@@ -499,15 +499,15 @@ namespace omath
                                              _mm_mul_ps(row3, col3)));
         _mm_store_ps(result.v.data(), s);
 #elif defined(__ARM_NEON__)
-        const auto col0 = vdupq_n_f32(vec.v[0]);
-        const auto col1 = vdupq_n_f32(vec.v[1]);
-        const auto col2 = vdupq_n_f32(vec.v[2]);
-        const auto col3 = vdupq_n_f32(vec.v[3]);
+        const auto col0 = vdupq_n_f32(vector.v[0]);
+        const auto col1 = vdupq_n_f32(vector.v[1]);
+        const auto col2 = vdupq_n_f32(vector.v[2]);
+        const auto col3 = vdupq_n_f32(vector.v[3]);
 
-        const auto row0 = vld1q_f32(&mat.m[0]);
-        const auto row1 = vld1q_f32(&mat.m[4]);
-        const auto row2 = vld1q_f32(&mat.m[8]);
-        const auto row3 = vld1q_f32(&mat.m[12]);
+        const auto row0 = vld1q_f32(&matrix.m[0]);
+        const auto row1 = vld1q_f32(&matrix.m[4]);
+        const auto row2 = vld1q_f32(&matrix.m[8]);
+        const auto row3 = vld1q_f32(&matrix.m[12]);
 
         const auto s = vaddq_f32(vaddq_f32(vmulq_f32(row0, col0),
                                            vmulq_f32(row1, col1)),
@@ -522,59 +522,59 @@ namespace omath
         typename T, std::size_t dims, bool simdVector,
         std::size_t size, bool simdMatrix
     >
-    auto& operator*=(Vector<T, dims, simdVector>& vec,
-                     const Matrix<T, size, size, simdMatrix>& mat) noexcept
+    auto& operator*=(Vector<T, dims, simdVector>& vector,
+                     const Matrix<T, size, size, simdMatrix>& matrix) noexcept
     {
         static_assert(dims <= size);
-        const auto temp = vec.v;
-        vec.v = {};
+        const auto temp = vector.v;
+        vector.v = {};
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                vec.v[i] += temp[j] * mat.m[j * size + i];
+                vector.v[i] += temp[j] * matrix.m[j * size + i];
 
-        return vec;
+        return vector;
     }
 
     template <>
-    auto& operator*=(Vector<float, 4, true>& vec,
-                     const Matrix<float, 4, 4, true>& mat) noexcept
+    auto& operator*=(Vector<float, 4, true>& vector,
+                     const Matrix<float, 4, 4, true>& matrix) noexcept
     {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
-        const auto col0 = _mm_set1_ps(vec.v[0]);
-        const auto col1 = _mm_set1_ps(vec.v[1]);
-        const auto col2 = _mm_set1_ps(vec.v[2]);
-        const auto col3 = _mm_set1_ps(vec.v[3]);
+        const auto col0 = _mm_set1_ps(vector.v[0]);
+        const auto col1 = _mm_set1_ps(vector.v[1]);
+        const auto col2 = _mm_set1_ps(vector.v[2]);
+        const auto col3 = _mm_set1_ps(vector.v[3]);
 
-        const auto row0 = _mm_load_ps(&mat.m[0]);
-        const auto row1 = _mm_load_ps(&mat.m[4]);
-        const auto row2 = _mm_load_ps(&mat.m[8]);
-        const auto row3 = _mm_load_ps(&mat.m[12]);
+        const auto row0 = _mm_load_ps(&matrix.m[0]);
+        const auto row1 = _mm_load_ps(&matrix.m[4]);
+        const auto row2 = _mm_load_ps(&matrix.m[8]);
+        const auto row3 = _mm_load_ps(&matrix.m[12]);
 
         const auto s = _mm_add_ps(_mm_add_ps(_mm_mul_ps(row0, col0),
                                              _mm_mul_ps(row1, col1)),
                                   _mm_add_ps(_mm_mul_ps(row2, col2),
                                              _mm_mul_ps(row3, col3)));
-        _mm_store_ps(vec.v.data(), s);
+        _mm_store_ps(vector.v.data(), s);
 #elif defined(__ARM_NEON__)
-        const auto col0 = vdupq_n_f32(vec.v[0]);
-        const auto col1 = vdupq_n_f32(vec.v[1]);
-        const auto col2 = vdupq_n_f32(vec.v[2]);
-        const auto col3 = vdupq_n_f32(vec.v[3]);
+        const auto col0 = vdupq_n_f32(vector.v[0]);
+        const auto col1 = vdupq_n_f32(vector.v[1]);
+        const auto col2 = vdupq_n_f32(vector.v[2]);
+        const auto col3 = vdupq_n_f32(vector.v[3]);
 
-        const auto row0 = vld1q_f32(&mat.m[0]);
-        const auto row1 = vld1q_f32(&mat.m[4]);
-        const auto row2 = vld1q_f32(&mat.m[8]);
-        const auto row3 = vld1q_f32(&mat.m[12]);
+        const auto row0 = vld1q_f32(&matrix.m[0]);
+        const auto row1 = vld1q_f32(&matrix.m[4]);
+        const auto row2 = vld1q_f32(&matrix.m[8]);
+        const auto row3 = vld1q_f32(&matrix.m[12]);
 
         const auto s = vaddq_f32(vaddq_f32(vmulq_f32(row0, col0),
                                            vmulq_f32(row1, col1)),
                                  vaddq_f32(vmulq_f32(row2, col2),
                                            vmulq_f32(row3, col3)));
-        vst1q_f32(vec.v.data(), s);
+        vst1q_f32(vector.v.data(), s);
 #endif
 
-        return vec;
+        return vector;
     }
 
     template <typename T, std::size_t rows, std::size_t cols, bool simd>
