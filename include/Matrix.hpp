@@ -7,7 +7,6 @@
 
 #include <array>
 #include <type_traits>
-#include <utility>
 #include "Simd.hpp"
 #include "Vector.hpp"
 
@@ -319,19 +318,16 @@ namespace omath
 
     template <
         typename T, std::size_t rows, std::size_t cols, bool simd1,
-        std::size_t rows2, std::size_t cols2, bool simd2
+        std::size_t cols2, bool simd2
     >
-    [[nodiscard]] const auto operator*(const Matrix<T, rows, cols, simd1>& matrix1,
-                                       const Matrix<T, rows2, cols2, simd2>& matrix2) noexcept
+    [[nodiscard]] constexpr const auto operator*(const Matrix<T, rows, cols, simd1>& matrix1,
+                                                 const Matrix<T, cols, cols2, simd2>& matrix2) noexcept
     {
-        static_assert(cols == rows2);
-
         Matrix<T, rows, cols2, simd1 && simd2> result{};
 
-        // TODO: make constexpr
         for (std::size_t i = 0; i < rows; ++i)
             for (std::size_t j = 0; j < cols2; ++j)
-                for (std::size_t k = 0; k < rows2; ++k)
+                for (std::size_t k = 0; k < cols; ++k)
                     result.m[i * cols2 + j] += matrix1.m[i * cols + k] * matrix2.m[k * cols2 + j];
 
         return result;
