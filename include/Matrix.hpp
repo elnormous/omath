@@ -461,12 +461,12 @@ namespace omath
 
     template <
         typename T, std::size_t dims, bool simdVector,
-        std::size_t size, bool simdMatrix
+        std::size_t size, bool simdMatrix,
+        std::enable_if<(size <= dims)>* = nullptr
     >
     [[nodiscard]] auto operator*(const Vector<T, dims, simdVector>& vec,
                                  const Matrix<T, size, size, simdMatrix>& mat) noexcept
     {
-        static_assert(dims <= size);
         Vector<T, dims, simdVector && simdMatrix> result{};
 
         for (std::size_t i = 0; i < dims; ++i)
@@ -515,7 +515,6 @@ namespace omath
                                            vmulq_f32(row3, col3)));
         vst1q_f32(result.v.data(), s);
 #endif
-
         return result;
     }
 
