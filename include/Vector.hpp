@@ -8,7 +8,6 @@
 #include <array>
 #include <cmath>
 #include <type_traits>
-#include <utility>
 #include "Simd.hpp"
 
 namespace omath
@@ -72,121 +71,40 @@ namespace omath
         }
     };
 
-    namespace detail
-    {
-        template <typename T, std::size_t dims, bool simd1, bool simd2, std::size_t ...i>
-        constexpr auto generateEqual(const Vector<T, dims, simd1>& vector1,
-                                     const Vector<T, dims, simd2>& vector2,
-                                     std::index_sequence<i...>) noexcept
-        {
-            return ((vector1.v[i] == vector2.v[i]) && ...);
-        }
-
-        template <typename T, std::size_t dims, bool simd1, bool simd2, std::size_t ...i>
-        constexpr auto generateLessThan(const Vector<T, dims, simd1>& vector1,
-                                        const Vector<T, dims, simd2>& vector2,
-                                        std::index_sequence<i...>) noexcept
-        {
-            return ((vector1.v[i] < vector2.v[i]) || ...);
-        }
-
-        template <typename T, std::size_t dims, bool simd1, bool simd2, std::size_t ...i>
-        constexpr auto generateGreaterThan(const Vector<T, dims, simd1>& vector1,
-                                           const Vector<T, dims, simd2>& vector2,
-                                           std::index_sequence<i...>) noexcept
-        {
-            return ((vector1.v[i] > vector2.v[i]) || ...);
-        }
-
-        template <typename T, std::size_t dims, bool simd, std::size_t ...i>
-        constexpr auto generateInverse(const Vector<T, dims, simd>& vector,
-                                       std::index_sequence<i...>) noexcept
-        {
-            return Vector<T, dims, simd>{-vector.v[i]...};
-        }
-
-        template <typename T, std::size_t dims, bool simd1, bool simd2, std::size_t ...i>
-        constexpr auto generateSum(const Vector<T, dims, simd1>& vector1,
-                                   const Vector<T, dims, simd2>& vector2,
-                                   std::index_sequence<i...>) noexcept
-        {
-            return Vector<T, dims, simd1>{(vector1.v[i] + vector2.v[i])...};
-        }
-
-        template <typename T, std::size_t dims, bool simd1, bool simd2, std::size_t ...i>
-        constexpr auto generateDiff(const Vector<T, dims, simd1>& vector1,
-                                    const Vector<T, dims, simd2>& vector2,
-                                    std::index_sequence<i...>) noexcept
-        {
-            return Vector<T, dims, simd1>{(vector1.v[i] - vector2.v[i])...};
-        }
-
-        template <typename T, std::size_t dims, bool simd, std::size_t ...i>
-        constexpr auto generateMul(const Vector<T, dims, simd>& vector,
-                                   const T scalar,
-                                   std::index_sequence<i...>) noexcept
-        {
-            return Vector<T, dims, simd>{(vector.v[i] * scalar)...};
-        }
-
-        template <typename T, std::size_t dims, bool simd, std::size_t ...i>
-        constexpr auto generateDiv(const Vector<T, dims, simd>& vector,
-                                   const T scalar,
-                                   std::index_sequence<i...>) noexcept
-        {
-            return Vector<T, dims, simd>{(vector.v[i] / scalar)...};
-        }
-
-        template <typename T, std::size_t dims, bool simd, std::size_t ...i>
-        constexpr auto generateLengthSquared(const Vector<T, dims, simd>& vector,
-                                             std::index_sequence<i...>) noexcept
-        {
-            return ((vector.v[i] * vector.v[i]) + ...);
-        }
-
-        template <typename T, std::size_t dims, bool simd1, bool simd2, std::size_t ...i>
-        constexpr auto generateDot(const Vector<T, dims, simd1>& vector1,
-                                   const Vector<T, dims, simd2>& vector2,
-                                   std::index_sequence<i...>) noexcept
-        {
-            return ((vector1.v[i] * vector2.v[i]) + ...);
-        }
-
-        template <typename T, std::size_t dims, bool simd1, bool simd2, std::size_t ...i>
-        constexpr auto generateDistanceSquared(const Vector<T, dims, simd1>& vector1,
-                                               const Vector<T, dims, simd2>& vector2,
-                                               std::index_sequence<i...>) noexcept
-        {
-            return (((vector1.v[i] - vector2.v[i]) * (vector1.v[i] - vector2.v[i])) + ...);
-        }
-    }
-
     template <typename T, std::size_t dims, bool simd1, bool simd2>
     [[nodiscard]] constexpr auto operator==(const Vector<T, dims, simd1>& vector1,
                                             const Vector<T, dims, simd2>& vector2) noexcept
     {
-        return detail::generateEqual(vector1, vector2, std::make_index_sequence<dims>{});
+        for (std::size_t i = 0; i < dims; ++i)
+            if (vector1.v[i] != vector2.v[i]) return false;
+        return true;
     }
 
     template <typename T, std::size_t dims, bool simd1, bool simd2>
     [[nodiscard]] constexpr auto operator!=(const Vector<T, dims, simd1>& vector1,
                                             const Vector<T, dims, simd2>& vector2) noexcept
     {
-        return !detail::generateEqual(vector1, vector2, std::make_index_sequence<dims>{});
+        for (std::size_t i = 0; i < dims; ++i)
+            if (vector1.v[i] != vector2.v[i]) return true;
+        return false;
     }
 
     template <typename T, std::size_t dims, bool simd1, bool simd2>
     [[nodiscard]] constexpr auto operator<(const Vector<T, dims, simd1>& vector1,
                                            const Vector<T, dims, simd2>& vector2) noexcept
     {
-        return detail::generateLessThan(vector1, vector2, std::make_index_sequence<dims>{});
+        for (std::size_t i = 0; i < dims; ++i)
+            if (vector1.v[i] < vector2.v[i]) return true;
+        return false;
     }
 
     template <typename T, std::size_t dims, bool simd1, bool simd2>
     [[nodiscard]] constexpr auto operator>(const Vector<T, dims, simd1>& vector1,
                                            const Vector<T, dims, simd2>& vector2) noexcept
     {
-        return detail::generateGreaterThan(vector1, vector2, std::make_index_sequence<dims>{});
+        for (std::size_t i = 0; i < dims; ++i)
+            if (vector1.v[i] > vector2.v[i]) return true;
+        return false;
     }
 
     template <typename T, std::size_t dims, bool simd>
@@ -198,14 +116,19 @@ namespace omath
     template <typename T, std::size_t dims, bool simd>
     [[nodiscard]] constexpr auto operator-(const Vector<T, dims, simd>& vector) noexcept
     {
-        return detail::generateInverse(vector, std::make_index_sequence<dims>{});
+        Vector<T, dims, simd> result;
+        for (std::size_t i = 0; i < dims; ++i) result.v[i] = -vector.v[i];
+        return result;
     }
 
     template <typename T, std::size_t dims, bool simd1, bool simd2>
     [[nodiscard]] constexpr auto operator+(const Vector<T, dims, simd1>& vector1,
                                            const Vector<T, dims, simd2>& vector2) noexcept
     {
-        return detail::generateSum(vector1, vector2, std::make_index_sequence<dims>{});
+        Vector<T, dims, simd1> result;
+        for (std::size_t i = 0; i < dims; ++i)
+            result.v[i] = vector1.v[i] + vector2.v[i];
+        return result;
     }
 
     template <typename T, std::size_t dims, bool simd1, bool simd2>
@@ -221,7 +144,10 @@ namespace omath
     [[nodiscard]] constexpr auto operator-(const Vector<T, dims, simd1>& vector1,
                                            const Vector<T, dims, simd2>& vector2) noexcept
     {
-        return detail::generateDiff(vector1, vector2, std::make_index_sequence<dims>{});
+        Vector<T, dims, simd1> result;
+        for (std::size_t i = 0; i < dims; ++i)
+            result.v[i] = vector1.v[i] - vector2.v[i];
+        return result;
     }
 
     template <typename T, std::size_t dims, bool simd1, bool simd2>
@@ -237,7 +163,10 @@ namespace omath
     [[nodiscard]] constexpr auto operator*(const Vector<T, dims, simd>& vector,
                                            const T scalar) noexcept
     {
-        return detail::generateMul(vector, scalar, std::make_index_sequence<dims>{});
+        Vector<T, dims, simd> result;
+        for (std::size_t i = 0; i < dims; ++i)
+            result.v[i] = vector.v[i] * scalar;
+        return result;
     }
 
     template <typename T, std::size_t dims, bool simd>
@@ -251,7 +180,10 @@ namespace omath
     [[nodiscard]] constexpr auto operator/(const Vector<T, dims, simd>& vector,
                                            const T scalar) noexcept
     {
-        return detail::generateDiv(vector, scalar, std::make_index_sequence<dims>{});
+        Vector<T, dims, simd> result;
+        for (std::size_t i = 0; i < dims; ++i)
+            result.v[i] = vector.v[i] / scalar;
+        return result;
     }
 
     template <typename T, std::size_t dims, bool simd>
@@ -275,34 +207,47 @@ namespace omath
     template <typename T, std::size_t dims, bool simd>
     [[nodiscard]] auto length(const Vector<T, dims, simd>& vector) noexcept
     {
-        return std::sqrt(detail::generateLengthSquared(vector, std::make_index_sequence<dims>{}));
+        T lengthSquared{};
+        for (const auto& c : vector.v) lengthSquared += c * c;
+        return std::sqrt(lengthSquared);
     }
 
     template <typename T, std::size_t dims, bool simd>
     [[nodiscard]] constexpr auto lengthSquared(const Vector<T, dims, simd>& vector) noexcept
     {
-        return detail::generateLengthSquared(vector, std::make_index_sequence<dims>{});
+        T lengthSquared{};
+        for (const auto& c : vector.v) lengthSquared += c * c;
+        return lengthSquared;
     }
 
     template <typename T, std::size_t dims, bool simd1, bool simd2>
     [[nodiscard]] constexpr auto dot(const Vector<T, dims, simd1>& vector1,
                                      const Vector<T, dims, simd2>& vector2) noexcept
     {
-        return detail::generateDot(vector1, vector2, std::make_index_sequence<dims>{});
+        T result{};
+        for (std::size_t i = 0; i < dims; ++i)
+            result += vector1.v[i] * vector2[i];
+        return result;
     }
 
     template <typename T, std::size_t dims, bool simd1, bool simd2>
     [[nodiscard]] auto distance(const Vector<T, dims, simd1>& vector1,
                                 const Vector<T, dims, simd2>& vector2) noexcept
     {
-        return std::sqrt(detail::generateDistanceSquared(vector1, vector2, std::make_index_sequence<dims>{}));
+        T distanceSquared{};
+        for (std::size_t i = 0; i < dims; ++i)
+            distanceSquared += (vector1.v[i] - vector2.v[i]) * (vector1.v[i] - vector2.v[i]);
+        return std::sqrt(distanceSquared);
     }
 
     template <typename T, std::size_t dims, bool simd1, bool simd2>
     [[nodiscard]] constexpr auto distanceSquared(const Vector<T, dims, simd1>& vector1,
                                                  const Vector<T, dims, simd2>& vector2) noexcept
     {
-        return detail::generateDistanceSquared(vector1, vector2, std::make_index_sequence<dims>{});
+        T distanceSquared{};
+        for (std::size_t i = 0; i < dims; ++i)
+            distanceSquared += (vector1.v[i] - vector2.v[i]) * (vector1.v[i] - vector2.v[i]);
+        return distanceSquared;
     }
 
     template <typename T, std::size_t dims, bool simd>
