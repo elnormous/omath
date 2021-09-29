@@ -618,7 +618,11 @@ namespace omath
 
         for (std::size_t i = 1; i < size; ++i)
             for (std::size_t j = 0; j < i; ++j)
-                swap(matrix.m[i * size + j], matrix.m[j * size + i]);
+            {
+                T temp = std::move(matrix.m[i * size + j]);
+                matrix.m[i * size + j] = std::move(matrix.m[j * size + i]);
+                matrix.m[j * size + i] = std::move(temp);
+            }
     }
 
     template <>
