@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="include_test.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="matrix_tests.cpp" />
     <ClCompile Include="plane_tests.cpp" />

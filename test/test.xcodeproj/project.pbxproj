@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30344C012705108300061DF6 /* include_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30344C002705108300061DF6 /* include_test.cpp */; };
+		30344C022705108300061DF6 /* include_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30344C002705108300061DF6 /* include_test.cpp */; };
 		303E87A825223DDF008B7E24 /* vector_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303E87A725223DDF008B7E24 /* vector_tests.cpp */; };
 		306B2B8625B8EAC4006878B6 /* matrix_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */; };
 		306B2B8A25B8EAF5006878B6 /* plane_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8925B8EAF5006878B6 /* plane_tests.cpp */; };
@@ -33,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		301E1F7B26E38D65003446C5 /* Simd.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Simd.hpp; sourceTree = "<group>"; };
+		30344C002705108300061DF6 /* include_test.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = include_test.cpp; sourceTree = "<group>"; };
 		303E87A725223DDF008B7E24 /* vector_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = vector_tests.cpp; sourceTree = "<group>"; };
 		306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = matrix_tests.cpp; sourceTree = "<group>"; };
 		306B2B8925B8EAF5006878B6 /* plane_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = plane_tests.cpp; sourceTree = "<group>"; };
@@ -92,12 +95,13 @@
 			isa = PBXGroup;
 			children = (
 				30E08684232B168C00F90FAF /* include */,
+				30344C002705108300061DF6 /* include_test.cpp */,
 				C6C90FD621A5A24D00B5FCB7 /* main.cpp */,
 				306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */,
 				306B2B8925B8EAF5006878B6 /* plane_tests.cpp */,
-				308C29ED26D1E37500E65A63 /* test iOS */,
 				C6C90FD421A5A24D00B5FCB7 /* Products */,
 				306B2B8D25B8EB24006878B6 /* quaternion_tests.cpp */,
+				308C29ED26D1E37500E65A63 /* test iOS */,
 				303E87A725223DDF008B7E24 /* vector_tests.cpp */,
 			);
 			sourceTree = "<group>";
@@ -203,6 +207,7 @@
 				308C2A0726D1E3BD00E65A63 /* matrix_tests.cpp in Sources */,
 				308C2A0826D1E3BD00E65A63 /* plane_tests.cpp in Sources */,
 				308C2A0926D1E3BD00E65A63 /* main.cpp in Sources */,
+				30344C022705108300061DF6 /* include_test.cpp in Sources */,
 				308C2A0526D1E3BD00E65A63 /* quaternion_tests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -215,6 +220,7 @@
 				306B2B8625B8EAC4006878B6 /* matrix_tests.cpp in Sources */,
 				306B2B8E25B8EB24006878B6 /* quaternion_tests.cpp in Sources */,
 				306B2B8A25B8EAF5006878B6 /* plane_tests.cpp in Sources */,
+				30344C012705108300061DF6 /* include_test.cpp in Sources */,
 				303E87A825223DDF008B7E24 /* vector_tests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
