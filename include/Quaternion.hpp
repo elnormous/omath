@@ -57,7 +57,7 @@ namespace omath
             return Quaternion{-v[0], -v[1], -v[2], -v[3]};
         }
 
-        [[nodiscard]] constexpr const auto operator+(const Quaternion& q) const noexcept
+        [[nodiscard]] constexpr auto operator+(const Quaternion& q) const noexcept
         {
             return Quaternion{
                 v[0] + q.v[0],
@@ -77,7 +77,7 @@ namespace omath
             return *this;
         }
 
-        [[nodiscard]] constexpr const auto operator-(const Quaternion& q) const noexcept
+        [[nodiscard]] constexpr auto operator-(const Quaternion& q) const noexcept
         {
             return Quaternion{
                 v[0] - q.v[0],
@@ -97,7 +97,7 @@ namespace omath
             return *this;
         }
 
-        [[nodiscard]] constexpr const auto operator*(const Quaternion& q) const noexcept
+        [[nodiscard]] constexpr auto operator*(const Quaternion& q) const noexcept
         {
             return Quaternion{
                 v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0],
@@ -119,7 +119,7 @@ namespace omath
             return *this;
         }
 
-        [[nodiscard]] constexpr const auto operator*(const T scalar) const noexcept
+        [[nodiscard]] constexpr auto operator*(const T scalar) const noexcept
         {
             return Quaternion{
                 v[0] * scalar,
@@ -139,7 +139,7 @@ namespace omath
             return *this;
         }
 
-        [[nodiscard]] constexpr const auto operator/(const T scalar) const noexcept
+        [[nodiscard]] constexpr auto operator/(const T scalar) const noexcept
         {
             return Quaternion{
                 v[0] / scalar,

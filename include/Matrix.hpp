@@ -85,8 +85,8 @@ namespace omath
     }
 
     template <typename T, std::size_t rows, std::size_t cols, bool simd1, bool simd2>
-    [[nodiscard]] constexpr const auto operator+(const Matrix<T, rows, cols, simd1>& matrix1,
-                                                 const Matrix<T, rows, cols, simd2>& matrix2) noexcept
+    [[nodiscard]] constexpr auto operator+(const Matrix<T, rows, cols, simd1>& matrix1,
+                                           const Matrix<T, rows, cols, simd2>& matrix2) noexcept
     {
         Matrix<T, rows, cols, simd1> result;
         for (std::size_t i = 0; i < rows * cols; ++i)
@@ -95,8 +95,8 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] inline const auto operator+(const Matrix<float, 4, 4, true>& matrix1,
-                                              const Matrix<float, 4, 4, true>& matrix2) noexcept
+    [[nodiscard]] inline auto operator+(const Matrix<float, 4, 4, true>& matrix1,
+                                        const Matrix<float, 4, 4, true>& matrix2) noexcept
     {
         Matrix<float, 4, 4, true> result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
@@ -141,8 +141,8 @@ namespace omath
     }
 
     template <typename T, std::size_t rows, std::size_t cols, bool simd1, bool simd2>
-    [[nodiscard]] constexpr const auto operator-(const Matrix<T, rows, cols, simd1>& matrix1,
-                                                 const Matrix<T, rows, cols, simd2>& matrix2) noexcept
+    [[nodiscard]] constexpr auto operator-(const Matrix<T, rows, cols, simd1>& matrix1,
+                                           const Matrix<T, rows, cols, simd2>& matrix2) noexcept
     {
         Matrix<T, rows, cols, simd1> result;
         for (std::size_t i = 0; i < rows * cols; ++i)
@@ -151,8 +151,8 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] inline const auto operator-(const Matrix<float, 4, 4, true>& matrix1,
-                                              const Matrix<float, 4, 4, true>& matrix2) noexcept
+    [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4, true>& matrix1,
+                                        const Matrix<float, 4, 4, true>& matrix2) noexcept
     {
         Matrix<float, 4, 4, true> result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
@@ -197,8 +197,8 @@ namespace omath
     }
 
     template <typename T, std::size_t rows, std::size_t cols, bool simd>
-    [[nodiscard]] constexpr const auto operator*(const Matrix<T, rows, cols, simd>& matrix,
-                                                 const T scalar) noexcept
+    [[nodiscard]] constexpr auto operator*(const Matrix<T, rows, cols, simd>& matrix,
+                                           const T scalar) noexcept
     {
         Matrix<T, rows, cols, simd> result;
         for (std::size_t i = 0; i < rows * cols; ++i)
@@ -207,8 +207,8 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] inline const auto operator*(const Matrix<float, 4, 4, true>& matrix,
-                                              const float scalar) noexcept
+    [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4, true>& matrix,
+                                        const float scalar) noexcept
     {
         Matrix<float, 4, 4, true> result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
@@ -257,8 +257,8 @@ namespace omath
     }
 
     template <typename T, std::size_t rows, std::size_t cols, bool simd>
-    [[nodiscard]] constexpr const auto operator/(const Matrix<T, rows, cols, simd>& matrix,
-                                                 const T scalar) noexcept
+    [[nodiscard]] constexpr auto operator/(const Matrix<T, rows, cols, simd>& matrix,
+                                           const T scalar) noexcept
     {
         Matrix<T, rows, cols, simd> result;
         for (std::size_t i = 0; i < rows * cols; ++i)
@@ -267,8 +267,8 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] inline const auto operator/(const Matrix<float, 4, 4, true>& matrix,
-                                              const float scalar) noexcept
+    [[nodiscard]] inline auto operator/(const Matrix<float, 4, 4, true>& matrix,
+                                         float scalar) noexcept
     {
         Matrix<float, 4, 4, true> result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
@@ -320,8 +320,8 @@ namespace omath
         typename T, std::size_t rows, std::size_t cols, bool simd1,
         std::size_t cols2, bool simd2
     >
-    [[nodiscard]] constexpr const auto operator*(const Matrix<T, rows, cols, simd1>& matrix1,
-                                                 const Matrix<T, cols, cols2, simd2>& matrix2) noexcept
+    [[nodiscard]] constexpr auto operator*(const Matrix<T, rows, cols, simd1>& matrix1,
+                                           const Matrix<T, cols, cols2, simd2>& matrix2) noexcept
     {
         Matrix<T, rows, cols2, simd1 && simd2> result{};
 
@@ -334,8 +334,8 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] inline const auto operator*(const Matrix<float, 4, 4, true>& matrix1,
-                                              const Matrix<float, 4, 4, true>& matrix2) noexcept
+    [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4, true>& matrix1,
+                                        const Matrix<float, 4, 4, true>& matrix2) noexcept
     {
         Matrix<float, 4, 4, true> result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
