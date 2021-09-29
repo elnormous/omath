@@ -614,8 +614,6 @@ namespace omath
     template <typename T, std::size_t size, bool simd>
     void transpose(Matrix<T, size, size, simd>& matrix) noexcept
     {
-        using std::swap;
-
         for (std::size_t i = 1; i < size; ++i)
             for (std::size_t j = 0; j < i; ++j)
             {
