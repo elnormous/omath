@@ -262,7 +262,7 @@ TEST_CASE("4x4 matrix transposed using SIMD", "matrix")
 
 TEST_CASE("1x1 matrix determinant", "matrix")
 {
-    omath::Matrix<float, 1, 1> matrix{
+    const omath::Matrix<float, 1, 1> matrix{
         2.0F
     };
 
@@ -271,7 +271,7 @@ TEST_CASE("1x1 matrix determinant", "matrix")
 
 TEST_CASE("2x2 matrix determinant", "matrix")
 {
-    omath::Matrix<float, 2, 2> matrix{
+    const omath::Matrix<float, 2, 2> matrix{
         1.0F, 2.0F,
         3.0F, 4.0F
     };
@@ -281,7 +281,7 @@ TEST_CASE("2x2 matrix determinant", "matrix")
 
 TEST_CASE("3x3 matrix determinant", "matrix")
 {
-    omath::Matrix<float, 3, 3> matrix{
+    const omath::Matrix<float, 3, 3> matrix{
         2.0F, 3.0F, 4.0F,
         5.0F, 6.0F, 7.0F,
         8.0F, 9.0F, 0.0F
@@ -1354,4 +1354,55 @@ TEST_CASE("3x3 matrix inversion", "matrix")
     REQUIRE(matrix[2][0] == Approx(-1.0F / 10.0F));
     REQUIRE(matrix[2][1] == Approx(1.0F / 5.0F));
     REQUIRE(matrix[2][2] == Approx(-1.0F / 10.0F));
+}
+
+TEST_CASE("1x1 matrix inverse", "matrix")
+{
+    const omath::Matrix<float, 1, 1> matrix{
+        2.0F
+    };
+
+    const omath::Matrix<float, 1, 1> result = inverse(matrix);
+
+    REQUIRE(result == omath::Matrix<float, 1, 1>{
+        0.5F
+    });
+}
+
+TEST_CASE("2x2 matrix inverse", "matrix")
+{
+    const omath::Matrix<float, 2, 2> matrix{
+        2.0F, 3.0F,
+        4.0F, 5.0F
+    };
+
+    const omath::Matrix<float, 2, 2> result = inverse(matrix);
+
+    REQUIRE(result[0][0] == Approx(-5.0F / 2.0F));
+    REQUIRE(result[0][1] == Approx(3.0F / 2.0F));
+    REQUIRE(result[1][0] == Approx(2.0F));
+    REQUIRE(result[1][1] == Approx(-1.0F));
+}
+
+TEST_CASE("3x3 matrix inverse", "matrix")
+{
+    const omath::Matrix<float, 3, 3> matrix{
+        2.0F, 3.0F, 4.0F,
+        5.0F, 6.0F, 7.0F,
+        8.0F, 9.0F, 0.0F
+    };
+
+    const omath::Matrix<float, 3, 3> result = inverse(matrix);
+
+    REQUIRE(result[0][0] == Approx(-21.0F / 10.0F));
+    REQUIRE(result[0][1] == Approx(6.0F / 5.0F));
+    REQUIRE(result[0][2] == Approx(-1.0F / 10.0F));
+
+    REQUIRE(result[1][0] == Approx(28.0F / 15.0F));
+    REQUIRE(result[1][1] == Approx(-16.0F / 15.0F));
+    REQUIRE(result[1][2] == Approx(1.0F / 5.0F));
+
+    REQUIRE(result[2][0] == Approx(-1.0F / 10.0F));
+    REQUIRE(result[2][1] == Approx(1.0F / 5.0F));
+    REQUIRE(result[2][2] == Approx(-1.0F / 10.0F));
 }

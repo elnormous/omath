@@ -646,7 +646,7 @@ namespace omath
     }
 
     template <typename T, std::size_t size, bool simd, std::enable_if<size != 0 && (size <= 3)>* = nullptr>
-    [[nodiscard]] constexpr auto determinant(Matrix<T, size, size, simd>& matrix) noexcept
+    [[nodiscard]] constexpr auto determinant(const Matrix<T, size, size, simd>& matrix) noexcept
     {
         if constexpr (size == 1)
             return matrix.m[0];
@@ -709,6 +709,41 @@ namespace omath
             matrix.m[8] = adjugate[8] / det;
             matrix.m[9] = adjugate[9] / det;
         }
+    }
+
+    template <typename T, std::size_t size, bool simd, std::enable_if<size != 0 && (size <= 3)>* = nullptr>
+    [[nodiscard]] constexpr auto inverse(const Matrix<T, size, size, simd>& matrix) noexcept
+    {
+        Matrix<T, size, size, simd> result;
+
+        if constexpr (size == 1)
+            result.m[0] = 1.0F / matrix.m[0];
+        else if constexpr (size == 2)
+        {
+            const auto det = determinant(matrix);
+            result.m[0] = matrix.m[3] / det;
+            result.m[1] = -matrix.m[1] / det;
+            result.m[2] = -matrix.m[2] / det;
+            result.m[3] = matrix.m[0] / det;
+        }
+        else if constexpr (size == 3)
+        {
+            const auto det = determinant(matrix);
+
+            result.m[0] = (matrix.m[4] * matrix.m[8] - matrix.m[5] * matrix.m[7]) / det;
+            result.m[1] = (-matrix.m[1] * matrix.m[8] + matrix.m[2] * matrix.m[7]) / det;
+            result.m[2] = (matrix.m[1] * matrix.m[5] - matrix.m[2] * matrix.m[4]) / det;
+
+            result.m[3] = (-matrix.m[3] * matrix.m[8] + matrix.m[5] * matrix.m[6]) / det;
+            result.m[4] = (matrix.m[0] * matrix.m[8] - matrix.m[2] * matrix.m[6]) / det;
+            result.m[5] = (-matrix.m[0] * matrix.m[5] + matrix.m[2] * matrix.m[3]) / det;
+
+            result.m[6] = (matrix.m[3] * matrix.m[7] - matrix.m[4] * matrix.m[6]) / det;
+            result.m[7] = (-matrix.m[0] * matrix.m[7] + matrix.m[1] * matrix.m[6]) / det;
+            result.m[8] = (matrix.m[0] * matrix.m[4] - matrix.m[1] * matrix.m[3]) / det;
+        }
+
+        return result;
     }
 }
 
