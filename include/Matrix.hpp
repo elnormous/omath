@@ -645,9 +645,11 @@ namespace omath
 #endif
     }
 
-    template <typename T, std::size_t size, bool simd, std::enable_if<size != 0 && (size <= 3)>* = nullptr>
+    template <typename T, std::size_t size, bool simd, std::enable_if<(size <= 3)>* = nullptr>
     [[nodiscard]] constexpr auto determinant(const Matrix<T, size, size, simd>& matrix) noexcept
     {
+        if constexpr (size == 0)
+            return T(1);
         if constexpr (size == 1)
             return matrix.m[0];
         else if constexpr (size == 2)
@@ -661,7 +663,7 @@ namespace omath
                 matrix.m[0] * matrix.m[5] * matrix.m[7];
     }
 
-    template <typename T, std::size_t size, bool simd, std::enable_if<size != 0 && (size <= 3)>* = nullptr>
+    template <typename T, std::size_t size, bool simd, std::enable_if<(size <= 3)>* = nullptr>
     void invert(Matrix<T, size, size, simd>& matrix) noexcept
     {
         if constexpr (size == 1)
@@ -711,7 +713,7 @@ namespace omath
         }
     }
 
-    template <typename T, std::size_t size, bool simd, std::enable_if<size != 0 && (size <= 3)>* = nullptr>
+    template <typename T, std::size_t size, bool simd, std::enable_if<(size <= 3)>* = nullptr>
     [[nodiscard]] constexpr auto inverse(const Matrix<T, size, size, simd>& matrix) noexcept
     {
         Matrix<T, size, size, simd> result;
