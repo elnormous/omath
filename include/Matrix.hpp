@@ -645,13 +645,70 @@ namespace omath
 #endif
     }
 
-    template <typename T, std::size_t size, bool simd, std::enable_if<size != 0 && (size <= 2)>* = nullptr>
+    template <typename T, std::size_t size, bool simd, std::enable_if<size != 0 && (size <= 3)>* = nullptr>
     [[nodiscard]] constexpr auto determinant(Matrix<T, size, size, simd>& matrix) noexcept
     {
         if constexpr (size == 1)
             return matrix.m[0];
         else if constexpr (size == 2)
             return matrix.m[0] * matrix.m[3] - matrix.m[1] * matrix.m[2];
+        else if constexpr (size == 3)
+            return matrix.m[0] * matrix.m[4] * matrix.m[8] +
+                matrix.m[1] * matrix.m[5] * matrix.m[6] +
+                matrix.m[2] * matrix.m[3] * matrix.m[7] -
+                matrix.m[2] * matrix.m[4] * matrix.m[6] -
+                matrix.m[1] * matrix.m[3] * matrix.m[8] -
+                matrix.m[0] * matrix.m[5] * matrix.m[7];
+    }
+
+    template <typename T, std::size_t size, bool simd, std::enable_if<size != 0 && (size <= 3)>* = nullptr>
+    void invert(Matrix<T, size, size, simd>& matrix) noexcept
+    {
+        if constexpr (size == 1)
+            matrix.m[0] = 1.0F / matrix.m[0];
+        else if constexpr (size == 2)
+        {
+            const auto det = determinant(matrix);
+            const std::array<T, size * size> adjugate{
+                matrix.m[3],
+                -matrix.m[1],
+                -matrix.m[2],
+                matrix.m[0]
+            };
+
+            matrix.m[0] = adjugate[0] / det;
+            matrix.m[1] = adjugate[1] / det;
+            matrix.m[2] = adjugate[2] / det;
+            matrix.m[3] = adjugate[3] / det;
+        }
+        else if constexpr (size == 3)
+        {
+            const auto det = determinant(matrix);
+            const std::array<T, size * size> adjugate{
+                matrix.m[4] * matrix.m[8] - matrix.m[5] * matrix.m[7],
+                -matrix.m[1] * matrix.m[8] + matrix.m[2] * matrix.m[7],
+                matrix.m[1] * matrix.m[5] - matrix.m[2] * matrix.m[4],
+
+                -matrix.m[3] * matrix.m[8] + matrix.m[5] * matrix.m[6],
+                matrix.m[0] * matrix.m[8] - matrix.m[2] * matrix.m[6],
+                -matrix.m[0] * matrix.m[5] + matrix.m[2] * matrix.m[3],
+
+                matrix.m[3] * matrix.m[7] - matrix.m[4] * matrix.m[6],
+                -matrix.m[0] * matrix.m[7] + matrix.m[1] * matrix.m[6],
+                matrix.m[0] * matrix.m[4] - matrix.m[1] * matrix.m[3]
+            };
+
+            matrix.m[0] = adjugate[0] / det;
+            matrix.m[1] = adjugate[1] / det;
+            matrix.m[2] = adjugate[2] / det;
+            matrix.m[3] = adjugate[3] / det;
+            matrix.m[4] = adjugate[4] / det;
+            matrix.m[5] = adjugate[5] / det;
+            matrix.m[6] = adjugate[6] / det;
+            matrix.m[7] = adjugate[7] / det;
+            matrix.m[8] = adjugate[8] / det;
+            matrix.m[9] = adjugate[9] / det;
+        }
     }
 }
 

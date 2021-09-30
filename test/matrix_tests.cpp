@@ -266,7 +266,7 @@ TEST_CASE("1x1 matrix determinant", "matrix")
         2.0F
     };
 
-    REQUIRE(determinant(matrix) == Approx(2.0F));
+    REQUIRE(determinant(matrix) == 2.0F);
 }
 
 TEST_CASE("2x2 matrix determinant", "matrix")
@@ -276,7 +276,18 @@ TEST_CASE("2x2 matrix determinant", "matrix")
         3.0F, 4.0F
     };
 
-    REQUIRE(determinant(matrix) == Approx(-2.0F));
+    REQUIRE(determinant(matrix) == -2.0F);
+}
+
+TEST_CASE("3x3 matrix determinant", "matrix")
+{
+    omath::Matrix<float, 3, 3> matrix{
+        2.0F, 3.0F, 4.0F,
+        5.0F, 6.0F, 7.0F,
+        8.0F, 9.0F, 0.0F
+    };
+
+    REQUIRE(determinant(matrix) == 30.0F);
 }
 
 TEST_CASE("2x2 matrix negation", "matrix")
@@ -1292,4 +1303,55 @@ TEST_CASE("4D vector transformation assignment by 4x4 matrix using SIMD", "matri
     REQUIRE(vector == omath::Vector<float, 4, true>{
         7.0F, 14.0F, 6.0F, 1.0F
     });
+}
+
+TEST_CASE("1x1 matrix inversion", "matrix")
+{
+    omath::Matrix<float, 1, 1> matrix{
+        2.0F
+    };
+
+    invert(matrix);
+
+    REQUIRE(matrix == omath::Matrix<float, 1, 1>{
+        0.5F
+    });
+}
+
+TEST_CASE("2x2 matrix inversion", "matrix")
+{
+    omath::Matrix<float, 2, 2> matrix{
+        2.0F, 3.0F,
+        4.0F, 5.0F
+    };
+
+    invert(matrix);
+
+    REQUIRE(matrix[0][0] == Approx(-5.0F / 2.0F));
+    REQUIRE(matrix[0][1] == Approx(3.0F / 2.0F));
+    REQUIRE(matrix[1][0] == Approx(2.0F));
+    REQUIRE(matrix[1][1] == Approx(-1.0F));
+}
+
+TEST_CASE("3x3 matrix inversion", "matrix")
+{
+    omath::Matrix<float, 3, 3> matrix{
+        2.0F, 3.0F, 4.0F,
+        5.0F, 6.0F, 7.0F,
+        8.0F, 9.0F, 0.0F
+    };
+
+    invert(matrix);
+
+    REQUIRE(matrix[0][0] == Approx(-21.0F / 10.0F));
+    REQUIRE(matrix[0][1] == Approx(6.0F / 5.0F));
+    REQUIRE(matrix[0][2] == Approx(-1.0F / 10.0F));
+
+    REQUIRE(matrix[1][0] == Approx(28.0F / 15.0F));
+    REQUIRE(matrix[1][1] == Approx(-16.0F / 15.0F));
+    REQUIRE(matrix[1][2] == Approx(1.0F / 5.0F));
+
+    REQUIRE(matrix[2][0] == Approx(-1.0F / 10.0F));
+    REQUIRE(matrix[2][1] == Approx(1.0F / 5.0F));
+    REQUIRE(matrix[2][2] == Approx(-1.0F / 10.0F));
 }
