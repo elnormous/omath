@@ -170,15 +170,6 @@ TEST_CASE("4D vector dot product", "vector")
     REQUIRE(result == 33.0F);
 }
 
-TEST_CASE("4D vector dot product using SIMD", "vector")
-{
-    const omath::Vector<float, 4, true> vector1{1.0F, 2.0F, 3.0F, 1.0F};
-    const omath::Vector<float, 4, true> vector2{4.0F, 5.0F, 6.0F, 1.0F};
-    const float result = dot(vector1, vector2);
-
-    REQUIRE(result == 33.0F);
-}
-
 TEST_CASE("Vector distance", "vector")
 {
     const omath::Vector<float, 2> vector1{1.0F, 2.0F};
