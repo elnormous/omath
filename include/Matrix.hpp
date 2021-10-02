@@ -268,7 +268,7 @@ namespace omath
 
     template <>
     [[nodiscard]] inline auto operator/(const Matrix<float, 4, 4, true>& matrix,
-                                         float scalar) noexcept
+                                        float scalar) noexcept
     {
         Matrix<float, 4, 4, true> result;
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
