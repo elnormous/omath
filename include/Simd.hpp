@@ -7,8 +7,12 @@
 
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
 #  include <xmmintrin.h>
+#  define OMATH_SIMD_AVAILABLE
+#  define OMATH_SIMD_SSE
 #elif defined(__ARM_NEON__)
 #  include <arm_neon.h>
+#  define OMATH_SIMD_AVAILABLE
+#  define OMATH_SIMD_NEON
 #endif
 
 namespace omath
@@ -19,7 +23,7 @@ namespace omath
     template <typename T, std::size_t rows, std::size_t cols>
     struct CanMatrixUseSimd: std::false_type {};
 
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0 || defined(__ARM_NEON__)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     struct CanVectorUseSimd<float, 4>: std::true_type {};
 

@@ -1,4 +1,5 @@
 #include "catch2/catch.hpp"
+#define OMATH_DISABLE_SIMD
 #include "Vector.hpp"
 
 TEST_CASE("Vector zero initalization", "vector")
@@ -161,14 +162,16 @@ TEST_CASE("2D vector dot product", "vector")
     REQUIRE(result == 14.0F);
 }
 
+/*
 TEST_CASE("4D vector dot product", "vector")
 {
-    const omath::Vector<float, 4, false> vector1{1.0F, 2.0F, 3.0F, 1.0F};
-    const omath::Vector<float, 4, false> vector2{4.0F, 5.0F, 6.0F, 1.0F};
-    const float result = dot(vector1, vector2);
+    const omath::Vector<float, 4> vector1{1.0F, 2.0F, 3.0F, 1.0F};
+    const omath::Vector<float, 4> vector2{4.0F, 5.0F, 6.0F, 1.0F};
+    const float result = omath::dot(vector1, vector2);
 
     REQUIRE(result == 33.0F);
 }
+*/
 
 TEST_CASE("Vector distance", "vector")
 {
