@@ -739,7 +739,6 @@ namespace omath
             matrix.m[6] = adjugate[6] / det;
             matrix.m[7] = adjugate[7] / det;
             matrix.m[8] = adjugate[8] / det;
-            matrix.m[9] = adjugate[9] / det;
         }
     }
 
