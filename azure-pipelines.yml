@@ -14,7 +14,7 @@ jobs:
       ./test
     displayName: 'make'
 
-- job: Linux without SIMD
+- job: Linux_without_SIMD
   pool:
     vmImage: 'Ubuntu-latest'
   steps:
