@@ -10,12 +10,14 @@
 
 namespace omath
 {
-    template <typename T, bool simd = canVectorUseSimd<T, 4>>
+    template <typename T>
     class Quaternion final
     {
-        static_assert(!simd || canVectorUseSimd<T, 4>);
     public:
-        alignas(simd ? 4 * sizeof(T) : alignof(T)) std::array<T, 4> v;
+#ifdef OMATH_SIMD_AVAILABLE
+        alignas(canVectorUseSimd<T, 4> ? 4 * sizeof(T) : sizeof(T))
+#endif
+        std::array<T, 4> v;
 
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
