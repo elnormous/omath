@@ -2,11 +2,9 @@ DEBUG=0
 CXXFLAGS=-std=c++17 -Wall -Wextra -Wshadow -Werror -I../external/Catch2/single_include -I../include
 SOURCES=main.cpp \
 	include_test.cpp \
-	matrix_simd_tests.cpp \
 	matrix_tests.cpp \
 	plane_tests.cpp \
 	quaternion_tests.cpp \
-	vector_simd_tests.cpp \
 	vector_tests.cpp
 BASE_NAMES=$(basename $(SOURCES))
 OBJECTS=$(BASE_NAMES:=.o)
@@ -19,6 +17,9 @@ all: CXXFLAGS+=-DDEBUG -g
 else
 all: CXXFLAGS+=-O3
 all: LDFLAGS+=-O3
+endif
+ifeq ($(DISABLE_SIMD),1)
+all: CXXFLAGS+=-DOMATH_DISABLE_SIMD
 endif
 
 $(EXECUTABLE): $(OBJECTS)

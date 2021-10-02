@@ -120,7 +120,6 @@ TEST_CASE("3x3 matrix transpose", "matrix")
     });
 }
 
-/*
 TEST_CASE("4x4 matrix transpose", "matrix")
 {
     omath::Matrix<float, 4, 4> matrix{
@@ -138,7 +137,6 @@ TEST_CASE("4x4 matrix transpose", "matrix")
         4.0F, 8.0F, 12.0F, 16.0F
     });
 }
-*/
 
 TEST_CASE("1x1 matrix transposed", "matrix")
 {
@@ -208,7 +206,6 @@ TEST_CASE("3x3 matrix transposed", "matrix")
     });
 }
 
-/*
 TEST_CASE("4x4 matrix transposed", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix{
@@ -226,7 +223,6 @@ TEST_CASE("4x4 matrix transposed", "matrix")
         4.0F, 8.0F, 12.0F, 16.0F
     });
 }
-*/
 
 TEST_CASE("1x1 matrix determinant", "matrix")
 {
@@ -273,7 +269,6 @@ TEST_CASE("2x2 matrix negation", "matrix")
     });
 }
 
-/*
 TEST_CASE("4x4 matrix negation", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix{
@@ -292,7 +287,6 @@ TEST_CASE("4x4 matrix negation", "matrix")
         -4.0F, -5.0F, -6.0F, -7.0F
     });
 }
-*/
 
 TEST_CASE("2x2 matrix sum", "matrix")
 {
@@ -314,7 +308,6 @@ TEST_CASE("2x2 matrix sum", "matrix")
     });
 }
 
-/*
 TEST_CASE("4x4 matrix sum", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix1{
@@ -340,7 +333,6 @@ TEST_CASE("4x4 matrix sum", "matrix")
         9.0F, 5.0F, 9.0F, 5.0F
     });
 }
-*/
 
 TEST_CASE("2x2 matrix increment", "matrix")
 {
@@ -362,7 +354,6 @@ TEST_CASE("2x2 matrix increment", "matrix")
     });
 }
 
-/*
 TEST_CASE("4x4 matrix increment", "matrix")
 {
     omath::Matrix<float, 4, 4> matrix1{
@@ -388,7 +379,6 @@ TEST_CASE("4x4 matrix increment", "matrix")
         9.0F, 5.0F, 9.0F, 5.0F
     });
 }
-*/
 
 TEST_CASE("2x2 matrix difference", "matrix")
 {
@@ -410,7 +400,6 @@ TEST_CASE("2x2 matrix difference", "matrix")
     });
 }
 
-/*
 TEST_CASE("4x4 matrix difference", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix1{
@@ -436,7 +425,6 @@ TEST_CASE("4x4 matrix difference", "matrix")
         -5.0F, -11.0F, -5.0F, -11.0F
     });
 }
-*/
 
 TEST_CASE("2x2 matrix decrement", "matrix")
 {
@@ -458,7 +446,6 @@ TEST_CASE("2x2 matrix decrement", "matrix")
     });
 }
 
-/*
 TEST_CASE("4x4 matrix decrement", "matrix")
 {
     omath::Matrix<float, 4, 4> matrix1{
@@ -484,7 +471,6 @@ TEST_CASE("4x4 matrix decrement", "matrix")
         -5.0F, -11.0F, -5.0F, -11.0F
     });
 }
-*/
 
 TEST_CASE("2x2 matrix multiplication with scalar", "matrix")
 {
@@ -501,7 +487,6 @@ TEST_CASE("2x2 matrix multiplication with scalar", "matrix")
     });
 }
 
-/*
 TEST_CASE("4x4 matrix multiplication with scalar", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix{
@@ -520,7 +505,6 @@ TEST_CASE("4x4 matrix multiplication with scalar", "matrix")
         4.0F, -6.0F, 4.0F, -6.0F
     });
 }
-*/
 
 TEST_CASE("2x2 matrix divison with scalar", "matrix")
 {
@@ -537,7 +521,6 @@ TEST_CASE("2x2 matrix divison with scalar", "matrix")
     });
 }
 
-/*
 TEST_CASE("4x4 matrix divison with scalar", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix{
@@ -556,7 +539,6 @@ TEST_CASE("4x4 matrix divison with scalar", "matrix")
         1.0F, -2.0F, 1.0F, -2.0F
     });
 }
-*/
 
 TEST_CASE("2x2 matrix multiplication assignment with scalar", "matrix")
 {
@@ -573,7 +555,6 @@ TEST_CASE("2x2 matrix multiplication assignment with scalar", "matrix")
     });
 }
 
-/*
 TEST_CASE("4x4 matrix multiplication assignment with scalar", "matrix")
 {
     omath::Matrix<float, 4, 4> matrix{
@@ -592,7 +573,6 @@ TEST_CASE("4x4 matrix multiplication assignment with scalar", "matrix")
         4.0F, -6.0F, 4.0F, -6.0F
     });
 }
-*/
 
 TEST_CASE("2x2 matrix division assignment with scalar", "matrix")
 {
@@ -609,7 +589,6 @@ TEST_CASE("2x2 matrix division assignment with scalar", "matrix")
     });
 }
 
-/*
 TEST_CASE("4x4 matrix division assignment with scalar", "matrix")
 {
     omath::Matrix<float, 4, 4> matrix{
@@ -628,7 +607,6 @@ TEST_CASE("4x4 matrix division assignment with scalar", "matrix")
         1.0F, -2.0F, 1.0F, -2.0F
     });
 }
-*/
 
 TEST_CASE("Scalar multiplication with 2x2 matrix", "matrix")
 {
@@ -730,7 +708,6 @@ TEST_CASE("2x1 matrix multiplication with 1x2 matrix", "matrix")
     });
 }
 
-/*
 TEST_CASE("4x4 matrix multiplication", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix1{
@@ -756,9 +733,7 @@ TEST_CASE("4x4 matrix multiplication", "matrix")
         82.0F, 108.0F, 134.0F, 160.0F
     });
 }
-*/
 
-/*
 TEST_CASE("4x4 matrix multiplication with 4x1 matrix", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix1{
@@ -784,7 +759,6 @@ TEST_CASE("4x4 matrix multiplication with 4x1 matrix", "matrix")
         70.0F
     });
 }
-*/
 
 TEST_CASE("1x1 matrix multiplication assignment", "matrix")
 {
@@ -816,7 +790,6 @@ TEST_CASE("2x2 matrix multiplication assignment", "matrix")
     });
 }
 
-/*
 TEST_CASE("4x4 matrix multiplication assignment", "matrix")
 {
     omath::Matrix<float, 4, 4> matrix1{
@@ -842,7 +815,6 @@ TEST_CASE("4x4 matrix multiplication assignment", "matrix")
         82.0F, 108.0F, 134.0F, 160.0F
     });
 }
-*/
 
 TEST_CASE("2D vector transformation by 3x3 matrix", "matrix")
 {
@@ -878,7 +850,6 @@ TEST_CASE("3D vector transformation by 3x3 matrix", "matrix")
     });
 }
 
-/*
 TEST_CASE("3D vector transformation by 4x4 matrix", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix{
@@ -896,9 +867,7 @@ TEST_CASE("3D vector transformation by 4x4 matrix", "matrix")
         6.0F, 13.0F, 3.0F
     });
 }
-*/
 
-/*
 TEST_CASE("4D vector transformation by 4x4 matrix", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix{
@@ -916,7 +885,6 @@ TEST_CASE("4D vector transformation by 4x4 matrix", "matrix")
         7.0F, 14.0F, 6.0F, 1.0F
     });
 }
-*/
 
 TEST_CASE("2D vector transformation assignment by 3x3 matrix", "matrix")
 {
@@ -952,7 +920,6 @@ TEST_CASE("3D vector transformation assignment by 3x3 matrix", "matrix")
     });
 }
 
-/*
 TEST_CASE("3D vector transformation assignment by 4x4 matrix", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix{
@@ -970,9 +937,7 @@ TEST_CASE("3D vector transformation assignment by 4x4 matrix", "matrix")
         6.0F, 13.0F, 3.0F
     });
 }
-*/
 
-/*
 TEST_CASE("4D vector transformation assignment by 4x4 matrix", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix{
@@ -990,7 +955,6 @@ TEST_CASE("4D vector transformation assignment by 4x4 matrix", "matrix")
         7.0F, 14.0F, 6.0F, 1.0F
     });
 }
-*/
 
 TEST_CASE("1x1 matrix inversion", "matrix")
 {

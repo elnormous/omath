@@ -18,10 +18,6 @@
 		308C2A0726D1E3BD00E65A63 /* matrix_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */; };
 		308C2A0826D1E3BD00E65A63 /* plane_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8925B8EAF5006878B6 /* plane_tests.cpp */; };
 		308C2A0926D1E3BD00E65A63 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C90FD621A5A24D00B5FCB7 /* main.cpp */; };
-		30EB90242707C9B4000E2DA5 /* matrix_simd_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EB90232707C9B4000E2DA5 /* matrix_simd_tests.cpp */; };
-		30EB90252707C9B4000E2DA5 /* matrix_simd_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EB90232707C9B4000E2DA5 /* matrix_simd_tests.cpp */; };
-		30EB90272707C9C1000E2DA5 /* vector_simd_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EB90262707C9C1000E2DA5 /* vector_simd_tests.cpp */; };
-		30EB90282707C9C1000E2DA5 /* vector_simd_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30EB90262707C9C1000E2DA5 /* vector_simd_tests.cpp */; };
 		C6C90FD721A5A24D00B5FCB7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C90FD621A5A24D00B5FCB7 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -51,8 +47,6 @@
 		30A2D32F25B3B66100A0AFBD /* Vector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Vector.hpp; sourceTree = "<group>"; };
 		30A2D33125B3BAF600A0AFBD /* Quaternion.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
 		30A2D33325B5F3A700A0AFBD /* Plane.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
-		30EB90232707C9B4000E2DA5 /* matrix_simd_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = matrix_simd_tests.cpp; sourceTree = "<group>"; };
-		30EB90262707C9C1000E2DA5 /* vector_simd_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = vector_simd_tests.cpp; sourceTree = "<group>"; };
 		C6C90FD321A5A24D00B5FCB7 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6C90FD621A5A24D00B5FCB7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,13 +97,11 @@
 				30E08684232B168C00F90FAF /* include */,
 				30344C002705108300061DF6 /* include_test.cpp */,
 				C6C90FD621A5A24D00B5FCB7 /* main.cpp */,
-				30EB90232707C9B4000E2DA5 /* matrix_simd_tests.cpp */,
 				306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */,
 				306B2B8925B8EAF5006878B6 /* plane_tests.cpp */,
 				C6C90FD421A5A24D00B5FCB7 /* Products */,
 				306B2B8D25B8EB24006878B6 /* quaternion_tests.cpp */,
 				308C29ED26D1E37500E65A63 /* test iOS */,
-				30EB90262707C9C1000E2DA5 /* vector_simd_tests.cpp */,
 				303E87A725223DDF008B7E24 /* vector_tests.cpp */,
 			);
 			sourceTree = "<group>";
@@ -215,10 +207,8 @@
 				308C2A0726D1E3BD00E65A63 /* matrix_tests.cpp in Sources */,
 				308C2A0826D1E3BD00E65A63 /* plane_tests.cpp in Sources */,
 				308C2A0926D1E3BD00E65A63 /* main.cpp in Sources */,
-				30EB90252707C9B4000E2DA5 /* matrix_simd_tests.cpp in Sources */,
 				30344C022705108300061DF6 /* include_test.cpp in Sources */,
 				308C2A0526D1E3BD00E65A63 /* quaternion_tests.cpp in Sources */,
-				30EB90282707C9C1000E2DA5 /* vector_simd_tests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,10 +220,8 @@
 				306B2B8625B8EAC4006878B6 /* matrix_tests.cpp in Sources */,
 				306B2B8E25B8EB24006878B6 /* quaternion_tests.cpp in Sources */,
 				306B2B8A25B8EAF5006878B6 /* plane_tests.cpp in Sources */,
-				30EB90242707C9B4000E2DA5 /* matrix_simd_tests.cpp in Sources */,
 				30344C012705108300061DF6 /* include_test.cpp in Sources */,
 				303E87A825223DDF008B7E24 /* vector_tests.cpp in Sources */,
-				30EB90272707C9C1000E2DA5 /* vector_simd_tests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
