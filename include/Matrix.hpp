@@ -16,7 +16,7 @@ namespace omath
     class Matrix final
     {
     public:
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
         alignas(canMatrixUseSimd<T, rows, cols> ? cols * sizeof(T) : alignof(T))
 #endif
         std::array<T, cols * rows> m; // row-major matrix (transformation is pre-multiplying)
@@ -67,7 +67,7 @@ namespace omath
         return result;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4>& matrix) noexcept
     {
@@ -98,7 +98,7 @@ namespace omath
         return result;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     [[nodiscard]] inline auto operator+(const Matrix<float, 4, 4>& matrix1,
                                         const Matrix<float, 4, 4>& matrix2) noexcept
@@ -128,7 +128,7 @@ namespace omath
         return matrix1;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     inline auto& operator+=(Matrix<float, 4, 4>& matrix1,
                             const Matrix<float, 4, 4>& matrix2) noexcept
@@ -158,7 +158,7 @@ namespace omath
         return result;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4>& matrix1,
                                         const Matrix<float, 4, 4>& matrix2) noexcept
@@ -188,7 +188,7 @@ namespace omath
         return matrix1;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     inline auto& operator-=(Matrix<float, 4, 4>& matrix1,
                             const Matrix<float, 4, 4>& matrix2) noexcept
@@ -218,7 +218,7 @@ namespace omath
         return result;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix,
                                         const float scalar) noexcept
@@ -250,7 +250,7 @@ namespace omath
         return matrix;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     inline auto& operator*=(Matrix<float, 4, 4>& matrix,
                             const float scalar) noexcept
@@ -282,7 +282,7 @@ namespace omath
         return result;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     [[nodiscard]] inline auto operator/(const Matrix<float, 4, 4>& matrix,
                                         float scalar) noexcept
@@ -314,7 +314,7 @@ namespace omath
         return matrix;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     inline auto& operator/=(Matrix<float, 4, 4>& matrix,
                             const float scalar) noexcept
@@ -350,7 +350,7 @@ namespace omath
         return result;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix1,
                                         const Matrix<float, 4, 4>& matrix2) noexcept
@@ -420,7 +420,7 @@ namespace omath
         return matrix1;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     inline auto& operator*=(Matrix<float, 4, 4>& matrix1,
                             const Matrix<float, 4, 4>& matrix2) noexcept
@@ -498,7 +498,7 @@ namespace omath
         return result;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     [[nodiscard]] inline auto operator*(const Vector<float, 4>& vector,
                                         const Matrix<float, 4, 4>& matrix) noexcept
@@ -560,7 +560,7 @@ namespace omath
         return vector;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     inline auto& operator*=(Vector<float, 4>& vector,
                             const Matrix<float, 4, 4>& matrix) noexcept
@@ -613,7 +613,7 @@ namespace omath
         return result;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     [[nodiscard]] inline auto transposed(const Matrix<float, 4, 4>& matrix) noexcept
     {
@@ -651,7 +651,7 @@ namespace omath
             }
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     inline void transpose(Matrix<float, 4, 4>& matrix) noexcept
     {

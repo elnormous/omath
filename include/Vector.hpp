@@ -16,7 +16,7 @@ namespace omath
     class Vector final
     {
     public:
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
         alignas(canVectorUseSimd<T, dims> ? dims * sizeof(T) : sizeof(T))
 #endif
         std::array<T, dims> v;
@@ -232,7 +232,7 @@ namespace omath
         return result;
     }
 
-#if defined(OMATH_SIMD_AVAILABLE)
+#ifdef OMATH_SIMD_AVAILABLE
     template <>
     [[nodiscard]] inline auto dot(const Vector<float, 4>& vector1,
                                   const Vector<float, 4>& vector2) noexcept
