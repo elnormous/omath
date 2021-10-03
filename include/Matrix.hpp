@@ -700,7 +700,7 @@ namespace omath
             matrix.m[0] = 1.0F / matrix.m[0];
         else if constexpr (size == 2)
         {
-            const auto det = determinant(matrix);
+            const auto det = matrix.m[0] * matrix.m[3] - matrix.m[1] * matrix.m[2];
             const std::array<T, size * size> adjugate{
                 matrix.m[3],
                 -matrix.m[1],
@@ -715,17 +715,22 @@ namespace omath
         }
         else if constexpr (size == 3)
         {
-            const auto det = determinant(matrix);
+            const auto a0 = matrix.m[4] * matrix.m[8] - matrix.m[5] * matrix.m[7];
+            const auto a1 = matrix.m[3] * matrix.m[8] - matrix.m[5] * matrix.m[6];
+            const auto a2 = matrix.m[3] * matrix.m[7] - matrix.m[4] * matrix.m[6];
+
+            const auto det = matrix.m[0] * a0 - matrix.m[1] * a1 + matrix.m[2] * a2;
+
             const std::array<T, size * size> adjugate{
-                matrix.m[4] * matrix.m[8] - matrix.m[5] * matrix.m[7],
+                a0,
                 -matrix.m[1] * matrix.m[8] + matrix.m[2] * matrix.m[7],
                 matrix.m[1] * matrix.m[5] - matrix.m[2] * matrix.m[4],
 
-                -matrix.m[3] * matrix.m[8] + matrix.m[5] * matrix.m[6],
+                -a1,
                 matrix.m[0] * matrix.m[8] - matrix.m[2] * matrix.m[6],
                 -matrix.m[0] * matrix.m[5] + matrix.m[2] * matrix.m[3],
 
-                matrix.m[3] * matrix.m[7] - matrix.m[4] * matrix.m[6],
+                a2,
                 -matrix.m[0] * matrix.m[7] + matrix.m[1] * matrix.m[6],
                 matrix.m[0] * matrix.m[4] - matrix.m[1] * matrix.m[3]
             };
@@ -751,7 +756,7 @@ namespace omath
             result.m[0] = 1.0F / matrix.m[0];
         else if constexpr (size == 2)
         {
-            const auto det = determinant(matrix);
+            const auto det = matrix.m[0] * matrix.m[3] - matrix.m[1] * matrix.m[2];
             result.m[0] = matrix.m[3] / det;
             result.m[1] = -matrix.m[1] / det;
             result.m[2] = -matrix.m[2] / det;
@@ -759,18 +764,22 @@ namespace omath
         }
         else if constexpr (size == 3)
         {
-            const auto det = determinant(matrix);
+            const auto a0 = matrix.m[4] * matrix.m[8] - matrix.m[5] * matrix.m[7];
+            const auto a1 = matrix.m[3] * matrix.m[8] - matrix.m[5] * matrix.m[6];
+            const auto a2 = matrix.m[3] * matrix.m[7] - matrix.m[4] * matrix.m[6];
 
-            result.m[0] = (matrix.m[4] * matrix.m[8] - matrix.m[5] * matrix.m[7]) / det;
-            result.m[1] = (-matrix.m[1] * matrix.m[8] + matrix.m[2] * matrix.m[7]) / det;
+            const auto det = matrix.m[0] * a0 - matrix.m[1] * a1 + matrix.m[2] * a2;
+
+            result.m[0] = a0 / det;
+            result.m[1] = -(matrix.m[1] * matrix.m[8] - matrix.m[2] * matrix.m[7]) / det;
             result.m[2] = (matrix.m[1] * matrix.m[5] - matrix.m[2] * matrix.m[4]) / det;
 
-            result.m[3] = (-matrix.m[3] * matrix.m[8] + matrix.m[5] * matrix.m[6]) / det;
+            result.m[3] = -a1 / det;
             result.m[4] = (matrix.m[0] * matrix.m[8] - matrix.m[2] * matrix.m[6]) / det;
-            result.m[5] = (-matrix.m[0] * matrix.m[5] + matrix.m[2] * matrix.m[3]) / det;
+            result.m[5] = -(matrix.m[0] * matrix.m[5] - matrix.m[2] * matrix.m[3]) / det;
 
-            result.m[6] = (matrix.m[3] * matrix.m[7] - matrix.m[4] * matrix.m[6]) / det;
-            result.m[7] = (-matrix.m[0] * matrix.m[7] + matrix.m[1] * matrix.m[6]) / det;
+            result.m[6] = a2 / det;
+            result.m[7] = -(matrix.m[0] * matrix.m[7] - matrix.m[1] * matrix.m[6]) / det;
             result.m[8] = (matrix.m[0] * matrix.m[4] - matrix.m[1] * matrix.m[3]) / det;
         }
 
