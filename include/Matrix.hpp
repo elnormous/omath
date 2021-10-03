@@ -675,7 +675,7 @@ namespace omath
     }
 #endif
 
-    template <typename T, std::size_t size, std::enable_if<(size <= 3)>* = nullptr>
+    template <typename T, std::size_t size, std::enable_if<(size <= 4)>* = nullptr>
     [[nodiscard]] constexpr auto determinant(const Matrix<T, size, size>& matrix) noexcept
     {
         if constexpr (size == 0)
@@ -691,11 +691,30 @@ namespace omath
                 matrix.m[2] * matrix.m[4] * matrix.m[6] -
                 matrix.m[1] * matrix.m[3] * matrix.m[8] -
                 matrix.m[0] * matrix.m[5] * matrix.m[7];
+        else if constexpr (size == 4)
+        {
+            const auto a0 = matrix.m[0] * matrix.m[5] - matrix.m[1] * matrix.m[4];
+            const auto a1 = matrix.m[0] * matrix.m[6] - matrix.m[2] * matrix.m[4];
+            const auto a2 = matrix.m[0] * matrix.m[7] - matrix.m[3] * matrix.m[4];
+            const auto a3 = matrix.m[1] * matrix.m[6] - matrix.m[2] * matrix.m[5];
+            const auto a4 = matrix.m[1] * matrix.m[7] - matrix.m[3] * matrix.m[5];
+            const auto a5 = matrix.m[2] * matrix.m[7] - matrix.m[3] * matrix.m[6];
+            const auto b0 = matrix.m[8] * matrix.m[13] - matrix.m[9] * matrix.m[12];
+            const auto b1 = matrix.m[8] * matrix.m[14] - matrix.m[10] * matrix.m[12];
+            const auto b2 = matrix.m[8] * matrix.m[15] - matrix.m[11] * matrix.m[12];
+            const auto b3 = matrix.m[9] * matrix.m[14] - matrix.m[10] * matrix.m[13];
+            const auto b4 = matrix.m[9] * matrix.m[15] - matrix.m[11] * matrix.m[13];
+            const auto b5 = matrix.m[10] * matrix.m[15] - matrix.m[11] * matrix.m[14];
+
+            return a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
+        }
     }
 
-    template <typename T, std::size_t size, std::enable_if<(size <= 3)>* = nullptr>
+    template <typename T, std::size_t size>
     void invert(Matrix<T, size, size>& matrix) noexcept
     {
+        static_assert(size <= 4);
+
         if constexpr (size == 1)
             matrix.m[0] = 1.0F / matrix.m[0];
         else if constexpr (size == 2)
@@ -745,11 +764,69 @@ namespace omath
             matrix.m[7] = adjugate[7] / det;
             matrix.m[8] = adjugate[8] / det;
         }
+        else if constexpr (size == 4)
+        {
+            const auto a0 = matrix.m[0] * matrix.m[5] - matrix.m[1] * matrix.m[4];
+            const auto a1 = matrix.m[0] * matrix.m[6] - matrix.m[2] * matrix.m[4];
+            const auto a2 = matrix.m[0] * matrix.m[7] - matrix.m[3] * matrix.m[4];
+            const auto a3 = matrix.m[1] * matrix.m[6] - matrix.m[2] * matrix.m[5];
+            const auto a4 = matrix.m[1] * matrix.m[7] - matrix.m[3] * matrix.m[5];
+            const auto a5 = matrix.m[2] * matrix.m[7] - matrix.m[3] * matrix.m[6];
+            const auto b0 = matrix.m[8] * matrix.m[13] - matrix.m[9] * matrix.m[12];
+            const auto b1 = matrix.m[8] * matrix.m[14] - matrix.m[10] * matrix.m[12];
+            const auto b2 = matrix.m[8] * matrix.m[15] - matrix.m[11] * matrix.m[12];
+            const auto b3 = matrix.m[9] * matrix.m[14] - matrix.m[10] * matrix.m[13];
+            const auto b4 = matrix.m[9] * matrix.m[15] - matrix.m[11] * matrix.m[13];
+            const auto b5 = matrix.m[10] * matrix.m[15] - matrix.m[11] * matrix.m[14];
+
+            const auto det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
+
+            const std::array<T, size * size> adjugate{
+                matrix.m[5] * b5 - matrix.m[6] * b4 + matrix.m[7] * b3,
+                -(matrix.m[1] * b5 - matrix.m[2] * b4 + matrix.m[3] * b3),
+                matrix.m[13] * a5 - matrix.m[14] * a4 + matrix.m[15] * a3,
+                -(matrix.m[9] * a5 - matrix.m[10] * a4 + matrix.m[11] * a3),
+
+                -(matrix.m[4] * b5 - matrix.m[6] * b2 + matrix.m[7] * b1),
+                matrix.m[0] * b5 - matrix.m[2] * b2 + matrix.m[3] * b1,
+                -(matrix.m[12] * a5 - matrix.m[14] * a2 + matrix.m[15] * a1),
+                matrix.m[8] * a5 - matrix.m[10] * a2 + matrix.m[11] * a1,
+
+                matrix.m[4] * b4 - matrix.m[5] * b2 + matrix.m[7] * b0,
+                -(matrix.m[0] * b4 - matrix.m[1] * b2 + matrix.m[3] * b0),
+                matrix.m[12] * a4 - matrix.m[13] * a2 + matrix.m[15] * a0,
+                -(matrix.m[8] * a4 - matrix.m[9] * a2 + matrix.m[11] * a0),
+
+                -(matrix.m[4] * b3 - matrix.m[5] * b1 + matrix.m[6] * b0),
+                matrix.m[0] * b3 - matrix.m[1] * b1 + matrix.m[2] * b0,
+                -(matrix.m[12] * a3 - matrix.m[13] * a1 + matrix.m[14] * a0),
+                matrix.m[8] * a3 - matrix.m[9] * a1 + matrix.m[10] * a0
+            };
+
+            matrix.m[0] = adjugate[0] / det;
+            matrix.m[1] = adjugate[1] / det;
+            matrix.m[2] = adjugate[2] / det;
+            matrix.m[3] = adjugate[3] / det;
+            matrix.m[4] = adjugate[4] / det;
+            matrix.m[5] = adjugate[5] / det;
+            matrix.m[6] = adjugate[6] / det;
+            matrix.m[7] = adjugate[7] / det;
+            matrix.m[8] = adjugate[8] / det;
+            matrix.m[9] = adjugate[9] / det;
+            matrix.m[10] = adjugate[10] / det;
+            matrix.m[11] = adjugate[11] / det;
+            matrix.m[12] = adjugate[12] / det;
+            matrix.m[13] = adjugate[13] / det;
+            matrix.m[14] = adjugate[14] / det;
+            matrix.m[15] = adjugate[15] / det;
+        }
     }
 
-    template <typename T, std::size_t size, std::enable_if<(size <= 3)>* = nullptr>
+    template <typename T, std::size_t size>
     [[nodiscard]] constexpr auto inverse(const Matrix<T, size, size>& matrix) noexcept
     {
+        static_assert(size <= 4);
+
         Matrix<T, size, size> result;
 
         if constexpr (size == 1)
@@ -781,6 +858,43 @@ namespace omath
             result.m[6] = a2 / det;
             result.m[7] = -(matrix.m[0] * matrix.m[7] - matrix.m[1] * matrix.m[6]) / det;
             result.m[8] = (matrix.m[0] * matrix.m[4] - matrix.m[1] * matrix.m[3]) / det;
+        }
+        else if constexpr (size == 4)
+        {
+            const auto a0 = matrix.m[0] * matrix.m[5] - matrix.m[1] * matrix.m[4];
+            const auto a1 = matrix.m[0] * matrix.m[6] - matrix.m[2] * matrix.m[4];
+            const auto a2 = matrix.m[0] * matrix.m[7] - matrix.m[3] * matrix.m[4];
+            const auto a3 = matrix.m[1] * matrix.m[6] - matrix.m[2] * matrix.m[5];
+            const auto a4 = matrix.m[1] * matrix.m[7] - matrix.m[3] * matrix.m[5];
+            const auto a5 = matrix.m[2] * matrix.m[7] - matrix.m[3] * matrix.m[6];
+            const auto b0 = matrix.m[8] * matrix.m[13] - matrix.m[9] * matrix.m[12];
+            const auto b1 = matrix.m[8] * matrix.m[14] - matrix.m[10] * matrix.m[12];
+            const auto b2 = matrix.m[8] * matrix.m[15] - matrix.m[11] * matrix.m[12];
+            const auto b3 = matrix.m[9] * matrix.m[14] - matrix.m[10] * matrix.m[13];
+            const auto b4 = matrix.m[9] * matrix.m[15] - matrix.m[11] * matrix.m[13];
+            const auto b5 = matrix.m[10] * matrix.m[15] - matrix.m[11] * matrix.m[14];
+
+            const auto det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
+
+            result.m[0] = (matrix.m[5] * b5 - matrix.m[6] * b4 + matrix.m[7] * b3) / det;
+            result.m[1] = -(matrix.m[1] * b5 - matrix.m[2] * b4 + matrix.m[3] * b3) / det;
+            result.m[2] = (matrix.m[13] * a5 - matrix.m[14] * a4 + matrix.m[15] * a3) / det;
+            result.m[3] = -(matrix.m[9] * a5 - matrix.m[10] * a4 + matrix.m[11] * a3) / det;
+
+            result.m[4] = -(matrix.m[4] * b5 - matrix.m[6] * b2 + matrix.m[7] * b1) / det;
+            result.m[5] = (matrix.m[0] * b5 - matrix.m[2] * b2 + matrix.m[3] * b1) / det;
+            result.m[6] = -(matrix.m[12] * a5 - matrix.m[14] * a2 + matrix.m[15] * a1) / det;
+            result.m[7] = (matrix.m[8] * a5 - matrix.m[10] * a2 + matrix.m[11] * a1) / det;
+
+            result.m[8] = (matrix.m[4] * b4 - matrix.m[5] * b2 + matrix.m[7] * b0) / det;
+            result.m[9] = -(matrix.m[0] * b4 - matrix.m[1] * b2 + matrix.m[3] * b0) / det;
+            result.m[10] = (matrix.m[12] * a4 - matrix.m[13] * a2 + matrix.m[15] * a0) / det;
+            result.m[11] = -(matrix.m[8] * a4 - matrix.m[9] * a2 + matrix.m[11] * a0) / det;
+
+            result.m[12] = -(matrix.m[4] * b3 - matrix.m[5] * b1 + matrix.m[6] * b0) / det;
+            result.m[13] = (matrix.m[0] * b3 - matrix.m[1] * b1 + matrix.m[2] * b0) / det;
+            result.m[14] = -(matrix.m[12] * a3 - matrix.m[13] * a1 + matrix.m[14] * a0) / det;
+            result.m[15] = (matrix.m[8] * a3 - matrix.m[9] * a1 + matrix.m[10] * a0) / det;
         }
 
         return result;

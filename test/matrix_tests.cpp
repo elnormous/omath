@@ -254,6 +254,18 @@ TEST_CASE("3x3 matrix determinant", "matrix")
     REQUIRE(determinant(matrix) == 30.0F);
 }
 
+TEST_CASE("4x4 matrix determinant", "matrix")
+{
+    const omath::Matrix<float, 4, 4> matrix{
+        2.0F, 3.0F, 4.0F, 0.0F,
+        5.0F, 6.0F, 7.0F, 0.0F,
+        8.0F, 9.0F, 1.0F, 0.0F,
+        2.0F, 3.0F, 4.0F, 1.0F
+    };
+
+    REQUIRE(determinant(matrix) == 27.0F);
+}
+
 TEST_CASE("2x2 matrix negation", "matrix")
 {
     const omath::Matrix<float, 2> matrix{
@@ -1007,6 +1019,38 @@ TEST_CASE("3x3 matrix inversion", "matrix")
     REQUIRE(matrix[2][2] == Approx(-1.0F / 10.0F));
 }
 
+TEST_CASE("4x4 matrix inversion", "matrix")
+{
+    omath::Matrix<float, 4, 4> matrix{
+        2.0F, 3.0F, 4.0F, 0.0F,
+        5.0F, 6.0F, 7.0F, 0.0F,
+        8.0F, 9.0F, 1.0F, 0.0F,
+        2.0F, 3.0F, 4.0F, 1.0F
+    };
+
+    invert(matrix);
+
+    REQUIRE(matrix[0][0] == Approx(-19.0F / 9.0F));
+    REQUIRE(matrix[0][1] == Approx(11.0F / 9.0F));
+    REQUIRE(matrix[0][2] == Approx(-1.0F / 9.0F));
+    REQUIRE(matrix[0][3] == Approx(0.0F));
+
+    REQUIRE(matrix[1][0] == Approx(17.0F / 9.0F));
+    REQUIRE(matrix[1][1] == Approx(-10.0F / 9.0F));
+    REQUIRE(matrix[1][2] == Approx(2.0F / 9.0F));
+    REQUIRE(matrix[1][3] == Approx(0.0F));
+
+    REQUIRE(matrix[2][0] == Approx(-1.0F / 9.0F));
+    REQUIRE(matrix[2][1] == Approx(2.0F / 9.0F));
+    REQUIRE(matrix[2][2] == Approx(-1.0F / 9.0F));
+    REQUIRE(matrix[2][3] == Approx(0.0F));
+
+    REQUIRE(matrix[3][0] == Approx(-1.0F));
+    REQUIRE(matrix[3][1] == Approx(0.0F));
+    REQUIRE(matrix[3][2] == Approx(0.0F));
+    REQUIRE(matrix[3][3] == Approx(1.0F));
+}
+
 TEST_CASE("1x1 matrix inverse", "matrix")
 {
     const omath::Matrix<float, 1, 1> matrix{
@@ -1056,4 +1100,36 @@ TEST_CASE("3x3 matrix inverse", "matrix")
     REQUIRE(result[2][0] == Approx(-1.0F / 10.0F));
     REQUIRE(result[2][1] == Approx(1.0F / 5.0F));
     REQUIRE(result[2][2] == Approx(-1.0F / 10.0F));
+}
+
+TEST_CASE("4x4 matrix inverse", "matrix")
+{
+    const omath::Matrix<float, 4, 4> matrix{
+        2.0F, 3.0F, 4.0F, 0.0F,
+        5.0F, 6.0F, 7.0F, 0.0F,
+        8.0F, 9.0F, 1.0F, 0.0F,
+        2.0F, 3.0F, 4.0F, 1.0F
+    };
+
+    const omath::Matrix<float, 4, 4> result = inverse(matrix);
+
+    REQUIRE(result[0][0] == Approx(-19.0F / 9.0F));
+    REQUIRE(result[0][1] == Approx(11.0F / 9.0F));
+    REQUIRE(result[0][2] == Approx(-1.0F / 9.0F));
+    REQUIRE(result[0][3] == Approx(0.0F));
+
+    REQUIRE(result[1][0] == Approx(17.0F / 9.0F));
+    REQUIRE(result[1][1] == Approx(-10.0F / 9.0F));
+    REQUIRE(result[1][2] == Approx(2.0F / 9.0F));
+    REQUIRE(result[1][3] == Approx(0.0F));
+
+    REQUIRE(result[2][0] == Approx(-1.0F / 9.0F));
+    REQUIRE(result[2][1] == Approx(2.0F / 9.0F));
+    REQUIRE(result[2][2] == Approx(-1.0F / 9.0F));
+    REQUIRE(result[2][3] == Approx(0.0F));
+
+    REQUIRE(result[3][0] == Approx(-1.0F));
+    REQUIRE(result[3][1] == Approx(0.0F));
+    REQUIRE(result[3][2] == Approx(0.0F));
+    REQUIRE(result[3][3] == Approx(1.0F));
 }
