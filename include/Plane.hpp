@@ -6,6 +6,7 @@
 #define OMATH_PLANE
 
 #include <array>
+#include <type_traits>
 #include "Simd.hpp"
 #include "Vector.hpp"
 
@@ -16,7 +17,7 @@ namespace omath
     {
     public:
 #ifdef OMATH_SIMD_AVAILABLE
-        alignas(canVectorUseSimd<T, 4> ? 4 * sizeof(T) : sizeof(T))
+        alignas(std::is_same_v<T, float> ? 4 * sizeof(T) : sizeof(T))
 #endif
         std::array<T, 4> v;
 

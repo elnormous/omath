@@ -17,7 +17,7 @@ namespace omath
     {
     public:
 #ifdef OMATH_SIMD_AVAILABLE
-        alignas(canVectorUseSimd<T, dims> ? dims * sizeof(T) : sizeof(T))
+        alignas(std::is_same_v<T, float> && dims == 4 ? dims * sizeof(T) : sizeof(T))
 #endif
         std::array<T, dims> v;
 

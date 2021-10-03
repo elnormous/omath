@@ -17,7 +17,7 @@ namespace omath
     {
     public:
 #ifdef OMATH_SIMD_AVAILABLE
-        alignas(canMatrixUseSimd<T, rows, cols> ? cols * sizeof(T) : alignof(T))
+        alignas(std::is_same_v<T, float> && rows == 4 && cols == 4 ? cols * sizeof(T) : alignof(T))
 #endif
         std::array<T, cols * rows> m; // row-major matrix (transformation is pre-multiplying)
 
