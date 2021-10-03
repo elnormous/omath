@@ -5,6 +5,7 @@
 #ifndef OMATH_SIMD
 #define OMATH_SIMD
 
+#include <type_traits>
 #ifndef OMATH_DISABLE_SIMD
 #  if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP != 0
 #    include <xmmintrin.h>
