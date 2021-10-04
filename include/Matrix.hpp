@@ -89,6 +89,31 @@ namespace omath
 #endif
 
     template <typename T, std::size_t rows, std::size_t cols>
+    constexpr void negate(Matrix<T, rows, cols>& matrix)noexcept
+    {
+        for (auto& c : matrix.m) c = -c;
+    }
+
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    inline void negate(Matrix<float, 4, 4>& matrix) noexcept
+    {
+#  ifdef OMATH_SIMD_SSE
+        const auto z = _mm_setzero_ps();
+        _mm_store_ps(&matrix.m[0], _mm_sub_ps(z, _mm_load_ps(&matrix.m[0])));
+        _mm_store_ps(&matrix.m[4], _mm_sub_ps(z, _mm_load_ps(&matrix.m[4])));
+        _mm_store_ps(&matrix.m[8], _mm_sub_ps(z, _mm_load_ps(&matrix.m[8])));
+        _mm_store_ps(&matrix.m[12], _mm_sub_ps(z, _mm_load_ps(&matrix.m[12])));
+#  elif defined(OMATH_SIMD_NEON)
+        vst1q_f32(&matrix.m[0], vnegq_f32(vld1q_f32(&matrix.m[0])));
+        vst1q_f32(&matrix.m[4], vnegq_f32(vld1q_f32(&matrix.m[4])));
+        vst1q_f32(&matrix.m[8], vnegq_f32(vld1q_f32(&matrix.m[8])));
+        vst1q_f32(&matrix.m[12], vnegq_f32(vld1q_f32(&matrix.m[12])));
+#  endif
+    }
+#endif
+
+    template <typename T, std::size_t rows, std::size_t cols>
     [[nodiscard]] constexpr auto operator+(const Matrix<T, rows, cols>& matrix1,
                                            const Matrix<T, rows, cols>& matrix2) noexcept
     {
@@ -116,31 +141,6 @@ namespace omath
         vst1q_f32(&result.m[12], vaddq_f32(vld1q_f32(&matrix1.m[12]), vld1q_f32(&matrix2.m[12])));
 #  endif
         return result;
-    }
-#endif
-
-    template <typename T, std::size_t rows, std::size_t cols>
-    constexpr void negate(Matrix<T, rows, cols>& matrix)noexcept
-    {
-        for (auto& c : matrix.m) c = -c;
-    }
-
-#ifdef OMATH_SIMD_AVAILABLE
-    template <>
-    inline void negate(Matrix<float, 4, 4>& matrix) noexcept
-    {
-#  ifdef OMATH_SIMD_SSE
-        const auto z = _mm_setzero_ps();
-        _mm_store_ps(&matrix.m[0], _mm_sub_ps(z, _mm_load_ps(&matrix.m[0])));
-        _mm_store_ps(&matrix.m[4], _mm_sub_ps(z, _mm_load_ps(&matrix.m[4])));
-        _mm_store_ps(&matrix.m[8], _mm_sub_ps(z, _mm_load_ps(&matrix.m[8])));
-        _mm_store_ps(&matrix.m[12], _mm_sub_ps(z, _mm_load_ps(&matrix.m[12])));
-#  elif defined(OMATH_SIMD_NEON)
-        vst1q_f32(&matrix.m[0], vnegq_f32(vld1q_f32(&matrix.m[0])));
-        vst1q_f32(&matrix.m[4], vnegq_f32(vld1q_f32(&matrix.m[4])));
-        vst1q_f32(&matrix.m[8], vnegq_f32(vld1q_f32(&matrix.m[8])));
-        vst1q_f32(&matrix.m[12], vnegq_f32(vld1q_f32(&matrix.m[12])));
-#  endif
     }
 #endif
 
