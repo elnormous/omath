@@ -134,6 +134,12 @@ namespace omath
     }
 
     template <typename T, std::size_t dims>
+    constexpr void negate(Vector<T, dims>& vector) noexcept
+    {
+        for (auto& c : vector.v) c = -c;
+    }
+
+    template <typename T, std::size_t dims>
     auto& operator+=(Vector<T, dims>& vector1,
                      const Vector<T, dims>& vector2) noexcept
     {

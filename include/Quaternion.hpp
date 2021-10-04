@@ -70,6 +70,14 @@ namespace omath
             };
         }
 
+        constexpr void negate() noexcept
+        {
+            v[0] = -v[0];
+            v[1] = -v[1];
+            v[2] = -v[2];
+            v[3] = -v[3];
+        }
+
         constexpr auto& operator+=(const Quaternion& q) noexcept
         {
             v[0] += q.v[0];

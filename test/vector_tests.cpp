@@ -68,9 +68,16 @@ TEST_CASE("Vector arithmetic operators", "vector")
     const omath::Vector<float, 2> vector1{2.0F, 4.0F};
     const omath::Vector<float, 2> vector2{2.0F, 5.0F};
 
-    SECTION("Negate")
+    SECTION("Negative")
     {
         const auto result = -vector1;
+        REQUIRE(result == omath::Vector<float, 2>{-2.0F, -4.0F});
+    }
+
+    SECTION("Negation")
+    {
+        omath::Vector<float, 2> result{2.0F, 4.0F};
+        negate(result);
         REQUIRE(result == omath::Vector<float, 2>{-2.0F, -4.0F});
     }
 

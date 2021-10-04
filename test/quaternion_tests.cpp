@@ -67,13 +67,17 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
     const omath::Quaternion<float> quaternion1{2.0F, 4.0F, -6.0F, 6.0F};
     const omath::Quaternion<float> quaternion2{2.0F, 5.0F, 6.0F, 6.0F};
 
-    SECTION("Negate")
+    SECTION("Negative")
     {
         const auto result = -quaternion1;
-        REQUIRE(result.x() == -2.0F);
-        REQUIRE(result.y() == -4.0F);
-        REQUIRE(result.z() == 6.0F);
-        REQUIRE(result.w() == -6.0F);
+        REQUIRE(result == omath::Quaternion<float>{-2.0F, -4.0F, 6.0F, -6.0F});
+    }
+
+    SECTION("Negation")
+    {
+        omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
+        result.negate();
+        REQUIRE(result == omath::Quaternion<float>{-2.0F, -4.0F, 6.0F, -6.0F});
     }
 
     SECTION("Add")
@@ -88,86 +92,59 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
     SECTION("Subtract")
     {
         const auto result = quaternion1 - quaternion2;
-        REQUIRE(result.x() == -0.0F);
-        REQUIRE(result.y() == -1.0F);
-        REQUIRE(result.z() == -12.0F);
-        REQUIRE(result.w() == 0.0F);
+        REQUIRE(result == omath::Quaternion<float>{-0.0F, -1.0F, -12.0F, 0.0F});
     }
 
     SECTION("Scalar multiply")
     {
         const auto result = quaternion1 * 2.0F;
-        REQUIRE(result.x() == 4.0F);
-        REQUIRE(result.y() == 8.0F);
-        REQUIRE(result.z() == -12.0F);
-        REQUIRE(result.w() == 12.0F);
+        REQUIRE(result == omath::Quaternion<float>{4.0F, 8.0F, -12.0F, 12.0F});
     }
 
     SECTION("Quaternion multiply")
     {
         const auto result = quaternion1 * quaternion2;
-        REQUIRE(result.x() == 78.0F);
-        REQUIRE(result.y() == 30.0F);
-        REQUIRE(result.z() == 2.0F);
-        REQUIRE(result.w() == 48.0F);
+        REQUIRE(result == omath::Quaternion<float>{78.0F, 30.0F, 2.0F, 48.0F});
     }
 
     SECTION("Divide")
     {
         const auto result = quaternion1 / 2.0F;
-        REQUIRE(result.x() == 1.0F);
-        REQUIRE(result.y() == 2.0F);
-        REQUIRE(result.z() == -3.0F);
-        REQUIRE(result.w() == 3.0F);
+        REQUIRE(result == omath::Quaternion<float>{1.0F, 2.0F, -3.0F, 3.0F});
     }
 
     SECTION("Add assign")
     {
         omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
         result += quaternion2;
-        REQUIRE(result.x() == 4.0F);
-        REQUIRE(result.y() == 9.0F);
-        REQUIRE(result.z() == 0.0F);
-        REQUIRE(result.w() == 12.0F);
+        REQUIRE(result == omath::Quaternion<float>{4.0F, 9.0F, 0.0F, 12.0F});
     }
 
     SECTION("Subtract assign")
     {
         omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
         result -= quaternion2;
-        REQUIRE(result.x() == -0.0F);
-        REQUIRE(result.y() == -1.0F);
-        REQUIRE(result.z() == -12.0F);
-        REQUIRE(result.w() == 0.0F);
+        REQUIRE(result == omath::Quaternion<float>{-0.0F, -1.0F, -12.0F, 0.0F});
     }
 
     SECTION("Scalar multiply assign")
     {
         omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
         result *= 2.0F;
-        REQUIRE(result.x() == 4.0F);
-        REQUIRE(result.y() == 8.0F);
-        REQUIRE(result.z() == -12.0F);
-        REQUIRE(result.w() == 12.0F);
+        REQUIRE(result == omath::Quaternion<float>{4.0F, 8.0F, -12.0F, 12.0F});
     }
 
     SECTION("Quaternion multiply assign")
     {
         omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
         result *= quaternion2;
-        REQUIRE(result.x() == 78.0F);
-        REQUIRE(result.y() == 30.0F);
-        REQUIRE(result.z() == 2.0F);
-        REQUIRE(result.w() == 48.0F);
+        REQUIRE(result == omath::Quaternion<float>{78.0F, 30.0F, 2.0F, 48.0F});
     }
 
     SECTION("Divide assign")
     {
         omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
         result /= 2.0F;
-        REQUIRE(result.x() == 1.0F);
-        REQUIRE(result.y() == 2.0F);
-        REQUIRE(result.z() == -3.0F);
-        REQUIRE(result.w() == 3.0F);
+        REQUIRE(result == omath::Quaternion<float>{1.0F, 2.0F, -3.0F, 3.0F});
     }
 }

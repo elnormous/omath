@@ -266,7 +266,7 @@ TEST_CASE("4x4 matrix determinant", "matrix")
     REQUIRE(determinant(matrix) == 27.0F);
 }
 
-TEST_CASE("2x2 matrix negation", "matrix")
+TEST_CASE("2x2 matrix negative", "matrix")
 {
     const omath::Matrix<float, 2> matrix{
         0.0F, 1.0F,
@@ -281,7 +281,7 @@ TEST_CASE("2x2 matrix negation", "matrix")
     });
 }
 
-TEST_CASE("4x4 matrix negation", "matrix")
+TEST_CASE("4x4 matrix negative", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix{
         0.0F, 1.0F, 2.0F, 3.0F,
@@ -293,6 +293,40 @@ TEST_CASE("4x4 matrix negation", "matrix")
     const auto result = -matrix;
 
     REQUIRE(result == omath::Matrix<float, 4, 4>{
+        0.0F, -1.0F, -2.0F, -3.0F,
+        -2.0F, 3.0F, -4.0F, -5.0F,
+        -3.0F, -4.0F, -5.0F, -6.0F,
+        -4.0F, -5.0F, -6.0F, -7.0F
+    });
+}
+
+TEST_CASE("2x2 matrix negate", "matrix")
+{
+    omath::Matrix<float, 2> matrix{
+        0.0F, 1.0F,
+        2.0F, -3.0F
+    };
+
+    negate(matrix);
+
+    REQUIRE(matrix == omath::Matrix<float, 2, 2>{
+        0.0F, -1.0F,
+        -2.0F, 3.0F
+    });
+}
+
+TEST_CASE("4x4 matrix negate", "matrix")
+{
+    omath::Matrix<float, 4, 4> matrix{
+        0.0F, 1.0F, 2.0F, 3.0F,
+        2.0F, -3.0F, 4.0F, 5.0F,
+        3.0F, 4.0F, 5.0F, 6.0F,
+        4.0F, 5.0F, 6.0F, 7.0F
+    };
+
+    negate(matrix);
+
+    REQUIRE(matrix == omath::Matrix<float, 4, 4>{
         0.0F, -1.0F, -2.0F, -3.0F,
         -2.0F, 3.0F, -4.0F, -5.0F,
         -3.0F, -4.0F, -5.0F, -6.0F,
