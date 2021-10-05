@@ -26,7 +26,7 @@ namespace omath
     };
 
     template <typename T, std::size_t size>
-    [[nodiscard]] static constexpr auto identity() noexcept
+    [[nodiscard]] static constexpr auto identityMatrix() noexcept
     {
         Matrix<T, size, size> result;
         for (std::size_t i = 0; i < size; ++i)
@@ -89,7 +89,7 @@ namespace omath
 #endif
 
     template <typename T, std::size_t rows, std::size_t cols>
-    constexpr void negate(Matrix<T, rows, cols>& matrix)noexcept
+    constexpr void negate(Matrix<T, rows, cols>& matrix) noexcept
     {
         for (auto& c : matrix.m) c = -c;
     }
