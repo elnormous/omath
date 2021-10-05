@@ -34,7 +34,7 @@ TEST_CASE("Quaternion accessors", "quaternion")
 
 TEST_CASE("Quaternion identity", "quaternion")
 {
-    const auto quaternion = omath::Quaternion<float>::identity();
+    const auto quaternion = omath::identityQuaternion<float>();
 
     REQUIRE(quaternion[0] == 0.0F);
     REQUIRE(quaternion[1] == 0.0F);
@@ -76,7 +76,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
     SECTION("Negation")
     {
         omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
-        result.negate();
+        negate(result);
         REQUIRE(result == omath::Quaternion<float>{-2.0F, -4.0F, 6.0F, -6.0F});
     }
 

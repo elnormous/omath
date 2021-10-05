@@ -34,142 +34,173 @@ namespace omath
 
         [[nodiscard]] auto& w() noexcept { return v[3]; }
         [[nodiscard]] constexpr auto w() const noexcept { return v[3]; }
-
-        [[nodiscard]] static constexpr auto identity() noexcept
-        {
-            return Quaternion{T(0), T(0), T(0), T(1)};
-        }
-
-        [[nodiscard]] constexpr auto operator==(const Quaternion& q) const noexcept
-        {
-            return v[0] == q.v[0] && v[1] == q.v[1] && v[2] == q.v[2] && v[3] == q.v[3];
-        }
-
-        [[nodiscard]] constexpr auto operator!=(const Quaternion& q) const noexcept
-        {
-            return v[0] != q.v[0] || v[1] != q.v[1] || v[2] != q.v[2] || v[3] != q.v[3];
-        }
-
-        [[nodiscard]] constexpr auto operator+() const noexcept
-        {
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator-() const noexcept
-        {
-            return Quaternion{-v[0], -v[1], -v[2], -v[3]};
-        }
-
-        [[nodiscard]] constexpr auto operator+(const Quaternion& q) const noexcept
-        {
-            return Quaternion{
-                v[0] + q.v[0],
-                v[1] + q.v[1],
-                v[2] + q.v[2],
-                v[3] + q.v[3]
-            };
-        }
-
-        constexpr void negate() noexcept
-        {
-            v[0] = -v[0];
-            v[1] = -v[1];
-            v[2] = -v[2];
-            v[3] = -v[3];
-        }
-
-        constexpr auto& operator+=(const Quaternion& q) noexcept
-        {
-            v[0] += q.v[0];
-            v[1] += q.v[1];
-            v[2] += q.v[2];
-            v[3] += q.v[3];
-
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator-(const Quaternion& q) const noexcept
-        {
-            return Quaternion{
-                v[0] - q.v[0],
-                v[1] - q.v[1],
-                v[2] - q.v[2],
-                v[3] - q.v[3]
-            };
-        }
-
-        constexpr auto& operator-=(const Quaternion& q) noexcept
-        {
-            v[0] -= q.v[0];
-            v[1] -= q.v[1];
-            v[2] -= q.v[2];
-            v[3] -= q.v[3];
-
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator*(const Quaternion& q) const noexcept
-        {
-            return Quaternion{
-                v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0],
-                -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1],
-                v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2],
-                -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3]
-            };
-        }
-
-        constexpr auto& operator*=(const Quaternion& q) noexcept
-        {
-            v = {
-                v[0] * q.v[3] + v[1] * q.v[2] - v[2] * q.v[1] + v[3] * q.v[0],
-                -v[0] * q.v[2] + v[1] * q.v[3] + v[2] * q.v[0] + v[3] * q.v[1],
-                v[0] * q.v[1] - v[1] * q.v[0] + v[2] * q.v[3] + v[3] * q.v[2],
-                -v[0] * q.v[0] - v[1] * q.v[1] - v[2] * q.v[2] + v[3] * q.v[3]
-            };
-
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator*(const T scalar) const noexcept
-        {
-            return Quaternion{
-                v[0] * scalar,
-                v[1] * scalar,
-                v[2] * scalar,
-                v[3] * scalar
-            };
-        }
-
-        constexpr auto& operator*=(const T scalar) noexcept
-        {
-            v[0] *= scalar;
-            v[1] *= scalar;
-            v[2] *= scalar;
-            v[3] *= scalar;
-
-            return *this;
-        }
-
-        [[nodiscard]] constexpr auto operator/(const T scalar) const noexcept
-        {
-            return Quaternion{
-                v[0] / scalar,
-                v[1] / scalar,
-                v[2] / scalar,
-                v[3] / scalar
-            };
-        }
-
-        constexpr auto& operator/=(const T scalar) noexcept
-        {
-            v[0] /= scalar;
-            v[1] /= scalar;
-            v[2] /= scalar;
-            v[3] /= scalar;
-
-            return *this;
-        }
     };
+
+    template <typename T>
+    [[nodiscard]] constexpr auto identityQuaternion() noexcept
+    {
+        return Quaternion<T>{T(0), T(0), T(0), T(1)};
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator==(const Quaternion<T>& quat1,
+                                            const Quaternion<T>& quat2) noexcept
+    {
+        return quat1.v[0] == quat2.v[0] &&
+            quat1.v[1] == quat2.v[1] &&
+            quat1.v[2] == quat2.v[2] &&
+            quat1.v[3] == quat2.v[3];
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator!=(const Quaternion<T>& quat1,
+                                            const Quaternion<T>& quat2) noexcept
+    {
+        return quat1.v[0] != quat2.v[0] ||
+            quat1.v[1] != quat2.v[1] ||
+            quat1.v[2] != quat2.v[2] ||
+            quat1.v[3] != quat2.v[3];
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator+(const Quaternion<T>& quat) noexcept
+    {
+        return quat;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator-(const Quaternion<T>& quat) noexcept
+    {
+        return Quaternion<T>{-quat.v[0], -quat.v[1], -quat.v[2], -quat.v[3]};
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator+(const Quaternion<T>& quat1,
+                                           const Quaternion<T>& quat2) noexcept
+    {
+        return Quaternion<T>{
+            quat1.v[0] + quat2.v[0],
+            quat1.v[1] + quat2.v[1],
+            quat1.v[2] + quat2.v[2],
+            quat1.v[3] + quat2.v[3]
+        };
+    }
+
+    template <typename T>
+    constexpr void negate(Quaternion<T>& quat) noexcept
+    {
+        quat.v[0] = -quat.v[0];
+        quat.v[1] = -quat.v[1];
+        quat.v[2] = -quat.v[2];
+        quat.v[3] = -quat.v[3];
+    }
+
+    template <typename T>
+    constexpr auto& operator+=(Quaternion<T>& quat1,
+                               const Quaternion<T>& quat2) noexcept
+    {
+        quat1.v[0] += quat2.v[0];
+        quat1.v[1] += quat2.v[1];
+        quat1.v[2] += quat2.v[2];
+        quat1.v[3] += quat2.v[3];
+
+        return quat1;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator-(const Quaternion<T>& quat1,
+                                           const Quaternion<T>& quat2) noexcept
+    {
+        return Quaternion<T>{
+            quat1.v[0] - quat2.v[0],
+            quat1.v[1] - quat2.v[1],
+            quat1.v[2] - quat2.v[2],
+            quat1.v[3] - quat2.v[3]
+        };
+    }
+
+    template <typename T>
+    constexpr auto& operator-=(Quaternion<T>& quat1,
+                               const Quaternion<T>& quat2) noexcept
+    {
+        quat1.v[0] -= quat2.v[0];
+        quat1.v[1] -= quat2.v[1];
+        quat1.v[2] -= quat2.v[2];
+        quat1.v[3] -= quat2.v[3];
+
+        return quat1;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator*(const Quaternion<T>& quat1,
+                                           const Quaternion<T>& quat2) noexcept
+    {
+        return Quaternion<T>{
+            quat1.v[0] * quat2.v[3] + quat1.v[1] * quat2.v[2] - quat1.v[2] * quat2.v[1] + quat1.v[3] * quat2.v[0],
+            -quat1.v[0] * quat2.v[2] + quat1.v[1] * quat2.v[3] + quat1.v[2] * quat2.v[0] + quat1.v[3] * quat2.v[1],
+            quat1.v[0] * quat2.v[1] - quat1.v[1] * quat2.v[0] + quat1.v[2] * quat2.v[3] + quat1.v[3] * quat2.v[2],
+            -quat1.v[0] * quat2.v[0] - quat1.v[1] * quat2.v[1] - quat1.v[2] * quat2.v[2] + quat1.v[3] * quat2.v[3]
+        };
+    }
+
+    template <typename T>
+    constexpr auto& operator*=(Quaternion<T>& quat1,
+                               const Quaternion<T>& quat2) noexcept
+    {
+        quat1.v = {
+            quat1.v[0] * quat2.v[3] + quat1.v[1] * quat2.v[2] - quat1.v[2] * quat2.v[1] + quat1.v[3] * quat2.v[0],
+            -quat1.v[0] * quat2.v[2] + quat1.v[1] * quat2.v[3] + quat1.v[2] * quat2.v[0] + quat1.v[3] * quat2.v[1],
+            quat1.v[0] * quat2.v[1] - quat1.v[1] * quat2.v[0] + quat1.v[2] * quat2.v[3] + quat1.v[3] * quat2.v[2],
+            -quat1.v[0] * quat2.v[0] - quat1.v[1] * quat2.v[1] - quat1.v[2] * quat2.v[2] + quat1.v[3] * quat2.v[3]
+        };
+
+        return quat1;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator*(const Quaternion<T>& quat,
+                                           const T scalar) noexcept
+    {
+        return Quaternion<T>{
+            quat.v[0] * scalar,
+            quat.v[1] * scalar,
+            quat.v[2] * scalar,
+            quat.v[3] * scalar
+        };
+    }
+
+    template <typename T>
+    constexpr auto& operator*=(Quaternion<T>& quat, const T scalar) noexcept
+    {
+        quat.v[0] *= scalar;
+        quat.v[1] *= scalar;
+        quat.v[2] *= scalar;
+        quat.v[3] *= scalar;
+
+        return quat;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto operator/(const Quaternion<T>& quat, const T scalar) noexcept
+    {
+        return Quaternion<T>{
+            quat.v[0] / scalar,
+            quat.v[1] / scalar,
+            quat.v[2] / scalar,
+            quat.v[3] / scalar
+        };
+    }
+
+    template <typename T>
+    constexpr auto& operator/=(Quaternion<T>& quat, const T scalar) noexcept
+    {
+        quat.v[0] /= scalar;
+        quat.v[1] /= scalar;
+        quat.v[2] /= scalar;
+        quat.v[3] /= scalar;
+
+        return quat;
+    }
 }
 
 #endif
