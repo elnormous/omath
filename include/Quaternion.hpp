@@ -74,6 +74,21 @@ namespace omath
         return Quaternion<T>{-quat.v[0], -quat.v[1], -quat.v[2], -quat.v[3]};
     }
 
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    inline auto operator-(const Quaternion<float>& quat) noexcept
+    {
+        Quaternion<float> result;
+#  ifdef OMATH_SIMD_SSE
+        const auto z = _mm_setzero_ps();
+        _mm_store_ps(result.v.data(), _mm_sub_ps(z, _mm_load_ps(quat.v.data())));
+#  elif defined(OMATH_SIMD_NEON)
+        vst1q_f32(result.v.data(), vnegq_f32(vld1q_f32(quat.v.data())));
+#  endif
+        return result;
+    }
+#endif
+
     template <typename T>
     [[nodiscard]] constexpr auto operator+(const Quaternion<T>& quat1,
                                            const Quaternion<T>& quat2) noexcept
@@ -86,6 +101,21 @@ namespace omath
         };
     }
 
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    [[nodiscard]] inline auto operator+(const Quaternion<float>& quat1,
+                                        const Quaternion<float>& quat2) noexcept
+    {
+        Quaternion<float> result;
+#  ifdef OMATH_SIMD_SSE
+        _mm_store_ps(result.v.data(), _mm_add_ps(_mm_load_ps(quat1.v.data()), _mm_load_ps(quat2.v.data())));
+#  elif defined(OMATH_SIMD_NEON)
+        vst1q_f32(result.v.data(), vaddq_f32(vld1q_f32(quat1.v.data()), vld1q_f32(quat2.v.data())));
+#  endif
+        return result;
+    }
+#endif
+
     template <typename T>
     constexpr void negate(Quaternion<T>& quat) noexcept
     {
@@ -94,6 +124,19 @@ namespace omath
         quat.v[2] = -quat.v[2];
         quat.v[3] = -quat.v[3];
     }
+
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    inline void negate(Quaternion<float>& quat) noexcept
+    {
+#  ifdef OMATH_SIMD_SSE
+        const auto z = _mm_setzero_ps();
+        _mm_store_ps(quat.v.data(), _mm_sub_ps(z, _mm_load_ps(quat.v.data())));
+#  elif defined(OMATH_SIMD_NEON)
+        vst1q_f32(quat.v.data(), vnegq_f32(vld1q_f32(quat.v.data())));
+#  endif
+    }
+#endif
 
     template <typename T>
     constexpr auto& operator+=(Quaternion<T>& quat1,
@@ -107,6 +150,20 @@ namespace omath
         return quat1;
     }
 
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    inline auto& operator+=(Quaternion<float>& quat1,
+                            const Quaternion<float>& quat2) noexcept
+    {
+#  ifdef OMATH_SIMD_SSE
+        _mm_store_ps(quat1.v.data(), _mm_add_ps(_mm_load_ps(quat1.v.data()), _mm_load_ps(quat2.v.data())));
+#  elif defined(OMATH_SIMD_NEON)
+        vst1q_f32(quat1.v.data(), vaddq_f32(vld1q_f32(quat1.v.data()), vld1q_f32(quat2.v.data())));
+#  endif
+        return quat1;
+    }
+#endif
+
     template <typename T>
     [[nodiscard]] constexpr auto operator-(const Quaternion<T>& quat1,
                                            const Quaternion<T>& quat2) noexcept
@@ -119,6 +176,21 @@ namespace omath
         };
     }
 
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    [[nodiscard]] inline auto operator-(const Quaternion<float>& quat1,
+                                        const Quaternion<float>& quat2) noexcept
+    {
+        Quaternion<float> result;
+#  ifdef OMATH_SIMD_SSE
+        _mm_store_ps(result.v.data(), _mm_sub_ps(_mm_load_ps(quat1.v.data()), _mm_load_ps(quat2.v.data())));
+#  elif defined(OMATH_SIMD_NEON)
+        vst1q_f32(result.v.data(), vsubq_f32(vld1q_f32(quat1.v.data()), vld1q_f32(quat2.v.data())));
+#  endif
+        return result;
+    }
+#endif
+
     template <typename T>
     constexpr auto& operator-=(Quaternion<T>& quat1,
                                const Quaternion<T>& quat2) noexcept
@@ -130,6 +202,20 @@ namespace omath
 
         return quat1;
     }
+
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    inline auto& operator-=(Quaternion<float>& quat1,
+                            const Quaternion<float>& quat2) noexcept
+    {
+#  ifdef OMATH_SIMD_SSE
+        _mm_store_ps(quat1.v.data(), _mm_sub_ps(_mm_load_ps(quat1.v.data()), _mm_load_ps(quat2.v.data())));
+#  elif defined(OMATH_SIMD_NEON)
+        vst1q_f32(quat1.v.data(), vsubq_f32(vld1q_f32(quat1.v.data()), vld1q_f32(quat2.v.data())));
+#  endif
+        return quat1;
+    }
+#endif
 
     template <typename T>
     [[nodiscard]] constexpr auto operator*(const Quaternion<T>& quat1,
@@ -169,8 +255,26 @@ namespace omath
         };
     }
 
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    [[nodiscard]] inline auto operator*(const Quaternion<float>& quat,
+                                        const float scalar) noexcept
+    {
+        Quaternion<float> result;
+#  ifdef OMATH_SIMD_SSE
+        const auto s = _mm_set1_ps(scalar);
+        _mm_store_ps(result.v.data(), _mm_mul_ps(_mm_load_ps(quat.v.data()), s));
+#  elif defined(OMATH_SIMD_NEON)
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(result.v.data(), vmulq_f32(vld1q_f32(quat.v.data()), s));
+#  endif
+        return result;
+    }
+#endif
+
     template <typename T>
-    constexpr auto& operator*=(Quaternion<T>& quat, const T scalar) noexcept
+    constexpr auto& operator*=(Quaternion<T>& quat,
+                               const T scalar) noexcept
     {
         quat.v[0] *= scalar;
         quat.v[1] *= scalar;
@@ -180,8 +284,25 @@ namespace omath
         return quat;
     }
 
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    inline auto& operator*=(Quaternion<float>& quat,
+                            const float scalar) noexcept
+    {
+#  ifdef OMATH_SIMD_SSE
+        const auto s = _mm_set1_ps(scalar);
+        _mm_store_ps(quat.v.data(), _mm_mul_ps(_mm_load_ps(quat.v.data()), s));
+#  elif defined(OMATH_SIMD_NEON)
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(quat.v.data(), vmulq_f32(vld1q_f32(quat.v.data()), s));
+#  endif
+        return quat;
+    }
+#endif
+
     template <typename T>
-    [[nodiscard]] constexpr auto operator/(const Quaternion<T>& quat, const T scalar) noexcept
+    [[nodiscard]] constexpr auto operator/(const Quaternion<T>& quat,
+                                           const T scalar) noexcept
     {
         return Quaternion<T>{
             quat.v[0] / scalar,
@@ -191,8 +312,26 @@ namespace omath
         };
     }
 
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    [[nodiscard]] inline auto operator/(const Quaternion<float>& quat,
+                                        const float scalar) noexcept
+    {
+        Quaternion<float> result;
+#  ifdef OMATH_SIMD_SSE
+        const auto s = _mm_set1_ps(scalar);
+        _mm_store_ps(result.v.data(), _mm_div_ps(_mm_load_ps(quat.v.data()), s));
+#  elif defined(OMATH_SIMD_NEON)
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(result.v.data(), vdivq_f32(vld1q_f32(quat.v.data()), s));
+#  endif
+        return result;
+    }
+#endif
+
     template <typename T>
-    constexpr auto& operator/=(Quaternion<T>& quat, const T scalar) noexcept
+    constexpr auto& operator/=(Quaternion<T>& quat,
+                               const T scalar) noexcept
     {
         quat.v[0] /= scalar;
         quat.v[1] /= scalar;
@@ -201,6 +340,22 @@ namespace omath
 
         return quat;
     }
+
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    inline auto& operator/=(Quaternion<float>& quat,
+                            const float scalar) noexcept
+    {
+#  ifdef OMATH_SIMD_SSE
+        const auto s = _mm_set1_ps(scalar);
+        _mm_store_ps(quat.v.data(), _mm_div_ps(_mm_load_ps(quat.v.data()), s));
+#  elif defined(OMATH_SIMD_NEON)
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(quat.v.data(), vdivq_f32(vld1q_f32(quat.v.data()), s));
+#  endif
+        return quat;
+    }
+#endif
 }
 
 #endif

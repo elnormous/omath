@@ -123,6 +123,21 @@ namespace omath
         return result;
     }
 
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    inline auto operator-(const Vector<float, 4>& vector) noexcept
+    {
+        Vector<float, 4> result;
+#  ifdef OMATH_SIMD_SSE
+        const auto z = _mm_setzero_ps();
+        _mm_store_ps(result.v.data(), _mm_sub_ps(z, _mm_load_ps(vector.v.data())));
+#  elif defined(OMATH_SIMD_NEON)
+        vst1q_f32(result.v.data(), vnegq_f32(vld1q_f32(vector.v.data())));
+#  endif
+        return result;
+    }
+#endif
+
     template <typename T, std::size_t dims>
     [[nodiscard]] constexpr auto operator+(const Vector<T, dims>& vector1,
                                            const Vector<T, dims>& vector2) noexcept
@@ -133,11 +148,39 @@ namespace omath
         return result;
     }
 
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    [[nodiscard]] inline auto operator+(const Vector<float, 4>& vector1,
+                                        const Vector<float, 4>& vector2) noexcept
+    {
+        Vector<float, 4> result;
+#  ifdef OMATH_SIMD_SSE
+        _mm_store_ps(result.v.data(), _mm_add_ps(_mm_load_ps(vector1.v.data()), _mm_load_ps(vector2.v.data())));
+#  elif defined(OMATH_SIMD_NEON)
+        vst1q_f32(result.v.data(), vaddq_f32(vld1q_f32(vector1.v.data()), vld1q_f32(vector2.v.data())));
+#  endif
+        return result;
+    }
+#endif
+
     template <typename T, std::size_t dims>
     constexpr void negate(Vector<T, dims>& vector) noexcept
     {
         for (auto& c : vector.v) c = -c;
     }
+
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    inline void negate(Vector<float, 4>& vector) noexcept
+    {
+#  ifdef OMATH_SIMD_SSE
+        const auto z = _mm_setzero_ps();
+        _mm_store_ps(vector.v.data(), _mm_sub_ps(z, _mm_load_ps(vector.v.data())));
+#  elif defined(OMATH_SIMD_NEON)
+        vst1q_f32(vector.v.data(), vnegq_f32(vld1q_f32(vector.v.data())));
+#  endif
+    }
+#endif
 
     template <typename T, std::size_t dims>
     auto& operator+=(Vector<T, dims>& vector1,
@@ -147,6 +190,20 @@ namespace omath
             vector1.v[i] += vector2.v[i];
         return vector1;
     }
+
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    inline auto& operator+=(Vector<float, 4>& vector1,
+                            const Vector<float, 4>& vector2) noexcept
+    {
+#  ifdef OMATH_SIMD_SSE
+        _mm_store_ps(vector1.v.data(), _mm_add_ps(_mm_load_ps(vector1.v.data()), _mm_load_ps(vector2.v.data())));
+#  elif defined(OMATH_SIMD_NEON)
+        vst1q_f32(vector1.v.data(), vaddq_f32(vld1q_f32(vector1.v.data()), vld1q_f32(vector2.v.data())));
+#  endif
+        return vector1;
+    }
+#endif
 
     template <typename T, std::size_t dims>
     [[nodiscard]] constexpr auto operator-(const Vector<T, dims>& vector1,
@@ -158,6 +215,21 @@ namespace omath
         return result;
     }
 
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    [[nodiscard]] inline auto operator-(const Vector<float, 4>& vector1,
+                                        const Vector<float, 4>& vector2) noexcept
+    {
+        Vector<float, 4> result;
+#  ifdef OMATH_SIMD_SSE
+        _mm_store_ps(result.v.data(), _mm_sub_ps(_mm_load_ps(vector1.v.data()), _mm_load_ps(vector2.v.data())));
+#  elif defined(OMATH_SIMD_NEON)
+        vst1q_f32(result.v.data(), vsubq_f32(vld1q_f32(vector1.v.data()), vld1q_f32(vector2.v.data())));
+#  endif
+        return result;
+    }
+#endif
+
     template <typename T, std::size_t dims>
     auto& operator-=(Vector<T, dims>& vector1,
                      const Vector<T, dims>& vector2) noexcept
@@ -166,6 +238,20 @@ namespace omath
             vector1.v[i] -= vector2.v[i];
         return vector1;
     }
+
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    inline auto& operator-=(Vector<float, 4>& vector1,
+                            const Vector<float, 4>& vector2) noexcept
+    {
+#  ifdef OMATH_SIMD_SSE
+        _mm_store_ps(vector1.v.data(), _mm_sub_ps(_mm_load_ps(vector1.v.data()), _mm_load_ps(vector2.v.data())));
+#  elif defined(OMATH_SIMD_NEON)
+        vst1q_f32(vector1.v.data(), vsubq_f32(vld1q_f32(vector1.v.data()), vld1q_f32(vector2.v.data())));
+#  endif
+        return vector1;
+    }
+#endif
 
     template <typename T, std::size_t dims>
     [[nodiscard]] constexpr auto operator*(const Vector<T, dims>& vector,
@@ -177,12 +263,45 @@ namespace omath
         return result;
     }
 
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    [[nodiscard]] inline auto operator*(const Vector<float, 4>& vector,
+                                        const float scalar) noexcept
+    {
+        Vector<float, 4> result;
+#  ifdef OMATH_SIMD_SSE
+        const auto s = _mm_set1_ps(scalar);
+        _mm_store_ps(result.v.data(), _mm_mul_ps(_mm_load_ps(vector.v.data()), s));
+#  elif defined(OMATH_SIMD_NEON)
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(result.v.data(), vmulq_f32(vld1q_f32(vector.v.data()), s));
+#  endif
+        return result;
+    }
+#endif
+
     template <typename T, std::size_t dims>
     auto& operator*=(Vector<T, dims>& vector, const T scalar) noexcept
     {
         for (auto& c : vector.v) c *= scalar;
         return vector;
     }
+
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    inline auto& operator*=(Vector<float, 4>& vector,
+                            const float scalar) noexcept
+    {
+#  ifdef OMATH_SIMD_SSE
+        const auto s = _mm_set1_ps(scalar);
+        _mm_store_ps(vector.v.data(), _mm_mul_ps(_mm_load_ps(vector.v.data()), s));
+#  elif defined(OMATH_SIMD_NEON)
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(vector.v.data(), vmulq_f32(vld1q_f32(vector.v.data()), s));
+#  endif
+        return vector;
+    }
+#endif
 
     template <typename T, std::size_t dims>
     [[nodiscard]] constexpr auto operator/(const Vector<T, dims>& vector,
@@ -194,12 +313,45 @@ namespace omath
         return result;
     }
 
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    [[nodiscard]] inline auto operator/(const Vector<float, 4>& vector,
+                                        const float scalar) noexcept
+    {
+        Vector<float, 4> result;
+#  ifdef OMATH_SIMD_SSE
+        const auto s = _mm_set1_ps(scalar);
+        _mm_store_ps(result.v.data(), _mm_div_ps(_mm_load_ps(vector.v.data()), s));
+#  elif defined(OMATH_SIMD_NEON)
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(result.v.data(), vdivq_f32(vld1q_f32(vector.v.data()), s));
+#  endif
+        return result;
+    }
+#endif
+
     template <typename T, std::size_t dims>
     auto& operator/=(Vector<T, dims>& vector, const T scalar) noexcept
     {
         for (auto& c : vector.v) c /= scalar;
         return vector;
     }
+
+#ifdef OMATH_SIMD_AVAILABLE
+    template <>
+    inline auto& operator/=(Vector<float, 4>& vector,
+                            const float scalar) noexcept
+    {
+#  ifdef OMATH_SIMD_SSE
+        const auto s = _mm_set1_ps(scalar);
+        _mm_store_ps(vector.v.data(), _mm_div_ps(_mm_load_ps(vector.v.data()), s));
+#  elif defined(OMATH_SIMD_NEON)
+        const auto s = vdupq_n_f32(scalar);
+        vst1q_f32(vector.v.data(), vdivq_f32(vld1q_f32(vector.v.data()), s));
+#  endif
+        return vector;
+    }
+#endif
 
     template <typename T>
     [[nodiscard]] constexpr auto cross(const Vector<T, 3>& vector1,
