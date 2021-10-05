@@ -14,10 +14,7 @@ TEST_CASE("Plane value initalization", "plane")
         0.0F, 1.0F, 2.0F, 3.0F
     };
 
-    REQUIRE(plane[0] == 0.0F);
-    REQUIRE(plane[1] == 1.0F);
-    REQUIRE(plane[2] == 2.0F);
-    REQUIRE(plane[3] == 3.0F);
+    REQUIRE(plane == omath::Plane<float>{0.0F, 1.0F, 2.0F, 3.0F});
 }
 
 TEST_CASE("Plane accessors", "plane")

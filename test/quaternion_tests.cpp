@@ -14,10 +14,7 @@ TEST_CASE("Quaternion value initalization", "quaternion")
         0.0F, 1.0F, 2.0F, 3.0F
     };
 
-    REQUIRE(quaternion[0] == 0.0F);
-    REQUIRE(quaternion[1] == 1.0F);
-    REQUIRE(quaternion[2] == 2.0F);
-    REQUIRE(quaternion[3] == 3.0F);
+    REQUIRE(quaternion == omath::Quaternion<float>{0.0F, 1.0F, 2.0F, 3.0F});
 }
 
 TEST_CASE("Quaternion accessors", "quaternion")
@@ -36,10 +33,15 @@ TEST_CASE("Quaternion identity", "quaternion")
 {
     const auto quaternion = omath::identityQuaternion<float>();
 
-    REQUIRE(quaternion[0] == 0.0F);
-    REQUIRE(quaternion[1] == 0.0F);
-    REQUIRE(quaternion[2] == 0.0F);
-    REQUIRE(quaternion[3] == 1.0F);
+    REQUIRE(quaternion == omath::Quaternion<float>{0.0F, 0.0F, 0.0F, 1.0F});
+}
+
+TEST_CASE("Quaternion set identity", "quaternion")
+{
+    omath::Quaternion<float> quaternion{};
+    setIdentity(quaternion);
+
+    REQUIRE(quaternion == omath::Quaternion<float>{0.0F, 0.0F, 0.0F, 1.0F});
 }
 
 TEST_CASE("Quaternion comparison", "quaternion")

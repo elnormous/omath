@@ -14,8 +14,7 @@ TEST_CASE("Vector value initalization", "vector")
         0.0F, 1.0F
     };
 
-    REQUIRE(vector[0] == 0.0F);
-    REQUIRE(vector[1] == 1.0F);
+    REQUIRE(vector == omath::Vector<float, 2>{0.0F, 1.0F});
 }
 
 TEST_CASE("Vector accessors", "vector")

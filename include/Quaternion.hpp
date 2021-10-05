@@ -43,6 +43,12 @@ namespace omath
     }
 
     template <typename T>
+    constexpr void setIdentity(Quaternion<T>& quat) noexcept
+    {
+        quat.v = {T(0), T(0), T(0), T(1)};
+    }
+
+    template <typename T>
     [[nodiscard]] constexpr auto operator==(const Quaternion<T>& quat1,
                                             const Quaternion<T>& quat2) noexcept
     {
