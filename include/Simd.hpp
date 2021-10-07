@@ -16,6 +16,9 @@
 #  if defined(__ARM_NEON__)
 #    include <arm_neon.h>
 #    define OMATH_SIMD_NEON
+#    if defined(__x86_64__)
+#      define OMATH_SIMD_NEON64
+#    endif
 #  endif
 #endif
 
