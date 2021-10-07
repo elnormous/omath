@@ -1,4 +1,6 @@
 test_arm:
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
   tags:
     - arm
   stage: test
@@ -8,6 +10,8 @@ test_arm:
     - ./test
 
 test_x86_64:
+  variables:
+    GIT_SUBMODULE_STRATEGY: recursive
   tags:
     - x86_64
   stage: test
