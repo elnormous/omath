@@ -47,6 +47,12 @@
 		30A2D32F25B3B66100A0AFBD /* Vector.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Vector.hpp; sourceTree = "<group>"; };
 		30A2D33125B3BAF600A0AFBD /* Quaternion.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Quaternion.hpp; sourceTree = "<group>"; };
 		30A2D33325B5F3A700A0AFBD /* Plane.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Plane.hpp; sourceTree = "<group>"; };
+		30A4C1BF270EEDC700419C99 /* MatrixSse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MatrixSse.hpp; sourceTree = "<group>"; };
+		30A4C1C0270EEDD500419C99 /* MatrixNeon.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MatrixNeon.hpp; sourceTree = "<group>"; };
+		30A4C1C1270EF00900419C99 /* QuaternionSse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QuaternionSse.hpp; sourceTree = "<group>"; };
+		30A4C1C2270EF05E00419C99 /* QuaternionNeon.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QuaternionNeon.hpp; sourceTree = "<group>"; };
+		30A4C1C3270EF06D00419C99 /* VectorSse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VectorSse.hpp; sourceTree = "<group>"; };
+		30A4C1C4270EF07A00419C99 /* VectorNeon.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VectorNeon.hpp; sourceTree = "<group>"; };
 		C6C90FD321A5A24D00B5FCB7 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6C90FD621A5A24D00B5FCB7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,10 +88,16 @@
 			children = (
 				306B2B9125BA568F006878B6 /* Constants.hpp */,
 				30A2D32225B33B3700A0AFBD /* Matrix.hpp */,
+				30A4C1C0270EEDD500419C99 /* MatrixNeon.hpp */,
+				30A4C1BF270EEDC700419C99 /* MatrixSse.hpp */,
 				30A2D33325B5F3A700A0AFBD /* Plane.hpp */,
 				30A2D33125B3BAF600A0AFBD /* Quaternion.hpp */,
+				30A4C1C2270EF05E00419C99 /* QuaternionNeon.hpp */,
+				30A4C1C1270EF00900419C99 /* QuaternionSse.hpp */,
 				301E1F7B26E38D65003446C5 /* Simd.hpp */,
 				30A2D32F25B3B66100A0AFBD /* Vector.hpp */,
+				30A4C1C4270EF07A00419C99 /* VectorNeon.hpp */,
+				30A4C1C3270EF06D00419C99 /* VectorSse.hpp */,
 			);
 			name = include;
 			path = ../include;

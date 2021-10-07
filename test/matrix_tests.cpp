@@ -312,6 +312,25 @@ TEST_CASE("4x4 matrix negative", "matrix")
     });
 }
 
+TEST_CASE("4x4 double matrix negative", "matrix")
+{
+    const omath::Matrix<double, 4, 4> matrix{
+        0.0, 1.0, 2.0, 3.0,
+        2.0, -3.0, 4.0, 5.0,
+        3.0, 4.0, 5.0, 6.0,
+        4.0, 5.0, 6.0, 7.0
+    };
+
+    const auto result = -matrix;
+
+    REQUIRE(result == omath::Matrix<double, 4, 4>{
+        0.0, -1.0, -2.0, -3.0,
+        -2.0, 3.0, -4.0, -5.0,
+        -3.0, -4.0, -5.0, -6.0,
+        -4.0, -5.0, -6.0, -7.0
+    });
+}
+
 TEST_CASE("2x2 matrix negate", "matrix")
 {
     omath::Matrix<float, 2> matrix{
