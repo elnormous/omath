@@ -6,10 +6,7 @@
 #define OMATH_VECTOR_SSE
 
 #include "Simd.hpp"
-
-#ifndef OMATH_VECTOR
-#  error "Don't include this before Vector.hpp"
-#endif
+#include "Vector.hpp"
 
 #ifdef OMATH_SIMD_SSE
 #  include <xmmintrin.h>

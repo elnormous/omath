@@ -5,11 +5,8 @@
 #ifndef OMATH_MATRIX_SSE
 #define OMATH_MATRIX_SSE
 
+#include "Matrix.hpp"
 #include "Simd.hpp"
-
-#ifndef OMATH_MATRIX
-#  error "Don't include this before Matrix.hpp"
-#endif
 
 #ifdef OMATH_SIMD_SSE
 #  include <xmmintrin.h>

@@ -5,11 +5,8 @@
 #ifndef OMATH_MATRIX_NEON
 #define OMATH_MATRIX_NEON
 
+#include "Matrix.hpp"
 #include "Simd.hpp"
-
-#ifndef OMATH_MATRIX
-#  error "Don't include this before Matrix.hpp"
-#endif
 
 #ifdef OMATH_SIMD_NEON
 #  include <arm_neon.h>

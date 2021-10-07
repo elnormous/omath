@@ -5,11 +5,8 @@
 #ifndef OMATH_QUATERNION_SSE
 #define OMATH_QUATERNION_SSE
 
+#include "Quaternion.hpp"
 #include "Simd.hpp"
-
-#ifndef OMATH_QUATERNION
-#  error "Don't include this before Quaternion.hpp"
-#endif
 
 #ifdef OMATH_SIMD_SSE
 #  include <xmmintrin.h>

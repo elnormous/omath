@@ -5,11 +5,8 @@
 #ifndef OMATH_QUATERNION_NEON
 #define OMATH_QUATERNION_NEON
 
+#include "Quaternion.hpp"
 #include "Simd.hpp"
-
-#ifndef OMATH_QUATERNION
-#  error "Don't include this before Quaternion.hpp"
-#endif
 
 #ifdef OMATH_SIMD_NEON
 #  include <arm_neon.h>
