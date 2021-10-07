@@ -1,6 +1,15 @@
-test:
+test_arm:
   tags:
-    - docker
+    - arm
+  stage: test
+  script:
+    - cd test
+    - make -j2
+    - ./test
+
+test_x86_64:
+  tags:
+    - x86_64
   stage: test
   script:
     - cd test
