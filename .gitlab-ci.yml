@@ -1,0 +1,9 @@
+test:
+  tags:
+    - docker
+  stage: test
+  script:
+    - cd test
+    - make -j2
+    - ./test
+
