@@ -30,7 +30,9 @@
     <ClInclude Include="..\include\Constants.hpp" />
     <ClInclude Include="..\include\Matrix.hpp" />
     <ClInclude Include="..\include\MatrixNeon.hpp" />
+    <ClInclude Include="..\include\MatrixNeon64.hpp" />
     <ClInclude Include="..\include\MatrixSse.hpp" />
+    <ClInclude Include="..\include\MatrixSse2.hpp" />
     <ClInclude Include="..\include\Plane.hpp" />
     <ClInclude Include="..\include\Quaternion.hpp" />
     <ClInclude Include="..\include\QuaternionNeon.hpp" />

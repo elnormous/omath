@@ -78,41 +78,6 @@ namespace omath
         return result;
     }
 
-#ifdef OMATH_SIMD_SSE2
-    template <>
-    [[nodiscard]] inline auto operator-(const Matrix<double, 4, 4>& matrix) noexcept
-    {
-        Matrix<double, 4, 4> result;
-        const auto z = _mm_setzero_pd();
-        _mm_store_pd(&result.m[0], _mm_sub_pd(z, _mm_load_pd(&matrix.m[0])));
-        _mm_store_pd(&result.m[2], _mm_sub_pd(z, _mm_load_pd(&matrix.m[2])));
-        _mm_store_pd(&result.m[4], _mm_sub_pd(z, _mm_load_pd(&matrix.m[4])));
-        _mm_store_pd(&result.m[6], _mm_sub_pd(z, _mm_load_pd(&matrix.m[6])));
-        _mm_store_pd(&result.m[8], _mm_sub_pd(z, _mm_load_pd(&matrix.m[8])));
-        _mm_store_pd(&result.m[10], _mm_sub_pd(z, _mm_load_pd(&matrix.m[10])));
-        _mm_store_pd(&result.m[12], _mm_sub_pd(z, _mm_load_pd(&matrix.m[12])));
-        _mm_store_pd(&result.m[14], _mm_sub_pd(z, _mm_load_pd(&matrix.m[14])));
-        return result;
-    }
-#endif
-
-#ifdef OMATH_SIMD_NEON64
-    template <>
-    [[nodiscard]] inline auto operator-(const Matrix<double, 4, 4>& matrix) noexcept
-    {
-        Matrix<double, 4, 4> result;
-        vst1q_f64(&result.m[0], vnegq_f64(vld1q_f64(&matrix.m[0])));
-        vst1q_f64(&result.m[2], vnegq_f64(vld1q_f64(&matrix.m[2])));
-        vst1q_f64(&result.m[4], vnegq_f64(vld1q_f64(&matrix.m[4])));
-        vst1q_f64(&result.m[6], vnegq_f64(vld1q_f64(&matrix.m[6])));
-        vst1q_f64(&result.m[8], vnegq_f64(vld1q_f64(&matrix.m[8])));
-        vst1q_f64(&result.m[10], vnegq_f64(vld1q_f64(&matrix.m[10])));
-        vst1q_f64(&result.m[12], vnegq_f64(vld1q_f64(&matrix.m[12])));
-        vst1q_f64(&result.m[14], vnegq_f64(vld1q_f64(&matrix.m[14])));
-        return result;
-    }
-#endif
-
     template <typename T, std::size_t rows, std::size_t cols>
     constexpr void negate(Matrix<T, rows, cols>& matrix) noexcept
     {
@@ -532,6 +497,8 @@ namespace omath
 }
 
 #include "MatrixNeon.hpp"
+#include "MatrixNeon64.hpp"
 #include "MatrixSse.hpp"
+#include "MatrixSse2.hpp"
 
 #endif

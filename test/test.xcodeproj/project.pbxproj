@@ -48,6 +48,8 @@
 		30A4C1C3270EF06D00419C99 /* VectorSse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VectorSse.hpp; sourceTree = "<group>"; };
 		30A4C1C4270EF07A00419C99 /* VectorNeon.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VectorNeon.hpp; sourceTree = "<group>"; };
 		30A4C1DC270FA6EB00419C99 /* test no SIMD */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test no SIMD"; sourceTree = BUILT_PRODUCTS_DIR; };
+		30A4C1DF27112D8300419C99 /* MatrixSse2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MatrixSse2.hpp; sourceTree = "<group>"; };
+		30A4C1E027112FF700419C99 /* MatrixNeon64.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MatrixNeon64.hpp; sourceTree = "<group>"; };
 		C6C90FD321A5A24D00B5FCB7 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6C90FD621A5A24D00B5FCB7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -67,7 +69,9 @@
 				306B2B9125BA568F006878B6 /* Constants.hpp */,
 				30A2D32225B33B3700A0AFBD /* Matrix.hpp */,
 				30A4C1C0270EEDD500419C99 /* MatrixNeon.hpp */,
+				30A4C1E027112FF700419C99 /* MatrixNeon64.hpp */,
 				30A4C1BF270EEDC700419C99 /* MatrixSse.hpp */,
+				30A4C1DF27112D8300419C99 /* MatrixSse2.hpp */,
 				30A2D33325B5F3A700A0AFBD /* Plane.hpp */,
 				30A2D33125B3BAF600A0AFBD /* Quaternion.hpp */,
 				30A4C1C2270EF05E00419C99 /* QuaternionNeon.hpp */,
