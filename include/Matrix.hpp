@@ -215,7 +215,8 @@ namespace omath
 
     template <
         typename T, std::size_t dims,
-        std::size_t size
+        std::size_t size,
+        std::enable_if<(size <= dims)>* = nullptr
     >
     auto& operator*=(Vector<T, dims>& vector,
                      const Matrix<T, size, size>& matrix) noexcept
