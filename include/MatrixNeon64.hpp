@@ -102,6 +102,72 @@ namespace omath
         vst1q_f64(&matrix1.m[14], vsubq_f64(vld1q_f64(&matrix1.m[14]), vld1q_f64(&matrix2.m[14])));
         return matrix1;
     }
+
+    template <>
+    [[nodiscard]] inline auto operator*(const Matrix<double, 4, 4>& matrix,
+                                        const double scalar) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto s = vdupq_n_f64(scalar);
+        vst1q_f64(&result.m[0], vmulq_f64(vld1q_f64(&matrix.m[0]), s));
+        vst1q_f64(&result.m[2], vmulq_f64(vld1q_f64(&matrix.m[2]), s));
+        vst1q_f64(&result.m[4], vmulq_f64(vld1q_f64(&matrix.m[4]), s));
+        vst1q_f64(&result.m[6], vmulq_f64(vld1q_f64(&matrix.m[6]), s));
+        vst1q_f64(&result.m[8], vmulq_f64(vld1q_f64(&matrix.m[8]), s));
+        vst1q_f64(&result.m[10], vmulq_f64(vld1q_f64(&matrix.m[10]), s));
+        vst1q_f64(&result.m[12], vmulq_f64(vld1q_f64(&matrix.m[12]), s));
+        vst1q_f64(&result.m[14], vmulq_f64(vld1q_f64(&matrix.m[14]), s));
+        return result;
+    }
+
+    template <>
+    inline auto& operator*=(Matrix<double, 4, 4>& matrix,
+                            const double scalar) noexcept
+    {
+        const auto s = vdupq_n_f64(scalar);
+        vst1q_f64(&matrix.m[0], vmulq_f64(vld1q_f64(&matrix.m[0]), s));
+        vst1q_f64(&matrix.m[2], vmulq_f64(vld1q_f64(&matrix.m[2]), s));
+        vst1q_f64(&matrix.m[4], vmulq_f64(vld1q_f64(&matrix.m[4]), s));
+        vst1q_f64(&matrix.m[6], vmulq_f64(vld1q_f64(&matrix.m[6]), s));
+        vst1q_f64(&matrix.m[8], vmulq_f64(vld1q_f64(&matrix.m[8]), s));
+        vst1q_f64(&matrix.m[10], vmulq_f64(vld1q_f64(&matrix.m[10]), s));
+        vst1q_f64(&matrix.m[12], vmulq_f64(vld1q_f64(&matrix.m[12]), s));
+        vst1q_f64(&matrix.m[14], vmulq_f64(vld1q_f64(&matrix.m[14]), s));
+        return matrix;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator/(const Matrix<double, 4, 4>& matrix,
+                                        double scalar) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto s = vdupq_n_f64(scalar);
+        vst1q_f64(&result.m[0], vdivq_f64(vld1q_f64(&matrix.m[0]), s));
+        vst1q_f64(&result.m[2], vdivq_f64(vld1q_f64(&matrix.m[2]), s));
+        vst1q_f64(&result.m[4], vdivq_f64(vld1q_f64(&matrix.m[4]), s));
+        vst1q_f64(&result.m[6], vdivq_f64(vld1q_f64(&matrix.m[6]), s));
+        vst1q_f64(&result.m[8], vdivq_f64(vld1q_f64(&matrix.m[8]), s));
+        vst1q_f64(&result.m[10], vdivq_f64(vld1q_f64(&matrix.m[10]), s));
+        vst1q_f64(&result.m[12], vdivq_f64(vld1q_f64(&matrix.m[12]), s));
+        vst1q_f64(&result.m[14], vdivq_f64(vld1q_f64(&matrix.m[14]), s));
+        return result;
+    }
+
+    template <>
+    inline auto& operator/=(Matrix<double, 4, 4>& matrix,
+                            const double scalar) noexcept
+    {
+        const auto s = vdupq_n_f64(scalar);
+        vst1q_f64(&matrix.m[0], vdivq_f64(vld1q_f64(&matrix.m[0]), s));
+        vst1q_f64(&matrix.m[2], vdivq_f64(vld1q_f64(&matrix.m[2]), s));
+        vst1q_f64(&matrix.m[4], vdivq_f64(vld1q_f64(&matrix.m[4]), s));
+        vst1q_f64(&matrix.m[6], vdivq_f64(vld1q_f64(&matrix.m[6]), s));
+        vst1q_f64(&matrix.m[8], vdivq_f64(vld1q_f64(&matrix.m[8]), s));
+        vst1q_f64(&matrix.m[10], vdivq_f64(vld1q_f64(&matrix.m[10]), s));
+        vst1q_f64(&matrix.m[12], vdivq_f64(vld1q_f64(&matrix.m[12]), s));
+        vst1q_f64(&matrix.m[14], vdivq_f64(vld1q_f64(&matrix.m[14]), s));
+        return matrix;
+    }
 }
 
 #endif

@@ -706,37 +706,22 @@ TEST_CASE("4x4 matrix multiplication with scalar", "matrix")
     });
 }
 
-TEST_CASE("2x2 matrix divison with scalar", "matrix")
+TEST_CASE("4x4 double matrix multiplication with scalar", "matrix")
 {
-    const omath::Matrix<float, 2> matrix{
-        2.0F, 4.0F,
-        4.0F, 10.0F
+    const omath::Matrix<double, 4, 4> matrix{
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0,
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0
     };
 
-    const auto result = matrix / 2.0F;
+    const auto result = matrix * 2.0;
 
-    REQUIRE(result == omath::Matrix<float, 2, 2>{
-        1.0F, 2.0F,
-        2.0F, 5.0F
-    });
-}
-
-TEST_CASE("4x4 matrix divison with scalar", "matrix")
-{
-    const omath::Matrix<float, 4, 4> matrix{
-        0.0F, 2.0F, 0.0F, 2.0F,
-        2.0F, -4.0F, 2.0F, -4.0F,
-        0.0F, 2.0F, 0.0F, 2.0F,
-        2.0F, -4.0F, 2.0F, -4.0F
-    };
-
-    const auto result = matrix / 2.0F;
-
-    REQUIRE(result == omath::Matrix<float, 4, 4>{
-        0.0F, 1.0F, 0.0F, 1.0F,
-        1.0F, -2.0F, 1.0F, -2.0F,
-        0.0F, 1.0F, 0.0F, 1.0F,
-        1.0F, -2.0F, 1.0F, -2.0F
+    REQUIRE(result == omath::Matrix<double, 4, 4>{
+        0.0, 2.0, 0.0, 2.0,
+        4.0, -6.0, 4.0, -6.0,
+        0.0, 2.0, 0.0, 2.0,
+        4.0, -6.0, 4.0, -6.0
     });
 }
 
@@ -774,6 +759,78 @@ TEST_CASE("4x4 matrix multiplication assignment with scalar", "matrix")
     });
 }
 
+TEST_CASE("4x4 double matrix multiplication assignment with scalar", "matrix")
+{
+    omath::Matrix<double, 4, 4> matrix{
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0,
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0
+    };
+
+    matrix *= 2.0;
+
+    REQUIRE(matrix == omath::Matrix<double, 4, 4>{
+        0.0, 2.0, 0.0, 2.0,
+        4.0, -6.0, 4.0, -6.0,
+        0.0, 2.0, 0.0, 2.0,
+        4.0, -6.0, 4.0, -6.0
+    });
+}
+
+TEST_CASE("2x2 matrix divison with scalar", "matrix")
+{
+    const omath::Matrix<float, 2> matrix{
+        2.0F, 4.0F,
+        4.0F, 10.0F
+    };
+
+    const auto result = matrix / 2.0F;
+
+    REQUIRE(result == omath::Matrix<float, 2, 2>{
+        1.0F, 2.0F,
+        2.0F, 5.0F
+    });
+}
+
+TEST_CASE("4x4 matrix divison with scalar", "matrix")
+{
+    const omath::Matrix<float, 4, 4> matrix{
+        0.0F, 2.0F, 0.0F, 2.0F,
+        2.0F, -4.0F, 2.0F, -4.0F,
+        0.0F, 2.0F, 0.0F, 2.0F,
+        2.0F, -4.0F, 2.0F, -4.0F
+    };
+
+    const auto result = matrix / 2.0F;
+
+    REQUIRE(result == omath::Matrix<float, 4, 4>{
+        0.0F, 1.0F, 0.0F, 1.0F,
+        1.0F, -2.0F, 1.0F, -2.0F,
+        0.0F, 1.0F, 0.0F, 1.0F,
+        1.0F, -2.0F, 1.0F, -2.0F
+    });
+}
+
+TEST_CASE("4x4 double matrix divison with scalar", "matrix")
+{
+    const omath::Matrix<double, 4, 4> matrix{
+        0.0, 2.0, 0.0, 2.0,
+        2.0, -4.0, 2.0, -4.0,
+        0.0, 2.0, 0.0, 2.0,
+        2.0, -4.0, 2.0, -4.0
+    };
+
+    const auto result = matrix / 2.0;
+
+    REQUIRE(result == omath::Matrix<double, 4, 4>{
+        0.0, 1.0, 0.0, 1.0,
+        1.0, -2.0, 1.0, -2.0,
+        0.0, 1.0, 0.0, 1.0,
+        1.0, -2.0, 1.0, -2.0
+    });
+}
+
 TEST_CASE("2x2 matrix division assignment with scalar", "matrix")
 {
     omath::Matrix<float, 2> matrix{
@@ -805,6 +862,25 @@ TEST_CASE("4x4 matrix division assignment with scalar", "matrix")
         1.0F, -2.0F, 1.0F, -2.0F,
         0.0F, 1.0F, 0.0F, 1.0F,
         1.0F, -2.0F, 1.0F, -2.0F
+    });
+}
+
+TEST_CASE("4x4 double matrix divison assignment with scalar", "matrix")
+{
+    omath::Matrix<double, 4, 4> matrix{
+        0.0, 2.0, 0.0, 2.0,
+        2.0, -4.0, 2.0, -4.0,
+        0.0, 2.0, 0.0, 2.0,
+        2.0, -4.0, 2.0, -4.0
+    };
+
+    matrix /= 2.0;
+
+    REQUIRE(matrix == omath::Matrix<double, 4, 4>{
+        0.0, 1.0, 0.0, 1.0,
+        1.0, -2.0, 1.0, -2.0,
+        0.0, 1.0, 0.0, 1.0,
+        1.0, -2.0, 1.0, -2.0
     });
 }
 

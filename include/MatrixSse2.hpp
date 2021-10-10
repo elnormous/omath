@@ -104,6 +104,72 @@ namespace omath
         _mm_store_pd(&matrix1.m[14], _mm_sub_pd(_mm_load_pd(&matrix1.m[14]), _mm_load_pd(&matrix2.m[14])));
         return matrix1;
     }
+    
+    template <>
+    [[nodiscard]] inline auto operator*(const Matrix<double, 4, 4>& matrix,
+                                        const double scalar) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto s = _mm_set1_pd(scalar);
+        _mm_store_pd(&result.m[0], _mm_mul_pd(_mm_load_pd(&matrix.m[0]), s));
+        _mm_store_pd(&result.m[2], _mm_mul_pd(_mm_load_pd(&matrix.m[2]), s));
+        _mm_store_pd(&result.m[4], _mm_mul_pd(_mm_load_pd(&matrix.m[4]), s));
+        _mm_store_pd(&result.m[6], _mm_mul_pd(_mm_load_pd(&matrix.m[6]), s));
+        _mm_store_pd(&result.m[8], _mm_mul_pd(_mm_load_pd(&matrix.m[8]), s));
+        _mm_store_pd(&result.m[10], _mm_mul_pd(_mm_load_pd(&matrix.m[10]), s));
+        _mm_store_pd(&result.m[12], _mm_mul_pd(_mm_load_pd(&matrix.m[12]), s));
+        _mm_store_pd(&result.m[14], _mm_mul_pd(_mm_load_pd(&matrix.m[14]), s));
+        return result;
+    }
+
+    template <>
+    inline auto& operator*=(Matrix<double, 4, 4>& matrix,
+                            const double scalar) noexcept
+    {
+        const auto s = _mm_set1_pd(scalar);
+        _mm_store_pd(&matrix.m[0], _mm_mul_pd(_mm_load_pd(&matrix.m[0]), s));
+        _mm_store_pd(&matrix.m[2], _mm_mul_pd(_mm_load_pd(&matrix.m[2]), s));
+        _mm_store_pd(&matrix.m[4], _mm_mul_pd(_mm_load_pd(&matrix.m[4]), s));
+        _mm_store_pd(&matrix.m[6], _mm_mul_pd(_mm_load_pd(&matrix.m[6]), s));
+        _mm_store_pd(&matrix.m[8], _mm_mul_pd(_mm_load_pd(&matrix.m[8]), s));
+        _mm_store_pd(&matrix.m[10], _mm_mul_pd(_mm_load_pd(&matrix.m[10]), s));
+        _mm_store_pd(&matrix.m[12], _mm_mul_pd(_mm_load_pd(&matrix.m[12]), s));
+        _mm_store_pd(&matrix.m[14], _mm_mul_pd(_mm_load_pd(&matrix.m[14]), s));
+        return matrix;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator/(const Matrix<double, 4, 4>& matrix,
+                                        double scalar) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto s = _mm_set1_pd(scalar);
+        _mm_store_pd(&result.m[0], _mm_div_pd(_mm_load_pd(&matrix.m[0]), s));
+        _mm_store_pd(&result.m[2], _mm_div_pd(_mm_load_pd(&matrix.m[2]), s));
+        _mm_store_pd(&result.m[4], _mm_div_pd(_mm_load_pd(&matrix.m[4]), s));
+        _mm_store_pd(&result.m[6], _mm_div_pd(_mm_load_pd(&matrix.m[6]), s));
+        _mm_store_pd(&result.m[8], _mm_div_pd(_mm_load_pd(&matrix.m[8]), s));
+        _mm_store_pd(&result.m[10], _mm_div_pd(_mm_load_pd(&matrix.m[10]), s));
+        _mm_store_pd(&result.m[12], _mm_div_pd(_mm_load_pd(&matrix.m[12]), s));
+        _mm_store_pd(&result.m[14], _mm_div_pd(_mm_load_pd(&matrix.m[14]), s));
+        return result;
+    }
+
+    template <>
+    inline auto& operator/=(Matrix<double, 4, 4>& matrix,
+                            const double scalar) noexcept
+    {
+        const auto s = _mm_set1_pd(scalar);
+        _mm_store_pd(&matrix.m[0], _mm_div_pd(_mm_load_pd(&matrix.m[0]), s));
+        _mm_store_pd(&matrix.m[2], _mm_div_pd(_mm_load_pd(&matrix.m[2]), s));
+        _mm_store_pd(&matrix.m[4], _mm_div_pd(_mm_load_pd(&matrix.m[4]), s));
+        _mm_store_pd(&matrix.m[6], _mm_div_pd(_mm_load_pd(&matrix.m[6]), s));
+        _mm_store_pd(&matrix.m[8], _mm_div_pd(_mm_load_pd(&matrix.m[8]), s));
+        _mm_store_pd(&matrix.m[10], _mm_div_pd(_mm_load_pd(&matrix.m[10]), s));
+        _mm_store_pd(&matrix.m[12], _mm_div_pd(_mm_load_pd(&matrix.m[12]), s));
+        _mm_store_pd(&matrix.m[14], _mm_div_pd(_mm_load_pd(&matrix.m[14]), s));
+        return matrix;
+    }
 }
 
 #endif
