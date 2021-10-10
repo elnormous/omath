@@ -14,7 +14,7 @@
 #  endif
 #  if defined(__ARM_NEON__)
 #    define OMATH_SIMD_NEON
-#    if defined(__x86_64__)
+#    if defined(__aarch64__)
 #      define OMATH_SIMD_NEON64
 #    endif
 #  endif
