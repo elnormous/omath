@@ -430,6 +430,32 @@ TEST_CASE("4x4 matrix sum", "matrix")
     });
 }
 
+TEST_CASE("4x4 double matrix sum", "matrix")
+{
+    const omath::Matrix<double, 4, 4> matrix1{
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0,
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0
+    };
+
+    const omath::Matrix<double, 4, 4> matrix2{
+        5.0, -6.0, 5.0, -6.0,
+        7.0, 8.0, 7.0, 8.0,
+        5.0, -6.0, 5.0, -6.0,
+        7.0, 8.0, 7.0, 8.0
+    };
+
+    const auto result = matrix1 + matrix2;
+
+    REQUIRE(result == omath::Matrix<double, 4, 4>{
+        5.0, -5.0, 5.0, -5.0,
+        9.0, 5.0, 9.0, 5.0,
+        5.0, -5.0, 5.0, -5.0,
+        9.0, 5.0, 9.0, 5.0
+    });
+}
+
 TEST_CASE("2x2 matrix increment", "matrix")
 {
     omath::Matrix<float, 2> matrix1{
@@ -473,6 +499,32 @@ TEST_CASE("4x4 matrix increment", "matrix")
         9.0F, 5.0F, 9.0F, 5.0F,
         5.0F, -5.0F, 5.0F, -5.0F,
         9.0F, 5.0F, 9.0F, 5.0F
+    });
+}
+
+TEST_CASE("4x4 double matrix increment", "matrix")
+{
+    omath::Matrix<double, 4, 4> matrix1{
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0,
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0
+    };
+
+    const omath::Matrix<double, 4, 4> matrix2{
+        5.0, -6.0, 5.0, -6.0,
+        7.0, 8.0, 7.0, 8.0,
+        5.0, -6.0, 5.0, -6.0,
+        7.0, 8.0, 7.0, 8.0
+    };
+
+    matrix1 += matrix2;
+
+    REQUIRE(matrix1 == omath::Matrix<double, 4, 4>{
+        5.0, -5.0, 5.0, -5.0,
+        9.0, 5.0, 9.0, 5.0,
+        5.0, -5.0, 5.0, -5.0,
+        9.0, 5.0, 9.0, 5.0
     });
 }
 
@@ -522,6 +574,32 @@ TEST_CASE("4x4 matrix difference", "matrix")
     });
 }
 
+TEST_CASE("4x4 double matrix difference", "matrix")
+{
+    const omath::Matrix<double, 4, 4> matrix1{
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0,
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0
+    };
+
+    const omath::Matrix<double, 4, 4> matrix2{
+        5.0, -6.0, 5.0, -6.0,
+        7.0, 8.0, 7.0, 8.0,
+        5.0, -6.0, 5.0, -6.0,
+        7.0, 8.0, 7.0, 8.0
+    };
+
+    const auto result = matrix1 - matrix2;
+
+    REQUIRE(result == omath::Matrix<double, 4, 4>{
+        -5.0, 7.0, -5.0, 7.0,
+        -5.0, -11.0, -5.0, -11.0,
+        -5.0, 7.0, -5.0, 7.0,
+        -5.0, -11.0, -5.0, -11.0
+    });
+}
+
 TEST_CASE("2x2 matrix decrement", "matrix")
 {
     omath::Matrix<float, 2> matrix1{
@@ -565,6 +643,32 @@ TEST_CASE("4x4 matrix decrement", "matrix")
         -5.0F, -11.0F, -5.0F, -11.0F,
         -5.0F, 7.0F, -5.0F, 7.0F,
         -5.0F, -11.0F, -5.0F, -11.0F
+    });
+}
+
+TEST_CASE("4x4 double matrix decrement", "matrix")
+{
+    omath::Matrix<double, 4, 4> matrix1{
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0,
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0
+    };
+
+    const omath::Matrix<double, 4, 4> matrix2{
+        5.0, -6.0, 5.0, -6.0,
+        7.0, 8.0, 7.0, 8.0,
+        5.0, -6.0, 5.0, -6.0,
+        7.0, 8.0, 7.0, 8.0
+    };
+
+    matrix1 -= matrix2;
+
+    REQUIRE(matrix1 == omath::Matrix<double, 4, 4>{
+        -5.0, 7.0, -5.0, 7.0,
+        -5.0, -11.0, -5.0, -11.0,
+        -5.0, 7.0, -5.0, 7.0,
+        -5.0, -11.0, -5.0, -11.0
     });
 }
 
