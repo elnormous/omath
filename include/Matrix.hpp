@@ -242,23 +242,6 @@ namespace omath
         return result;
     }
 
-#ifdef OMATH_SIMD_SSE
-    template <>
-    [[nodiscard]] inline auto transposed(const Matrix<float, 4, 4>& matrix) noexcept
-    {
-        Matrix<float, 4, 4> result;
-        const auto tmp0 = _mm_shuffle_ps(_mm_load_ps(&matrix.m[0]), _mm_load_ps(&matrix.m[4]), _MM_SHUFFLE(1, 0, 1, 0));
-        const auto tmp1 = _mm_shuffle_ps(_mm_load_ps(&matrix.m[8]), _mm_load_ps(&matrix.m[12]), _MM_SHUFFLE(1, 0, 1, 0));
-        const auto tmp2 = _mm_shuffle_ps(_mm_load_ps(&matrix.m[0]), _mm_load_ps(&matrix.m[4]), _MM_SHUFFLE(3, 2, 3, 2));
-        const auto tmp3 = _mm_shuffle_ps(_mm_load_ps(&matrix.m[8]), _mm_load_ps(&matrix.m[12]), _MM_SHUFFLE(3, 2, 3, 2));
-        _mm_store_ps(&result.m[0], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(2, 0, 2, 0)));
-        _mm_store_ps(&result.m[4], _mm_shuffle_ps(tmp0, tmp1, _MM_SHUFFLE(3, 1, 3, 1)));
-        _mm_store_ps(&result.m[8], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(2, 0, 2, 0)));
-        _mm_store_ps(&result.m[12], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(3, 1, 3, 1)));
-        return result;
-    }
-#endif
-
     template <typename T, std::size_t size>
     void transpose(Matrix<T, size, size>& matrix) noexcept
     {
