@@ -170,6 +170,85 @@ namespace omath
     }
 
     template <>
+    [[nodiscard]] inline auto operator*(const Matrix<double, 4, 4>& matrix1,
+                                        const Matrix<double, 4, 4>& matrix2) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto row00 = vld1q_f64(&matrix1.m[0]);
+        const auto row01 = vld1q_f64(&matrix1.m[2]);
+        const auto row10 = vld1q_f64(&matrix1.m[4]);
+        const auto row11 = vld1q_f64(&matrix1.m[6]);
+        const auto row20 = vld1q_f64(&matrix1.m[8]);
+        const auto row21 = vld1q_f64(&matrix1.m[10]);
+        const auto row30 = vld1q_f64(&matrix1.m[12]);
+        const auto row31 = vld1q_f64(&matrix1.m[14]);
+
+        for (std::size_t i = 0; i < 4; ++i)
+        {
+            const auto e0 = vdupq_n_f64(matrix2.m[i * 4 + 0]);
+            const auto e1 = vdupq_n_f64(matrix2.m[i * 4 + 1]);
+            const auto e2 = vdupq_n_f64(matrix2.m[i * 4 + 2]);
+            const auto e3 = vdupq_n_f64(matrix2.m[i * 4 + 3]);
+
+            const auto v00 = vmulq_f64(row00, e0);
+            const auto v01 = vmulq_f64(row01, e0);
+            const auto v10 = vmulq_f64(row10, e1);
+            const auto v11 = vmulq_f64(row11, e1);
+            const auto v20 = vmulq_f64(row20, e2);
+            const auto v21 = vmulq_f64(row21, e2);
+            const auto v30 = vmulq_f64(row30, e3);
+            const auto v31 = vmulq_f64(row31, e3);
+
+            const auto a00 = vaddq_f64(v00, v10);
+            const auto a01 = vaddq_f64(v01, v11);
+            const auto a10 = vaddq_f64(v20, v30);
+            const auto a11 = vaddq_f64(v21, v31);
+            vst1q_f64(&result.m[i * 4 + 0], vaddq_f64(a00, a10));
+            vst1q_f64(&result.m[i * 4 + 2], vaddq_f64(a01, a11));
+        }
+        return result;
+    }
+
+    template <>
+    inline auto& operator*=(Matrix<double, 4, 4>& matrix1,
+                           const Matrix<double, 4, 4>& matrix2) noexcept
+    {
+        const auto row00 = vld1q_f64(&matrix1.m[0]);
+        const auto row01 = vld1q_f64(&matrix1.m[2]);
+        const auto row10 = vld1q_f64(&matrix1.m[4]);
+        const auto row11 = vld1q_f64(&matrix1.m[6]);
+        const auto row20 = vld1q_f64(&matrix1.m[8]);
+        const auto row21 = vld1q_f64(&matrix1.m[10]);
+        const auto row30 = vld1q_f64(&matrix1.m[12]);
+        const auto row31 = vld1q_f64(&matrix1.m[14]);
+
+        for (std::size_t i = 0; i < 4; ++i)
+        {
+            const auto e0 = vdupq_n_f64(matrix2.m[i * 4 + 0]);
+            const auto e1 = vdupq_n_f64(matrix2.m[i * 4 + 1]);
+            const auto e2 = vdupq_n_f64(matrix2.m[i * 4 + 2]);
+            const auto e3 = vdupq_n_f64(matrix2.m[i * 4 + 3]);
+
+            const auto v00 = vmulq_f64(row00, e0);
+            const auto v01 = vmulq_f64(row01, e0);
+            const auto v10 = vmulq_f64(row10, e1);
+            const auto v11 = vmulq_f64(row11, e1);
+            const auto v20 = vmulq_f64(row20, e2);
+            const auto v21 = vmulq_f64(row21, e2);
+            const auto v30 = vmulq_f64(row30, e3);
+            const auto v31 = vmulq_f64(row31, e3);
+
+            const auto a00 = vaddq_f64(v00, v10);
+            const auto a01 = vaddq_f64(v01, v11);
+            const auto a10 = vaddq_f64(v20, v30);
+            const auto a11 = vaddq_f64(v21, v31);
+            vst1q_f64(&matrix1.m[i * 4 + 0], vaddq_f64(a00, a10));
+            vst1q_f64(&matrix1.m[i * 4 + 2], vaddq_f64(a01, a11));
+        }
+        return matrix1;
+    }
+
+    template <>
     [[nodiscard]] inline auto transposed(const Matrix<double, 4, 4>& matrix) noexcept
     {
         Matrix<double, 4, 4> result;

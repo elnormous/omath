@@ -1046,6 +1046,32 @@ TEST_CASE("4x4 matrix multiplication", "matrix")
     });
 }
 
+TEST_CASE("4x4 double matrix multiplication", "matrix")
+{
+    const omath::Matrix<double, 4, 4> matrix1{
+        1.0, 2.0, 3.0, 4.0,
+        5.0, 6.0, 7.0, 8.0,
+        1.0, 2.0, 3.0, 4.0,
+        5.0, 6.0, 7.0, 8.0
+    };
+
+    const omath::Matrix<double, 4, 4> matrix2{
+        1.0, 2.0, 3.0, 4.0,
+        5.0, 6.0, 7.0, 8.0,
+        1.0, 2.0, 3.0, 4.0,
+        5.0, 6.0, 7.0, 8.0
+    };
+
+    const omath::Matrix<double, 4, 4> result = matrix1 * matrix2;
+
+    REQUIRE(result == omath::Matrix<double, 4, 4>{
+        34.0, 44.0, 54.0, 64.0,
+        82.0, 108.0, 134.0, 160.0,
+        34.0, 44.0, 54.0, 64.0,
+        82.0, 108.0, 134.0, 160.0
+    });
+}
+
 TEST_CASE("4x4 matrix multiplication with 4x1 matrix", "matrix")
 {
     const omath::Matrix<float, 4, 4> matrix1{
@@ -1125,6 +1151,32 @@ TEST_CASE("4x4 matrix multiplication assignment", "matrix")
         82.0F, 108.0F, 134.0F, 160.0F,
         34.0F, 44.0F, 54.0F, 64.0F,
         82.0F, 108.0F, 134.0F, 160.0F
+    });
+}
+
+TEST_CASE("4x4 double matrix multiplication assignment", "matrix")
+{
+    omath::Matrix<double, 4, 4> matrix1{
+        1.0, 2.0, 3.0, 4.0,
+        5.0, 6.0, 7.0, 8.0,
+        1.0, 2.0, 3.0, 4.0,
+        5.0, 6.0, 7.0, 8.0
+    };
+
+    const omath::Matrix<double, 4, 4> matrix2{
+        1.0, 2.0, 3.0, 4.0,
+        5.0, 6.0, 7.0, 8.0,
+        1.0, 2.0, 3.0, 4.0,
+        5.0, 6.0, 7.0, 8.0
+    };
+
+    matrix1 *= matrix2;
+
+    REQUIRE(matrix1 == omath::Matrix<double, 4, 4>{
+        34.0, 44.0, 54.0, 64.0,
+        82.0, 108.0, 134.0, 160.0,
+        34.0, 44.0, 54.0, 64.0,
+        82.0, 108.0, 134.0, 160.0
     });
 }
 
