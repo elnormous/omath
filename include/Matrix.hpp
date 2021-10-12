@@ -179,12 +179,14 @@ namespace omath
                      const Matrix<T, size, size>& matrix2) noexcept
     {
         const auto temp = matrix1.m;
-        matrix1.m = {};
+        std::array<T, size * size> result{};
 
         for (std::size_t i = 0; i < size; ++i)
             for (std::size_t j = 0; j < size; ++j)
                 for (std::size_t k = 0; k < size; ++k)
-                    matrix1.m[i * size + j] += temp[i * size + k] * matrix2.m[k * size + j];
+                    result[i * size + j] += temp[i * size + k] * matrix2.m[k * size + j];
+
+        matrix1.m = result;
 
         return matrix1;
     }

@@ -1128,6 +1128,21 @@ TEST_CASE("2x2 matrix multiplication assignment", "matrix")
     });
 }
 
+TEST_CASE("2x2 matrix multiplication assignment with itself", "matrix")
+{
+    omath::Matrix<float, 2> matrix1{
+        2.0F, 3.0F,
+        4.0F, 5.0F
+    };
+
+    matrix1 *= matrix1;
+
+    REQUIRE(matrix1 == omath::Matrix<float, 2, 2>{
+        16.0F, 21.0F,
+        28.0F, 37.0F
+    });
+}
+
 TEST_CASE("4x4 matrix multiplication assignment", "matrix")
 {
     omath::Matrix<float, 4, 4> matrix1{
