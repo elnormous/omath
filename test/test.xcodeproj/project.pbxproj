@@ -13,6 +13,12 @@
 		306B2B8625B8EAC4006878B6 /* matrix_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */; };
 		306B2B8A25B8EAF5006878B6 /* plane_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8925B8EAF5006878B6 /* plane_tests.cpp */; };
 		306B2B8E25B8EB24006878B6 /* quaternion_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8D25B8EB24006878B6 /* quaternion_tests.cpp */; };
+		307604ED2715E8350014D6A6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C90FD621A5A24D00B5FCB7 /* main.cpp */; };
+		307604EE2715E8350014D6A6 /* matrix_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */; };
+		307604EF2715E8350014D6A6 /* quaternion_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8D25B8EB24006878B6 /* quaternion_tests.cpp */; };
+		307604F02715E8350014D6A6 /* plane_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8925B8EAF5006878B6 /* plane_tests.cpp */; };
+		307604F12715E8350014D6A6 /* include_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30344C002705108300061DF6 /* include_test.cpp */; };
+		307604F22715E8350014D6A6 /* vector_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303E87A725223DDF008B7E24 /* vector_tests.cpp */; };
 		308C2A0526D1E3BD00E65A63 /* quaternion_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8D25B8EB24006878B6 /* quaternion_tests.cpp */; };
 		308C2A0626D1E3BD00E65A63 /* vector_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303E87A725223DDF008B7E24 /* vector_tests.cpp */; };
 		308C2A0726D1E3BD00E65A63 /* matrix_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */; };
@@ -35,6 +41,8 @@
 		306B2B8925B8EAF5006878B6 /* plane_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = plane_tests.cpp; sourceTree = "<group>"; };
 		306B2B8D25B8EB24006878B6 /* quaternion_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = quaternion_tests.cpp; sourceTree = "<group>"; };
 		306B2B9125BA568F006878B6 /* Constants.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Constants.hpp; sourceTree = "<group>"; };
+		307604EA2715DA6B0014D6A6 /* MatrixAvx.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MatrixAvx.hpp; sourceTree = "<group>"; };
+		307604F62715E8350014D6A6 /* test AVX */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test AVX"; sourceTree = BUILT_PRODUCTS_DIR; };
 		308C29EC26D1E37500E65A63 /* test iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		308C29FF26D1E37700E65A63 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30A2D32225B33B3700A0AFBD /* Matrix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Matrix.hpp; sourceTree = "<group>"; };
@@ -68,6 +76,7 @@
 			children = (
 				306B2B9125BA568F006878B6 /* Constants.hpp */,
 				30A2D32225B33B3700A0AFBD /* Matrix.hpp */,
+				307604EA2715DA6B0014D6A6 /* MatrixAvx.hpp */,
 				30A4C1C0270EEDD500419C99 /* MatrixNeon.hpp */,
 				30A4C1E027112FF700419C99 /* MatrixNeon64.hpp */,
 				30A4C1BF270EEDC700419C99 /* MatrixSse.hpp */,
@@ -106,6 +115,7 @@
 				C6C90FD321A5A24D00B5FCB7 /* test */,
 				308C29EC26D1E37500E65A63 /* test iOS.app */,
 				30A4C1DC270FA6EB00419C99 /* test no SIMD */,
+				307604F62715E8350014D6A6 /* test AVX */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -113,6 +123,21 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		307604EB2715E8350014D6A6 /* test AVX */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 307604F32715E8350014D6A6 /* Build configuration list for PBXNativeTarget "test AVX" */;
+			buildPhases = (
+				307604EC2715E8350014D6A6 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "test AVX";
+			productName = WebsocketTest;
+			productReference = 307604F62715E8350014D6A6 /* test AVX */;
+			productType = "com.apple.product-type.tool";
+		};
 		308C29EB26D1E37500E65A63 /* test iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 308C2A0226D1E37700E65A63 /* Build configuration list for PBXNativeTarget "test iOS" */;
@@ -191,11 +216,25 @@
 				C6C90FD221A5A24D00B5FCB7 /* test */,
 				308C29EB26D1E37500E65A63 /* test iOS */,
 				30A4C1CF270FA6EB00419C99 /* test no SIMD */,
+				307604EB2715E8350014D6A6 /* test AVX */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		307604EC2715E8350014D6A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				307604ED2715E8350014D6A6 /* main.cpp in Sources */,
+				307604EE2715E8350014D6A6 /* matrix_tests.cpp in Sources */,
+				307604EF2715E8350014D6A6 /* quaternion_tests.cpp in Sources */,
+				307604F02715E8350014D6A6 /* plane_tests.cpp in Sources */,
+				307604F12715E8350014D6A6 /* include_test.cpp in Sources */,
+				307604F22715E8350014D6A6 /* vector_tests.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		308C29E826D1E37500E65A63 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -238,6 +277,22 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		307604F42715E8350014D6A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "-mavx";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		307604F52715E8350014D6A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "-mavx";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		308C2A0326D1E37700E65A63 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -464,6 +519,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		307604F32715E8350014D6A6 /* Build configuration list for PBXNativeTarget "test AVX" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				307604F42715E8350014D6A6 /* Debug */,
+				307604F52715E8350014D6A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		308C2A0226D1E37700E65A63 /* Build configuration list for PBXNativeTarget "test iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
