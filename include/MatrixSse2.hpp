@@ -8,7 +8,7 @@
 #include "Matrix.hpp"
 #include "Simd.hpp"
 
-#if defined(OMATH_SIMD_SSE) && !defined(OMATH_SIMD_AVX)
+#if defined(OMATH_SIMD_SSE2) && !defined(OMATH_SIMD_AVX)
 #  include <xmmintrin.h>
 
 namespace omath
