@@ -150,6 +150,24 @@ TEST_CASE("4x4 matrix transpose", "matrix")
     });
 }
 
+TEST_CASE("4x4 double matrix transpose", "matrix")
+{
+    omath::Matrix<double, 4, 4> matrix{
+        1.0, 2.0, 3.0, 4.0,
+        5.0, 6.0, 7.0, 8.0,
+        9.0, 10.0, 11.0, 12.0,
+        13.0, 14.0, 15.0, 16.0
+    };
+    transpose(matrix);
+
+    REQUIRE(matrix == omath::Matrix<double, 4, 4>{
+        1.0, 5.0, 9.0, 13.0,
+        2.0, 6.0, 10.0, 14.0,
+        3.0, 7.0, 11.0, 15.0,
+        4.0, 8.0, 12.0, 16.0
+    });
+}
+
 TEST_CASE("1x1 matrix transposed", "matrix")
 {
     const omath::Matrix<float, 1> matrix{1.0F};
@@ -233,6 +251,24 @@ TEST_CASE("4x4 matrix transposed", "matrix")
         2.0F, 6.0F, 10.0F, 14.0F,
         3.0F, 7.0F, 11.0F, 15.0F,
         4.0F, 8.0F, 12.0F, 16.0F
+    });
+}
+
+TEST_CASE("4x4 double matrix transposed", "matrix")
+{
+    const omath::Matrix<double, 4, 4> matrix{
+        1.0, 2.0, 3.0, 4.0,
+        5.0, 6.0, 7.0, 8.0,
+        9.0, 10.0, 11.0, 12.0,
+        13.0, 14.0, 15.0, 16.0
+    };
+    const omath::Matrix<double, 4, 4> result = transposed(matrix);
+
+    REQUIRE(result == omath::Matrix<double, 4, 4>{
+        1.0, 5.0, 9.0, 13.0,
+        2.0, 6.0, 10.0, 14.0,
+        3.0, 7.0, 11.0, 15.0,
+        4.0, 8.0, 12.0, 16.0
     });
 }
 

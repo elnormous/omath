@@ -170,6 +170,52 @@ namespace omath
         _mm_store_pd(&matrix.m[14], _mm_div_pd(_mm_load_pd(&matrix.m[14]), s));
         return matrix;
     }
+
+    template <>
+    [[nodiscard]] inline auto transposed(const Matrix<double, 4, 4>& matrix) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto tmp00 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[0]), _mm_load_pd(&matrix.m[4]), _MM_SHUFFLE2(0, 0));
+        const auto tmp01 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[8]), _mm_load_pd(&matrix.m[12]), _MM_SHUFFLE2(0, 0));
+        const auto tmp10 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[0]), _mm_load_pd(&matrix.m[4]), _MM_SHUFFLE2(1, 1));
+        const auto tmp11 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[8]), _mm_load_pd(&matrix.m[12]), _MM_SHUFFLE2(1, 1));
+        const auto tmp20 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[2]), _mm_load_pd(&matrix.m[6]), _MM_SHUFFLE2(0, 0));
+        const auto tmp21 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[10]), _mm_load_pd(&matrix.m[14]), _MM_SHUFFLE2(0, 0));
+        const auto tmp30 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[2]), _mm_load_pd(&matrix.m[6]), _MM_SHUFFLE2(1, 1));
+        const auto tmp31 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[10]), _mm_load_pd(&matrix.m[14]), _MM_SHUFFLE2(1, 1));
+
+        _mm_store_pd(&result.m[0], tmp00);
+        _mm_store_pd(&result.m[2], tmp01);
+        _mm_store_pd(&result.m[4], tmp10);
+        _mm_store_pd(&result.m[6], tmp11);
+        _mm_store_pd(&result.m[8], tmp20);
+        _mm_store_pd(&result.m[10], tmp21);
+        _mm_store_pd(&result.m[12], tmp30);
+        _mm_store_pd(&result.m[14], tmp31);
+        return result;
+    }
+
+    template <>
+    inline void transpose(Matrix<double, 4, 4>& matrix) noexcept
+    {
+        const auto tmp00 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[0]), _mm_load_pd(&matrix.m[4]), _MM_SHUFFLE2(0, 0));
+        const auto tmp01 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[8]), _mm_load_pd(&matrix.m[12]), _MM_SHUFFLE2(0, 0));
+        const auto tmp10 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[0]), _mm_load_pd(&matrix.m[4]), _MM_SHUFFLE2(1, 1));
+        const auto tmp11 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[8]), _mm_load_pd(&matrix.m[12]), _MM_SHUFFLE2(1, 1));
+        const auto tmp20 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[2]), _mm_load_pd(&matrix.m[6]), _MM_SHUFFLE2(0, 0));
+        const auto tmp21 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[10]), _mm_load_pd(&matrix.m[14]), _MM_SHUFFLE2(0, 0));
+        const auto tmp30 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[2]), _mm_load_pd(&matrix.m[6]), _MM_SHUFFLE2(1, 1));
+        const auto tmp31 = _mm_shuffle_pd(_mm_load_pd(&matrix.m[10]), _mm_load_pd(&matrix.m[14]), _MM_SHUFFLE2(1, 1));
+
+        _mm_store_pd(&matrix.m[0], tmp00);
+        _mm_store_pd(&matrix.m[2], tmp01);
+        _mm_store_pd(&matrix.m[4], tmp10);
+        _mm_store_pd(&matrix.m[6], tmp11);
+        _mm_store_pd(&matrix.m[8], tmp20);
+        _mm_store_pd(&matrix.m[10], tmp21);
+        _mm_store_pd(&matrix.m[12], tmp30);
+        _mm_store_pd(&matrix.m[14], tmp31);
+    }
 }
 
 #endif
