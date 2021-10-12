@@ -168,6 +168,52 @@ namespace omath
         vst1q_f64(&matrix.m[14], vdivq_f64(vld1q_f64(&matrix.m[14]), s));
         return matrix;
     }
+
+    template <>
+    [[nodiscard]] inline auto transposed(const Matrix<double, 4, 4>& matrix) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto tmp00 = vld1q_f64(&matrix.m[0]);
+        const auto tmp01 = vld1q_f64(&matrix.m[2]);
+        const auto tmp10 = vld1q_f64(&matrix.m[4]);
+        const auto tmp11 = vld1q_f64(&matrix.m[6]);
+        const auto tmp20 = vld1q_f64(&matrix.m[8]);
+        const auto tmp21 = vld1q_f64(&matrix.m[10]);
+        const auto tmp30 = vld1q_f64(&matrix.m[12]);
+        const auto tmp31 = vld1q_f64(&matrix.m[14]);
+
+        vst1q_f64(&result.m[0], vtrn1q_f64(tmp00, tmp10));
+        vst1q_f64(&result.m[2], vtrn1q_f64(tmp20, tmp30));
+        vst1q_f64(&result.m[4], vtrn2q_f64(tmp00, tmp10));
+        vst1q_f64(&result.m[6], vtrn2q_f64(tmp20, tmp30));
+        vst1q_f64(&result.m[8], vtrn1q_f64(tmp01, tmp11));
+        vst1q_f64(&result.m[10], vtrn1q_f64(tmp21, tmp31));
+        vst1q_f64(&result.m[12], vtrn2q_f64(tmp01, tmp11));
+        vst1q_f64(&result.m[14], vtrn2q_f64(tmp21, tmp31));
+        return result;
+    }
+
+    template <>
+    inline void transpose(Matrix<double, 4, 4>& matrix) noexcept
+    {
+        const auto tmp00 = vld1q_f64(&matrix.m[0]);
+        const auto tmp01 = vld1q_f64(&matrix.m[2]);
+        const auto tmp10 = vld1q_f64(&matrix.m[4]);
+        const auto tmp11 = vld1q_f64(&matrix.m[6]);
+        const auto tmp20 = vld1q_f64(&matrix.m[8]);
+        const auto tmp21 = vld1q_f64(&matrix.m[10]);
+        const auto tmp30 = vld1q_f64(&matrix.m[12]);
+        const auto tmp31 = vld1q_f64(&matrix.m[14]);
+
+        vst1q_f64(&matrix.m[0], vtrn1q_f64(tmp00, tmp10));
+        vst1q_f64(&matrix.m[2], vtrn1q_f64(tmp20, tmp30));
+        vst1q_f64(&matrix.m[4], vtrn2q_f64(tmp00, tmp10));
+        vst1q_f64(&matrix.m[6], vtrn2q_f64(tmp20, tmp30));
+        vst1q_f64(&matrix.m[8], vtrn1q_f64(tmp01, tmp11));
+        vst1q_f64(&matrix.m[10], vtrn1q_f64(tmp21, tmp31));
+        vst1q_f64(&matrix.m[12], vtrn2q_f64(tmp01, tmp11));
+        vst1q_f64(&matrix.m[14], vtrn2q_f64(tmp21, tmp31));
+    }
 }
 
 #endif
