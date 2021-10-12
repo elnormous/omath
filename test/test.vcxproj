@@ -29,6 +29,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\Constants.hpp" />
     <ClInclude Include="..\include\Matrix.hpp" />
+    <ClInclude Include="..\include\MatrixAvx.hpp" />
     <ClInclude Include="..\include\MatrixNeon.hpp" />
     <ClInclude Include="..\include\MatrixNeon64.hpp" />
     <ClInclude Include="..\include\MatrixSse.hpp" />

@@ -20,6 +20,9 @@
     <ClInclude Include="..\include\Matrix.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\MatrixAvx.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
     <ClInclude Include="..\include\MatrixNeon.hpp">
       <Filter>include</Filter>
     </ClInclude>
