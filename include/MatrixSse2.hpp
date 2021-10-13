@@ -8,11 +8,12 @@
 #include "Matrix.hpp"
 #include "Simd.hpp"
 
-#if defined(OMATH_SIMD_SSE2) && !defined(OMATH_SIMD_AVX)
+#ifdef OMATH_SIMD_SSE2
 #  include <xmmintrin.h>
 
 namespace omath
 {
+#  ifndef OMATH_SIMD_AVX
     template <>
     [[nodiscard]] inline auto operator-(const Matrix<double, 4, 4>& matrix) noexcept
     {
@@ -281,6 +282,7 @@ namespace omath
         }
         return matrix1;
     }
+#  endif
 
     template <>
     [[nodiscard]] inline auto transposed(const Matrix<double, 4, 4>& matrix) noexcept

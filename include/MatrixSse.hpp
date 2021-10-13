@@ -13,6 +13,7 @@
 
 namespace omath
 {
+#  ifndef OMATH_SIMD_AVX
     template <>
     [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4>& matrix) noexcept
     {
@@ -146,6 +147,7 @@ namespace omath
         _mm_store_ps(&matrix.m[12], _mm_div_ps(_mm_load_ps(&matrix.m[12]), s));
         return matrix;
     }
+#  endif
 
     template <>
     [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix1,

@@ -14,6 +14,112 @@
 namespace omath
 {
     template <>
+    [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4>& matrix) noexcept
+    {
+        Matrix<float, 4, 4> result;
+        const auto z = _mm256_setzero_ps();
+        _mm256_store_ps(&result.m[0], _mm256_sub_ps(z, _mm256_load_ps(&matrix.m[0])));
+        _mm256_store_ps(&result.m[8], _mm256_sub_ps(z, _mm256_load_ps(&matrix.m[8])));
+        return result;
+    }
+
+    template <>
+    inline void negate(Matrix<float, 4, 4>& matrix) noexcept
+    {
+        const auto z = _mm256_setzero_ps();
+        _mm256_store_ps(&matrix.m[0], _mm256_sub_ps(z, _mm256_load_ps(&matrix.m[0])));
+        _mm256_store_ps(&matrix.m[8], _mm256_sub_ps(z, _mm256_load_ps(&matrix.m[8])));
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator+(const Matrix<float, 4, 4>& matrix1,
+                                        const Matrix<float, 4, 4>& matrix2) noexcept
+    {
+        Matrix<float, 4, 4> result;
+        _mm256_store_ps(&result.m[0], _mm256_add_ps(_mm256_load_ps(&matrix1.m[0]),
+                                                    _mm256_load_ps(&matrix2.m[0])));
+        _mm256_store_ps(&result.m[8], _mm256_add_ps(_mm256_load_ps(&matrix1.m[8]),
+                                                    _mm256_load_ps(&matrix2.m[8])));
+        return result;
+    }
+
+    template <>
+    inline auto& operator+=(Matrix<float, 4, 4>& matrix1,
+                            const Matrix<float, 4, 4>& matrix2) noexcept
+    {
+        _mm256_store_ps(&matrix1.m[0], _mm256_add_ps(_mm256_load_ps(&matrix1.m[0]),
+                                                     _mm256_load_ps(&matrix2.m[0])));
+        _mm256_store_ps(&matrix1.m[8], _mm256_add_ps(_mm256_load_ps(&matrix1.m[8]),
+                                                     _mm256_load_ps(&matrix2.m[8])));
+        return matrix1;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4>& matrix1,
+                                        const Matrix<float, 4, 4>& matrix2) noexcept
+    {
+        Matrix<float, 4, 4> result;
+        _mm256_store_ps(&result.m[0], _mm256_sub_ps(_mm256_load_ps(&matrix1.m[0]),
+                                                    _mm256_load_ps(&matrix2.m[0])));
+        _mm256_store_ps(&result.m[8], _mm256_sub_ps(_mm256_load_ps(&matrix1.m[8]),
+                                                    _mm256_load_ps(&matrix2.m[8])));
+        return result;
+    }
+
+    template <>
+    inline auto& operator-=(Matrix<float, 4, 4>& matrix1,
+                            const Matrix<float, 4, 4>& matrix2) noexcept
+    {
+        _mm256_store_ps(&matrix1.m[0], _mm256_sub_ps(_mm256_load_ps(&matrix1.m[0]),
+                                                     _mm256_load_ps(&matrix2.m[0])));
+        _mm256_store_ps(&matrix1.m[8], _mm256_sub_ps(_mm256_load_ps(&matrix1.m[8]),
+                                                     _mm256_load_ps(&matrix2.m[8])));
+        return matrix1;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix,
+                                        const float scalar) noexcept
+    {
+        Matrix<float, 4, 4> result;
+        const auto s = _mm256_set1_ps(scalar);
+        _mm256_store_ps(&result.m[0], _mm256_mul_ps(_mm256_load_ps(&matrix.m[0]), s));
+        _mm256_store_ps(&result.m[8], _mm256_mul_ps(_mm256_load_ps(&matrix.m[8]), s));
+        return result;
+    }
+
+    template <>
+    inline auto& operator*=(Matrix<float, 4, 4>& matrix,
+                            const float scalar) noexcept
+    {
+        const auto s = _mm256_set1_ps(scalar);
+        _mm256_store_ps(&matrix.m[0], _mm256_mul_ps(_mm256_load_ps(&matrix.m[0]), s));
+        _mm256_store_ps(&matrix.m[8], _mm256_mul_ps(_mm256_load_ps(&matrix.m[8]), s));
+        return matrix;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator/(const Matrix<float, 4, 4>& matrix,
+                                        float scalar) noexcept
+    {
+        Matrix<float, 4, 4> result;
+        const auto s = _mm256_set1_ps(scalar);
+        _mm256_store_ps(&result.m[0], _mm256_div_ps(_mm256_load_ps(&matrix.m[0]), s));
+        _mm256_store_ps(&result.m[8], _mm256_div_ps(_mm256_load_ps(&matrix.m[8]), s));
+        return result;
+    }
+
+    template <>
+    inline auto& operator/=(Matrix<float, 4, 4>& matrix,
+                            const float scalar) noexcept
+    {
+        const auto s = _mm256_set1_ps(scalar);
+        _mm256_store_ps(&matrix.m[0], _mm256_div_ps(_mm256_load_ps(&matrix.m[0]), s));
+        _mm256_store_ps(&matrix.m[8], _mm256_div_ps(_mm256_load_ps(&matrix.m[8]), s));
+        return matrix;
+    }
+
+    template <>
     [[nodiscard]] inline auto operator-(const Matrix<double, 4, 4>& matrix) noexcept
     {
         Matrix<double, 4, 4> result;
