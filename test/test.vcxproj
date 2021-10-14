@@ -37,11 +37,15 @@
     <ClInclude Include="..\include\Plane.hpp" />
     <ClInclude Include="..\include\Quaternion.hpp" />
     <ClInclude Include="..\include\QuaternionNeon.hpp" />
+    <ClInclude Include="..\include\QuaternionNeon64.hpp" />
     <ClInclude Include="..\include\QuaternionSse.hpp" />
+    <ClInclude Include="..\include\QuaternionSse2.hpp" />
     <ClInclude Include="..\include\Simd.hpp" />
     <ClInclude Include="..\include\Vector.hpp" />
     <ClInclude Include="..\include\VectorNeon.hpp" />
+    <ClInclude Include="..\include\VectorNeon64.hpp" />
     <ClInclude Include="..\include\VectorSse.hpp" />
+    <ClInclude Include="..\include\VectorSse2.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{614C7EC0-3262-40DF-B884-224B959A01F9}</ProjectGuid>

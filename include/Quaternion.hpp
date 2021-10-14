@@ -213,6 +213,8 @@ namespace omath
 }
 
 #include "QuaternionNeon.hpp"
+#include "QuaternionNeon64.hpp"
 #include "QuaternionSse.hpp"
+#include "QuaternionSse2.hpp"
 
 #endif
