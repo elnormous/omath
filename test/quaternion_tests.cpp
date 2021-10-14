@@ -150,3 +150,90 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
         REQUIRE(result == omath::Quaternion<float>{1.0F, 2.0F, -3.0F, 3.0F});
     }
 }
+
+TEST_CASE("Quaternion double arithmetic operators", "vector")
+{
+    const omath::Quaternion<double> quaternion1{2.0, 4.0, -6.0, 6.0};
+    const omath::Quaternion<double> quaternion2{2.0, 5.0, 6.0, 6.0};
+
+    SECTION("Negative")
+    {
+        const auto result = -quaternion1;
+        REQUIRE(result == omath::Quaternion<double>{-2.0, -4.0, 6.0, -6.0});
+    }
+
+    SECTION("Negation")
+    {
+        omath::Quaternion<double> result{2.0, 4.0, -6.0, 6.0};
+        negate(result);
+        REQUIRE(result == omath::Quaternion<double>{-2.0, -4.0, 6.0, -6.0});
+    }
+
+    SECTION("Add")
+    {
+        const auto result = quaternion1 + quaternion2;
+        REQUIRE(result.x() == 4.0);
+        REQUIRE(result.y() == 9.0);
+        REQUIRE(result.z() == 0.0);
+        REQUIRE(result.w() == 12.0);
+    }
+
+    SECTION("Subtract")
+    {
+        const auto result = quaternion1 - quaternion2;
+        REQUIRE(result == omath::Quaternion<double>{-0.0, -1.0, -12.0, 0.0});
+    }
+
+    SECTION("Scalar multiply")
+    {
+        const auto result = quaternion1 * 2.0;
+        REQUIRE(result == omath::Quaternion<double>{4.0, 8.0, -12.0, 12.0});
+    }
+
+    SECTION("Quaternion multiply")
+    {
+        const auto result = quaternion1 * quaternion2;
+        REQUIRE(result == omath::Quaternion<double>{78.0, 30.0, 2.0, 48.0});
+    }
+
+    SECTION("Divide")
+    {
+        const auto result = quaternion1 / 2.0;
+        REQUIRE(result == omath::Quaternion<double>{1.0, 2.0, -3.0, 3.0});
+    }
+
+    SECTION("Add assign")
+    {
+        omath::Quaternion<double> result{2.0, 4.0, -6.0, 6.0};
+        result += quaternion2;
+        REQUIRE(result == omath::Quaternion<double>{4.0, 9.0, 0.0, 12.0});
+    }
+
+    SECTION("Subtract assign")
+    {
+        omath::Quaternion<double> result{2.0, 4.0, -6.0, 6.0};
+        result -= quaternion2;
+        REQUIRE(result == omath::Quaternion<double>{-0.0, -1.0, -12.0, 0.0});
+    }
+
+    SECTION("Scalar multiply assign")
+    {
+        omath::Quaternion<double> result{2.0, 4.0, -6.0, 6.0};
+        result *= 2.0;
+        REQUIRE(result == omath::Quaternion<double>{4.0, 8.0, -12.0, 12.0});
+    }
+
+    SECTION("Quaternion multiply assign")
+    {
+        omath::Quaternion<double> result{2.0, 4.0, -6.0, 6.0};
+        result *= quaternion2;
+        REQUIRE(result == omath::Quaternion<double>{78.0, 30.0, 2.0, 48.0});
+    }
+
+    SECTION("Divide assign")
+    {
+        omath::Quaternion<double> result{2.0, 4.0, -6.0, 6.0};
+        result /= 2.0;
+        REQUIRE(result == omath::Quaternion<double>{1.0, 2.0, -3.0, 3.0});
+    }
+}
