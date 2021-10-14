@@ -151,7 +151,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
     }
 }
 
-TEST_CASE("Quaternion double arithmetic operators", "vector")
+TEST_CASE("Double-precision quaternion arithmetic operators", "vector")
 {
     const omath::Quaternion<double> quaternion1{2.0, 4.0, -6.0, 6.0};
     const omath::Quaternion<double> quaternion2{2.0, 5.0, 6.0, 6.0};
@@ -172,10 +172,7 @@ TEST_CASE("Quaternion double arithmetic operators", "vector")
     SECTION("Add")
     {
         const auto result = quaternion1 + quaternion2;
-        REQUIRE(result.x() == 4.0);
-        REQUIRE(result.y() == 9.0);
-        REQUIRE(result.z() == 0.0);
-        REQUIRE(result.w() == 12.0);
+        REQUIRE(result == omath::Quaternion<double>{4.0, 9.0, 0.0, 12.0});
     }
 
     SECTION("Subtract")

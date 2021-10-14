@@ -133,20 +133,146 @@ TEST_CASE("Vector arithmetic operators", "vector")
     }
 }
 
-TEST_CASE("4D vector negative")
+TEST_CASE("4D vector arithmetic operators", "vector")
 {
-    const omath::Vector<float, 4> vector{1.0F, 2.0F, -3.0F, -4.0F};
-    const omath::Vector<float, 4> result = -vector;
+    const omath::Vector<float, 4> vector1{2.0F, 4.0F, -6.0F, 6.0F};
+    const omath::Vector<float, 4> vector2{2.0F, 5.0F, 6.0F, 6.0F};
 
-    REQUIRE(result == omath::Vector<float, 4>{-1.0F, -2.0F, 3.0F, 4.0F});
+    SECTION("Negative")
+    {
+        const auto result = -vector1;
+        REQUIRE(result == omath::Vector<float, 4>{-2.0F, -4.0F, 6.0F, -6.0F});
+    }
+
+    SECTION("Negation")
+    {
+        omath::Vector<float, 4> result = vector1;
+        negate(result);
+        REQUIRE(result == omath::Vector<float, 4>{-2.0F, -4.0F, 6.0F, -6.0F});
+    }
+
+    SECTION("Add")
+    {
+        const auto result = vector1 + vector2;
+        REQUIRE(result == omath::Vector<float, 4>{4.0F, 9.0F, 0.0F, 12.0F});
+    }
+
+    SECTION("Subtract")
+    {
+        const auto result = vector1 - vector2;
+        REQUIRE(result == omath::Vector<float, 4>{-0.0F, -1.0F, -12.0F, 0.0F});
+    }
+
+    SECTION("Multiply")
+    {
+        const auto result = vector1 * 2.0F;
+        REQUIRE(result == omath::Vector<float, 4>{4.0F, 8.0F, -12.0F, 12.0F});
+    }
+
+    SECTION("Divide")
+    {
+        const auto result = vector1 / 2.0F;
+        REQUIRE(result == omath::Vector<float, 4>{1.0F, 2.0F, -3.0F, 3.0F});
+    }
+
+    SECTION("Add assign")
+    {
+        omath::Vector<float, 4> result = vector1;
+        result += vector2;
+        REQUIRE(result == omath::Vector<float, 4>{4.0F, 9.0F, 0.0F, 12.0F});
+    }
+
+    SECTION("Subtract assign")
+    {
+        omath::Vector<float, 4> result = vector1;
+        result -= vector2;
+        REQUIRE(result == omath::Vector<float, 4>{-0.0F, -1.0F, -12.0F, 0.0F});
+    }
+
+    SECTION("Multiply assign")
+    {
+        omath::Vector<float, 4> result = vector1;
+        result *= 2.0F;
+        REQUIRE(result == omath::Vector<float, 4>{4.0F, 8.0F, -12.0F, 12.0F});
+    }
+
+    SECTION("Divide assign")
+    {
+        omath::Vector<float, 4> result = vector1;
+        result /= 2.0F;
+        REQUIRE(result == omath::Vector<float, 4>{1.0F, 2.0F, -3.0F, 3.0F});
+    }
 }
 
-TEST_CASE("4D double vector negative")
+TEST_CASE("Double-precision 4D vector arithmetic operators", "vector")
 {
-    const omath::Vector<double, 4> vector{1.0, 2.0, -3.0, -4.0};
-    const omath::Vector<double, 4> result = -vector;
+    const omath::Vector<double, 4> vector1{2.0, 4.0, -6.0, 6.0};
+    const omath::Vector<double, 4> vector2{2.0, 5.0, 6.0, 6.0};
 
-    REQUIRE(result == omath::Vector<double, 4>{-1.0, -2.0, 3.0, 4.0});
+    SECTION("Negative")
+    {
+        const auto result = -vector1;
+        REQUIRE(result == omath::Vector<double, 4>{-2.0, -4.0, 6.0, -6.0});
+    }
+
+    SECTION("Negation")
+    {
+        omath::Vector<double, 4> result = vector1;
+        negate(result);
+        REQUIRE(result == omath::Vector<double, 4>{-2.0, -4.0, 6.0, -6.0});
+    }
+
+    SECTION("Add")
+    {
+        const auto result = vector1 + vector2;
+        REQUIRE(result == omath::Vector<double, 4>{4.0, 9.0, 0.0, 12.0});
+    }
+
+    SECTION("Subtract")
+    {
+        const auto result = vector1 - vector2;
+        REQUIRE(result == omath::Vector<double, 4>{-0.0, -1.0, -12.0, 0.0});
+    }
+
+    SECTION("Multiply")
+    {
+        const auto result = vector1 * 2.0;
+        REQUIRE(result == omath::Vector<double, 4>{4.0, 8.0, -12.0, 12.0});
+    }
+
+    SECTION("Divide")
+    {
+        const auto result = vector1 / 2.0;
+        REQUIRE(result == omath::Vector<double, 4>{1.0, 2.0, -3.0, 3.0});
+    }
+
+    SECTION("Add assign")
+    {
+        omath::Vector<double, 4> result = vector1;
+        result += vector2;
+        REQUIRE(result == omath::Vector<double, 4>{4.0, 9.0, 0.0, 12.0});
+    }
+
+    SECTION("Subtract assign")
+    {
+        omath::Vector<double, 4> result = vector1;
+        result -= vector2;
+        REQUIRE(result == omath::Vector<double, 4>{-0.0, -1.0, -12.0, 0.0});
+    }
+
+    SECTION("Multiply assign")
+    {
+        omath::Vector<double, 4> result = vector1;
+        result *= 2.0;
+        REQUIRE(result == omath::Vector<double, 4>{4.0, 8.0, -12.0, 12.0});
+    }
+
+    SECTION("Divide assign")
+    {
+        omath::Vector<double, 4> result = vector1;
+        result /= 2.0;
+        REQUIRE(result == omath::Vector<double, 4>{1.0, 2.0, -3.0, 3.0});
+    }
 }
 
 TEST_CASE("Vector length", "vector")
