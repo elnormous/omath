@@ -75,7 +75,7 @@ TEST_CASE("Vector arithmetic operators", "vector")
 
     SECTION("Negation")
     {
-        omath::Vector<float, 2> result{2.0F, 4.0F};
+        omath::Vector<float, 2> result = vector1;
         negate(result);
         REQUIRE(result == omath::Vector<float, 2>{-2.0F, -4.0F});
     }
@@ -106,28 +106,28 @@ TEST_CASE("Vector arithmetic operators", "vector")
 
     SECTION("Add assign")
     {
-        omath::Vector<float, 2> result{2.0F, 4.0F};
+        omath::Vector<float, 2> result = vector1;
         result += vector2;
         REQUIRE(result == omath::Vector<float, 2>{4.0F, 9.0F});
     }
 
     SECTION("Subtract assign")
     {
-        omath::Vector<float, 2> result{2.0F, 4.0F};
+        omath::Vector<float, 2> result = vector1;
         result -= vector2;
         REQUIRE(result == omath::Vector<float, 2>{-0.0F, -1.0F});
     }
 
     SECTION("Multiply assign")
     {
-        omath::Vector<float, 2> result{2.0F, 4.0F};
+        omath::Vector<float, 2> result = vector1;
         result *= 2.0F;
         REQUIRE(result == omath::Vector<float, 2>{4.0F, 8.0F});
     }
 
     SECTION("Divide assign")
     {
-        omath::Vector<float, 2> result{2.0F, 4.0F};
+        omath::Vector<float, 2> result = vector1;
         result /= 2.0F;
         REQUIRE(result == omath::Vector<float, 2>{1.0F, 2.0F});
     }
@@ -139,6 +139,14 @@ TEST_CASE("4D vector negative")
     const omath::Vector<float, 4> result = -vector;
 
     REQUIRE(result == omath::Vector<float, 4>{-1.0F, -2.0F, 3.0F, 4.0F});
+}
+
+TEST_CASE("4D double vector negative")
+{
+    const omath::Vector<double, 4> vector{1.0, 2.0, -3.0, -4.0};
+    const omath::Vector<double, 4> result = -vector;
+
+    REQUIRE(result == omath::Vector<double, 4>{-1.0, -2.0, 3.0, 4.0});
 }
 
 TEST_CASE("Vector length", "vector")

@@ -77,7 +77,7 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
 
     SECTION("Negation")
     {
-        omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
+        omath::Quaternion<float> result = quaternion1;
         negate(result);
         REQUIRE(result == omath::Quaternion<float>{-2.0F, -4.0F, 6.0F, -6.0F});
     }
@@ -117,35 +117,35 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
 
     SECTION("Add assign")
     {
-        omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
+        omath::Quaternion<float> result = quaternion1;
         result += quaternion2;
         REQUIRE(result == omath::Quaternion<float>{4.0F, 9.0F, 0.0F, 12.0F});
     }
 
     SECTION("Subtract assign")
     {
-        omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
+        omath::Quaternion<float> result = quaternion1;
         result -= quaternion2;
         REQUIRE(result == omath::Quaternion<float>{-0.0F, -1.0F, -12.0F, 0.0F});
     }
 
     SECTION("Scalar multiply assign")
     {
-        omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
+        omath::Quaternion<float> result = quaternion1;
         result *= 2.0F;
         REQUIRE(result == omath::Quaternion<float>{4.0F, 8.0F, -12.0F, 12.0F});
     }
 
     SECTION("Quaternion multiply assign")
     {
-        omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
+        omath::Quaternion<float> result = quaternion1;
         result *= quaternion2;
         REQUIRE(result == omath::Quaternion<float>{78.0F, 30.0F, 2.0F, 48.0F});
     }
 
     SECTION("Divide assign")
     {
-        omath::Quaternion<float> result{2.0F, 4.0F, -6.0F, 6.0F};
+        omath::Quaternion<float> result = quaternion1;
         result /= 2.0F;
         REQUIRE(result == omath::Quaternion<float>{1.0F, 2.0F, -3.0F, 3.0F});
     }
@@ -164,7 +164,7 @@ TEST_CASE("Quaternion double arithmetic operators", "vector")
 
     SECTION("Negation")
     {
-        omath::Quaternion<double> result{2.0, 4.0, -6.0, 6.0};
+        omath::Quaternion<double> result = quaternion1;
         negate(result);
         REQUIRE(result == omath::Quaternion<double>{-2.0, -4.0, 6.0, -6.0});
     }
@@ -204,35 +204,35 @@ TEST_CASE("Quaternion double arithmetic operators", "vector")
 
     SECTION("Add assign")
     {
-        omath::Quaternion<double> result{2.0, 4.0, -6.0, 6.0};
+        omath::Quaternion<double> result = quaternion1;
         result += quaternion2;
         REQUIRE(result == omath::Quaternion<double>{4.0, 9.0, 0.0, 12.0});
     }
 
     SECTION("Subtract assign")
     {
-        omath::Quaternion<double> result{2.0, 4.0, -6.0, 6.0};
+        omath::Quaternion<double> result = quaternion1;
         result -= quaternion2;
         REQUIRE(result == omath::Quaternion<double>{-0.0, -1.0, -12.0, 0.0});
     }
 
     SECTION("Scalar multiply assign")
     {
-        omath::Quaternion<double> result{2.0, 4.0, -6.0, 6.0};
+        omath::Quaternion<double> result = quaternion1;
         result *= 2.0;
         REQUIRE(result == omath::Quaternion<double>{4.0, 8.0, -12.0, 12.0});
     }
 
     SECTION("Quaternion multiply assign")
     {
-        omath::Quaternion<double> result{2.0, 4.0, -6.0, 6.0};
+        omath::Quaternion<double> result = quaternion1;
         result *= quaternion2;
         REQUIRE(result == omath::Quaternion<double>{78.0, 30.0, 2.0, 48.0});
     }
 
     SECTION("Divide assign")
     {
-        omath::Quaternion<double> result{2.0, 4.0, -6.0, 6.0};
+        omath::Quaternion<double> result = quaternion1;
         result /= 2.0;
         REQUIRE(result == omath::Quaternion<double>{1.0, 2.0, -3.0, 3.0});
     }
