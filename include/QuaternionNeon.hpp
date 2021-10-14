@@ -22,18 +22,18 @@ namespace omath
     }
 
     template <>
+    inline void negate(Quaternion<float>& quat) noexcept
+    {
+        vst1q_f32(quat.v.data(), vnegq_f32(vld1q_f32(quat.v.data())));
+    }
+
+    template <>
     [[nodiscard]] inline auto operator+(const Quaternion<float>& quat1,
                                         const Quaternion<float>& quat2) noexcept
     {
         Quaternion<float> result;
         vst1q_f32(result.v.data(), vaddq_f32(vld1q_f32(quat1.v.data()), vld1q_f32(quat2.v.data())));
         return result;
-    }
-
-    template <>
-    inline void negate(Quaternion<float>& quat) noexcept
-    {
-        vst1q_f32(quat.v.data(), vnegq_f32(vld1q_f32(quat.v.data())));
     }
 
     template <>

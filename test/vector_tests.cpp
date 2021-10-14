@@ -133,6 +133,14 @@ TEST_CASE("Vector arithmetic operators", "vector")
     }
 }
 
+TEST_CASE("4D vector negative")
+{
+    const omath::Vector<float, 4> vector{1.0F, 2.0F, -3.0F, -4.0F};
+    const omath::Vector<float, 4> result = -vector;
+
+    REQUIRE(result == omath::Vector<float, 4>{-1.0F, -2.0F, 3.0F, 4.0F});
+}
+
 TEST_CASE("Vector length", "vector")
 {
     const omath::Vector<float, 2> vector{3.0F, 4.0F};

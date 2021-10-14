@@ -81,6 +81,15 @@ namespace omath
     }
 
     template <typename T>
+    constexpr void negate(Quaternion<T>& quat) noexcept
+    {
+        quat.v[0] = -quat.v[0];
+        quat.v[1] = -quat.v[1];
+        quat.v[2] = -quat.v[2];
+        quat.v[3] = -quat.v[3];
+    }
+
+    template <typename T>
     [[nodiscard]] constexpr auto operator+(const Quaternion<T>& quat1,
                                            const Quaternion<T>& quat2) noexcept
     {
@@ -90,15 +99,6 @@ namespace omath
             quat1.v[2] + quat2.v[2],
             quat1.v[3] + quat2.v[3]
         };
-    }
-
-    template <typename T>
-    constexpr void negate(Quaternion<T>& quat) noexcept
-    {
-        quat.v[0] = -quat.v[0];
-        quat.v[1] = -quat.v[1];
-        quat.v[2] = -quat.v[2];
-        quat.v[3] = -quat.v[3];
     }
 
     template <typename T>

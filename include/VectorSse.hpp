@@ -23,19 +23,19 @@ namespace omath
     }
 
     template <>
+    inline void negate(Vector<float, 4>& vector) noexcept
+    {
+        const auto z = _mm_setzero_ps();
+        _mm_store_ps(vector.v.data(), _mm_sub_ps(z, _mm_load_ps(vector.v.data())));
+    }
+
+    template <>
     [[nodiscard]] inline auto operator+(const Vector<float, 4>& vector1,
                                         const Vector<float, 4>& vector2) noexcept
     {
         Vector<float, 4> result;
         _mm_store_ps(result.v.data(), _mm_add_ps(_mm_load_ps(vector1.v.data()), _mm_load_ps(vector2.v.data())));
         return result;
-    }
-
-    template <>
-    inline void negate(Vector<float, 4>& vector) noexcept
-    {
-        const auto z = _mm_setzero_ps();
-        _mm_store_ps(vector.v.data(), _mm_sub_ps(z, _mm_load_ps(vector.v.data())));
     }
 
     template <>

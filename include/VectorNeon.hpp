@@ -22,18 +22,18 @@ namespace omath
     }
 
     template <>
+    inline void negate(Vector<float, 4>& vector) noexcept
+    {
+        vst1q_f32(vector.v.data(), vnegq_f32(vld1q_f32(vector.v.data())));
+    }
+
+    template <>
     [[nodiscard]] inline auto operator+(const Vector<float, 4>& vector1,
                                         const Vector<float, 4>& vector2) noexcept
     {
         Vector<float, 4> result;
         vst1q_f32(result.v.data(), vaddq_f32(vld1q_f32(vector1.v.data()), vld1q_f32(vector2.v.data())));
         return result;
-    }
-
-    template <>
-    inline void negate(Vector<float, 4>& vector) noexcept
-    {
-        vst1q_f32(vector.v.data(), vnegq_f32(vld1q_f32(vector.v.data())));
     }
 
     template <>

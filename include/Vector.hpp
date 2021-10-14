@@ -124,6 +124,12 @@ namespace omath
     }
 
     template <typename T, std::size_t dims>
+    constexpr void negate(Vector<T, dims>& vector) noexcept
+    {
+        for (auto& c : vector.v) c = -c;
+    }
+
+    template <typename T, std::size_t dims>
     [[nodiscard]] constexpr auto operator+(const Vector<T, dims>& vector1,
                                            const Vector<T, dims>& vector2) noexcept
     {
@@ -131,12 +137,6 @@ namespace omath
         for (std::size_t i = 0; i < dims; ++i)
             result.v[i] = vector1.v[i] + vector2.v[i];
         return result;
-    }
-
-    template <typename T, std::size_t dims>
-    constexpr void negate(Vector<T, dims>& vector) noexcept
-    {
-        for (auto& c : vector.v) c = -c;
     }
 
     template <typename T, std::size_t dims>

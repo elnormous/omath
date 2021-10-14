@@ -23,19 +23,19 @@ namespace omath
     }
 
     template <>
+    inline void negate(Quaternion<float>& quat) noexcept
+    {
+        const auto z = _mm_setzero_ps();
+        _mm_store_ps(quat.v.data(), _mm_sub_ps(z, _mm_load_ps(quat.v.data())));
+    }
+
+    template <>
     [[nodiscard]] inline auto operator+(const Quaternion<float>& quat1,
                                         const Quaternion<float>& quat2) noexcept
     {
         Quaternion<float> result;
         _mm_store_ps(result.v.data(), _mm_add_ps(_mm_load_ps(quat1.v.data()), _mm_load_ps(quat2.v.data())));
         return result;
-    }
-
-    template <>
-    inline void negate(Quaternion<float>& quat) noexcept
-    {
-        const auto z = _mm_setzero_ps();
-        _mm_store_ps(quat.v.data(), _mm_sub_ps(z, _mm_load_ps(quat.v.data())));
     }
 
     template <>
