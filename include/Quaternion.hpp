@@ -18,6 +18,9 @@ namespace omath
 #if defined(OMATH_SIMD_SSE) || defined(OMATH_SIMD_NEON)
         alignas(std::is_same_v<T, float> ? 4 * sizeof(T) : sizeof(T))
 #endif
+#if defined(OMATH_SIMD_SSE2) || defined(OMATH_SIMD_NEON64)
+        alignas(std::is_same_v<T, double> ? 4 * sizeof(T) : sizeof(T))
+#endif
         std::array<T, 4> v;
 
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
