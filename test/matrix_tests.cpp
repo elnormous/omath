@@ -50,7 +50,7 @@ TEST_CASE("Matrix identity", "matrix")
 
 TEST_CASE("Matrix set identity", "matrix")
 {
-    const auto matrix = omath::identityMatrix<float, 2>();
+    const auto matrix = omath::identityMatrix<float, 2>;
 
     REQUIRE(matrix == omath::Matrix<float, 2, 2>{
         1.0F, 0.0F,

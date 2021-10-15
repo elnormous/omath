@@ -40,10 +40,7 @@ namespace omath
     };
 
     template <typename T>
-    [[nodiscard]] constexpr auto identityQuaternion() noexcept
-    {
-        return Quaternion<T>{T(0), T(0), T(0), T(1)};
-    }
+    constexpr auto identityQuaternion = Quaternion<T>{T(0), T(0), T(0), T(1)};
 
     template <typename T>
     constexpr void setIdentity(Quaternion<T>& quat) noexcept

@@ -31,7 +31,7 @@ TEST_CASE("Quaternion accessors", "quaternion")
 
 TEST_CASE("Quaternion identity", "quaternion")
 {
-    const auto quaternion = omath::identityQuaternion<float>();
+    const auto quaternion = omath::identityQuaternion<float>;
 
     REQUIRE(quaternion == omath::Quaternion<float>{0.0F, 0.0F, 0.0F, 1.0F});
 }
