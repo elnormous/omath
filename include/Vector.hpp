@@ -279,6 +279,7 @@ namespace omath
     }
 }
 
+#include "VectorAvx.hpp"
 #include "VectorNeon.hpp"
 #include "VectorNeon64.hpp"
 #include "VectorSse.hpp"

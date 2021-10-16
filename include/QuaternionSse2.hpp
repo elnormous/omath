@@ -13,6 +13,7 @@
 
 namespace omath
 {
+#  ifndef OMATH_SIMD_AVX
     template <>
     inline auto operator-(const Quaternion<double>& quat) noexcept
     {
@@ -110,6 +111,7 @@ namespace omath
         _mm_store_pd(&quat.v[2], _mm_div_pd(_mm_load_pd(&quat.v[2]), s));
         return quat;
     }
+#  endif
 }
 
 #endif

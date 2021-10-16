@@ -37,6 +37,8 @@
 		301E1F7B26E38D65003446C5 /* Simd.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Simd.hpp; sourceTree = "<group>"; };
 		30344C002705108300061DF6 /* include_test.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = include_test.cpp; sourceTree = "<group>"; };
 		303E87A725223DDF008B7E24 /* vector_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = vector_tests.cpp; sourceTree = "<group>"; };
+		30524C10271AF2AC002CA9F7 /* VectorAvx.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VectorAvx.hpp; sourceTree = "<group>"; };
+		30524C11271AF2BC002CA9F7 /* QuaternionAvx.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QuaternionAvx.hpp; sourceTree = "<group>"; };
 		306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = matrix_tests.cpp; sourceTree = "<group>"; };
 		306B2B8925B8EAF5006878B6 /* plane_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = plane_tests.cpp; sourceTree = "<group>"; };
 		306B2B8D25B8EB24006878B6 /* quaternion_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = quaternion_tests.cpp; sourceTree = "<group>"; };
@@ -87,12 +89,14 @@
 				30A4C1DF27112D8300419C99 /* MatrixSse2.hpp */,
 				30A2D33325B5F3A700A0AFBD /* Plane.hpp */,
 				30A2D33125B3BAF600A0AFBD /* Quaternion.hpp */,
+				30524C11271AF2BC002CA9F7 /* QuaternionAvx.hpp */,
 				30A4C1C2270EF05E00419C99 /* QuaternionNeon.hpp */,
 				30C1EE7B2717D7E100D08730 /* QuaternionNeon64.hpp */,
 				30A4C1C1270EF00900419C99 /* QuaternionSse.hpp */,
 				30C1EE7C2717D7E100D08730 /* QuaternionSse2.hpp */,
 				301E1F7B26E38D65003446C5 /* Simd.hpp */,
 				30A2D32F25B3B66100A0AFBD /* Vector.hpp */,
+				30524C10271AF2AC002CA9F7 /* VectorAvx.hpp */,
 				30A4C1C4270EF07A00419C99 /* VectorNeon.hpp */,
 				30C1EE7A2717D10A00D08730 /* VectorNeon64.hpp */,
 				30A4C1C3270EF06D00419C99 /* VectorSse.hpp */,

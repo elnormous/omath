@@ -13,6 +13,7 @@
 
 namespace omath
 {
+#  ifndef OMATH_SIMD_AVX
     template <>
     inline auto operator-(const Vector<double, 4>& vector) noexcept
     {
@@ -110,6 +111,7 @@ namespace omath
         _mm_store_pd(&vector.v[2], _mm_div_pd(_mm_load_pd(&vector.v[2]), s));
         return vector;
     }
+#  endif
 }
 
 #endif
