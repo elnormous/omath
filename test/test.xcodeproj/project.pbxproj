@@ -62,7 +62,7 @@
 		30C1EE7A2717D10A00D08730 /* VectorNeon64.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VectorNeon64.hpp; sourceTree = "<group>"; };
 		30C1EE7B2717D7E100D08730 /* QuaternionNeon64.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QuaternionNeon64.hpp; sourceTree = "<group>"; };
 		30C1EE7C2717D7E100D08730 /* QuaternionSse2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QuaternionSse2.hpp; sourceTree = "<group>"; };
-		C6C90FD321A5A24D00B5FCB7 /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6C90FD321A5A24D00B5FCB7 /* test SSE2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test SSE2"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6C90FD621A5A24D00B5FCB7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,7 +120,7 @@
 		C6C90FD421A5A24D00B5FCB7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C6C90FD321A5A24D00B5FCB7 /* test */,
+				C6C90FD321A5A24D00B5FCB7 /* test SSE2 */,
 				308C29EC26D1E37500E65A63 /* test iOS.app */,
 				30A4C1DC270FA6EB00419C99 /* test no SIMD */,
 				307604F62715E8350014D6A6 /* test AVX */,
@@ -176,9 +176,9 @@
 			productReference = 30A4C1DC270FA6EB00419C99 /* test no SIMD */;
 			productType = "com.apple.product-type.tool";
 		};
-		C6C90FD221A5A24D00B5FCB7 /* test */ = {
+		C6C90FD221A5A24D00B5FCB7 /* test SSE2 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C6C90FDA21A5A24D00B5FCB7 /* Build configuration list for PBXNativeTarget "test" */;
+			buildConfigurationList = C6C90FDA21A5A24D00B5FCB7 /* Build configuration list for PBXNativeTarget "test SSE2" */;
 			buildPhases = (
 				C6C90FCF21A5A24D00B5FCB7 /* Sources */,
 			);
@@ -186,9 +186,9 @@
 			);
 			dependencies = (
 			);
-			name = test;
+			name = "test SSE2";
 			productName = WebsocketTest;
-			productReference = C6C90FD321A5A24D00B5FCB7 /* test */;
+			productReference = C6C90FD321A5A24D00B5FCB7 /* test SSE2 */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -221,7 +221,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C6C90FD221A5A24D00B5FCB7 /* test */,
+				C6C90FD221A5A24D00B5FCB7 /* test SSE2 */,
 				308C29EB26D1E37500E65A63 /* test iOS */,
 				30A4C1CF270FA6EB00419C99 /* test no SIMD */,
 				307604EB2715E8350014D6A6 /* test AVX */,
@@ -513,6 +513,10 @@
 		C6C90FDB21A5A24D00B5FCB7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_CFLAGS = (
+					"-msse2",
+					"-mno-sse3",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -520,6 +524,10 @@
 		C6C90FDC21A5A24D00B5FCB7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				OTHER_CFLAGS = (
+					"-msse2",
+					"-mno-sse3",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -563,7 +571,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C6C90FDA21A5A24D00B5FCB7 /* Build configuration list for PBXNativeTarget "test" */ = {
+		C6C90FDA21A5A24D00B5FCB7 /* Build configuration list for PBXNativeTarget "test SSE2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C6C90FDB21A5A24D00B5FCB7 /* Debug */,
