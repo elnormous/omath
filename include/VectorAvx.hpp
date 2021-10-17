@@ -100,7 +100,6 @@ namespace omath
         _mm256_store_pd(vector.v.data(), _mm256_div_pd(_mm256_load_pd(vector.v.data()), s));
         return vector;
     }
-
 }
 
 #endif

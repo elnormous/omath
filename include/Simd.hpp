@@ -24,6 +24,9 @@
 #      define OMATH_SIMD_NEON64
 #    endif
 #  endif
+#  if defined(__ARM_FEATURE_SVE)
+#    define OMATH_SIMD_SVE
+#  endif
 #endif
 
 #endif
