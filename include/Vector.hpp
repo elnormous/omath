@@ -204,6 +204,13 @@ namespace omath
         return vector;
     }
 
+    template <typename T, std::size_t N>
+    [[nodiscard]] auto operator*(const T scalar,
+                                 const Vector<T, N>& vec) noexcept
+    {
+        return vec * scalar;
+    }
+
     template <typename T>
     [[nodiscard]] constexpr auto cross(const Vector<T, 3>& vector1,
                                        const Vector<T, 3>& vector2) noexcept

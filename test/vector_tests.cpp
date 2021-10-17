@@ -169,6 +169,12 @@ TEST_CASE("4D vector arithmetic operators", "vector")
         REQUIRE(result == omath::Vector<float, 4>{4.0F, 8.0F, -12.0F, 12.0F});
     }
 
+    SECTION("Scalar multiply")
+    {
+        const auto result = 2.0F * vector1;
+        REQUIRE(result == omath::Vector<float, 4>{4.0F, 8.0F, -12.0F, 12.0F});
+    }
+
     SECTION("Divide")
     {
         const auto result = vector1 / 2.0F;
@@ -237,6 +243,12 @@ TEST_CASE("Double-precision 4D vector arithmetic operators", "vector")
     SECTION("Multiply")
     {
         const auto result = vector1 * 2.0;
+        REQUIRE(result == omath::Vector<double, 4>{4.0, 8.0, -12.0, 12.0});
+    }
+
+    SECTION("Scalar multiply")
+    {
+        const auto result = 2.0 * vector1;
         REQUIRE(result == omath::Vector<double, 4>{4.0, 8.0, -12.0, 12.0});
     }
 
