@@ -149,6 +149,19 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
         result /= 2.0F;
         REQUIRE(result == omath::Quaternion<float>{1.0F, 2.0F, -3.0F, 3.0F});
     }
+
+    SECTION("Conjugation")
+    {
+        const omath::Quaternion<float> result = conjugated(quaternion1);
+        REQUIRE(result == omath::Quaternion<float>{-2.0F, -4.0F, 6.0F, 6.0F});
+    }
+
+    SECTION("Conjugate")
+    {
+        omath::Quaternion<float> result = quaternion1;
+        conjugate(result);
+        REQUIRE(result == omath::Quaternion<float>{-2.0F, -4.0F, 6.0F, 6.0F});
+    }
 }
 
 TEST_CASE("Double-precision quaternion arithmetic operators", "vector")
@@ -232,5 +245,18 @@ TEST_CASE("Double-precision quaternion arithmetic operators", "vector")
         omath::Quaternion<double> result = quaternion1;
         result /= 2.0;
         REQUIRE(result == omath::Quaternion<double>{1.0, 2.0, -3.0, 3.0});
+    }
+
+    SECTION("Conjugation")
+    {
+        const omath::Quaternion<double> result = conjugated(quaternion1);
+        REQUIRE(result == omath::Quaternion<double>{-2.0, -4.0, 6.0, 6.0});
+    }
+
+    SECTION("Conjugate")
+    {
+        omath::Quaternion<double> result = quaternion1;
+        conjugate(result);
+        REQUIRE(result == omath::Quaternion<double>{-2.0, -4.0, 6.0, 6.0});
     }
 }

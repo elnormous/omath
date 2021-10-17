@@ -210,6 +210,20 @@ namespace omath
 
         return quat;
     }
+
+    template <typename T>
+    constexpr void conjugate(Quaternion<T>& quat) noexcept
+    {
+        quat.v[0] = -quat.v[0];
+        quat.v[1] = -quat.v[1];
+        quat.v[2] = -quat.v[2];
+    }
+
+    template <typename T>
+    constexpr auto conjugated(const Quaternion<T>& quat) noexcept
+    {
+        return Quaternion<T>{-quat.v[0], -quat.v[1], -quat.v[2], quat.v[3]};
+    }
 }
 
 #include "QuaternionAvx.hpp"
