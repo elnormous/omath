@@ -225,10 +225,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				307604EB2715E8350014D6A6 /* test AVX */,
 				C6C90FD221A5A24D00B5FCB7 /* test SSE2 */,
 				308C29EB26D1E37500E65A63 /* test iOS */,
 				30A4C1CF270FA6EB00419C99 /* test no SIMD */,
-				307604EB2715E8350014D6A6 /* test AVX */,
 			);
 		};
 /* End PBXProject section */
