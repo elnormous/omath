@@ -26,9 +26,6 @@
     <ClInclude Include="..\include\MatrixNeon.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\MatrixNeon64.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\MatrixSse.hpp">
       <Filter>include</Filter>
     </ClInclude>
