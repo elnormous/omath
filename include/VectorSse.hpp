@@ -102,6 +102,29 @@ namespace omath
     }
 
     template <>
+    [[nodiscard]] inline auto length(const Vector<float, 4>& vector) noexcept
+    {
+        float result;
+        const auto t1 = _mm_mul_ps(_mm_load_ps(vector.v.data()), _mm_load_ps(vector.v.data()));
+        const auto t2 = _mm_add_ps(t1, _mm_shuffle_ps(t1, t1, _MM_SHUFFLE(2, 1, 0, 3)));
+        const auto t3 = _mm_add_ps(t2, _mm_shuffle_ps(t2, t2, _MM_SHUFFLE(1, 0, 3, 2)));
+        const auto s = _mm_sqrt_ps(t3);
+        result = _mm_cvtss_f32(s);
+        return result;
+    }
+
+    template <>
+    [[nodiscard]] inline auto lengthSquared(const Vector<float, 4>& vector) noexcept
+    {
+        float result;
+        const auto t1 = _mm_mul_ps(_mm_load_ps(vector.v.data()), _mm_load_ps(vector.v.data()));
+        const auto t2 = _mm_add_ps(t1, _mm_shuffle_ps(t1, t1, _MM_SHUFFLE(2, 1, 0, 3)));
+        const auto t3 = _mm_add_ps(t2, _mm_shuffle_ps(t2, t2, _MM_SHUFFLE(1, 0, 3, 2)));
+        result = _mm_cvtss_f32(t3);
+        return result;
+    }
+
+    template <>
     [[nodiscard]] inline auto dot(const Vector<float, 4>& vector1,
                                   const Vector<float, 4>& vector2) noexcept
     {

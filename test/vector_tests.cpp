@@ -295,9 +295,25 @@ TEST_CASE("Vector length", "vector")
     REQUIRE(result == Approx(5.0F));
 }
 
+TEST_CASE("4D vector length", "vector")
+{
+    const omath::Vector<float, 4> vector{3.0F, 4.0F, 0.0F, 0.0F};
+    const auto result = length(vector);
+
+    REQUIRE(result == Approx(5.0F));
+}
+
 TEST_CASE("Vector length squared", "vector")
 {
     const omath::Vector<float, 2> vector{3.0F, 4.0F};
+    const auto result = lengthSquared(vector);
+
+    REQUIRE(result == Approx(25.0F));
+}
+
+TEST_CASE("4D vector length squared", "vector")
+{
+    const omath::Vector<float, 4> vector{3.0F, 4.0F, 0.0F, 0.0F};
     const auto result = lengthSquared(vector);
 
     REQUIRE(result == Approx(25.0F));
