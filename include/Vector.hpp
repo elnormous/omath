@@ -211,17 +211,6 @@ namespace omath
         return vec * scalar;
     }
 
-    template <typename T>
-    [[nodiscard]] constexpr auto cross(const Vector<T, 3>& vector1,
-                                       const Vector<T, 3>& vector2) noexcept
-    {
-        return Vector<T, 3>{
-            (vector1.v[1] * vector2.v[2]) - (vector1.v[2] * vector2.v[1]),
-            (vector1.v[2] * vector2.v[0]) - (vector1.v[0] * vector2.v[2]),
-            (vector1.v[0] * vector2.v[1]) - (vector1.v[1] * vector2.v[0])
-        };
-    }
-
     template <typename T, std::size_t dims>
     [[nodiscard]] auto length(const Vector<T, dims>& vector) noexcept
     {
@@ -236,6 +225,17 @@ namespace omath
         T lengthSquared{};
         for (const auto& c : vector.v) lengthSquared += c * c;
         return lengthSquared;
+    }
+
+    template <typename T>
+    [[nodiscard]] constexpr auto cross(const Vector<T, 3>& vector1,
+                                       const Vector<T, 3>& vector2) noexcept
+    {
+        return Vector<T, 3>{
+            (vector1.v[1] * vector2.v[2]) - (vector1.v[2] * vector2.v[1]),
+            (vector1.v[2] * vector2.v[0]) - (vector1.v[0] * vector2.v[2]),
+            (vector1.v[0] * vector2.v[1]) - (vector1.v[1] * vector2.v[0])
+        };
     }
 
     template <typename T, std::size_t dims>
