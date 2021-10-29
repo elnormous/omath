@@ -44,9 +44,6 @@
     <ClInclude Include="..\include\QuaternionNeon.hpp">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\QuaternionNeon64.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\QuaternionSse.hpp">
       <Filter>include</Filter>
     </ClInclude>
@@ -63,9 +60,6 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\include\VectorNeon.hpp">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\include\VectorNeon64.hpp">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\include\VectorSse.hpp">
