@@ -6,9 +6,8 @@
 #define OMATH_MATRIX_NEON
 
 #include "Matrix.hpp"
-#include "Simd.hpp"
 
-#ifdef OMATH_SIMD_NEON
+#ifdef __ARM_NEON__
 #  include <arm_neon.h>
 
 namespace omath
@@ -274,7 +273,7 @@ namespace omath
         vst1q_f32(&matrix.m[12], vextq_f32(tmp0.val[1], vextq_f32(tmp1.val[1], tmp1.val[1], 2), 2));
     }
 
-#  ifdef OMATH_SIMD_NEON64
+#  ifdef __aarch64__
     template <>
     [[nodiscard]] inline auto operator-(const Matrix<double, 4, 4>& matrix) noexcept
     {
@@ -587,9 +586,9 @@ namespace omath
         vst1q_f64(&matrix.m[12], vtrn2q_f64(tmp01, tmp11));
         vst1q_f64(&matrix.m[14], vtrn2q_f64(tmp21, tmp31));
     }
-#  endif // OMATH_SIMD_NEON64
+#  endif // __aarch64__
 }
 
-#endif // OMATH_SIMD_NEON
+#endif // __ARM_NEON__
 
 #endif // OMATH_MATRIX_NEON

@@ -5,10 +5,9 @@
 #ifndef OMATH_VECTOR_NEON
 #define OMATH_VECTOR_NEON
 
-#include "Simd.hpp"
 #include "Vector.hpp"
 
-#ifdef OMATH_SIMD_NEON
+#ifdef __ARM_NEON__
 #  include <arm_neon.h>
 
 namespace omath
@@ -112,6 +111,6 @@ namespace omath
     }
 }
 
-#endif
+#endif // __ARM_NEON__
 
 #endif // OMATH_VECTOR_NEON

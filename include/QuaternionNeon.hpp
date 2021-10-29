@@ -6,9 +6,8 @@
 #define OMATH_QUATERNION_NEON
 
 #include "Quaternion.hpp"
-#include "Simd.hpp"
 
-#ifdef OMATH_SIMD_NEON
+#ifdef __ARM_NEON__
 #  include <arm_neon.h>
 
 namespace omath
@@ -100,6 +99,6 @@ namespace omath
     }
 }
 
-#endif
+#endif // __ARM_NEON__
 
 #endif // OMATH_QUATERNION_NEON
