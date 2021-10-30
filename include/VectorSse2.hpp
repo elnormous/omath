@@ -9,7 +9,7 @@
 #include "Vector.hpp"
 
 #ifdef OMATH_SIMD_SSE2
-#  include <xmmintrin.h>
+#  include <emmintrin.h>
 
 namespace omath
 {
