@@ -18,9 +18,6 @@
 #  if defined(__AVX__)
 #    define OMATH_SIMD_AVX
 #  endif
-#  if defined(__ARM_FEATURE_SVE)
-#    define OMATH_SIMD_SVE
-#  endif
 #endif
 
 #endif
