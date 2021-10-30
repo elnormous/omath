@@ -17,10 +17,10 @@ namespace omath
     class Matrix final
     {
     public:
-#if defined(OMATH_SIMD_SSE) || defined(OMATH_SIMD_NEON)
+#if defined(OMATH_SIMD_SSE) || defined(__ARM_NEON__)
         alignas(std::is_same_v<T, float> && rows == 4 && cols == 4 ? cols * sizeof(T) : alignof(T))
 #endif
-#if defined(OMATH_SIMD_SSE2) || defined(OMATH_SIMD_NEON64)
+#if defined(OMATH_SIMD_SSE2) || (defined(__ARM_NEON__) && defined(__aarch64__))
         alignas(std::is_same_v<T, double> && rows == 4 && cols == 4 ? cols * sizeof(T) : alignof(T))
 #endif
         std::array<T, cols * rows> m; // row-major matrix (transformation is pre-multiplying)
