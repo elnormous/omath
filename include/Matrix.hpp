@@ -484,6 +484,5 @@ namespace omath
 #include "MatrixAvx.hpp"
 #include "MatrixNeon.hpp"
 #include "MatrixSse.hpp"
-#include "MatrixSse2.hpp"
 
 #endif

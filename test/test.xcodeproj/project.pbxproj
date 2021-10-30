@@ -58,9 +58,6 @@
 		30A4C1C3270EF06D00419C99 /* VectorSse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VectorSse.hpp; sourceTree = "<group>"; };
 		30A4C1C4270EF07A00419C99 /* VectorNeon.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VectorNeon.hpp; sourceTree = "<group>"; };
 		30A4C1DC270FA6EB00419C99 /* test no SIMD */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test no SIMD"; sourceTree = BUILT_PRODUCTS_DIR; };
-		30A4C1DF27112D8300419C99 /* MatrixSse2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MatrixSse2.hpp; sourceTree = "<group>"; };
-		30C1EE792717D0F300D08730 /* VectorSse2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VectorSse2.hpp; sourceTree = "<group>"; };
-		30C1EE7C2717D7E100D08730 /* QuaternionSse2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = QuaternionSse2.hpp; sourceTree = "<group>"; };
 		C6C90FD321A5A24D00B5FCB7 /* test SSE2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test SSE2"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6C90FD621A5A24D00B5FCB7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,19 +79,16 @@
 				307604EA2715DA6B0014D6A6 /* MatrixAvx.hpp */,
 				30A4C1C0270EEDD500419C99 /* MatrixNeon.hpp */,
 				30A4C1BF270EEDC700419C99 /* MatrixSse.hpp */,
-				30A4C1DF27112D8300419C99 /* MatrixSse2.hpp */,
 				30A2D33325B5F3A700A0AFBD /* Plane.hpp */,
 				30A2D33125B3BAF600A0AFBD /* Quaternion.hpp */,
 				30524C11271AF2BC002CA9F7 /* QuaternionAvx.hpp */,
 				30A4C1C2270EF05E00419C99 /* QuaternionNeon.hpp */,
 				30A4C1C1270EF00900419C99 /* QuaternionSse.hpp */,
-				30C1EE7C2717D7E100D08730 /* QuaternionSse2.hpp */,
 				301E1F7B26E38D65003446C5 /* Simd.hpp */,
 				30A2D32F25B3B66100A0AFBD /* Vector.hpp */,
 				30524C10271AF2AC002CA9F7 /* VectorAvx.hpp */,
 				30A4C1C4270EF07A00419C99 /* VectorNeon.hpp */,
 				30A4C1C3270EF06D00419C99 /* VectorSse.hpp */,
-				30C1EE792717D0F300D08730 /* VectorSse2.hpp */,
 			);
 			name = include;
 			path = ../include;

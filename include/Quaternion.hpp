@@ -229,6 +229,5 @@ namespace omath
 #include "QuaternionAvx.hpp"
 #include "QuaternionNeon.hpp"
 #include "QuaternionSse.hpp"
-#include "QuaternionSse2.hpp"
 
 #endif
