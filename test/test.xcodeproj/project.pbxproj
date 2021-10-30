@@ -34,7 +34,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		301E1F7B26E38D65003446C5 /* Simd.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Simd.hpp; sourceTree = "<group>"; };
 		30344C002705108300061DF6 /* include_test.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = include_test.cpp; sourceTree = "<group>"; };
 		303E87A725223DDF008B7E24 /* vector_tests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = vector_tests.cpp; sourceTree = "<group>"; };
 		30524C10271AF2AC002CA9F7 /* VectorAvx.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VectorAvx.hpp; sourceTree = "<group>"; };
@@ -84,7 +83,6 @@
 				30524C11271AF2BC002CA9F7 /* QuaternionAvx.hpp */,
 				30A4C1C2270EF05E00419C99 /* QuaternionNeon.hpp */,
 				30A4C1C1270EF00900419C99 /* QuaternionSse.hpp */,
-				301E1F7B26E38D65003446C5 /* Simd.hpp */,
 				30A2D32F25B3B66100A0AFBD /* Vector.hpp */,
 				30524C10271AF2AC002CA9F7 /* VectorAvx.hpp */,
 				30A4C1C4270EF07A00419C99 /* VectorNeon.hpp */,

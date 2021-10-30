@@ -5,20 +5,19 @@
 #ifndef OMATH_VECTOR_SSE
 #define OMATH_VECTOR_SSE
 
-#include "Simd.hpp"
 #include "Vector.hpp"
 
-#ifdef OMATH_SIMD_SSE
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1
 #  include <xmmintrin.h>
 #endif
 
-#ifdef OMATH_SIMD_SSE2
+#if defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2
 #  include <emmintrin.h>
 #endif
 
 namespace omath
 {
-#ifdef OMATH_SIMD_SSE
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1
     template <>
     inline auto operator-(const Vector<float, 4>& vector) noexcept
     {
@@ -143,10 +142,10 @@ namespace omath
         result = _mm_cvtss_f32(t3);
         return result;
     }
-#endif // OMATH_SIMD_SSE
+#endif // SSE
 
-#ifdef OMATH_SIMD_SSE2
-#  ifndef OMATH_SIMD_AVX
+#if defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2
+#  ifndef __AVX__
     template <>
     inline auto operator-(const Vector<double, 4>& vector) noexcept
     {
@@ -244,8 +243,8 @@ namespace omath
         _mm_store_pd(&vector.v[2], _mm_div_pd(_mm_load_pd(&vector.v[2]), s));
         return vector;
     }
-#  endif
-#endif // OMATH_SIMD_SSE2
+#  endif // __AVX__
+#endif // SSE2
 }
 
 #endif // OMATH_VECTOR_SSE

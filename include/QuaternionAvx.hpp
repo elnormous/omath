@@ -6,9 +6,8 @@
 #define OMATH_QUATERNION_AVX
 
 #include "Quaternion.hpp"
-#include "Simd.hpp"
 
-#ifdef OMATH_SIMD_AVX
+#ifdef __AVX__
 #  include <immintrin.h>
 
 namespace omath

@@ -6,20 +6,19 @@
 #define OMATH_MATRIX_SSE
 
 #include "Matrix.hpp"
-#include "Simd.hpp"
 
-#ifdef OMATH_SIMD_SSE
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1
 #  include <xmmintrin.h>
 #endif
 
-#ifdef OMATH_SIMD_SSE2
+#if defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2
 #  include <emmintrin.h>
 #endif
 
 namespace omath
 {
-#ifdef OMATH_SIMD_SSE
-#  ifndef OMATH_SIMD_AVX
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1
+#  ifndef __AVX__
     template <>
     [[nodiscard]] inline auto operator-(const Matrix<float, 4, 4>& matrix) noexcept
     {
@@ -153,7 +152,7 @@ namespace omath
         _mm_store_ps(&matrix.m[12], _mm_div_ps(_mm_load_ps(&matrix.m[12]), s));
         return matrix;
     }
-#  endif
+#  endif // __AVX__
 
     template <>
     [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix1,
@@ -303,10 +302,10 @@ namespace omath
         _mm_store_ps(&matrix.m[8], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(2, 0, 2, 0)));
         _mm_store_ps(&matrix.m[12], _mm_shuffle_ps(tmp2, tmp3, _MM_SHUFFLE(3, 1, 3, 1)));
     }
-#endif // OMATH_SIMD_SSE
+#endif // SSE
 
-#ifdef OMATH_SIMD_SSE2
-#  ifndef OMATH_SIMD_AVX
+#if defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2
+#  ifndef __AVX__
     template <>
     [[nodiscard]] inline auto operator-(const Matrix<double, 4, 4>& matrix) noexcept
     {
@@ -575,7 +574,7 @@ namespace omath
         }
         return matrix1;
     }
-#  endif
+#  endif // __AVX__
 
     template <>
     [[nodiscard]] inline auto transposed(const Matrix<double, 4, 4>& matrix) noexcept
@@ -622,7 +621,7 @@ namespace omath
         _mm_store_pd(&matrix.m[12], _mm_shuffle_pd(tmp01, tmp11, _MM_SHUFFLE2(1, 1)));
         _mm_store_pd(&matrix.m[14], _mm_shuffle_pd(tmp21, tmp31, _MM_SHUFFLE2(1, 1)));
     }
-#endif // OMATH_SIMD_SSE2
+#endif // SSE2
 }
 
 #endif // OMATH_MATRIX_SSE

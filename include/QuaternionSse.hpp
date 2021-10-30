@@ -6,19 +6,18 @@
 #define OMATH_QUATERNION_SSE
 
 #include "Quaternion.hpp"
-#include "Simd.hpp"
 
-#ifdef OMATH_SIMD_SSE
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1
 #  include <xmmintrin.h>
 #endif
 
-#ifdef OMATH_SIMD_SSE2
+#if defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2
 #  include <emmintrin.h>
 #endif
 
 namespace omath
 {
-#ifdef OMATH_SIMD_SSE
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1
     template <>
     inline auto operator-(const Quaternion<float>& quat) noexcept
     {
@@ -106,10 +105,10 @@ namespace omath
         _mm_store_ps(quat.v.data(), _mm_div_ps(_mm_load_ps(quat.v.data()), s));
         return quat;
     }
-#endif // OMATH_SIMD_SSE
+#endif // SSE
 
-#ifdef OMATH_SIMD_SSE2
-#  ifndef OMATH_SIMD_AVX
+#if defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2
+#  ifndef __AVX__
     template <>
     inline auto operator-(const Quaternion<double>& quat) noexcept
     {
@@ -207,8 +206,8 @@ namespace omath
         _mm_store_pd(&quat.v[2], _mm_div_pd(_mm_load_pd(&quat.v[2]), s));
         return quat;
     }
-#  endif
-#endif // OMATH_SIMD_SSE2
+#  endif // __AVX__
+#endif // SSE2
 }
 
 #endif // OMATH_QUATERNION_SSE

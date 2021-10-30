@@ -5,10 +5,9 @@
 #ifndef OMATH_VECTOR_AVX
 #define OMATH_VECTOR_AVX
 
-#include "Simd.hpp"
 #include "Vector.hpp"
 
-#ifdef OMATH_SIMD_AVX
+#ifdef __AVX__
 #  include <immintrin.h>
 
 namespace omath

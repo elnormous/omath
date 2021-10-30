@@ -8,7 +8,6 @@
 #include <array>
 #include <cmath>
 #include <type_traits>
-#include "Simd.hpp"
 
 namespace omath
 {
@@ -16,10 +15,10 @@ namespace omath
     class Vector final
     {
     public:
-#if defined(OMATH_SIMD_SSE) || defined(__ARM_NEON__)
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1 || defined(__ARM_NEON__)
         alignas(std::is_same_v<T, float> && dims == 4 ? dims * sizeof(T) : sizeof(T))
 #endif
-#if defined(OMATH_SIMD_SSE2) || (defined(__ARM_NEON__) && defined(__aarch64__))
+#if (defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2) || (defined(__ARM_NEON__) && defined(__aarch64__))
         alignas(std::is_same_v<T, double> && dims == 4 ? dims * sizeof(T) : sizeof(T))
 #endif
         std::array<T, dims> v;

@@ -8,7 +8,6 @@
 #include <array>
 #include <type_traits>
 #include <utility>
-#include "Simd.hpp"
 #include "Vector.hpp"
 
 namespace omath
@@ -17,10 +16,10 @@ namespace omath
     class Matrix final
     {
     public:
-#if defined(OMATH_SIMD_SSE) || defined(__ARM_NEON__)
+#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1 || defined(__ARM_NEON__)
         alignas(std::is_same_v<T, float> && rows == 4 && cols == 4 ? cols * sizeof(T) : alignof(T))
 #endif
-#if defined(OMATH_SIMD_SSE2) || (defined(__ARM_NEON__) && defined(__aarch64__))
+#if (defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2) || (defined(__ARM_NEON__) && defined(__aarch64__))
         alignas(std::is_same_v<T, double> && rows == 4 && cols == 4 ? cols * sizeof(T) : alignof(T))
 #endif
         std::array<T, cols * rows> m; // row-major matrix (transformation is pre-multiplying)

@@ -6,9 +6,8 @@
 #define OMATH_MATRIX_AVX
 
 #include "Matrix.hpp"
-#include "Simd.hpp"
 
-#ifdef OMATH_SIMD_AVX
+#ifdef __AVX__
 #  include <immintrin.h>
 
 namespace omath
