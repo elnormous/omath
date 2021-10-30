@@ -16,7 +16,7 @@ namespace omath
     class Plane final
     {
     public:
-#if defined(OMATH_SIMD_SSE) || defined(OMATH_SIMD_NEON)
+#if defined(OMATH_SIMD_SSE) || defined(__ARM_NEON__)
         alignas(std::is_same_v<T, float> ? 4 * sizeof(T) : sizeof(T))
 #endif
         std::array<T, 4> v;
