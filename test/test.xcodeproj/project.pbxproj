@@ -30,6 +30,12 @@
 		30A4C1D4270FA6EB00419C99 /* plane_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8925B8EAF5006878B6 /* plane_tests.cpp */; };
 		30A4C1D5270FA6EB00419C99 /* include_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30344C002705108300061DF6 /* include_test.cpp */; };
 		30A4C1D6270FA6EB00419C99 /* vector_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303E87A725223DDF008B7E24 /* vector_tests.cpp */; };
+		30BE8612272E1B6B00EAC32A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C90FD621A5A24D00B5FCB7 /* main.cpp */; };
+		30BE8613272E1B6B00EAC32A /* matrix_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8525B8EAC4006878B6 /* matrix_tests.cpp */; };
+		30BE8614272E1B6B00EAC32A /* quaternion_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8D25B8EB24006878B6 /* quaternion_tests.cpp */; };
+		30BE8615272E1B6B00EAC32A /* plane_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 306B2B8925B8EAF5006878B6 /* plane_tests.cpp */; };
+		30BE8616272E1B6B00EAC32A /* include_test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30344C002705108300061DF6 /* include_test.cpp */; };
+		30BE8617272E1B6B00EAC32A /* vector_tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 303E87A725223DDF008B7E24 /* vector_tests.cpp */; };
 		C6C90FD721A5A24D00B5FCB7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6C90FD621A5A24D00B5FCB7 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -57,6 +63,7 @@
 		30A4C1C3270EF06D00419C99 /* VectorSse.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VectorSse.hpp; sourceTree = "<group>"; };
 		30A4C1C4270EF07A00419C99 /* VectorNeon.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = VectorNeon.hpp; sourceTree = "<group>"; };
 		30A4C1DC270FA6EB00419C99 /* test no SIMD */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test no SIMD"; sourceTree = BUILT_PRODUCTS_DIR; };
+		30BE861B272E1B6B00EAC32A /* test SSE3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test SSE3"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6C90FD321A5A24D00B5FCB7 /* test SSE2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "test SSE2"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6C90FD621A5A24D00B5FCB7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -114,6 +121,7 @@
 				308C29EC26D1E37500E65A63 /* test iOS.app */,
 				30A4C1DC270FA6EB00419C99 /* test no SIMD */,
 				307604F62715E8350014D6A6 /* test AVX */,
+				30BE861B272E1B6B00EAC32A /* test SSE3 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -166,6 +174,21 @@
 			productReference = 30A4C1DC270FA6EB00419C99 /* test no SIMD */;
 			productType = "com.apple.product-type.tool";
 		};
+		30BE8610272E1B6B00EAC32A /* test SSE3 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 30BE8618272E1B6B00EAC32A /* Build configuration list for PBXNativeTarget "test SSE3" */;
+			buildPhases = (
+				30BE8611272E1B6B00EAC32A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "test SSE3";
+			productName = WebsocketTest;
+			productReference = 30BE861B272E1B6B00EAC32A /* test SSE3 */;
+			productType = "com.apple.product-type.tool";
+		};
 		C6C90FD221A5A24D00B5FCB7 /* test SSE2 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C6C90FDA21A5A24D00B5FCB7 /* Build configuration list for PBXNativeTarget "test SSE2" */;
@@ -213,6 +236,7 @@
 			targets = (
 				307604EB2715E8350014D6A6 /* test AVX */,
 				C6C90FD221A5A24D00B5FCB7 /* test SSE2 */,
+				30BE8610272E1B6B00EAC32A /* test SSE3 */,
 				308C29EB26D1E37500E65A63 /* test iOS */,
 				30A4C1CF270FA6EB00419C99 /* test no SIMD */,
 			);
@@ -256,6 +280,19 @@
 				30A4C1D4270FA6EB00419C99 /* plane_tests.cpp in Sources */,
 				30A4C1D5270FA6EB00419C99 /* include_test.cpp in Sources */,
 				30A4C1D6270FA6EB00419C99 /* vector_tests.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		30BE8611272E1B6B00EAC32A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				30BE8612272E1B6B00EAC32A /* main.cpp in Sources */,
+				30BE8613272E1B6B00EAC32A /* matrix_tests.cpp in Sources */,
+				30BE8614272E1B6B00EAC32A /* quaternion_tests.cpp in Sources */,
+				30BE8615272E1B6B00EAC32A /* plane_tests.cpp in Sources */,
+				30BE8616272E1B6B00EAC32A /* include_test.cpp in Sources */,
+				30BE8617272E1B6B00EAC32A /* vector_tests.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +379,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "OMATH_DISABLE_SIMD=1";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		30BE8619272E1B6B00EAC32A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "-msse3";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		30BE861A272E1B6B00EAC32A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "-msse3";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -548,6 +601,15 @@
 			buildConfigurations = (
 				30A4C1DA270FA6EB00419C99 /* Debug */,
 				30A4C1DB270FA6EB00419C99 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		30BE8618272E1B6B00EAC32A /* Build configuration list for PBXNativeTarget "test SSE3" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30BE8619272E1B6B00EAC32A /* Debug */,
+				30BE861A272E1B6B00EAC32A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
