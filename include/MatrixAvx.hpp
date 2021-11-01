@@ -358,6 +358,6 @@ namespace omath
     }
 }
 
-#endif
+#endif // __AVX__
 
 #endif // OMATH_MATRIX_AVX

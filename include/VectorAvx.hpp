@@ -101,6 +101,6 @@ namespace omath
     }
 }
 
-#endif
+#endif // __AVX__
 
 #endif // OMATH_VECTOR_AVX

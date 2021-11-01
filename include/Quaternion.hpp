@@ -211,9 +211,6 @@ namespace omath
         return quat;
     }
 
-    // TODO: inverse https://www.haroldserrano.com/blog/developing-a-math-engine-in-c-implementing-quaternions
-    // TODO: invert https://www.haroldserrano.com/blog/developing-a-math-engine-in-c-implementing-quaternions
-
     template <typename T>
     [[nodiscard]] auto norm(const Quaternion<T>& quat) noexcept
     {
