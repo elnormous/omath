@@ -162,9 +162,9 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
         REQUIRE(result == omath::Quaternion<float>{-2.0F, -4.0F, 6.0F, 6.0F});
     }
 
-    SECTION("Magnitude")
+    SECTION("Norm")
     {
-        const float result = magnitude(quaternion1);
+        const float result = norm(quaternion1);
         REQUIRE(result == Approx(9.591663046625438f));
     }
 }
@@ -265,9 +265,9 @@ TEST_CASE("Double-precision quaternion arithmetic operators", "vector")
         REQUIRE(result == omath::Quaternion<double>{-2.0, -4.0, 6.0, 6.0});
     }
 
-    SECTION("Magnitude")
+    SECTION("Norm")
     {
-        const double result = magnitude(quaternion1);
+        const double result = norm(quaternion1);
         REQUIRE(result == Approx(9.591663046625438));
     }
 }
