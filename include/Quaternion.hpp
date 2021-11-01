@@ -211,6 +211,12 @@ namespace omath
     }
 
     template <typename T>
+    [[nodiscard]] auto magnitude(const Quaternion<T>& quat) noexcept
+    {
+        return std::sqrt(quat.v[0] * quat.v[0] + quat.v[1] * quat.v[1] + quat.v[2] * quat.v[2] + quat.v[3] * quat.v[3]);
+    }
+
+    template <typename T>
     constexpr void conjugate(Quaternion<T>& quat) noexcept
     {
         quat.v[0] = -quat.v[0];

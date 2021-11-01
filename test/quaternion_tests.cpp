@@ -63,7 +63,6 @@ TEST_CASE("Quaternion comparison", "quaternion")
     REQUIRE(quaternion1 != quaternion3);
 }
 
-
 TEST_CASE("Quaternion arithmetic operators", "vector")
 {
     const omath::Quaternion<float> quaternion1{2.0F, 4.0F, -6.0F, 6.0F};
@@ -162,6 +161,12 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
         conjugate(result);
         REQUIRE(result == omath::Quaternion<float>{-2.0F, -4.0F, 6.0F, 6.0F});
     }
+
+    SECTION("Magnitude")
+    {
+        const float result = magnitude(quaternion1);
+        REQUIRE(result == Approx(9.591663046625438f));
+    }
 }
 
 TEST_CASE("Double-precision quaternion arithmetic operators", "vector")
@@ -258,5 +263,11 @@ TEST_CASE("Double-precision quaternion arithmetic operators", "vector")
         omath::Quaternion<double> result = quaternion1;
         conjugate(result);
         REQUIRE(result == omath::Quaternion<double>{-2.0, -4.0, 6.0, 6.0});
+    }
+
+    SECTION("Magnitude")
+    {
+        const double result = magnitude(quaternion1);
+        REQUIRE(result == Approx(9.591663046625438));
     }
 }
