@@ -219,7 +219,7 @@ namespace omath
     }
 
     template <typename T>
-    constexpr auto conjugated(const Quaternion<T>& quat) noexcept
+    [[nodiscard]] constexpr auto conjugated(const Quaternion<T>& quat) noexcept
     {
         return Quaternion<T>{-quat.v[0], -quat.v[1], -quat.v[2], quat.v[3]};
     }
