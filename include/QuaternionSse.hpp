@@ -15,6 +15,10 @@
 #  include <emmintrin.h>
 #endif
 
+#ifdef __SSE3__
+#  include <pmmintrin.h>
+#endif // __SSE3__
+
 namespace omath
 {
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1
@@ -208,6 +212,19 @@ namespace omath
     }
 #  endif // __AVX__
 #endif // SSE2
+
+#ifdef __SSE3__
+    template <>
+    [[nodiscard]] inline auto norm(const Quaternion<float>& quat) noexcept
+    {
+        const auto v = _mm_load_ps(quat.v.data());
+        const auto t1 = _mm_mul_ps(v, v);
+        const auto t2 = _mm_hadd_ps(t1, t1);
+        const auto t3 = _mm_hadd_ps(t2, t2);
+        const auto s = _mm_sqrt_ps(t3);
+        return _mm_cvtss_f32(s);
+    }
+#endif // __SSE3__
 }
 
 #endif // OMATH_QUATERNION_SSE
