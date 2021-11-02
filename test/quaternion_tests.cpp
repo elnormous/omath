@@ -149,6 +149,31 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
         REQUIRE(result == omath::Quaternion<float>{1.0F, 2.0F, -3.0F, 3.0F});
     }
 
+    SECTION("Norm")
+    {
+        const float result = norm(quaternion1);
+        REQUIRE(result == Approx(9.591663046625438f));
+    }
+
+    SECTION("Invert")
+    {
+        omath::Quaternion<float> result = quaternion1;
+        invert(result);
+        REQUIRE(result[0] == Approx(-0.0217391F));
+        REQUIRE(result[1] == Approx(-0.0434783F));
+        REQUIRE(result[2] == Approx(0.0652174F));
+        REQUIRE(result[3] == Approx(0.0652174F));
+    }
+
+    SECTION("Inverse")
+    {
+        const omath::Quaternion<float> result = inverse(quaternion1);
+        REQUIRE(result[0] == Approx(-0.0217391F));
+        REQUIRE(result[1] == Approx(-0.0434783F));
+        REQUIRE(result[2] == Approx(0.0652174F));
+        REQUIRE(result[3] == Approx(0.0652174F));
+    }
+
     SECTION("Conjugation")
     {
         const omath::Quaternion<float> result = conjugated(quaternion1);
@@ -160,12 +185,6 @@ TEST_CASE("Quaternion arithmetic operators", "vector")
         omath::Quaternion<float> result = quaternion1;
         conjugate(result);
         REQUIRE(result == omath::Quaternion<float>{-2.0F, -4.0F, 6.0F, 6.0F});
-    }
-
-    SECTION("Norm")
-    {
-        const float result = norm(quaternion1);
-        REQUIRE(result == Approx(9.591663046625438f));
     }
 }
 
@@ -252,6 +271,31 @@ TEST_CASE("Double-precision quaternion arithmetic operators", "vector")
         REQUIRE(result == omath::Quaternion<double>{1.0, 2.0, -3.0, 3.0});
     }
 
+    SECTION("Norm")
+    {
+        const double result = norm(quaternion1);
+        REQUIRE(result == Approx(9.591663046625438));
+    }
+
+    SECTION("Invert")
+    {
+        omath::Quaternion<double> result = quaternion1;
+        invert(result);
+        REQUIRE(result[0] == Approx(-0.0217391));
+        REQUIRE(result[1] == Approx(-0.0434783));
+        REQUIRE(result[2] == Approx(0.0652174));
+        REQUIRE(result[3] == Approx(0.0652174));
+    }
+
+    SECTION("Inverse")
+    {
+        const omath::Quaternion<double> result = inverse(quaternion1);
+        REQUIRE(result[0] == Approx(-0.0217391));
+        REQUIRE(result[1] == Approx(-0.0434783));
+        REQUIRE(result[2] == Approx(0.0652174));
+        REQUIRE(result[3] == Approx(0.0652174));
+    }
+
     SECTION("Conjugation")
     {
         const omath::Quaternion<double> result = conjugated(quaternion1);
@@ -263,11 +307,5 @@ TEST_CASE("Double-precision quaternion arithmetic operators", "vector")
         omath::Quaternion<double> result = quaternion1;
         conjugate(result);
         REQUIRE(result == omath::Quaternion<double>{-2.0, -4.0, 6.0, 6.0});
-    }
-
-    SECTION("Norm")
-    {
-        const double result = norm(quaternion1);
-        REQUIRE(result == Approx(9.591663046625438));
     }
 }

@@ -218,6 +218,28 @@ namespace omath
     }
 
     template <typename T>
+    constexpr void invert(Quaternion<T>& quat) noexcept
+    {
+        const auto normSquared = quat.v[0] * quat.v[0] + quat.v[1] * quat.v[1] + quat.v[2] * quat.v[2] + quat.v[3] * quat.v[3];
+        quat.v[0] = -quat.v[0] / normSquared;
+        quat.v[1] = -quat.v[1] / normSquared;
+        quat.v[2] = -quat.v[2] / normSquared;
+        quat.v[3] = quat.v[3] / normSquared;
+    }
+
+    template <typename T>
+    [[nodiscard]] auto inverse(const Quaternion<T>& quat) noexcept
+    {
+        const auto normSquared = quat.v[0] * quat.v[0] + quat.v[1] * quat.v[1] + quat.v[2] * quat.v[2] + quat.v[3] * quat.v[3];
+        return Quaternion<T>{
+            -quat.v[0] / normSquared,
+            -quat.v[1] / normSquared,
+            -quat.v[2] / normSquared,
+            quat.v[3] / normSquared
+        };
+    }
+
+    template <typename T>
     constexpr void conjugate(Quaternion<T>& quat) noexcept
     {
         quat.v[0] = -quat.v[0];
