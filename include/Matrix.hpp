@@ -197,7 +197,8 @@ namespace omath
     }
 
     template <
-        typename T, std::size_t dims,
+        typename T,
+        std::size_t dims,
         std::size_t size,
         std::enable_if_t<(dims <= size)>* = nullptr
     >
@@ -214,7 +215,8 @@ namespace omath
     }
 
     template <
-        typename T, std::size_t dims,
+        typename T,
+        std::size_t dims,
         std::size_t size,
         std::enable_if_t<(dims <= size)>* = nullptr
     >
@@ -230,6 +232,24 @@ namespace omath
                 vector.v[i] += temp[j] * matrix.m[j * size + i];
 
         return vector;
+    }
+
+    template <
+        typename T,
+        std::size_t size,
+        std::size_t dims,
+        std::enable_if_t<(dims <= size)>* = nullptr
+    >
+    [[nodiscard]] auto operator*(const Matrix<T, size, size>& matrix,
+                                 const Vector<T, dims>& vector) noexcept
+    {
+        Vector<T, dims> result{};
+
+        for (std::size_t i = 0; i < dims; ++i)
+            for (std::size_t j = 0; j < dims; ++j)
+                result.v[i] += matrix.m[i * size + j] * vector.v[j];
+
+        return result;
     }
 
     template <typename T, std::size_t rows, std::size_t cols>
