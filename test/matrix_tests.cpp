@@ -73,7 +73,7 @@ TEST_CASE("Matrix element setter", "matrix")
     });
 }
 
-TEST_CASE("Matrix comparison operators", "vector")
+TEST_CASE("Matrix comparison operators", "matrix")
 {
     const omath::Matrix<float, 2> matrix1{2.0F, 4.0F, 3.0F, 5.0F};
     const omath::Matrix<float, 2> matrix2{2.0F, 5.0F, 3.0F, 5.0F};
