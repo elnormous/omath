@@ -224,13 +224,13 @@ namespace omath
                      const Matrix<T, size, size>& matrix) noexcept
     {
         static_assert(dims <= size);
-        const auto temp = vector.v;
-        vector.v = {};
+        std::array<T, dims> result{};
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                vector.v[i] += temp[j] * matrix.m[j * size + i];
+                result[i] += vector[j] * matrix.m[j * size + i];
 
+        vector.v = result;
         return vector;
     }
 
