@@ -259,6 +259,35 @@ namespace omath
         return vector;
     }
 
+#  ifndef __SSE3__
+    template <>
+    [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix,
+                                        const Vector<float, 4>& vector) noexcept
+    {
+        Vector<float, 4> result;
+
+        const auto v = _mm_load_ps(vector.v.data());
+
+        const auto row0 = _mm_load_ps(&matrix.m[0]);
+        const auto row1 = _mm_load_ps(&matrix.m[4]);
+        const auto row2 = _mm_load_ps(&matrix.m[8]);
+        const auto row3 = _mm_load_ps(&matrix.m[12]);
+
+        const auto m0 = _mm_mul_ps(v, row0);
+        const auto m1 = _mm_mul_ps(v, row1);
+        const auto m2 = _mm_mul_ps(v, row2);
+        const auto m3 = _mm_mul_ps(v, row3);
+
+        const auto a0 = _mm_add_ps(_mm_unpacklo_ps(m0, m1), _mm_unpackhi_ps(m0, m1));
+        const auto a1 = _mm_add_ps(_mm_unpacklo_ps(m2, m3), _mm_unpackhi_ps(m2, m3));
+        const auto a3 = _mm_add_ps(_mm_movelh_ps(a0, a1), _mm_movehl_ps(a1, a0));
+
+        _mm_store_ps(result.v.data(), a3);
+
+        return result;
+    }
+#  endif // SSE3
+
     template <>
     [[nodiscard]] inline auto transposed(const Matrix<float, 4, 4>& matrix) noexcept
     {
@@ -622,6 +651,35 @@ namespace omath
         _mm_store_pd(&matrix.m[14], _mm_shuffle_pd(tmp21, tmp31, _MM_SHUFFLE2(1, 1)));
     }
 #endif // SSE2
+
+#ifdef __SSE3__
+    template <>
+    [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix,
+                                        const Vector<float, 4>& vector) noexcept
+    {
+        Vector<float, 4> result;
+
+        const auto v = _mm_load_ps(vector.v.data());
+
+        const auto row0 = _mm_load_ps(&matrix.m[0]);
+        const auto row1 = _mm_load_ps(&matrix.m[4]);
+        const auto row2 = _mm_load_ps(&matrix.m[8]);
+        const auto row3 = _mm_load_ps(&matrix.m[12]);
+
+        const auto m0 = _mm_mul_ps(v, row0);
+        const auto m1 = _mm_mul_ps(v, row1);
+        const auto m2 = _mm_mul_ps(v, row2);
+        const auto m3 = _mm_mul_ps(v, row3);
+
+        const auto a0 = _mm_hadd_ps(m0, m1);
+        const auto a1 = _mm_hadd_ps(m2, m3);
+        const auto a3 = _mm_hadd_ps(a0, a1);
+
+        _mm_store_ps(result.v.data(), a3);
+
+        return result;
+    }
+#endif
 }
 
 #endif // OMATH_MATRIX_SSE
