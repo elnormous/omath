@@ -22,7 +22,7 @@ namespace omath
 #if (defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2) || (defined(__ARM_NEON__) && defined(__aarch64__))
         alignas(std::is_same_v<T, double> && rows == 4 && cols == 4 ? cols * sizeof(T) : alignof(T))
 #endif
-        std::array<T, cols * rows> m; // row-major matrix (transformation is pre-multiplying)
+        std::array<T, cols * rows> m; // row-major matrix
 
         [[nodiscard]] auto operator[](const std::size_t row) noexcept { return &m[row * cols]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * cols]; }
