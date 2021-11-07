@@ -26,6 +26,8 @@ namespace omath
 
         [[nodiscard]] auto operator[](const std::size_t row) noexcept { return &m[row * cols]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * cols]; }
+        [[nodiscard]] auto& operator()(const std::size_t row, const std::size_t col) noexcept { return m[row * cols + col]; }
+        [[nodiscard]] constexpr auto operator()(const std::size_t row, const std::size_t col) const noexcept { return m[row * cols + col]; }
     };
 
     template <typename T, std::size_t size, std::size_t ...i>

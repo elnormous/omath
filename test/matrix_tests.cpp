@@ -9,6 +9,23 @@ TEST_CASE("Matrix zero initalization", "matrix")
             REQUIRE(matrix[row][column] == 0.0F);
 }
 
+TEST_CASE("Matrix accessors", "vector")
+{
+    const omath::Matrix<float, 2, 2> matrix{
+        0.0F, 1.0F,
+        2.0F, 3.0F
+    };
+
+    REQUIRE(matrix[0][0] == 0.0F);
+    REQUIRE(matrix[0][1] == 1.0F);
+    REQUIRE(matrix[1][0] == 2.0F);
+    REQUIRE(matrix[1][1] == 3.0F);
+    REQUIRE(matrix(0, 0) == 0.0F);
+    REQUIRE(matrix(0, 1) == 1.0F);
+    REQUIRE(matrix(1, 0) == 2.0F);
+    REQUIRE(matrix(1, 1) == 3.0F);
+}
+
 TEST_CASE("Matrix element assignment", "matrix")
 {
     omath::Matrix<float, 2> matrix;
@@ -20,6 +37,16 @@ TEST_CASE("Matrix element assignment", "matrix")
     REQUIRE(matrix == omath::Matrix<float, 2, 2>{
         0.0F, 1.0F,
         2.0F, 3.0F
+    });
+
+    matrix(0, 0) = 4.0F;
+    matrix(0, 1) = 5.0F;
+    matrix(1, 0) = 6.0F;
+    matrix(1, 1) = 7.0F;
+
+    REQUIRE(matrix == omath::Matrix<float, 2, 2>{
+        4.0F, 5.0F,
+        6.0F, 7.0F
     });
 }
 
