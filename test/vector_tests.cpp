@@ -27,6 +27,10 @@ TEST_CASE("Vector accessors", "vector")
     REQUIRE(vector.y() == 2.0F);
     REQUIRE(vector.z() == 3.0F);
     REQUIRE(vector.w() == 4.0F);
+    REQUIRE(vector[0] == 1.0F);
+    REQUIRE(vector[1] == 2.0F);
+    REQUIRE(vector[2] == 3.0F);
+    REQUIRE(vector[3] == 4.0F);
 }
 
 TEST_CASE("Vector comparison operators", "vector")
