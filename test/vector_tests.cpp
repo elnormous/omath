@@ -31,6 +31,28 @@ TEST_CASE("Vector accessors", "vector")
     REQUIRE(vector[1] == 2.0F);
     REQUIRE(vector[2] == 3.0F);
     REQUIRE(vector[3] == 4.0F);
+    REQUIRE(vector(0) == 1.0F);
+    REQUIRE(vector(1) == 2.0F);
+    REQUIRE(vector(2) == 3.0F);
+    REQUIRE(vector(3) == 4.0F);
+}
+
+TEST_CASE("Vector element assignment", "matrix")
+{
+    omath::Vector<float, 4> vector;
+    vector[0] = 0.0F;
+    vector[1] = 1.0F;
+    vector[2] = 2.0F;
+    vector[3] = 3.0F;
+
+    REQUIRE(vector == omath::Vector<float, 4>{0.0F, 1.0F, 2.0F, 3.0F});
+
+    vector(0) = 4.0F;
+    vector(1) = 5.0F;
+    vector(2) = 6.0F;
+    vector(3) = 7.0F;
+
+    REQUIRE(vector == omath::Vector<float, 4>{4.0F, 5.0F, 6.0F, 7.0F});
 }
 
 TEST_CASE("Vector comparison operators", "vector")

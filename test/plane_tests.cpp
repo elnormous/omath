@@ -31,6 +31,28 @@ TEST_CASE("Plane accessors", "plane")
     REQUIRE(plane[1] == 2.0F);
     REQUIRE(plane[2] == 3.0F);
     REQUIRE(plane[3] == 4.0F);
+    REQUIRE(plane(0) == 1.0F);
+    REQUIRE(plane(1) == 2.0F);
+    REQUIRE(plane(2) == 3.0F);
+    REQUIRE(plane(3) == 4.0F);
+}
+
+TEST_CASE("Plane element assignment", "matrix")
+{
+    omath::Plane<float> plane;
+    plane[0] = 0.0F;
+    plane[1] = 1.0F;
+    plane[2] = 2.0F;
+    plane[3] = 3.0F;
+
+    REQUIRE(plane == omath::Plane<float>{0.0F, 1.0F, 2.0F, 3.0F});
+
+    plane(0) = 4.0F;
+    plane(1) = 5.0F;
+    plane(2) = 6.0F;
+    plane(3) = 7.0F;
+
+    REQUIRE(plane == omath::Plane<float>{4.0F, 5.0F, 6.0F, 7.0F});
 }
 
 TEST_CASE("Plane comparison", "plane")

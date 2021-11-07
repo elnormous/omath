@@ -25,6 +25,8 @@ namespace omath
 
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
+        [[nodiscard]] auto& operator()(const std::size_t index) noexcept { return v[index]; }
+        [[nodiscard]] constexpr auto operator()(const std::size_t index) const noexcept { return v[index]; }
 
         [[nodiscard]] auto& x() noexcept { return v[0]; }
         [[nodiscard]] constexpr auto x() const noexcept { return v[0]; }

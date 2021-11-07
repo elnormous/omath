@@ -31,6 +31,28 @@ TEST_CASE("Quaternion accessors", "quaternion")
     REQUIRE(quaternion[1] == 2.0F);
     REQUIRE(quaternion[2] == 3.0F);
     REQUIRE(quaternion[3] == 4.0F);
+    REQUIRE(quaternion(0) == 1.0F);
+    REQUIRE(quaternion(1) == 2.0F);
+    REQUIRE(quaternion(2) == 3.0F);
+    REQUIRE(quaternion(3) == 4.0F);
+}
+
+TEST_CASE("Quaternion element assignment", "matrix")
+{
+    omath::Quaternion<float> quaternion;
+    quaternion[0] = 0.0F;
+    quaternion[1] = 1.0F;
+    quaternion[2] = 2.0F;
+    quaternion[3] = 3.0F;
+
+    REQUIRE(quaternion == omath::Quaternion<float>{0.0F, 1.0F, 2.0F, 3.0F});
+
+    quaternion(0) = 4.0F;
+    quaternion(1) = 5.0F;
+    quaternion(2) = 6.0F;
+    quaternion(3) = 7.0F;
+
+    REQUIRE(quaternion == omath::Quaternion<float>{4.0F, 5.0F, 6.0F, 7.0F});
 }
 
 TEST_CASE("Quaternion identity", "quaternion")
