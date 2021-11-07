@@ -27,6 +27,10 @@ TEST_CASE("Quaternion accessors", "quaternion")
     REQUIRE(quaternion.y() == 2.0F);
     REQUIRE(quaternion.z() == 3.0F);
     REQUIRE(quaternion.w() == 4.0F);
+    REQUIRE(quaternion[0] == 1.0F);
+    REQUIRE(quaternion[1] == 2.0F);
+    REQUIRE(quaternion[2] == 3.0F);
+    REQUIRE(quaternion[3] == 4.0F);
 }
 
 TEST_CASE("Quaternion identity", "quaternion")

@@ -27,6 +27,10 @@ TEST_CASE("Plane accessors", "plane")
     REQUIRE(plane.b() == 2.0F);
     REQUIRE(plane.c() == 3.0F);
     REQUIRE(plane.d() == 4.0F);
+    REQUIRE(plane[0] == 1.0F);
+    REQUIRE(plane[1] == 2.0F);
+    REQUIRE(plane[2] == 3.0F);
+    REQUIRE(plane[3] == 4.0F);
 }
 
 TEST_CASE("Plane comparison", "plane")
