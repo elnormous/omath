@@ -24,7 +24,7 @@ namespace omath
 #endif
         std::array<T, cols * rows> m; // column-major matrix
 
-        constexpr Matrix() = default;
+        constexpr Matrix() noexcept = default;
 
         template <typename ...A>
         explicit constexpr Matrix(const A... args) noexcept:
