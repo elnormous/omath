@@ -372,7 +372,6 @@
 					"$(inherited)",
 				);
 				OTHER_CFLAGS = (
-					"-mno-sse",
 					"-mno-sse2",
 					"-mno-sse3",
 				);
@@ -385,7 +384,6 @@
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "OMATH_DISABLE_SIMD=1";
 				OTHER_CFLAGS = (
-					"-mno-sse",
 					"-mno-sse2",
 					"-mno-sse3",
 				);
