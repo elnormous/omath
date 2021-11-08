@@ -371,10 +371,7 @@
 					"OMATH_DISABLE_SIMD=1",
 					"$(inherited)",
 				);
-				OTHER_CFLAGS = (
-					"-mno-sse2",
-					"-mno-sse3",
-				);
+				OTHER_CFLAGS = "-mno-sse3";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -383,10 +380,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "OMATH_DISABLE_SIMD=1";
-				OTHER_CFLAGS = (
-					"-mno-sse2",
-					"-mno-sse3",
-				);
+				OTHER_CFLAGS = "-mno-sse3";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
