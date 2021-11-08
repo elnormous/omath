@@ -22,18 +22,32 @@ namespace omath
 #if (defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2) || (defined(__ARM_NEON__) && defined(__aarch64__))
         alignas(std::is_same_v<T, double> && rows == 4 && cols == 4 ? cols * sizeof(T) : alignof(T))
 #endif
-        std::array<T, cols * rows> m; // row-major matrix
+        std::array<T, cols * rows> m; // column-major matrix
 
-        [[nodiscard]] auto operator[](const std::size_t row) noexcept { return &m[row * cols]; }
-        [[nodiscard]] constexpr auto operator[](const std::size_t row) const noexcept { return &m[row * cols]; }
-        [[nodiscard]] auto& operator()(const std::size_t row, const std::size_t col) noexcept { return m[row * cols + col]; }
-        [[nodiscard]] constexpr auto operator()(const std::size_t row, const std::size_t col) const noexcept { return m[row * cols + col]; }
+        constexpr Matrix() = default;
+
+        template <typename ...A>
+        explicit constexpr Matrix(const A... args) noexcept:
+            m{transpose(std::array<T, rows * cols>{args...}, std::make_index_sequence<rows * cols>{})}
+        {
+        }
+
+        [[nodiscard]] auto& operator()(const std::size_t row, const std::size_t col) noexcept { return m[col * rows + row]; }
+        [[nodiscard]] constexpr auto operator()(const std::size_t row, const std::size_t col) const noexcept { return m[col * rows + row]; }
+
+    private:
+        template <std::size_t ...i>
+        constexpr auto transpose(const std::array<T, cols * rows> a,
+                                 const std::index_sequence<i...>) noexcept
+        {
+            return std::array<T, cols * rows>{a[((i % rows) * cols + i / rows)]...};
+        }
     };
 
     template <typename T, std::size_t size, std::size_t ...i>
     constexpr auto generateIdentityMatrix(std::index_sequence<i...>) noexcept
     {
-        return Matrix<T, size, size>{(i % size == i / size) ? T(1) : T(0)...};
+        return Matrix<T, size, size>{std::array<T, size * size>{(i % size == i / size) ? T(1) : T(0)...}};
     }
 
     template <typename T, std::size_t size>
@@ -170,7 +184,7 @@ namespace omath
         for (std::size_t i = 0; i < rows; ++i)
             for (std::size_t j = 0; j < cols2; ++j)
                 for (std::size_t k = 0; k < cols; ++k)
-                    result.m[i * cols2 + j] += matrix1.m[i * cols + k] * matrix2.m[k * cols2 + j];
+                    result.m[j * rows + i] += matrix1.m[k * rows + i] * matrix2.m[j * cols + k];
 
         return result;
     }
@@ -184,7 +198,7 @@ namespace omath
         for (std::size_t i = 0; i < size; ++i)
             for (std::size_t j = 0; j < size; ++j)
                 for (std::size_t k = 0; k < size; ++k)
-                    result[i * size + j] += matrix1.m[i * size + k] * matrix2.m[k * size + j];
+                    result[j * size + i] += matrix1.m[k * size + i] * matrix2.m[j * size + k];
 
         matrix1.m = result;
 
@@ -211,7 +225,7 @@ namespace omath
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result.v[i] += vector.v[j] * matrix.m[j * size + i];
+                result.v[i] += vector.v[j] * matrix.m[i * size + j];
 
         return result;
     }
@@ -230,7 +244,7 @@ namespace omath
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result[i] += vector[j] * matrix.m[j * size + i];
+                result[i] += vector[j] * matrix.m[i * size + j];
 
         vector.v = result;
         return vector;
@@ -249,7 +263,7 @@ namespace omath
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result.v[i] += matrix.m[i * size + j] * vector.v[j];
+                result.v[i] += matrix.m[j * size + i] * vector.v[j];
 
         return result;
     }
@@ -267,7 +281,7 @@ namespace omath
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result[i] += matrix.m[i * size + j] * vector.v[j];
+                result[i] += matrix.m[j * size + i] * vector.v[j];
 
         vector.v = result;
     }
@@ -276,9 +290,9 @@ namespace omath
     [[nodiscard]] constexpr auto transposed(const Matrix<T, rows, cols>& matrix) noexcept
     {
         Matrix<T, cols, rows> result;
-        for (std::size_t i = 0; i < cols; ++i)
-            for (std::size_t j = 0; j < rows; ++j)
-                result.m[i * rows + j] = matrix.m[j * cols + i];
+        for (std::size_t i = 0; i < rows; ++i)
+            for (std::size_t j = 0; j < cols; ++j)
+                result.m[i * cols + j] = matrix.m[j * rows + i];
         return result;
     }
 
