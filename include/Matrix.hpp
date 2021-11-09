@@ -13,6 +13,25 @@
 namespace omath
 {
     template <typename T, std::size_t rows, std::size_t cols = rows>
+    struct MatrixElements final
+    {
+        T v[rows * cols];
+    };
+
+    template <typename T, std::size_t rows, std::size_t cols, std::size_t ...i>
+    constexpr auto transpose(const MatrixElements<T, cols, rows> a,
+                             const std::index_sequence<i...>) noexcept
+    {
+        return MatrixElements<T, cols, rows>{a.v[((i % rows) * cols + i / rows)]...};
+    }
+
+    template <typename T, std::size_t size, std::size_t ...i>
+    constexpr auto identity(std::index_sequence<i...>) noexcept
+    {
+        return MatrixElements<T, size, size>{(i % size == i / size) ? T(1) : T(0)...};
+    }
+
+    template <typename T, std::size_t rows, std::size_t cols = rows>
     class Matrix final
     {
     public:
@@ -22,43 +41,29 @@ namespace omath
 #if (defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2) || (defined(__ARM_NEON__) && defined(__aarch64__))
         alignas(std::is_same_v<T, double> && rows == 4 && cols == 4 ? cols * sizeof(T) : alignof(T))
 #endif
-        std::array<T, cols * rows> m; // column-major matrix
+        MatrixElements<T, cols, rows> m; // column-major matrix
 
         constexpr Matrix() noexcept = default;
 
         template <typename ...A>
         explicit constexpr Matrix(const A... args) noexcept:
-            m{transpose(std::array<T, rows * cols>{args...}, std::make_index_sequence<rows * cols>{})}
+            m{transpose(MatrixElements<T, cols, rows>{args...}, std::make_index_sequence<rows * cols>{})}
         {
         }
 
-        [[nodiscard]] auto& operator()(const std::size_t row, const std::size_t col) noexcept { return m[col * rows + row]; }
-        [[nodiscard]] constexpr auto operator()(const std::size_t row, const std::size_t col) const noexcept { return m[col * rows + row]; }
-
-    private:
-        template <std::size_t ...i>
-        constexpr auto transpose(const std::array<T, cols * rows> a,
-                                 const std::index_sequence<i...>) noexcept
-        {
-            return std::array<T, cols * rows>{a[((i % rows) * cols + i / rows)]...};
-        }
+        [[nodiscard]] auto& operator()(const std::size_t row, const std::size_t col) noexcept { return m.v[col * rows + row]; }
+        [[nodiscard]] constexpr auto operator()(const std::size_t row, const std::size_t col) const noexcept { return m.v[col * rows + row]; }
     };
 
-    template <typename T, std::size_t size, std::size_t ...i>
-    constexpr auto generateIdentityMatrix(std::index_sequence<i...>) noexcept
-    {
-        return Matrix<T, size, size>{std::array<T, size * size>{(i % size == i / size) ? T(1) : T(0)...}};
-    }
-
     template <typename T, std::size_t size>
-    constexpr auto identityMatrix = generateIdentityMatrix<T, size>(std::make_index_sequence<size * size>{});
+    constexpr auto identityMatrix = Matrix<T, size, size>{identity<T, size>(std::make_index_sequence<size * size>{})};
 
     template <typename T, std::size_t size>
     constexpr void setIdentity(Matrix<T, size, size>& matrix) noexcept
     {
         for (std::size_t i = 0; i < size; ++i)
             for (std::size_t j = 0; j < size; ++j)
-                matrix.m[j * size + i] = (j == i) ? T(1) : T(0);
+                matrix.m.v[j * size + i] = (j == i) ? T(1) : T(0);
     }
 
     template <typename T, std::size_t rows, std::size_t cols>
@@ -66,7 +71,7 @@ namespace omath
                                             const Matrix<T, rows, cols>& matrix2) noexcept
     {
         for (std::size_t i = 0; i < rows * cols; ++i)
-            if (matrix1.m[i] != matrix2.m[i]) return false;
+            if (matrix1.m.v[i] != matrix2.m.v[i]) return false;
         return true;
     }
 
@@ -75,7 +80,7 @@ namespace omath
                                             const Matrix<T, rows, cols>& matrix2) noexcept
     {
         for (std::size_t i = 0; i < rows * cols; ++i)
-            if (matrix1.m[i] != matrix2.m[i]) return true;
+            if (matrix1.m.v[i] != matrix2.m.v[i]) return true;
         return false;
     }
 
@@ -89,14 +94,14 @@ namespace omath
     [[nodiscard]] constexpr auto operator-(const Matrix<T, rows, cols>& matrix)noexcept
     {
         Matrix<T, rows, cols> result;
-        for (std::size_t i = 0; i < rows * cols; ++i) result.m[i] = -matrix.m[i];
+        for (std::size_t i = 0; i < rows * cols; ++i) result.m.v[i] = -matrix.m.v[i];
         return result;
     }
 
     template <typename T, std::size_t rows, std::size_t cols>
     constexpr void negate(Matrix<T, rows, cols>& matrix) noexcept
     {
-        for (auto& c : matrix.m) c = -c;
+        for (auto& c : matrix.m.v) c = -c;
     }
 
     template <typename T, std::size_t rows, std::size_t cols>
@@ -105,7 +110,7 @@ namespace omath
     {
         Matrix<T, rows, cols> result;
         for (std::size_t i = 0; i < rows * cols; ++i)
-            result.m[i] = matrix1.m[i] + matrix2.m[i];
+            result.m.v[i] = matrix1.m.v[i] + matrix2.m.v[i];
         return result;
     }
 
@@ -114,7 +119,7 @@ namespace omath
                      const Matrix<T, rows, cols>& matrix2) noexcept
     {
         for (std::size_t i = 0; i < cols * rows; ++i)
-            matrix1.m[i] += matrix2.m[i];
+            matrix1.m.v[i] += matrix2.m.v[i];
         return matrix1;
     }
 
@@ -124,7 +129,7 @@ namespace omath
     {
         Matrix<T, rows, cols> result;
         for (std::size_t i = 0; i < rows * cols; ++i)
-            result.m[i] = matrix1.m[i] - matrix2.m[i];
+            result.m.v[i] = matrix1.m.v[i] - matrix2.m.v[i];
         return result;
     }
 
@@ -133,7 +138,7 @@ namespace omath
                      const Matrix<T, rows, cols>& matrix2) noexcept
     {
         for (std::size_t i = 0; i < cols * rows; ++i)
-            matrix1.m[i] -= matrix2.m[i];
+            matrix1.m.v[i] -= matrix2.m.v[i];
         return matrix1;
     }
 
@@ -143,7 +148,7 @@ namespace omath
     {
         Matrix<T, rows, cols> result;
         for (std::size_t i = 0; i < rows * cols; ++i)
-            result.m[i] = matrix.m[i] * scalar;
+            result.m.v[i] = matrix.m.v[i] * scalar;
         return result;
     }
 
@@ -152,7 +157,7 @@ namespace omath
                      const T scalar) noexcept
     {
         for (std::size_t i = 0; i < cols * rows; ++i)
-            matrix.m[i] *= scalar;
+            matrix.m.v[i] *= scalar;
         return matrix;
     }
 
@@ -162,7 +167,7 @@ namespace omath
     {
         Matrix<T, rows, cols> result;
         for (std::size_t i = 0; i < rows * cols; ++i)
-            result.m[i] = matrix.m[i] / scalar;
+            result.m.v[i] = matrix.m.v[i] / scalar;
         return result;
     }
 
@@ -171,7 +176,7 @@ namespace omath
                      const T scalar) noexcept
     {
         for (std::size_t i = 0; i < cols * rows; ++i)
-            matrix.m[i] /= scalar;
+            matrix.m.v[i] /= scalar;
         return matrix;
     }
 
@@ -184,7 +189,7 @@ namespace omath
         for (std::size_t i = 0; i < rows; ++i)
             for (std::size_t j = 0; j < cols2; ++j)
                 for (std::size_t k = 0; k < cols; ++k)
-                    result.m[j * rows + i] += matrix1.m[k * rows + i] * matrix2.m[j * cols + k];
+                    result.m.v[j * rows + i] += matrix1.m.v[k * rows + i] * matrix2.m.v[j * cols + k];
 
         return result;
     }
@@ -193,14 +198,14 @@ namespace omath
     auto& operator*=(Matrix<T, size, size>& matrix1,
                      const Matrix<T, size, size>& matrix2) noexcept
     {
-        std::array<T, size * size> result{};
+        Matrix<T, size, size> result{};
 
         for (std::size_t i = 0; i < size; ++i)
             for (std::size_t j = 0; j < size; ++j)
                 for (std::size_t k = 0; k < size; ++k)
-                    result[j * size + i] += matrix1.m[k * size + i] * matrix2.m[j * size + k];
+                    result.m.v[j * size + i] += matrix1.m.v[k * size + i] * matrix2.m.v[j * size + k];
 
-        matrix1.m = result;
+        matrix1 = result;
 
         return matrix1;
     }
@@ -225,7 +230,7 @@ namespace omath
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result.v[i] += vector.v[j] * matrix.m[i * size + j];
+                result.v[i] += vector.v[j] * matrix.m.v[i * size + j];
 
         return result;
     }
@@ -244,7 +249,7 @@ namespace omath
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result[i] += vector[j] * matrix.m[i * size + j];
+                result[i] += vector[j] * matrix.m.v[i * size + j];
 
         vector.v = result;
         return vector;
@@ -263,7 +268,7 @@ namespace omath
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result.v[i] += matrix.m[j * size + i] * vector.v[j];
+                result.v[i] += matrix.m.v[j * size + i] * vector.v[j];
 
         return result;
     }
@@ -281,7 +286,7 @@ namespace omath
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
-                result[i] += matrix.m[j * size + i] * vector.v[j];
+                result[i] += matrix.m.v[j * size + i] * vector.v[j];
 
         vector.v = result;
     }
@@ -292,7 +297,7 @@ namespace omath
         Matrix<T, cols, rows> result;
         for (std::size_t i = 0; i < rows; ++i)
             for (std::size_t j = 0; j < cols; ++j)
-                result.m[i * cols + j] = matrix.m[j * rows + i];
+                result.m.v[i * cols + j] = matrix.m.v[j * rows + i];
         return result;
     }
 
@@ -302,9 +307,9 @@ namespace omath
         for (std::size_t i = 1; i < size; ++i)
             for (std::size_t j = 0; j < i; ++j)
             {
-                T temp = std::move(matrix.m[i * size + j]);
-                matrix.m[i * size + j] = std::move(matrix.m[j * size + i]);
-                matrix.m[j * size + i] = std::move(temp);
+                T temp = std::move(matrix.m.v[i * size + j]);
+                matrix.m.v[i * size + j] = std::move(matrix.m.v[j * size + i]);
+                matrix.m.v[j * size + i] = std::move(temp);
             }
     }
 
@@ -314,30 +319,30 @@ namespace omath
         if constexpr (size == 0)
             return T(1);
         if constexpr (size == 1)
-            return matrix.m[0];
+            return matrix.m.v[0];
         else if constexpr (size == 2)
-            return matrix.m[0] * matrix.m[3] - matrix.m[1] * matrix.m[2];
+            return matrix.m.v[0] * matrix.m.v[3] - matrix.m.v[1] * matrix.m.v[2];
         else if constexpr (size == 3)
-            return matrix.m[0] * matrix.m[4] * matrix.m[8] +
-                matrix.m[1] * matrix.m[5] * matrix.m[6] +
-                matrix.m[2] * matrix.m[3] * matrix.m[7] -
-                matrix.m[2] * matrix.m[4] * matrix.m[6] -
-                matrix.m[1] * matrix.m[3] * matrix.m[8] -
-                matrix.m[0] * matrix.m[5] * matrix.m[7];
+            return matrix.m.v[0] * matrix.m.v[4] * matrix.m.v[8] +
+                matrix.m.v[1] * matrix.m.v[5] * matrix.m.v[6] +
+                matrix.m.v[2] * matrix.m.v[3] * matrix.m.v[7] -
+                matrix.m.v[2] * matrix.m.v[4] * matrix.m.v[6] -
+                matrix.m.v[1] * matrix.m.v[3] * matrix.m.v[8] -
+                matrix.m.v[0] * matrix.m.v[5] * matrix.m.v[7];
         else if constexpr (size == 4)
         {
-            const auto a0 = matrix.m[0] * matrix.m[5] - matrix.m[1] * matrix.m[4];
-            const auto a1 = matrix.m[0] * matrix.m[6] - matrix.m[2] * matrix.m[4];
-            const auto a2 = matrix.m[0] * matrix.m[7] - matrix.m[3] * matrix.m[4];
-            const auto a3 = matrix.m[1] * matrix.m[6] - matrix.m[2] * matrix.m[5];
-            const auto a4 = matrix.m[1] * matrix.m[7] - matrix.m[3] * matrix.m[5];
-            const auto a5 = matrix.m[2] * matrix.m[7] - matrix.m[3] * matrix.m[6];
-            const auto b0 = matrix.m[8] * matrix.m[13] - matrix.m[9] * matrix.m[12];
-            const auto b1 = matrix.m[8] * matrix.m[14] - matrix.m[10] * matrix.m[12];
-            const auto b2 = matrix.m[8] * matrix.m[15] - matrix.m[11] * matrix.m[12];
-            const auto b3 = matrix.m[9] * matrix.m[14] - matrix.m[10] * matrix.m[13];
-            const auto b4 = matrix.m[9] * matrix.m[15] - matrix.m[11] * matrix.m[13];
-            const auto b5 = matrix.m[10] * matrix.m[15] - matrix.m[11] * matrix.m[14];
+            const auto a0 = matrix.m.v[0] * matrix.m.v[5] - matrix.m.v[1] * matrix.m.v[4];
+            const auto a1 = matrix.m.v[0] * matrix.m.v[6] - matrix.m.v[2] * matrix.m.v[4];
+            const auto a2 = matrix.m.v[0] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[4];
+            const auto a3 = matrix.m.v[1] * matrix.m.v[6] - matrix.m.v[2] * matrix.m.v[5];
+            const auto a4 = matrix.m.v[1] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[5];
+            const auto a5 = matrix.m.v[2] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[6];
+            const auto b0 = matrix.m.v[8] * matrix.m.v[13] - matrix.m.v[9] * matrix.m.v[12];
+            const auto b1 = matrix.m.v[8] * matrix.m.v[14] - matrix.m.v[10] * matrix.m.v[12];
+            const auto b2 = matrix.m.v[8] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[12];
+            const auto b3 = matrix.m.v[9] * matrix.m.v[14] - matrix.m.v[10] * matrix.m.v[13];
+            const auto b4 = matrix.m.v[9] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[13];
+            const auto b5 = matrix.m.v[10] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[14];
 
             return a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
         }
@@ -349,109 +354,109 @@ namespace omath
         static_assert(size <= 4);
 
         if constexpr (size == 1)
-            matrix.m[0] = 1.0F / matrix.m[0];
+            matrix.m.v[0] = 1.0F / matrix.m.v[0];
         else if constexpr (size == 2)
         {
-            const auto det = matrix.m[0] * matrix.m[3] - matrix.m[1] * matrix.m[2];
+            const auto det = matrix.m.v[0] * matrix.m.v[3] - matrix.m.v[1] * matrix.m.v[2];
             const std::array<T, size * size> adjugate{
-                matrix.m[3],
-                -matrix.m[1],
-                -matrix.m[2],
-                matrix.m[0]
+                matrix.m.v[3],
+                -matrix.m.v[1],
+                -matrix.m.v[2],
+                matrix.m.v[0]
             };
 
-            matrix.m[0] = adjugate[0] / det;
-            matrix.m[1] = adjugate[1] / det;
-            matrix.m[2] = adjugate[2] / det;
-            matrix.m[3] = adjugate[3] / det;
+            matrix.m.v[0] = adjugate[0] / det;
+            matrix.m.v[1] = adjugate[1] / det;
+            matrix.m.v[2] = adjugate[2] / det;
+            matrix.m.v[3] = adjugate[3] / det;
         }
         else if constexpr (size == 3)
         {
-            const auto a0 = matrix.m[4] * matrix.m[8] - matrix.m[5] * matrix.m[7];
-            const auto a1 = matrix.m[3] * matrix.m[8] - matrix.m[5] * matrix.m[6];
-            const auto a2 = matrix.m[3] * matrix.m[7] - matrix.m[4] * matrix.m[6];
+            const auto a0 = matrix.m.v[4] * matrix.m.v[8] - matrix.m.v[5] * matrix.m.v[7];
+            const auto a1 = matrix.m.v[3] * matrix.m.v[8] - matrix.m.v[5] * matrix.m.v[6];
+            const auto a2 = matrix.m.v[3] * matrix.m.v[7] - matrix.m.v[4] * matrix.m.v[6];
 
-            const auto det = matrix.m[0] * a0 - matrix.m[1] * a1 + matrix.m[2] * a2;
+            const auto det = matrix.m.v[0] * a0 - matrix.m.v[1] * a1 + matrix.m.v[2] * a2;
 
             const std::array<T, size * size> adjugate{
                 a0,
-                -matrix.m[1] * matrix.m[8] + matrix.m[2] * matrix.m[7],
-                matrix.m[1] * matrix.m[5] - matrix.m[2] * matrix.m[4],
+                -matrix.m.v[1] * matrix.m.v[8] + matrix.m.v[2] * matrix.m.v[7],
+                matrix.m.v[1] * matrix.m.v[5] - matrix.m.v[2] * matrix.m.v[4],
 
                 -a1,
-                matrix.m[0] * matrix.m[8] - matrix.m[2] * matrix.m[6],
-                -matrix.m[0] * matrix.m[5] + matrix.m[2] * matrix.m[3],
+                matrix.m.v[0] * matrix.m.v[8] - matrix.m.v[2] * matrix.m.v[6],
+                -matrix.m.v[0] * matrix.m.v[5] + matrix.m.v[2] * matrix.m.v[3],
 
                 a2,
-                -matrix.m[0] * matrix.m[7] + matrix.m[1] * matrix.m[6],
-                matrix.m[0] * matrix.m[4] - matrix.m[1] * matrix.m[3]
+                -matrix.m.v[0] * matrix.m.v[7] + matrix.m.v[1] * matrix.m.v[6],
+                matrix.m.v[0] * matrix.m.v[4] - matrix.m.v[1] * matrix.m.v[3]
             };
 
-            matrix.m[0] = adjugate[0] / det;
-            matrix.m[1] = adjugate[1] / det;
-            matrix.m[2] = adjugate[2] / det;
-            matrix.m[3] = adjugate[3] / det;
-            matrix.m[4] = adjugate[4] / det;
-            matrix.m[5] = adjugate[5] / det;
-            matrix.m[6] = adjugate[6] / det;
-            matrix.m[7] = adjugate[7] / det;
-            matrix.m[8] = adjugate[8] / det;
+            matrix.m.v[0] = adjugate[0] / det;
+            matrix.m.v[1] = adjugate[1] / det;
+            matrix.m.v[2] = adjugate[2] / det;
+            matrix.m.v[3] = adjugate[3] / det;
+            matrix.m.v[4] = adjugate[4] / det;
+            matrix.m.v[5] = adjugate[5] / det;
+            matrix.m.v[6] = adjugate[6] / det;
+            matrix.m.v[7] = adjugate[7] / det;
+            matrix.m.v[8] = adjugate[8] / det;
         }
         else if constexpr (size == 4)
         {
-            const auto a0 = matrix.m[0] * matrix.m[5] - matrix.m[1] * matrix.m[4];
-            const auto a1 = matrix.m[0] * matrix.m[6] - matrix.m[2] * matrix.m[4];
-            const auto a2 = matrix.m[0] * matrix.m[7] - matrix.m[3] * matrix.m[4];
-            const auto a3 = matrix.m[1] * matrix.m[6] - matrix.m[2] * matrix.m[5];
-            const auto a4 = matrix.m[1] * matrix.m[7] - matrix.m[3] * matrix.m[5];
-            const auto a5 = matrix.m[2] * matrix.m[7] - matrix.m[3] * matrix.m[6];
-            const auto b0 = matrix.m[8] * matrix.m[13] - matrix.m[9] * matrix.m[12];
-            const auto b1 = matrix.m[8] * matrix.m[14] - matrix.m[10] * matrix.m[12];
-            const auto b2 = matrix.m[8] * matrix.m[15] - matrix.m[11] * matrix.m[12];
-            const auto b3 = matrix.m[9] * matrix.m[14] - matrix.m[10] * matrix.m[13];
-            const auto b4 = matrix.m[9] * matrix.m[15] - matrix.m[11] * matrix.m[13];
-            const auto b5 = matrix.m[10] * matrix.m[15] - matrix.m[11] * matrix.m[14];
+            const auto a0 = matrix.m.v[0] * matrix.m.v[5] - matrix.m.v[1] * matrix.m.v[4];
+            const auto a1 = matrix.m.v[0] * matrix.m.v[6] - matrix.m.v[2] * matrix.m.v[4];
+            const auto a2 = matrix.m.v[0] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[4];
+            const auto a3 = matrix.m.v[1] * matrix.m.v[6] - matrix.m.v[2] * matrix.m.v[5];
+            const auto a4 = matrix.m.v[1] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[5];
+            const auto a5 = matrix.m.v[2] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[6];
+            const auto b0 = matrix.m.v[8] * matrix.m.v[13] - matrix.m.v[9] * matrix.m.v[12];
+            const auto b1 = matrix.m.v[8] * matrix.m.v[14] - matrix.m.v[10] * matrix.m.v[12];
+            const auto b2 = matrix.m.v[8] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[12];
+            const auto b3 = matrix.m.v[9] * matrix.m.v[14] - matrix.m.v[10] * matrix.m.v[13];
+            const auto b4 = matrix.m.v[9] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[13];
+            const auto b5 = matrix.m.v[10] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[14];
 
             const auto det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
             const std::array<T, size * size> adjugate{
-                matrix.m[5] * b5 - matrix.m[6] * b4 + matrix.m[7] * b3,
-                -(matrix.m[1] * b5 - matrix.m[2] * b4 + matrix.m[3] * b3),
-                matrix.m[13] * a5 - matrix.m[14] * a4 + matrix.m[15] * a3,
-                -(matrix.m[9] * a5 - matrix.m[10] * a4 + matrix.m[11] * a3),
+                matrix.m.v[5] * b5 - matrix.m.v[6] * b4 + matrix.m.v[7] * b3,
+                -(matrix.m.v[1] * b5 - matrix.m.v[2] * b4 + matrix.m.v[3] * b3),
+                matrix.m.v[13] * a5 - matrix.m.v[14] * a4 + matrix.m.v[15] * a3,
+                -(matrix.m.v[9] * a5 - matrix.m.v[10] * a4 + matrix.m.v[11] * a3),
 
-                -(matrix.m[4] * b5 - matrix.m[6] * b2 + matrix.m[7] * b1),
-                matrix.m[0] * b5 - matrix.m[2] * b2 + matrix.m[3] * b1,
-                -(matrix.m[12] * a5 - matrix.m[14] * a2 + matrix.m[15] * a1),
-                matrix.m[8] * a5 - matrix.m[10] * a2 + matrix.m[11] * a1,
+                -(matrix.m.v[4] * b5 - matrix.m.v[6] * b2 + matrix.m.v[7] * b1),
+                matrix.m.v[0] * b5 - matrix.m.v[2] * b2 + matrix.m.v[3] * b1,
+                -(matrix.m.v[12] * a5 - matrix.m.v[14] * a2 + matrix.m.v[15] * a1),
+                matrix.m.v[8] * a5 - matrix.m.v[10] * a2 + matrix.m.v[11] * a1,
 
-                matrix.m[4] * b4 - matrix.m[5] * b2 + matrix.m[7] * b0,
-                -(matrix.m[0] * b4 - matrix.m[1] * b2 + matrix.m[3] * b0),
-                matrix.m[12] * a4 - matrix.m[13] * a2 + matrix.m[15] * a0,
-                -(matrix.m[8] * a4 - matrix.m[9] * a2 + matrix.m[11] * a0),
+                matrix.m.v[4] * b4 - matrix.m.v[5] * b2 + matrix.m.v[7] * b0,
+                -(matrix.m.v[0] * b4 - matrix.m.v[1] * b2 + matrix.m.v[3] * b0),
+                matrix.m.v[12] * a4 - matrix.m.v[13] * a2 + matrix.m.v[15] * a0,
+                -(matrix.m.v[8] * a4 - matrix.m.v[9] * a2 + matrix.m.v[11] * a0),
 
-                -(matrix.m[4] * b3 - matrix.m[5] * b1 + matrix.m[6] * b0),
-                matrix.m[0] * b3 - matrix.m[1] * b1 + matrix.m[2] * b0,
-                -(matrix.m[12] * a3 - matrix.m[13] * a1 + matrix.m[14] * a0),
-                matrix.m[8] * a3 - matrix.m[9] * a1 + matrix.m[10] * a0
+                -(matrix.m.v[4] * b3 - matrix.m.v[5] * b1 + matrix.m.v[6] * b0),
+                matrix.m.v[0] * b3 - matrix.m.v[1] * b1 + matrix.m.v[2] * b0,
+                -(matrix.m.v[12] * a3 - matrix.m.v[13] * a1 + matrix.m.v[14] * a0),
+                matrix.m.v[8] * a3 - matrix.m.v[9] * a1 + matrix.m.v[10] * a0
             };
 
-            matrix.m[0] = adjugate[0] / det;
-            matrix.m[1] = adjugate[1] / det;
-            matrix.m[2] = adjugate[2] / det;
-            matrix.m[3] = adjugate[3] / det;
-            matrix.m[4] = adjugate[4] / det;
-            matrix.m[5] = adjugate[5] / det;
-            matrix.m[6] = adjugate[6] / det;
-            matrix.m[7] = adjugate[7] / det;
-            matrix.m[8] = adjugate[8] / det;
-            matrix.m[9] = adjugate[9] / det;
-            matrix.m[10] = adjugate[10] / det;
-            matrix.m[11] = adjugate[11] / det;
-            matrix.m[12] = adjugate[12] / det;
-            matrix.m[13] = adjugate[13] / det;
-            matrix.m[14] = adjugate[14] / det;
-            matrix.m[15] = adjugate[15] / det;
+            matrix.m.v[0] = adjugate[0] / det;
+            matrix.m.v[1] = adjugate[1] / det;
+            matrix.m.v[2] = adjugate[2] / det;
+            matrix.m.v[3] = adjugate[3] / det;
+            matrix.m.v[4] = adjugate[4] / det;
+            matrix.m.v[5] = adjugate[5] / det;
+            matrix.m.v[6] = adjugate[6] / det;
+            matrix.m.v[7] = adjugate[7] / det;
+            matrix.m.v[8] = adjugate[8] / det;
+            matrix.m.v[9] = adjugate[9] / det;
+            matrix.m.v[10] = adjugate[10] / det;
+            matrix.m.v[11] = adjugate[11] / det;
+            matrix.m.v[12] = adjugate[12] / det;
+            matrix.m.v[13] = adjugate[13] / det;
+            matrix.m.v[14] = adjugate[14] / det;
+            matrix.m.v[15] = adjugate[15] / det;
         }
     }
 
@@ -463,71 +468,71 @@ namespace omath
         Matrix<T, size, size> result;
 
         if constexpr (size == 1)
-            result.m[0] = 1.0F / matrix.m[0];
+            result.m.v[0] = 1.0F / matrix.m.v[0];
         else if constexpr (size == 2)
         {
-            const auto det = matrix.m[0] * matrix.m[3] - matrix.m[1] * matrix.m[2];
-            result.m[0] = matrix.m[3] / det;
-            result.m[1] = -matrix.m[1] / det;
-            result.m[2] = -matrix.m[2] / det;
-            result.m[3] = matrix.m[0] / det;
+            const auto det = matrix.m.v[0] * matrix.m.v[3] - matrix.m.v[1] * matrix.m.v[2];
+            result.m.v[0] = matrix.m.v[3] / det;
+            result.m.v[1] = -matrix.m.v[1] / det;
+            result.m.v[2] = -matrix.m.v[2] / det;
+            result.m.v[3] = matrix.m.v[0] / det;
         }
         else if constexpr (size == 3)
         {
-            const auto a0 = matrix.m[4] * matrix.m[8] - matrix.m[5] * matrix.m[7];
-            const auto a1 = matrix.m[3] * matrix.m[8] - matrix.m[5] * matrix.m[6];
-            const auto a2 = matrix.m[3] * matrix.m[7] - matrix.m[4] * matrix.m[6];
+            const auto a0 = matrix.m.v[4] * matrix.m.v[8] - matrix.m.v[5] * matrix.m.v[7];
+            const auto a1 = matrix.m.v[3] * matrix.m.v[8] - matrix.m.v[5] * matrix.m.v[6];
+            const auto a2 = matrix.m.v[3] * matrix.m.v[7] - matrix.m.v[4] * matrix.m.v[6];
 
-            const auto det = matrix.m[0] * a0 - matrix.m[1] * a1 + matrix.m[2] * a2;
+            const auto det = matrix.m.v[0] * a0 - matrix.m.v[1] * a1 + matrix.m.v[2] * a2;
 
-            result.m[0] = a0 / det;
-            result.m[1] = -(matrix.m[1] * matrix.m[8] - matrix.m[2] * matrix.m[7]) / det;
-            result.m[2] = (matrix.m[1] * matrix.m[5] - matrix.m[2] * matrix.m[4]) / det;
+            result.m.v[0] = a0 / det;
+            result.m.v[1] = -(matrix.m.v[1] * matrix.m.v[8] - matrix.m.v[2] * matrix.m.v[7]) / det;
+            result.m.v[2] = (matrix.m.v[1] * matrix.m.v[5] - matrix.m.v[2] * matrix.m.v[4]) / det;
 
-            result.m[3] = -a1 / det;
-            result.m[4] = (matrix.m[0] * matrix.m[8] - matrix.m[2] * matrix.m[6]) / det;
-            result.m[5] = -(matrix.m[0] * matrix.m[5] - matrix.m[2] * matrix.m[3]) / det;
+            result.m.v[3] = -a1 / det;
+            result.m.v[4] = (matrix.m.v[0] * matrix.m.v[8] - matrix.m.v[2] * matrix.m.v[6]) / det;
+            result.m.v[5] = -(matrix.m.v[0] * matrix.m.v[5] - matrix.m.v[2] * matrix.m.v[3]) / det;
 
-            result.m[6] = a2 / det;
-            result.m[7] = -(matrix.m[0] * matrix.m[7] - matrix.m[1] * matrix.m[6]) / det;
-            result.m[8] = (matrix.m[0] * matrix.m[4] - matrix.m[1] * matrix.m[3]) / det;
+            result.m.v[6] = a2 / det;
+            result.m.v[7] = -(matrix.m.v[0] * matrix.m.v[7] - matrix.m.v[1] * matrix.m.v[6]) / det;
+            result.m.v[8] = (matrix.m.v[0] * matrix.m.v[4] - matrix.m.v[1] * matrix.m.v[3]) / det;
         }
         else if constexpr (size == 4)
         {
-            const auto a0 = matrix.m[0] * matrix.m[5] - matrix.m[1] * matrix.m[4];
-            const auto a1 = matrix.m[0] * matrix.m[6] - matrix.m[2] * matrix.m[4];
-            const auto a2 = matrix.m[0] * matrix.m[7] - matrix.m[3] * matrix.m[4];
-            const auto a3 = matrix.m[1] * matrix.m[6] - matrix.m[2] * matrix.m[5];
-            const auto a4 = matrix.m[1] * matrix.m[7] - matrix.m[3] * matrix.m[5];
-            const auto a5 = matrix.m[2] * matrix.m[7] - matrix.m[3] * matrix.m[6];
-            const auto b0 = matrix.m[8] * matrix.m[13] - matrix.m[9] * matrix.m[12];
-            const auto b1 = matrix.m[8] * matrix.m[14] - matrix.m[10] * matrix.m[12];
-            const auto b2 = matrix.m[8] * matrix.m[15] - matrix.m[11] * matrix.m[12];
-            const auto b3 = matrix.m[9] * matrix.m[14] - matrix.m[10] * matrix.m[13];
-            const auto b4 = matrix.m[9] * matrix.m[15] - matrix.m[11] * matrix.m[13];
-            const auto b5 = matrix.m[10] * matrix.m[15] - matrix.m[11] * matrix.m[14];
+            const auto a0 = matrix.m.v[0] * matrix.m.v[5] - matrix.m.v[1] * matrix.m.v[4];
+            const auto a1 = matrix.m.v[0] * matrix.m.v[6] - matrix.m.v[2] * matrix.m.v[4];
+            const auto a2 = matrix.m.v[0] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[4];
+            const auto a3 = matrix.m.v[1] * matrix.m.v[6] - matrix.m.v[2] * matrix.m.v[5];
+            const auto a4 = matrix.m.v[1] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[5];
+            const auto a5 = matrix.m.v[2] * matrix.m.v[7] - matrix.m.v[3] * matrix.m.v[6];
+            const auto b0 = matrix.m.v[8] * matrix.m.v[13] - matrix.m.v[9] * matrix.m.v[12];
+            const auto b1 = matrix.m.v[8] * matrix.m.v[14] - matrix.m.v[10] * matrix.m.v[12];
+            const auto b2 = matrix.m.v[8] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[12];
+            const auto b3 = matrix.m.v[9] * matrix.m.v[14] - matrix.m.v[10] * matrix.m.v[13];
+            const auto b4 = matrix.m.v[9] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[13];
+            const auto b5 = matrix.m.v[10] * matrix.m.v[15] - matrix.m.v[11] * matrix.m.v[14];
 
             const auto det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
-            result.m[0] = (matrix.m[5] * b5 - matrix.m[6] * b4 + matrix.m[7] * b3) / det;
-            result.m[1] = -(matrix.m[1] * b5 - matrix.m[2] * b4 + matrix.m[3] * b3) / det;
-            result.m[2] = (matrix.m[13] * a5 - matrix.m[14] * a4 + matrix.m[15] * a3) / det;
-            result.m[3] = -(matrix.m[9] * a5 - matrix.m[10] * a4 + matrix.m[11] * a3) / det;
+            result.m.v[0] = (matrix.m.v[5] * b5 - matrix.m.v[6] * b4 + matrix.m.v[7] * b3) / det;
+            result.m.v[1] = -(matrix.m.v[1] * b5 - matrix.m.v[2] * b4 + matrix.m.v[3] * b3) / det;
+            result.m.v[2] = (matrix.m.v[13] * a5 - matrix.m.v[14] * a4 + matrix.m.v[15] * a3) / det;
+            result.m.v[3] = -(matrix.m.v[9] * a5 - matrix.m.v[10] * a4 + matrix.m.v[11] * a3) / det;
 
-            result.m[4] = -(matrix.m[4] * b5 - matrix.m[6] * b2 + matrix.m[7] * b1) / det;
-            result.m[5] = (matrix.m[0] * b5 - matrix.m[2] * b2 + matrix.m[3] * b1) / det;
-            result.m[6] = -(matrix.m[12] * a5 - matrix.m[14] * a2 + matrix.m[15] * a1) / det;
-            result.m[7] = (matrix.m[8] * a5 - matrix.m[10] * a2 + matrix.m[11] * a1) / det;
+            result.m.v[4] = -(matrix.m.v[4] * b5 - matrix.m.v[6] * b2 + matrix.m.v[7] * b1) / det;
+            result.m.v[5] = (matrix.m.v[0] * b5 - matrix.m.v[2] * b2 + matrix.m.v[3] * b1) / det;
+            result.m.v[6] = -(matrix.m.v[12] * a5 - matrix.m.v[14] * a2 + matrix.m.v[15] * a1) / det;
+            result.m.v[7] = (matrix.m.v[8] * a5 - matrix.m.v[10] * a2 + matrix.m.v[11] * a1) / det;
 
-            result.m[8] = (matrix.m[4] * b4 - matrix.m[5] * b2 + matrix.m[7] * b0) / det;
-            result.m[9] = -(matrix.m[0] * b4 - matrix.m[1] * b2 + matrix.m[3] * b0) / det;
-            result.m[10] = (matrix.m[12] * a4 - matrix.m[13] * a2 + matrix.m[15] * a0) / det;
-            result.m[11] = -(matrix.m[8] * a4 - matrix.m[9] * a2 + matrix.m[11] * a0) / det;
+            result.m.v[8] = (matrix.m.v[4] * b4 - matrix.m.v[5] * b2 + matrix.m.v[7] * b0) / det;
+            result.m.v[9] = -(matrix.m.v[0] * b4 - matrix.m.v[1] * b2 + matrix.m.v[3] * b0) / det;
+            result.m.v[10] = (matrix.m.v[12] * a4 - matrix.m.v[13] * a2 + matrix.m.v[15] * a0) / det;
+            result.m.v[11] = -(matrix.m.v[8] * a4 - matrix.m.v[9] * a2 + matrix.m.v[11] * a0) / det;
 
-            result.m[12] = -(matrix.m[4] * b3 - matrix.m[5] * b1 + matrix.m[6] * b0) / det;
-            result.m[13] = (matrix.m[0] * b3 - matrix.m[1] * b1 + matrix.m[2] * b0) / det;
-            result.m[14] = -(matrix.m[12] * a3 - matrix.m[13] * a1 + matrix.m[14] * a0) / det;
-            result.m[15] = (matrix.m[8] * a3 - matrix.m[9] * a1 + matrix.m[10] * a0) / det;
+            result.m.v[12] = -(matrix.m.v[4] * b3 - matrix.m.v[5] * b1 + matrix.m.v[6] * b0) / det;
+            result.m.v[13] = (matrix.m.v[0] * b3 - matrix.m.v[1] * b1 + matrix.m.v[2] * b0) / det;
+            result.m.v[14] = -(matrix.m.v[12] * a3 - matrix.m.v[13] * a1 + matrix.m.v[14] * a0) / det;
+            result.m.v[15] = (matrix.m.v[8] * a3 - matrix.m.v[9] * a1 + matrix.m.v[10] * a0) / det;
         }
 
         return result;
