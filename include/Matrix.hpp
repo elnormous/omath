@@ -118,7 +118,7 @@ namespace omath
     auto& operator+=(Matrix<T, rows, cols>& matrix1,
                      const Matrix<T, rows, cols>& matrix2) noexcept
     {
-        for (std::size_t i = 0; i < cols * rows; ++i)
+        for (std::size_t i = 0; i < rows * cols; ++i)
             matrix1.m.v[i] += matrix2.m.v[i];
         return matrix1;
     }
@@ -137,7 +137,7 @@ namespace omath
     auto& operator-=(Matrix<T, rows, cols>& matrix1,
                      const Matrix<T, rows, cols>& matrix2) noexcept
     {
-        for (std::size_t i = 0; i < cols * rows; ++i)
+        for (std::size_t i = 0; i < rows * cols; ++i)
             matrix1.m.v[i] -= matrix2.m.v[i];
         return matrix1;
     }
@@ -156,7 +156,7 @@ namespace omath
     auto& operator*=(Matrix<T, rows, cols>& matrix,
                      const T scalar) noexcept
     {
-        for (std::size_t i = 0; i < cols * rows; ++i)
+        for (std::size_t i = 0; i < rows * cols; ++i)
             matrix.m.v[i] *= scalar;
         return matrix;
     }
@@ -175,7 +175,7 @@ namespace omath
     auto& operator/=(Matrix<T, rows, cols>& matrix,
                      const T scalar) noexcept
     {
-        for (std::size_t i = 0; i < cols * rows; ++i)
+        for (std::size_t i = 0; i < rows * cols; ++i)
             matrix.m.v[i] /= scalar;
         return matrix;
     }
