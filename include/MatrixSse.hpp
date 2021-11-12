@@ -394,21 +394,21 @@ namespace omath
     {
         Matrix<double, 4, 4> result;
         _mm_store_pd(&result.m.v[0], _mm_add_pd(_mm_load_pd(&matrix1.m.v[0]),
-                                              _mm_load_pd(&matrix2.m.v[0])));
+                                                _mm_load_pd(&matrix2.m.v[0])));
         _mm_store_pd(&result.m.v[2], _mm_add_pd(_mm_load_pd(&matrix1.m.v[2]),
-                                              _mm_load_pd(&matrix2.m.v[2])));
+                                                _mm_load_pd(&matrix2.m.v[2])));
         _mm_store_pd(&result.m.v[4], _mm_add_pd(_mm_load_pd(&matrix1.m.v[4]),
-                                              _mm_load_pd(&matrix2.m.v[4])));
+                                                _mm_load_pd(&matrix2.m.v[4])));
         _mm_store_pd(&result.m.v[6], _mm_add_pd(_mm_load_pd(&matrix1.m.v[6]),
-                                              _mm_load_pd(&matrix2.m.v[6])));
+                                                _mm_load_pd(&matrix2.m.v[6])));
         _mm_store_pd(&result.m.v[8], _mm_add_pd(_mm_load_pd(&matrix1.m.v[8]),
-                                              _mm_load_pd(&matrix2.m.v[8])));
+                                                _mm_load_pd(&matrix2.m.v[8])));
         _mm_store_pd(&result.m.v[10], _mm_add_pd(_mm_load_pd(&matrix1.m.v[10]),
-                                               _mm_load_pd(&matrix2.m.v[10])));
+                                                 _mm_load_pd(&matrix2.m.v[10])));
         _mm_store_pd(&result.m.v[12], _mm_add_pd(_mm_load_pd(&matrix1.m.v[12]),
-                                               _mm_load_pd(&matrix2.m.v[12])));
+                                                 _mm_load_pd(&matrix2.m.v[12])));
         _mm_store_pd(&result.m.v[14], _mm_add_pd(_mm_load_pd(&matrix1.m.v[14]),
-                                               _mm_load_pd(&matrix2.m.v[14])));
+                                                 _mm_load_pd(&matrix2.m.v[14])));
         return result;
     }
 
@@ -417,21 +417,21 @@ namespace omath
                             const Matrix<double, 4, 4>& matrix2) noexcept
     {
         _mm_store_pd(&matrix1.m.v[0], _mm_add_pd(_mm_load_pd(&matrix1.m.v[0]),
-                                               _mm_load_pd(&matrix2.m.v[0])));
+                                                 _mm_load_pd(&matrix2.m.v[0])));
         _mm_store_pd(&matrix1.m.v[2], _mm_add_pd(_mm_load_pd(&matrix1.m.v[2]),
-                                               _mm_load_pd(&matrix2.m.v[2])));
+                                                 _mm_load_pd(&matrix2.m.v[2])));
         _mm_store_pd(&matrix1.m.v[4], _mm_add_pd(_mm_load_pd(&matrix1.m.v[4]),
-                                               _mm_load_pd(&matrix2.m.v[4])));
+                                                 _mm_load_pd(&matrix2.m.v[4])));
         _mm_store_pd(&matrix1.m.v[6], _mm_add_pd(_mm_load_pd(&matrix1.m.v[6]),
-                                               _mm_load_pd(&matrix2.m.v[6])));
+                                                 _mm_load_pd(&matrix2.m.v[6])));
         _mm_store_pd(&matrix1.m.v[8], _mm_add_pd(_mm_load_pd(&matrix1.m.v[8]),
-                                               _mm_load_pd(&matrix2.m.v[8])));
+                                                 _mm_load_pd(&matrix2.m.v[8])));
         _mm_store_pd(&matrix1.m.v[10], _mm_add_pd(_mm_load_pd(&matrix1.m.v[10]),
-                                                _mm_load_pd(&matrix2.m.v[10])));
+                                                  _mm_load_pd(&matrix2.m.v[10])));
         _mm_store_pd(&matrix1.m.v[12], _mm_add_pd(_mm_load_pd(&matrix1.m.v[12]),
-                                                _mm_load_pd(&matrix2.m.v[12])));
+                                                  _mm_load_pd(&matrix2.m.v[12])));
         _mm_store_pd(&matrix1.m.v[14], _mm_add_pd(_mm_load_pd(&matrix1.m.v[14]),
-                                                _mm_load_pd(&matrix2.m.v[14])));
+                                                  _mm_load_pd(&matrix2.m.v[14])));
         return matrix1;
     }
 
@@ -441,21 +441,21 @@ namespace omath
     {
         Matrix<double, 4, 4> result;
         _mm_store_pd(&result.m.v[0], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[0]),
-                                              _mm_load_pd(&matrix2.m.v[0])));
+                                                _mm_load_pd(&matrix2.m.v[0])));
         _mm_store_pd(&result.m.v[2], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[2]),
-                                              _mm_load_pd(&matrix2.m.v[2])));
+                                                _mm_load_pd(&matrix2.m.v[2])));
         _mm_store_pd(&result.m.v[4], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[4]),
-                                              _mm_load_pd(&matrix2.m.v[4])));
+                                                _mm_load_pd(&matrix2.m.v[4])));
         _mm_store_pd(&result.m.v[6], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[6]),
-                                              _mm_load_pd(&matrix2.m.v[6])));
+                                                _mm_load_pd(&matrix2.m.v[6])));
         _mm_store_pd(&result.m.v[8], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[8]),
-                                              _mm_load_pd(&matrix2.m.v[8])));
+                                                _mm_load_pd(&matrix2.m.v[8])));
         _mm_store_pd(&result.m.v[10], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[10]),
-                                               _mm_load_pd(&matrix2.m.v[10])));
+                                                 _mm_load_pd(&matrix2.m.v[10])));
         _mm_store_pd(&result.m.v[12], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[12]),
-                                               _mm_load_pd(&matrix2.m.v[12])));
+                                                 _mm_load_pd(&matrix2.m.v[12])));
         _mm_store_pd(&result.m.v[14], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[14]),
-                                               _mm_load_pd(&matrix2.m.v[14])));
+                                                 _mm_load_pd(&matrix2.m.v[14])));
         return result;
     }
 
@@ -464,21 +464,21 @@ namespace omath
                             const Matrix<double, 4, 4>& matrix2) noexcept
     {
         _mm_store_pd(&matrix1.m.v[0], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[0]),
-                                               _mm_load_pd(&matrix2.m.v[0])));
+                                                 _mm_load_pd(&matrix2.m.v[0])));
         _mm_store_pd(&matrix1.m.v[2], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[2]),
-                                               _mm_load_pd(&matrix2.m.v[2])));
+                                                 _mm_load_pd(&matrix2.m.v[2])));
         _mm_store_pd(&matrix1.m.v[4], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[4]),
-                                               _mm_load_pd(&matrix2.m.v[4])));
+                                                 _mm_load_pd(&matrix2.m.v[4])));
         _mm_store_pd(&matrix1.m.v[6], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[6]),
-                                               _mm_load_pd(&matrix2.m.v[6])));
+                                                 _mm_load_pd(&matrix2.m.v[6])));
         _mm_store_pd(&matrix1.m.v[8], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[8]),
-                                               _mm_load_pd(&matrix2.m.v[8])));
+                                                 _mm_load_pd(&matrix2.m.v[8])));
         _mm_store_pd(&matrix1.m.v[10], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[10]),
-                                                _mm_load_pd(&matrix2.m.v[10])));
+                                                  _mm_load_pd(&matrix2.m.v[10])));
         _mm_store_pd(&matrix1.m.v[12], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[12]),
-                                                _mm_load_pd(&matrix2.m.v[12])));
+                                                  _mm_load_pd(&matrix2.m.v[12])));
         _mm_store_pd(&matrix1.m.v[14], _mm_sub_pd(_mm_load_pd(&matrix1.m.v[14]),
-                                                _mm_load_pd(&matrix2.m.v[14])));
+                                                  _mm_load_pd(&matrix2.m.v[14])));
         return matrix1;
     }
 

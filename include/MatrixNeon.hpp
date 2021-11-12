@@ -38,13 +38,13 @@ namespace omath
     {
         Matrix<float, 4, 4> result;
         vst1q_f32(&result.m.v[0], vaddq_f32(vld1q_f32(&matrix1.m.v[0]),
-                                          vld1q_f32(&matrix2.m.v[0])));
+                                            vld1q_f32(&matrix2.m.v[0])));
         vst1q_f32(&result.m.v[4], vaddq_f32(vld1q_f32(&matrix1.m.v[4]),
-                                          vld1q_f32(&matrix2.m.v[4])));
+                                            vld1q_f32(&matrix2.m.v[4])));
         vst1q_f32(&result.m.v[8], vaddq_f32(vld1q_f32(&matrix1.m.v[8]),
-                                          vld1q_f32(&matrix2.m.v[8])));
+                                            vld1q_f32(&matrix2.m.v[8])));
         vst1q_f32(&result.m.v[12], vaddq_f32(vld1q_f32(&matrix1.m.v[12]),
-                                           vld1q_f32(&matrix2.m.v[12])));
+                                             vld1q_f32(&matrix2.m.v[12])));
         return result;
     }
 
@@ -53,13 +53,13 @@ namespace omath
                             const Matrix<float, 4, 4>& matrix2) noexcept
     {
         vst1q_f32(&matrix1.m.v[0], vaddq_f32(vld1q_f32(&matrix1.m.v[0]),
-                                           vld1q_f32(&matrix2.m.v[0])));
+                                             vld1q_f32(&matrix2.m.v[0])));
         vst1q_f32(&matrix1.m.v[4], vaddq_f32(vld1q_f32(&matrix1.m.v[4]),
-                                           vld1q_f32(&matrix2.m.v[4])));
+                                             vld1q_f32(&matrix2.m.v[4])));
         vst1q_f32(&matrix1.m.v[8], vaddq_f32(vld1q_f32(&matrix1.m.v[8]),
-                                           vld1q_f32(&matrix2.m.v[8])));
+                                             vld1q_f32(&matrix2.m.v[8])));
         vst1q_f32(&matrix1.m.v[12], vaddq_f32(vld1q_f32(&matrix1.m.v[12]),
-                                            vld1q_f32(&matrix2.m.v[12])));
+                                              vld1q_f32(&matrix2.m.v[12])));
         return matrix1;
     }
 
@@ -69,13 +69,13 @@ namespace omath
     {
         Matrix<float, 4, 4> result;
         vst1q_f32(&result.m.v[0], vsubq_f32(vld1q_f32(&matrix1.m.v[0]),
-                                          vld1q_f32(&matrix2.m.v[0])));
+                                            vld1q_f32(&matrix2.m.v[0])));
         vst1q_f32(&result.m.v[4], vsubq_f32(vld1q_f32(&matrix1.m.v[4]),
-                                          vld1q_f32(&matrix2.m.v[4])));
+                                            vld1q_f32(&matrix2.m.v[4])));
         vst1q_f32(&result.m.v[8], vsubq_f32(vld1q_f32(&matrix1.m.v[8]),
-                                          vld1q_f32(&matrix2.m.v[8])));
+                                            vld1q_f32(&matrix2.m.v[8])));
         vst1q_f32(&result.m.v[12], vsubq_f32(vld1q_f32(&matrix1.m.v[12]),
-                                           vld1q_f32(&matrix2.m.v[12])));
+                                             vld1q_f32(&matrix2.m.v[12])));
         return result;
     }
 
@@ -84,13 +84,13 @@ namespace omath
                             const Matrix<float, 4, 4>& matrix2) noexcept
     {
         vst1q_f32(&matrix1.m.v[0], vsubq_f32(vld1q_f32(&matrix1.m.v[0]),
-                                           vld1q_f32(&matrix2.m.v[0])));
+                                             vld1q_f32(&matrix2.m.v[0])));
         vst1q_f32(&matrix1.m.v[4], vsubq_f32(vld1q_f32(&matrix1.m.v[4]),
-                                           vld1q_f32(&matrix2.m.v[4])));
+                                             vld1q_f32(&matrix2.m.v[4])));
         vst1q_f32(&matrix1.m.v[8], vsubq_f32(vld1q_f32(&matrix1.m.v[8]),
-                                           vld1q_f32(&matrix2.m.v[8])));
+                                             vld1q_f32(&matrix2.m.v[8])));
         vst1q_f32(&matrix1.m.v[12], vsubq_f32(vld1q_f32(&matrix1.m.v[12]),
-                                            vld1q_f32(&matrix2.m.v[12])));
+                                              vld1q_f32(&matrix2.m.v[12])));
         return matrix1;
     }
 
@@ -306,21 +306,21 @@ namespace omath
     {
         Matrix<double, 4, 4> result;
         vst1q_f64(&result.m.v[0], vaddq_f64(vld1q_f64(&matrix1.m.v[0]),
-                                          vld1q_f64(&matrix2.m.v[0])));
+                                            vld1q_f64(&matrix2.m.v[0])));
         vst1q_f64(&result.m.v[2], vaddq_f64(vld1q_f64(&matrix1.m.v[2]),
-                                          vld1q_f64(&matrix2.m.v[2])));
+                                            vld1q_f64(&matrix2.m.v[2])));
         vst1q_f64(&result.m.v[4], vaddq_f64(vld1q_f64(&matrix1.m.v[4]),
-                                          vld1q_f64(&matrix2.m.v[4])));
+                                            vld1q_f64(&matrix2.m.v[4])));
         vst1q_f64(&result.m.v[6], vaddq_f64(vld1q_f64(&matrix1.m.v[6]),
-                                          vld1q_f64(&matrix2.m.v[6])));
+                                            vld1q_f64(&matrix2.m.v[6])));
         vst1q_f64(&result.m.v[8], vaddq_f64(vld1q_f64(&matrix1.m.v[8]),
-                                          vld1q_f64(&matrix2.m.v[8])));
+                                            vld1q_f64(&matrix2.m.v[8])));
         vst1q_f64(&result.m.v[10], vaddq_f64(vld1q_f64(&matrix1.m.v[10]),
-                                           vld1q_f64(&matrix2.m.v[10])));
+                                             vld1q_f64(&matrix2.m.v[10])));
         vst1q_f64(&result.m.v[12], vaddq_f64(vld1q_f64(&matrix1.m.v[12]),
-                                           vld1q_f64(&matrix2.m.v[12])));
+                                             vld1q_f64(&matrix2.m.v[12])));
         vst1q_f64(&result.m.v[14], vaddq_f64(vld1q_f64(&matrix1.m.v[14]),
-                                           vld1q_f64(&matrix2.m.v[14])));
+                                             vld1q_f64(&matrix2.m.v[14])));
         return result;
     }
 
@@ -329,21 +329,21 @@ namespace omath
                             const Matrix<double, 4, 4>& matrix2) noexcept
     {
         vst1q_f64(&matrix1.m.v[0], vaddq_f64(vld1q_f64(&matrix1.m.v[0]),
-                                           vld1q_f64(&matrix2.m.v[0])));
+                                             vld1q_f64(&matrix2.m.v[0])));
         vst1q_f64(&matrix1.m.v[2], vaddq_f64(vld1q_f64(&matrix1.m.v[2]),
-                                           vld1q_f64(&matrix2.m.v[2])));
+                                             vld1q_f64(&matrix2.m.v[2])));
         vst1q_f64(&matrix1.m.v[4], vaddq_f64(vld1q_f64(&matrix1.m.v[4]),
-                                           vld1q_f64(&matrix2.m.v[4])));
+                                             vld1q_f64(&matrix2.m.v[4])));
         vst1q_f64(&matrix1.m.v[6], vaddq_f64(vld1q_f64(&matrix1.m.v[6]),
-                                           vld1q_f64(&matrix2.m.v[6])));
+                                             vld1q_f64(&matrix2.m.v[6])));
         vst1q_f64(&matrix1.m.v[8], vaddq_f64(vld1q_f64(&matrix1.m.v[8]),
-                                           vld1q_f64(&matrix2.m.v[8])));
+                                             vld1q_f64(&matrix2.m.v[8])));
         vst1q_f64(&matrix1.m.v[10], vaddq_f64(vld1q_f64(&matrix1.m.v[10]),
-                                            vld1q_f64(&matrix2.m.v[10])));
+                                              vld1q_f64(&matrix2.m.v[10])));
         vst1q_f64(&matrix1.m.v[12], vaddq_f64(vld1q_f64(&matrix1.m.v[12]),
-                                            vld1q_f64(&matrix2.m.v[12])));
+                                              vld1q_f64(&matrix2.m.v[12])));
         vst1q_f64(&matrix1.m.v[14], vaddq_f64(vld1q_f64(&matrix1.m.v[14]),
-                                            vld1q_f64(&matrix2.m.v[14])));
+                                              vld1q_f64(&matrix2.m.v[14])));
         return matrix1;
     }
 
@@ -353,21 +353,21 @@ namespace omath
     {
         Matrix<double, 4, 4> result;
         vst1q_f64(&result.m.v[0], vsubq_f64(vld1q_f64(&matrix1.m.v[0]),
-                                          vld1q_f64(&matrix2.m.v[0])));
+                                            vld1q_f64(&matrix2.m.v[0])));
         vst1q_f64(&result.m.v[2], vsubq_f64(vld1q_f64(&matrix1.m.v[2]),
-                                          vld1q_f64(&matrix2.m.v[2])));
+                                            vld1q_f64(&matrix2.m.v[2])));
         vst1q_f64(&result.m.v[4], vsubq_f64(vld1q_f64(&matrix1.m.v[4]),
-                                          vld1q_f64(&matrix2.m.v[4])));
+                                            vld1q_f64(&matrix2.m.v[4])));
         vst1q_f64(&result.m.v[6], vsubq_f64(vld1q_f64(&matrix1.m.v[6]),
-                                          vld1q_f64(&matrix2.m.v[6])));
+                                            vld1q_f64(&matrix2.m.v[6])));
         vst1q_f64(&result.m.v[8], vsubq_f64(vld1q_f64(&matrix1.m.v[8]),
-                                          vld1q_f64(&matrix2.m.v[8])));
+                                            vld1q_f64(&matrix2.m.v[8])));
         vst1q_f64(&result.m.v[10], vsubq_f64(vld1q_f64(&matrix1.m.v[10]),
-                                           vld1q_f64(&matrix2.m.v[10])));
+                                             vld1q_f64(&matrix2.m.v[10])));
         vst1q_f64(&result.m.v[12], vsubq_f64(vld1q_f64(&matrix1.m.v[12]),
-                                           vld1q_f64(&matrix2.m.v[12])));
+                                             vld1q_f64(&matrix2.m.v[12])));
         vst1q_f64(&result.m.v[14], vsubq_f64(vld1q_f64(&matrix1.m.v[14]),
-                                           vld1q_f64(&matrix2.m.v[14])));
+                                             vld1q_f64(&matrix2.m.v[14])));
         return result;
     }
 
@@ -376,21 +376,21 @@ namespace omath
                             const Matrix<double, 4, 4>& matrix2) noexcept
     {
         vst1q_f64(&matrix1.m.v[0], vsubq_f64(vld1q_f64(&matrix1.m.v[0]),
-                                           vld1q_f64(&matrix2.m.v[0])));
+                                             vld1q_f64(&matrix2.m.v[0])));
         vst1q_f64(&matrix1.m.v[2], vsubq_f64(vld1q_f64(&matrix1.m.v[2]),
-                                           vld1q_f64(&matrix2.m.v[2])));
+                                             vld1q_f64(&matrix2.m.v[2])));
         vst1q_f64(&matrix1.m.v[4], vsubq_f64(vld1q_f64(&matrix1.m.v[4]),
-                                           vld1q_f64(&matrix2.m.v[4])));
+                                             vld1q_f64(&matrix2.m.v[4])));
         vst1q_f64(&matrix1.m.v[6], vsubq_f64(vld1q_f64(&matrix1.m.v[6]),
-                                           vld1q_f64(&matrix2.m.v[6])));
+                                             vld1q_f64(&matrix2.m.v[6])));
         vst1q_f64(&matrix1.m.v[8], vsubq_f64(vld1q_f64(&matrix1.m.v[8]),
-                                           vld1q_f64(&matrix2.m.v[8])));
+                                             vld1q_f64(&matrix2.m.v[8])));
         vst1q_f64(&matrix1.m.v[10], vsubq_f64(vld1q_f64(&matrix1.m.v[10]),
-                                            vld1q_f64(&matrix2.m.v[10])));
+                                              vld1q_f64(&matrix2.m.v[10])));
         vst1q_f64(&matrix1.m.v[12], vsubq_f64(vld1q_f64(&matrix1.m.v[12]),
-                                            vld1q_f64(&matrix2.m.v[12])));
+                                              vld1q_f64(&matrix2.m.v[12])));
         vst1q_f64(&matrix1.m.v[14], vsubq_f64(vld1q_f64(&matrix1.m.v[14]),
-                                            vld1q_f64(&matrix2.m.v[14])));
+                                              vld1q_f64(&matrix2.m.v[14])));
         return matrix1;
     }
 
