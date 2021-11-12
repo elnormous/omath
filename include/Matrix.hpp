@@ -245,13 +245,13 @@ namespace omath
                      const Matrix<T, size, size>& matrix) noexcept
     {
         static_assert(dims <= size);
-        std::array<T, dims> result{};
+        Vector<T, dims> result{};
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
                 result[i] += vector[j] * matrix.m.v[i * size + j];
 
-        vector.v = result;
+        vector = result;
         return vector;
     }
 
@@ -282,13 +282,13 @@ namespace omath
     void transformVector(const Matrix<T, size, size>& matrix,
                          Vector<T, dims>& vector) noexcept
     {
-        std::array<T, dims> result{};
+        Vector<T, dims> result{};
 
         for (std::size_t i = 0; i < dims; ++i)
             for (std::size_t j = 0; j < dims; ++j)
                 result[i] += matrix.m.v[j * size + i] * vector.v[j];
 
-        vector.v = result;
+        vector = result;
     }
 
     template <typename T, std::size_t rows, std::size_t cols>

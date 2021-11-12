@@ -27,7 +27,7 @@ namespace omath
     {
         Vector<float, 4> result;
         const auto z = _mm_setzero_ps();
-        _mm_store_ps(result.v.data(), _mm_sub_ps(z, _mm_load_ps(vector.v.data())));
+        _mm_store_ps(result.v, _mm_sub_ps(z, _mm_load_ps(vector.v)));
         return result;
     }
 
@@ -35,7 +35,7 @@ namespace omath
     inline void negate(Vector<float, 4>& vector) noexcept
     {
         const auto z = _mm_setzero_ps();
-        _mm_store_ps(vector.v.data(), _mm_sub_ps(z, _mm_load_ps(vector.v.data())));
+        _mm_store_ps(vector.v, _mm_sub_ps(z, _mm_load_ps(vector.v)));
     }
 
     template <>
@@ -43,7 +43,7 @@ namespace omath
                                         const Vector<float, 4>& vector2) noexcept
     {
         Vector<float, 4> result;
-        _mm_store_ps(result.v.data(), _mm_add_ps(_mm_load_ps(vector1.v.data()), _mm_load_ps(vector2.v.data())));
+        _mm_store_ps(result.v, _mm_add_ps(_mm_load_ps(vector1.v), _mm_load_ps(vector2.v)));
         return result;
     }
 
@@ -51,7 +51,7 @@ namespace omath
     inline auto& operator+=(Vector<float, 4>& vector1,
                             const Vector<float, 4>& vector2) noexcept
     {
-        _mm_store_ps(vector1.v.data(), _mm_add_ps(_mm_load_ps(vector1.v.data()), _mm_load_ps(vector2.v.data())));
+        _mm_store_ps(vector1.v, _mm_add_ps(_mm_load_ps(vector1.v), _mm_load_ps(vector2.v)));
         return vector1;
     }
 
@@ -60,7 +60,7 @@ namespace omath
                                         const Vector<float, 4>& vector2) noexcept
     {
         Vector<float, 4> result;
-        _mm_store_ps(result.v.data(), _mm_sub_ps(_mm_load_ps(vector1.v.data()), _mm_load_ps(vector2.v.data())));
+        _mm_store_ps(result.v, _mm_sub_ps(_mm_load_ps(vector1.v), _mm_load_ps(vector2.v)));
         return result;
     }
 
@@ -68,7 +68,7 @@ namespace omath
     inline auto& operator-=(Vector<float, 4>& vector1,
                             const Vector<float, 4>& vector2) noexcept
     {
-        _mm_store_ps(vector1.v.data(), _mm_sub_ps(_mm_load_ps(vector1.v.data()), _mm_load_ps(vector2.v.data())));
+        _mm_store_ps(vector1.v, _mm_sub_ps(_mm_load_ps(vector1.v), _mm_load_ps(vector2.v)));
         return vector1;
     }
 
@@ -78,7 +78,7 @@ namespace omath
     {
         Vector<float, 4> result;
         const auto s = _mm_set1_ps(scalar);
-        _mm_store_ps(result.v.data(), _mm_mul_ps(_mm_load_ps(vector.v.data()), s));
+        _mm_store_ps(result.v, _mm_mul_ps(_mm_load_ps(vector.v), s));
         return result;
     }
 
@@ -87,7 +87,7 @@ namespace omath
                             const float scalar) noexcept
     {
         const auto s = _mm_set1_ps(scalar);
-        _mm_store_ps(vector.v.data(), _mm_mul_ps(_mm_load_ps(vector.v.data()), s));
+        _mm_store_ps(vector.v, _mm_mul_ps(_mm_load_ps(vector.v), s));
         return vector;
     }
 
@@ -97,7 +97,7 @@ namespace omath
     {
         Vector<float, 4> result;
         const auto s = _mm_set1_ps(scalar);
-        _mm_store_ps(result.v.data(), _mm_div_ps(_mm_load_ps(vector.v.data()), s));
+        _mm_store_ps(result.v, _mm_div_ps(_mm_load_ps(vector.v), s));
         return result;
     }
 
@@ -106,7 +106,7 @@ namespace omath
                             const float scalar) noexcept
     {
         const auto s = _mm_set1_ps(scalar);
-        _mm_store_ps(vector.v.data(), _mm_div_ps(_mm_load_ps(vector.v.data()), s));
+        _mm_store_ps(vector.v, _mm_div_ps(_mm_load_ps(vector.v), s));
         return vector;
     }
 
@@ -114,7 +114,7 @@ namespace omath
     template <>
     [[nodiscard]] inline auto length(const Vector<float, 4>& vector) noexcept
     {
-        const auto v = _mm_load_ps(vector.v.data());
+        const auto v = _mm_load_ps(vector.v);
         const auto mul = _mm_mul_ps(v, v);
         const auto shuf = _mm_shuffle_ps(mul, mul, _MM_SHUFFLE(2, 1, 0, 3));
         const auto sum = _mm_add_ps(mul, shuf);
@@ -126,7 +126,7 @@ namespace omath
     template <>
     [[nodiscard]] inline auto lengthSquared(const Vector<float, 4>& vector) noexcept
     {
-        const auto v = _mm_load_ps(vector.v.data());
+        const auto v = _mm_load_ps(vector.v);
         const auto mul = _mm_mul_ps(v, v);
         const auto shuf = _mm_shuffle_ps(mul, mul, _MM_SHUFFLE(2, 1, 0, 3));
         const auto sum = _mm_add_ps(mul, shuf);
@@ -138,7 +138,7 @@ namespace omath
     [[nodiscard]] inline auto dot(const Vector<float, 4>& vector1,
                                   const Vector<float, 4>& vector2) noexcept
     {
-        const auto mul = _mm_mul_ps(_mm_load_ps(vector1.v.data()), _mm_load_ps(vector2.v.data()));
+        const auto mul = _mm_mul_ps(_mm_load_ps(vector1.v), _mm_load_ps(vector2.v));
         const auto shuf = _mm_shuffle_ps(mul, mul, _MM_SHUFFLE(2, 1, 0, 3));
         const auto sum = _mm_add_ps(mul, shuf);
         const auto mov = _mm_movehl_ps(shuf, sum);
@@ -253,7 +253,7 @@ namespace omath
     template <>
     [[nodiscard]] inline auto length(const Vector<float, 4>& vector) noexcept
     {
-        const auto v = _mm_load_ps(vector.v.data());
+        const auto v = _mm_load_ps(vector.v);
         const auto t1 = _mm_mul_ps(v, v);
         const auto t2 = _mm_hadd_ps(t1, t1);
         const auto t3 = _mm_hadd_ps(t2, t2);
@@ -264,7 +264,7 @@ namespace omath
     template <>
     [[nodiscard]] inline auto lengthSquared(const Vector<float, 4>& vector) noexcept
     {
-        const auto v = _mm_load_ps(vector.v.data());
+        const auto v = _mm_load_ps(vector.v);
         const auto t1 = _mm_mul_ps(v, v);
         const auto t2 = _mm_hadd_ps(t1, t1);
         const auto t3 = _mm_hadd_ps(t2, t2);
@@ -275,7 +275,7 @@ namespace omath
     [[nodiscard]] inline auto dot(const Vector<float, 4>& vector1,
                                   const Vector<float, 4>& vector2) noexcept
     {
-        const auto t1 = _mm_mul_ps(_mm_load_ps(vector1.v.data()), _mm_load_ps(vector2.v.data()));
+        const auto t1 = _mm_mul_ps(_mm_load_ps(vector1.v), _mm_load_ps(vector2.v));
         const auto t2 = _mm_hadd_ps(t1, t1);
         const auto t3 = _mm_hadd_ps(t2, t2);
         return _mm_cvtss_f32(t3);

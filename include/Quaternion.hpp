@@ -21,7 +21,7 @@ namespace omath
 #if (defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2) || (defined(__ARM_NEON__) && defined(__aarch64__))
         alignas(std::is_same_v<T, double> ? 4 * sizeof(T) : sizeof(T))
 #endif
-        std::array<T, 4> v;
+        T v[4];
 
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
@@ -47,7 +47,7 @@ namespace omath
     template <typename T>
     constexpr void setIdentity(Quaternion<T>& quat) noexcept
     {
-        quat.v = {T(0), T(0), T(0), T(1)};
+        quat = {T(0), T(0), T(0), T(1)};
     }
 
     template <typename T>
@@ -155,7 +155,7 @@ namespace omath
     constexpr auto& operator*=(Quaternion<T>& quat1,
                                const Quaternion<T>& quat2) noexcept
     {
-        quat1.v = {
+        quat1 = {
             quat1.v[0] * quat2.v[3] + quat1.v[1] * quat2.v[2] - quat1.v[2] * quat2.v[1] + quat1.v[3] * quat2.v[0],
             -quat1.v[0] * quat2.v[2] + quat1.v[1] * quat2.v[3] + quat1.v[2] * quat2.v[0] + quat1.v[3] * quat2.v[1],
             quat1.v[0] * quat2.v[1] - quat1.v[1] * quat2.v[0] + quat1.v[2] * quat2.v[3] + quat1.v[3] * quat2.v[2],

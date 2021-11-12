@@ -17,7 +17,7 @@ namespace omath
     {
         Quaternion<double> result;
         const auto z = _mm256_setzero_pd();
-        _mm256_store_pd(result.v.data(), _mm256_sub_pd(z, _mm256_load_pd(quat.v.data())));
+        _mm256_store_pd(result.v, _mm256_sub_pd(z, _mm256_load_pd(quat.v)));
         return result;
     }
 
@@ -25,7 +25,7 @@ namespace omath
     inline void negate(Quaternion<double>& quat) noexcept
     {
         const auto z = _mm256_setzero_pd();
-        _mm256_store_pd(quat.v.data(), _mm256_sub_pd(z, _mm256_load_pd(quat.v.data())));
+        _mm256_store_pd(quat.v, _mm256_sub_pd(z, _mm256_load_pd(quat.v)));
     }
 
     template <>
@@ -33,7 +33,7 @@ namespace omath
                                         const Quaternion<double>& quat2) noexcept
     {
         Quaternion<double> result;
-        _mm256_store_pd(result.v.data(), _mm256_add_pd(_mm256_load_pd(quat1.v.data()), _mm256_load_pd(quat2.v.data())));
+        _mm256_store_pd(result.v, _mm256_add_pd(_mm256_load_pd(quat1.v), _mm256_load_pd(quat2.v)));
         return result;
     }
 
@@ -41,7 +41,7 @@ namespace omath
     inline auto& operator+=(Quaternion<double>& quat1,
                             const Quaternion<double>& quat2) noexcept
     {
-        _mm256_store_pd(quat1.v.data(), _mm256_add_pd(_mm256_load_pd(quat1.v.data()), _mm256_load_pd(quat2.v.data())));
+        _mm256_store_pd(quat1.v, _mm256_add_pd(_mm256_load_pd(quat1.v), _mm256_load_pd(quat2.v)));
         return quat1;
     }
 
@@ -50,7 +50,7 @@ namespace omath
                                         const Quaternion<double>& quat2) noexcept
     {
         Quaternion<double> result;
-        _mm256_store_pd(result.v.data(), _mm256_sub_pd(_mm256_load_pd(quat1.v.data()), _mm256_load_pd(quat2.v.data())));
+        _mm256_store_pd(result.v, _mm256_sub_pd(_mm256_load_pd(quat1.v), _mm256_load_pd(quat2.v)));
         return result;
     }
 
@@ -58,7 +58,7 @@ namespace omath
     inline auto& operator-=(Quaternion<double>& quat1,
                             const Quaternion<double>& quat2) noexcept
     {
-        _mm256_store_pd(quat1.v.data(), _mm256_sub_pd(_mm256_load_pd(quat1.v.data()), _mm256_load_pd(quat2.v.data())));
+        _mm256_store_pd(quat1.v, _mm256_sub_pd(_mm256_load_pd(quat1.v), _mm256_load_pd(quat2.v)));
         return quat1;
     }
 
@@ -68,7 +68,7 @@ namespace omath
     {
         Quaternion<double> result;
         const auto s = _mm256_set1_pd(scalar);
-        _mm256_store_pd(result.v.data(), _mm256_mul_pd(_mm256_load_pd(quat.v.data()), s));
+        _mm256_store_pd(result.v, _mm256_mul_pd(_mm256_load_pd(quat.v), s));
         return result;
     }
 
@@ -77,7 +77,7 @@ namespace omath
                             const double scalar) noexcept
     {
         const auto s = _mm256_set1_pd(scalar);
-        _mm256_store_pd(quat.v.data(), _mm256_mul_pd(_mm256_load_pd(quat.v.data()), s));
+        _mm256_store_pd(quat.v, _mm256_mul_pd(_mm256_load_pd(quat.v), s));
         return quat;
     }
 
@@ -87,7 +87,7 @@ namespace omath
     {
         Quaternion<double> result;
         const auto s = _mm256_set1_pd(scalar);
-        _mm256_store_pd(result.v.data(), _mm256_div_pd(_mm256_load_pd(quat.v.data()), s));
+        _mm256_store_pd(result.v, _mm256_div_pd(_mm256_load_pd(quat.v), s));
         return result;
     }
 
@@ -96,7 +96,7 @@ namespace omath
                             const double scalar) noexcept
     {
         const auto s = _mm256_set1_pd(scalar);
-        _mm256_store_pd(quat.v.data(), _mm256_div_pd(_mm256_load_pd(quat.v.data()), s));
+        _mm256_store_pd(quat.v, _mm256_div_pd(_mm256_load_pd(quat.v), s));
         return quat;
     }
 }

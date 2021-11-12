@@ -16,14 +16,14 @@ namespace omath
     inline auto operator-(const Quaternion<float>& quat) noexcept
     {
         Quaternion<float> result;
-        vst1q_f32(result.v.data(), vnegq_f32(vld1q_f32(quat.v.data())));
+        vst1q_f32(result.v, vnegq_f32(vld1q_f32(quat.v)));
         return result;
     }
 
     template <>
     inline void negate(Quaternion<float>& quat) noexcept
     {
-        vst1q_f32(quat.v.data(), vnegq_f32(vld1q_f32(quat.v.data())));
+        vst1q_f32(quat.v, vnegq_f32(vld1q_f32(quat.v)));
     }
 
     template <>
@@ -31,7 +31,7 @@ namespace omath
                                         const Quaternion<float>& quat2) noexcept
     {
         Quaternion<float> result;
-        vst1q_f32(result.v.data(), vaddq_f32(vld1q_f32(quat1.v.data()), vld1q_f32(quat2.v.data())));
+        vst1q_f32(result.v, vaddq_f32(vld1q_f32(quat1.v), vld1q_f32(quat2.v)));
         return result;
     }
 
@@ -39,7 +39,7 @@ namespace omath
     inline auto& operator+=(Quaternion<float>& quat1,
                             const Quaternion<float>& quat2) noexcept
     {
-        vst1q_f32(quat1.v.data(), vaddq_f32(vld1q_f32(quat1.v.data()), vld1q_f32(quat2.v.data())));
+        vst1q_f32(quat1.v, vaddq_f32(vld1q_f32(quat1.v), vld1q_f32(quat2.v)));
         return quat1;
     }
 
@@ -48,7 +48,7 @@ namespace omath
                                         const Quaternion<float>& quat2) noexcept
     {
         Quaternion<float> result;
-        vst1q_f32(result.v.data(), vsubq_f32(vld1q_f32(quat1.v.data()), vld1q_f32(quat2.v.data())));
+        vst1q_f32(result.v, vsubq_f32(vld1q_f32(quat1.v), vld1q_f32(quat2.v)));
         return result;
     }
 
@@ -56,7 +56,7 @@ namespace omath
     inline auto& operator-=(Quaternion<float>& quat1,
                             const Quaternion<float>& quat2) noexcept
     {
-        vst1q_f32(quat1.v.data(), vsubq_f32(vld1q_f32(quat1.v.data()), vld1q_f32(quat2.v.data())));
+        vst1q_f32(quat1.v, vsubq_f32(vld1q_f32(quat1.v), vld1q_f32(quat2.v)));
         return quat1;
     }
 
@@ -66,7 +66,7 @@ namespace omath
     {
         Quaternion<float> result;
         const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(result.v.data(), vmulq_f32(vld1q_f32(quat.v.data()), s));
+        vst1q_f32(result.v, vmulq_f32(vld1q_f32(quat.v), s));
         return result;
     }
 
@@ -75,7 +75,7 @@ namespace omath
                             const float scalar) noexcept
     {
         const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(quat.v.data(), vmulq_f32(vld1q_f32(quat.v.data()), s));
+        vst1q_f32(quat.v, vmulq_f32(vld1q_f32(quat.v), s));
         return quat;
     }
 
@@ -85,7 +85,7 @@ namespace omath
     {
         Quaternion<float> result;
         const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(result.v.data(), vdivq_f32(vld1q_f32(quat.v.data()), s));
+        vst1q_f32(result.v, vdivq_f32(vld1q_f32(quat.v), s));
         return result;
     }
 
@@ -94,7 +94,7 @@ namespace omath
                             const float scalar) noexcept
     {
         const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(quat.v.data(), vdivq_f32(vld1q_f32(quat.v.data()), s));
+        vst1q_f32(quat.v, vdivq_f32(vld1q_f32(quat.v), s));
         return quat;
     }
 }

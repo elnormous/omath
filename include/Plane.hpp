@@ -18,7 +18,7 @@ namespace omath
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1 || defined(__ARM_NEON__)
         alignas(std::is_same_v<T, float> ? 4 * sizeof(T) : sizeof(T))
 #endif
-        std::array<T, 4> v;
+        T v[4];
 
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
         [[nodiscard]] constexpr auto operator[](const std::size_t index) const noexcept { return v[index]; }
