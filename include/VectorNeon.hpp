@@ -102,11 +102,10 @@ namespace omath
     [[nodiscard]] inline auto dot(const Vector<float, 4>& vector1,
                                   const Vector<float, 4>& vector2) noexcept
     {
-        float result;
         const auto t1 = vmulq_f32(vld1q_f32(vector1.v), vld1q_f32(vector2.v));
         const auto t2 = vaddq_f32(t1, vrev64q_f32(t1));
         const auto t3 = vaddq_f32(t2, vcombine_f32(vget_high_f32(t2), vget_low_f32(t2)));
-        result = vgetq_lane_f32(t3, 0);
+        const float result = vgetq_lane_f32(t3, 0);
         return result;
     }
 }
