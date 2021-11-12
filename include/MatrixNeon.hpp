@@ -202,51 +202,49 @@ namespace omath
     }
 
     template <>
-    [[nodiscard]] inline auto operator*(const Vector<float, 4>& vector,
-                                        const Matrix<float, 4, 4>& matrix) noexcept
+    [[nodiscard]] inline auto operator*(const Matrix<float, 4, 4>& matrix,
+                                        const Vector<float, 4>& vector) noexcept
     {
         Vector<float, 4> result;
 
-        const auto col0 = vdupq_n_f32(vector.v[0]);
-        const auto col1 = vdupq_n_f32(vector.v[1]);
-        const auto col2 = vdupq_n_f32(vector.v[2]);
-        const auto col3 = vdupq_n_f32(vector.v[3]);
+        const auto row0 = vdupq_n_f32(vector.v[0]);
+        const auto row1 = vdupq_n_f32(vector.v[1]);
+        const auto row2 = vdupq_n_f32(vector.v[2]);
+        const auto row3 = vdupq_n_f32(vector.v[3]);
 
-        const auto row0 = vld1q_f32(&matrix.m.v[0]);
-        const auto row1 = vld1q_f32(&matrix.m.v[4]);
-        const auto row2 = vld1q_f32(&matrix.m.v[8]);
-        const auto row3 = vld1q_f32(&matrix.m.v[12]);
+        const auto col0 = vld1q_f32(&matrix.m.v[0]);
+        const auto col1 = vld1q_f32(&matrix.m.v[4]);
+        const auto col2 = vld1q_f32(&matrix.m.v[8]);
+        const auto col3 = vld1q_f32(&matrix.m.v[12]);
 
         const auto s = vaddq_f32(vaddq_f32(vmulq_f32(row0, col0),
                                            vmulq_f32(row1, col1)),
                                  vaddq_f32(vmulq_f32(row2, col2),
                                            vmulq_f32(row3, col3)));
-        vst1q_f32(result.v.data(), s);
+        vst1q_f32(result.v, s);
 
         return result;
     }
 
     template <>
-    inline auto& operator*=(Vector<float, 4>& vector,
-                            const Matrix<float, 4, 4>& matrix) noexcept
+    inline void transformVector(const Matrix<float, 4, 4>& matrix,
+                                Vector<float, 4>& vector) noexcept
     {
-        const auto col0 = vdupq_n_f32(vector.v[0]);
-        const auto col1 = vdupq_n_f32(vector.v[1]);
-        const auto col2 = vdupq_n_f32(vector.v[2]);
-        const auto col3 = vdupq_n_f32(vector.v[3]);
+        const auto row0 = vdupq_n_f32(vector.v[0]);
+        const auto row1 = vdupq_n_f32(vector.v[1]);
+        const auto row2 = vdupq_n_f32(vector.v[2]);
+        const auto row3 = vdupq_n_f32(vector.v[3]);
 
-        const auto row0 = vld1q_f32(&matrix.m.v[0]);
-        const auto row1 = vld1q_f32(&matrix.m.v[4]);
-        const auto row2 = vld1q_f32(&matrix.m.v[8]);
-        const auto row3 = vld1q_f32(&matrix.m.v[12]);
+        const auto col0 = vld1q_f32(&matrix.m.v[0]);
+        const auto col1 = vld1q_f32(&matrix.m.v[4]);
+        const auto col2 = vld1q_f32(&matrix.m.v[8]);
+        const auto col3 = vld1q_f32(&matrix.m.v[12]);
 
         const auto s = vaddq_f32(vaddq_f32(vmulq_f32(row0, col0),
                                            vmulq_f32(row1, col1)),
                                  vaddq_f32(vmulq_f32(row2, col2),
                                            vmulq_f32(row3, col3)));
-        vst1q_f32(vector.v.data(), s);
-
-        return vector;
+        vst1q_f32(vector.v, s);
     }
 
     template <>
