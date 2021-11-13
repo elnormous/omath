@@ -7,6 +7,8 @@
 
 #include "Quaternion.hpp"
 
+#ifndef OMATH_DISABLE_SIMD
+
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1
 #  include <xmmintrin.h>
 #endif
@@ -226,5 +228,7 @@ namespace omath
     }
 #endif // __SSE3__
 }
+
+#endif // OMATH_DISABLE_SIMD
 
 #endif // OMATH_QUATERNION_SSE

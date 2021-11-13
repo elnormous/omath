@@ -7,6 +7,8 @@
 
 #include "Vector.hpp"
 
+#ifndef OMATH_DISABLE_SIMD
+
 #ifdef __AVX__
 #  include <immintrin.h>
 
@@ -102,5 +104,7 @@ namespace omath
 }
 
 #endif // __AVX__
+
+#endif // OMATH_DISABLE_SIMD
 
 #endif // OMATH_VECTOR_AVX

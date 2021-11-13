@@ -7,6 +7,8 @@
 
 #include "Matrix.hpp"
 
+#ifndef OMATH_DISABLE_SIMD
+
 #ifdef __ARM_NEON__
 #  include <arm_neon.h>
 
@@ -588,5 +590,7 @@ namespace omath
 }
 
 #endif // __ARM_NEON__
+
+#endif // OMATH_DISABLE_SIMD
 
 #endif // OMATH_MATRIX_NEON

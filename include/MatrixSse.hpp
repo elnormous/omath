@@ -7,6 +7,8 @@
 
 #include "Matrix.hpp"
 
+#ifndef OMATH_DISABLE_SIMD
+
 #if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1
 #  include <xmmintrin.h>
 #endif
@@ -729,5 +731,7 @@ namespace omath
     }
 #endif
 }
+
+#endif // OMATH_DISABLE_SIMD
 
 #endif // OMATH_MATRIX_SSE
