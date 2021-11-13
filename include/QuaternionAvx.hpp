@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_QUATERNION_AVX
-#define OMATH_QUATERNION_AVX
+#ifndef OMATH_QUATERNION_AVX_HPP
+#define OMATH_QUATERNION_AVX_HPP
 
 #include "Quaternion.hpp"
 
@@ -107,4 +107,4 @@ namespace omath
 
 #endif // OMATH_DISABLE_SIMD
 
-#endif // OMATH_QUATERNION_AVX
+#endif // OMATH_QUATERNION_AVX_HPP

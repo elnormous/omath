@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_MATRIX_AVX
-#define OMATH_MATRIX_AVX
+#ifndef OMATH_MATRIX_AVX_HPP
+#define OMATH_MATRIX_AVX_HPP
 
 #include "Matrix.hpp"
 
@@ -364,4 +364,4 @@ namespace omath
 
 #endif // OMATH_DISABLE_SIMD
 
-#endif // OMATH_MATRIX_AVX
+#endif // OMATH_MATRIX_AVX_HPP

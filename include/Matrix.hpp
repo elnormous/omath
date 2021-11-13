@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_MATRIX
-#define OMATH_MATRIX
+#ifndef OMATH_MATRIX_HPP
+#define OMATH_MATRIX_HPP
 
 #include <array>
 #include <type_traits>
@@ -542,4 +542,4 @@ namespace omath
 #include "MatrixNeon.hpp"
 #include "MatrixSse.hpp"
 
-#endif
+#endif // OMATH_MATRIX_HPP

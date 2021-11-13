@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_MATRIX_NEON
-#define OMATH_MATRIX_NEON
+#ifndef OMATH_MATRIX_NEON_HPP
+#define OMATH_MATRIX_NEON_HPP
 
 #include "Matrix.hpp"
 
@@ -593,4 +593,4 @@ namespace omath
 
 #endif // OMATH_DISABLE_SIMD
 
-#endif // OMATH_MATRIX_NEON
+#endif // OMATH_MATRIX_NEON_HPP

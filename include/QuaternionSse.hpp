@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_QUATERNION_SSE
-#define OMATH_QUATERNION_SSE
+#ifndef OMATH_QUATERNION_SSE_HPP
+#define OMATH_QUATERNION_SSE_HPP
 
 #include "Quaternion.hpp"
 
@@ -231,4 +231,4 @@ namespace omath
 
 #endif // OMATH_DISABLE_SIMD
 
-#endif // OMATH_QUATERNION_SSE
+#endif // OMATH_QUATERNION_SSE_HPP

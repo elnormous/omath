@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_QUATERNION
-#define OMATH_QUATERNION
+#ifndef OMATH_QUATERNION_HPP
+#define OMATH_QUATERNION_HPP
 
 #include <array>
 #include <cmath>
@@ -260,4 +260,4 @@ namespace omath
 #include "QuaternionNeon.hpp"
 #include "QuaternionSse.hpp"
 
-#endif
+#endif // OMATH_QUATERNION_HPP

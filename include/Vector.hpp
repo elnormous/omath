@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_VECTOR
-#define OMATH_VECTOR
+#ifndef OMATH_VECTOR_HPP
+#define OMATH_VECTOR_HPP
 
 #include <array>
 #include <cmath>
@@ -291,4 +291,4 @@ namespace omath
 #include "VectorNeon.hpp"
 #include "VectorSse.hpp"
 
-#endif
+#endif // OMATH_VECTOR_HPP

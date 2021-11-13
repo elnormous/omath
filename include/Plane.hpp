@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_PLANE
-#define OMATH_PLANE
+#ifndef OMATH_PLANE_HPP
+#define OMATH_PLANE_HPP
 
 #include <array>
 #include <type_traits>
@@ -88,4 +88,4 @@ namespace omath
     }
 }
 
-#endif
+#endif // OMATH_PLANE_HPP

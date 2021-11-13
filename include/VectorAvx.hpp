@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_VECTOR_AVX
-#define OMATH_VECTOR_AVX
+#ifndef OMATH_VECTOR_AVX_HPP
+#define OMATH_VECTOR_AVX_HPP
 
 #include "Vector.hpp"
 
@@ -107,4 +107,4 @@ namespace omath
 
 #endif // OMATH_DISABLE_SIMD
 
-#endif // OMATH_VECTOR_AVX
+#endif // OMATH_VECTOR_AVX_HPP

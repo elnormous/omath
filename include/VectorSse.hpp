@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_VECTOR_SSE
-#define OMATH_VECTOR_SSE
+#ifndef OMATH_VECTOR_SSE_HPP
+#define OMATH_VECTOR_SSE_HPP
 
 #include "Vector.hpp"
 
@@ -287,4 +287,4 @@ namespace omath
 
 #endif // OMATH_DISABLE_SIMD
 
-#endif // OMATH_VECTOR_SSE
+#endif // OMATH_VECTOR_SSE_HPP

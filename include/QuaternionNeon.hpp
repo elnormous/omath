@@ -2,8 +2,8 @@
 // elnormous/omath
 //
 
-#ifndef OMATH_QUATERNION_NEON
-#define OMATH_QUATERNION_NEON
+#ifndef OMATH_QUATERNION_NEON_HPP
+#define OMATH_QUATERNION_NEON_HPP
 
 #include "Quaternion.hpp"
 
@@ -105,4 +105,4 @@ namespace omath
 
 #endif // OMATH_DISABLE_SIMD
 
-#endif // OMATH_QUATERNION_NEON
+#endif // OMATH_QUATERNION_NEON_HPP
