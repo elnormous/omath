@@ -5,7 +5,6 @@
 #ifndef OMATH_QUATERNION_HPP
 #define OMATH_QUATERNION_HPP
 
-#include <array>
 #include <cmath>
 #include <type_traits>
 

@@ -5,7 +5,6 @@
 #ifndef OMATH_MATRIX_HPP
 #define OMATH_MATRIX_HPP
 
-#include <array>
 #include <type_traits>
 #include <utility>
 #include "Vector.hpp"
@@ -359,7 +358,7 @@ namespace omath
         else if constexpr (size == 2)
         {
             const auto det = matrix.m.v[0] * matrix.m.v[3] - matrix.m.v[1] * matrix.m.v[2];
-            const std::array<T, size * size> adjugate{
+            const T adjugate[size * size]{
                 matrix.m.v[3],
                 -matrix.m.v[1],
                 -matrix.m.v[2],
@@ -379,7 +378,7 @@ namespace omath
 
             const auto det = matrix.m.v[0] * a0 - matrix.m.v[1] * a1 + matrix.m.v[2] * a2;
 
-            const std::array<T, size * size> adjugate{
+            const T adjugate[size * size]{
                 a0,
                 -matrix.m.v[1] * matrix.m.v[8] + matrix.m.v[2] * matrix.m.v[7],
                 matrix.m.v[1] * matrix.m.v[5] - matrix.m.v[2] * matrix.m.v[4],
@@ -420,7 +419,7 @@ namespace omath
 
             const auto det = a0 * b5 - a1 * b4 + a2 * b3 + a3 * b2 - a4 * b1 + a5 * b0;
 
-            const std::array<T, size * size> adjugate{
+            const T adjugate[size * size]{
                 matrix.m.v[5] * b5 - matrix.m.v[6] * b4 + matrix.m.v[7] * b3,
                 -(matrix.m.v[1] * b5 - matrix.m.v[2] * b4 + matrix.m.v[3] * b3),
                 matrix.m.v[13] * a5 - matrix.m.v[14] * a4 + matrix.m.v[15] * a3,

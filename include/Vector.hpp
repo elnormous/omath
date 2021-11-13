@@ -5,7 +5,6 @@
 #ifndef OMATH_VECTOR_HPP
 #define OMATH_VECTOR_HPP
 
-#include <array>
 #include <cmath>
 #include <type_traits>
 

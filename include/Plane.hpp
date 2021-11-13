@@ -5,7 +5,6 @@
 #ifndef OMATH_PLANE_HPP
 #define OMATH_PLANE_HPP
 
-#include <array>
 #include <type_traits>
 #include "Vector.hpp"
 
