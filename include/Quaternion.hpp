@@ -15,12 +15,14 @@ namespace omath
     class Quaternion final
     {
     public:
-#if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1 || defined(__ARM_NEON__)
+#ifndef OMATH_DISABLE_SIMD
+#  if defined(__SSE__) || defined(_M_X64) || _M_IX86_FP >= 1 || defined(__ARM_NEON__)
         alignas(std::is_same_v<T, float> ? 4 * sizeof(T) : sizeof(T))
-#endif
-#if (defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2) || (defined(__ARM_NEON__) && defined(__aarch64__))
+#  endif
+#  if (defined(__SSE2__) || defined(_M_X64) || _M_IX86_FP >= 2) || (defined(__ARM_NEON__) && defined(__aarch64__))
         alignas(std::is_same_v<T, double> ? 4 * sizeof(T) : sizeof(T))
-#endif
+#  endif
+#endif // OMATH_DISABLE_SIMD
         T v[4];
 
         [[nodiscard]] auto& operator[](const std::size_t index) noexcept { return v[index]; }
