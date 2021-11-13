@@ -205,8 +205,7 @@ namespace omath
                 for (std::size_t k = 0; k < size; ++k)
                     result.m.v[j * size + i] += matrix1.m.v[k * size + i] * matrix2.m.v[j * size + k];
 
-        matrix1 = result;
-
+        matrix1 = std::move(result);
         return matrix1;
     }
 
@@ -251,7 +250,7 @@ namespace omath
             for (std::size_t j = 0; j < dims; ++j)
                 result[i] += vector[j] * matrix.m.v[i * size + j];
 
-        vector = result;
+        vector = std::move(result);
         return vector;
     }
 
@@ -288,7 +287,7 @@ namespace omath
             for (std::size_t j = 0; j < dims; ++j)
                 result[i] += matrix.m.v[j * size + i] * vector.v[j];
 
-        vector = result;
+        vector = std::move(result);
     }
 
     template <typename T, std::size_t rows, std::size_t cols>
