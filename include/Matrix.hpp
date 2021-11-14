@@ -143,6 +143,35 @@ namespace omath
         return matrix1;
     }
 
+    template <typename T, std::size_t rows, std::size_t cols, std::size_t cols2>
+    [[nodiscard]] constexpr auto operator*(const Matrix<T, rows, cols>& matrix1,
+                                           const Matrix<T, cols, cols2>& matrix2) noexcept
+    {
+        Matrix<T, rows, cols2> result{};
+
+        for (std::size_t i = 0; i < rows; ++i)
+            for (std::size_t j = 0; j < cols2; ++j)
+                for (std::size_t k = 0; k < cols; ++k)
+                    result.m.v[j * rows + i] += matrix1.m.v[k * rows + i] * matrix2.m.v[j * cols + k];
+
+        return result;
+    }
+
+    template <typename T, std::size_t size>
+    auto& operator*=(Matrix<T, size, size>& matrix1,
+                     const Matrix<T, size, size>& matrix2) noexcept
+    {
+        Matrix<T, size, size> result{};
+
+        for (std::size_t i = 0; i < size; ++i)
+            for (std::size_t j = 0; j < size; ++j)
+                for (std::size_t k = 0; k < size; ++k)
+                    result.m.v[j * size + i] += matrix1.m.v[k * size + i] * matrix2.m.v[j * size + k];
+
+        matrix1 = std::move(result);
+        return matrix1;
+    }
+
     template <typename T, std::size_t rows, std::size_t cols>
     [[nodiscard]] constexpr auto operator*(const Matrix<T, rows, cols>& matrix,
                                            const T scalar) noexcept
@@ -181,33 +210,40 @@ namespace omath
         return matrix;
     }
 
-    template <typename T, std::size_t rows, std::size_t cols, std::size_t cols2>
-    [[nodiscard]] constexpr auto operator*(const Matrix<T, rows, cols>& matrix1,
-                                           const Matrix<T, cols, cols2>& matrix2) noexcept
+    template <
+        typename T,
+        std::size_t size,
+        std::size_t dims,
+        std::enable_if_t<(dims <= size)>* = nullptr
+    >
+    [[nodiscard]] auto operator*(const Matrix<T, size, size>& matrix,
+                                 const Vector<T, dims>& vector) noexcept
     {
-        Matrix<T, rows, cols2> result{};
+        Vector<T, dims> result{};
 
-        for (std::size_t i = 0; i < rows; ++i)
-            for (std::size_t j = 0; j < cols2; ++j)
-                for (std::size_t k = 0; k < cols; ++k)
-                    result.m.v[j * rows + i] += matrix1.m.v[k * rows + i] * matrix2.m.v[j * cols + k];
+        for (std::size_t i = 0; i < dims; ++i)
+            for (std::size_t j = 0; j < dims; ++j)
+                result.v[i] += matrix.m.v[j * size + i] * vector.v[j];
 
         return result;
     }
 
-    template <typename T, std::size_t size>
-    auto& operator*=(Matrix<T, size, size>& matrix1,
-                     const Matrix<T, size, size>& matrix2) noexcept
+    template <
+        typename T,
+        std::size_t size,
+        std::size_t dims,
+        std::enable_if_t<(dims <= size)>* = nullptr
+    >
+    void transformVector(const Matrix<T, size, size>& matrix,
+                         Vector<T, dims>& vector) noexcept
     {
-        Matrix<T, size, size> result{};
+        Vector<T, dims> result{};
 
-        for (std::size_t i = 0; i < size; ++i)
-            for (std::size_t j = 0; j < size; ++j)
-                for (std::size_t k = 0; k < size; ++k)
-                    result.m.v[j * size + i] += matrix1.m.v[k * size + i] * matrix2.m.v[j * size + k];
+        for (std::size_t i = 0; i < dims; ++i)
+            for (std::size_t j = 0; j < dims; ++j)
+                result[i] += matrix.m.v[j * size + i] * vector.v[j];
 
-        matrix1 = std::move(result);
-        return matrix1;
+        vector = std::move(result);
     }
 
     template <typename T, std::size_t rows, std::size_t cols>
@@ -253,42 +289,6 @@ namespace omath
 
         vector = std::move(result);
         return vector;
-    }
-
-    template <
-        typename T,
-        std::size_t size,
-        std::size_t dims,
-        std::enable_if_t<(dims <= size)>* = nullptr
-    >
-    [[nodiscard]] auto operator*(const Matrix<T, size, size>& matrix,
-                                 const Vector<T, dims>& vector) noexcept
-    {
-        Vector<T, dims> result{};
-
-        for (std::size_t i = 0; i < dims; ++i)
-            for (std::size_t j = 0; j < dims; ++j)
-                result.v[i] += matrix.m.v[j * size + i] * vector.v[j];
-
-        return result;
-    }
-
-    template <
-        typename T,
-        std::size_t size,
-        std::size_t dims,
-        std::enable_if_t<(dims <= size)>* = nullptr
-    >
-    void transformVector(const Matrix<T, size, size>& matrix,
-                         Vector<T, dims>& vector) noexcept
-    {
-        Vector<T, dims> result{};
-
-        for (std::size_t i = 0; i < dims; ++i)
-            for (std::size_t j = 0; j < dims; ++j)
-                result[i] += matrix.m.v[j * size + i] * vector.v[j];
-
-        vector = std::move(result);
     }
 
     template <typename T, std::size_t rows, std::size_t cols>

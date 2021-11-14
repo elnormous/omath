@@ -121,6 +121,17 @@ namespace omath
     }
 
     template <>
+    [[nodiscard]] inline auto operator*(const float scalar,
+                                        const Matrix<float, 4, 4>& matrix) noexcept
+    {
+        Matrix<float, 4, 4> result;
+        const auto s = _mm256_set1_ps(scalar);
+        _mm256_store_ps(&result.m.v[0], _mm256_mul_ps(_mm256_load_ps(&matrix.m.v[0]), s));
+        _mm256_store_ps(&result.m.v[8], _mm256_mul_ps(_mm256_load_ps(&matrix.m.v[8]), s));
+        return result;
+    }
+
+    template <>
     [[nodiscard]] inline auto operator-(const Matrix<double, 4, 4>& matrix) noexcept
     {
         Matrix<double, 4, 4> result;
@@ -309,6 +320,19 @@ namespace omath
             _mm256_store_pd(&matrix1.m.v[i * 4], _mm256_add_pd(a0, a1));
         }
         return matrix1;
+    }
+
+    template <>
+    [[nodiscard]] inline auto operator*(const double scalar,
+                                        const Matrix<double, 4, 4>& matrix) noexcept
+    {
+        Matrix<double, 4, 4> result;
+        const auto s = _mm256_set1_pd(scalar);
+        _mm256_store_pd(&result.m.v[0], _mm256_mul_pd(_mm256_load_pd(&matrix.m.v[0]), s));
+        _mm256_store_pd(&result.m.v[4], _mm256_mul_pd(_mm256_load_pd(&matrix.m.v[4]), s));
+        _mm256_store_pd(&result.m.v[8], _mm256_mul_pd(_mm256_load_pd(&matrix.m.v[8]), s));
+        _mm256_store_pd(&result.m.v[12], _mm256_mul_pd(_mm256_load_pd(&matrix.m.v[12]), s));
+        return result;
     }
 
     template <>
