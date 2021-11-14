@@ -948,6 +948,44 @@ TEST_CASE("Scalar multiplication with 2x2 matrix", "matrix")
     });
 }
 
+TEST_CASE("Scalar multiplication with 4x4 matrix", "matrix")
+{
+    const omath::Matrix<float, 4, 4> matrix{
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F,
+        0.0F, 1.0F, 0.0F, 1.0F,
+        2.0F, -3.0F, 2.0F, -3.0F
+    };
+
+    const omath::Matrix<float, 4, 4> result = 2.0F * matrix;
+
+    REQUIRE(result == omath::Matrix<float, 4, 4>{
+        0.0F, 2.0F, 0.0F, 2.0F,
+        4.0F, -6.0F, 4.0F, -6.0F,
+        0.0F, 2.0F, 0.0F, 2.0F,
+        4.0F, -6.0F, 4.0F, -6.0F
+    });
+}
+
+TEST_CASE("Double scalar multiplication with 4x4 matrix", "matrix")
+{
+    const omath::Matrix<double, 4, 4> matrix{
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0,
+        0.0, 1.0, 0.0, 1.0,
+        2.0, -3.0, 2.0, -3.0
+    };
+
+    const omath::Matrix<double, 4, 4> result = 2.0 * matrix;
+
+    REQUIRE(result == omath::Matrix<double, 4, 4>{
+        0.0, 2.0, 0.0, 2.0,
+        4.0, -6.0, 4.0, -6.0,
+        0.0, 2.0, 0.0, 2.0,
+        4.0, -6.0, 4.0, -6.0
+    });
+}
+
 TEST_CASE("1x1 matrix multiplication", "matrix")
 {
     const omath::Matrix<float, 1> matrix1{2.0F};
