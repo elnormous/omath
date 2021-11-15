@@ -180,7 +180,7 @@ namespace omath
 
     template <>
     [[nodiscard]] inline auto operator/(const Matrix<float, 4, 4>& matrix,
-                                        float scalar) noexcept
+                                        const float scalar) noexcept
     {
         Matrix<float, 4, 4> result;
         const auto s = vdupq_n_f32(scalar);
@@ -523,7 +523,7 @@ namespace omath
 
     template <>
     [[nodiscard]] inline auto operator/(const Matrix<double, 4, 4>& matrix,
-                                        double scalar) noexcept
+                                        const double scalar) noexcept
     {
         Matrix<double, 4, 4> result;
         const auto s = vdupq_n_f64(scalar);
