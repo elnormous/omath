@@ -86,8 +86,8 @@ namespace omath
                                         const float scalar) noexcept
     {
         Quaternion<float> result;
-        const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(result.v, vdivq_f32(vld1q_f32(quat.v), s));
+        const auto s = vdupq_n_f32(1.0F / scalar);
+        vst1q_f32(result.v, vmulq_f32(vld1q_f32(quat.v), s));
         return result;
     }
 
@@ -95,8 +95,8 @@ namespace omath
     inline auto& operator/=(Quaternion<float>& quat,
                             const float scalar) noexcept
     {
-        const auto s = vdupq_n_f32(scalar);
-        vst1q_f32(quat.v, vdivq_f32(vld1q_f32(quat.v), s));
+        const auto s = vdupq_n_f32(1.0F / scalar);
+        vst1q_f32(quat.v, vmulq_f32(vld1q_f32(quat.v), s));
         return quat;
     }
 }
