@@ -367,8 +367,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"OMATH_DISABLE_SIMD=1",
 					"$(inherited)",
+					"OMATH_DISABLE_SIMD=1",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
